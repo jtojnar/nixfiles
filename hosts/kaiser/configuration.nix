@@ -43,6 +43,7 @@
     blender
     corebird
     deadbeef
+    dos2unix
     # exa
     firefox
     gimp
