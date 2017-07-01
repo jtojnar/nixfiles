@@ -4,7 +4,9 @@
 
 { config, pkgs, ... }:
 
-{
+let
+  extrapkgs = import <extrapkgs> {};
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -54,8 +56,8 @@
     # gnome3.polari
     gnomeExtensions.dash-to-dock
     gnupg
-    hamster-time-tracker
     htop
+    extrapkgs.hamster-gtk
     inkscape
     libxml2
     mkpasswd
