@@ -44,7 +44,8 @@ in {
     atom
     blender
     corebird
-    deadbeef
+    deadbeef-with-plugins
+    deadbeef-mpris2-plugin
     dos2unix
     # exa
     firefox
@@ -145,5 +146,13 @@ in {
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "unstable";
   system.autoUpgrade.channel = https://nixos.org/channels/nixos-unstable;
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    packageOverrides = pkgs: with pkgs; {
+      deadbeef-with-plugins = deadbeef-with-plugins.override {
+        plugins = [ deadbeef-mpris2-plugin ];
+      };
+    };
+  };
+
 }
