@@ -6,6 +6,7 @@
 
 let
   extrapkgs = import <extrapkgs> {};
+  mozilla = import <mozilla> { inherit pkgs; };
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -48,7 +49,6 @@ in {
     deadbeef-mpris2-plugin
     dos2unix
     # exa
-    firefox
     gimp
     gitAndTools.diff-so-fancy
     gitAndTools.gitFull
@@ -62,6 +62,7 @@ in {
     inkscape
     libxml2
     mkpasswd
+    mozilla.firefox-nightly-bin
     mypaint
     nix-repl
     pinentry
