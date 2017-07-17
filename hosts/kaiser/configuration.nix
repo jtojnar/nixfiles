@@ -42,20 +42,25 @@ in {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
+    abiword
+    apg
     atom
     blender
     corebird
     deadbeef-with-plugins
     deadbeef-mpris2-plugin
     dos2unix
-    # exa
+    exa
     gimp
     gitAndTools.diff-so-fancy
     gitAndTools.gitFull
+    gitg
     # gnome3.geary
+    gnome3.ghex
     gnome3.gpaste
     # gnome3.polari
     gnomeExtensions.dash-to-dock
+    gnumeric
     gnupg
     htop
     extrapkgs.hamster-gtk
@@ -74,10 +79,12 @@ in {
     transmission_gtk
     vlc
     wget
+    xsel
   ];
 
   # List programs
   programs = {
+    command-not-found.enable = true;
     fish = {
       enable = true;
     };
@@ -121,6 +128,8 @@ in {
 
     # """;
   };
+
+  services.gnome3.at-spi2-core.enable = true;
 
   environment.gnome3.excludePackages = with pkgs.gnome3; [
     evolution
