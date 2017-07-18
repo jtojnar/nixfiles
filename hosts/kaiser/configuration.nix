@@ -55,10 +55,8 @@ in {
     gitAndTools.diff-so-fancy
     gitAndTools.gitFull
     gitg
-    # gnome3.geary
     gnome3.ghex
-    gnome3.gpaste
-    # gnome3.polari
+    gnome3.polari
     gnomeExtensions.dash-to-dock
     gnumeric
     gnupg
@@ -69,6 +67,7 @@ in {
     mkpasswd
     mozilla.firefox-nightly-bin
     mypaint
+    ncdu
     nix-repl
     pinentry_gnome
     psmisc
@@ -133,6 +132,12 @@ in {
 
   environment.gnome3.excludePackages = with pkgs.gnome3; [
     evolution
+    epiphany
+    gnome-calendar
+    gnome-documents
+    gnome-maps
+    gnome-music
+    gnome-photos
     totem
   ];
 
