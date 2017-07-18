@@ -70,7 +70,7 @@ in {
     mozilla.firefox-nightly-bin
     mypaint
     nix-repl
-    pinentry
+    pinentry_gnome
     psmisc
     python27Packages.syncthing-gtk
     ripgrep
@@ -161,6 +161,9 @@ in {
     packageOverrides = pkgs: with pkgs; {
       deadbeef-with-plugins = deadbeef-with-plugins.override {
         plugins = [ deadbeef-mpris2-plugin ];
+      };
+      gnupg = gnupg.override {
+        pinentry = pinentry_gnome;
       };
     };
   };
