@@ -24,6 +24,11 @@ in {
       preLVM = true;
       allowDiscards = true;
     }
+    {
+      name = "ManjaroRoot";
+      device = "/dev/disk/by-uuid/1f5da579-7241-4ac6-b0bb-cf25f7083ba2"; # Obtained using `blkid /dev/sdb2`
+      preLVM = true;
+    }
   ];
 
   networking.hostName = "kaiser"; # Define your hostname.
