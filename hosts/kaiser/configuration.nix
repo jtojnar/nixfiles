@@ -182,9 +182,12 @@ in {
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome3 = {
     enable = true;
-    # extraGSettingsOverrides = """
+    extraGSettingsOverrides = ''
+      [org.gnome.desktop.input-sources]
+      sources=[('xkb', 'cz+qwerty')]
+      xkb-options=['compose:caps']
+    '';
 
-    # """;
   };
 
   services.gnome3.at-spi2-core.enable = true;
