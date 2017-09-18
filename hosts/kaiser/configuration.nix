@@ -51,6 +51,19 @@ in {
   # Set your time zone.
   time.timeZone = "Europe/Prague";
 
+  # Configure sound.
+  hardware = {
+    pulseaudio = {
+      enable = true;
+      package = pkgs.pulseaudioFull;
+      zeroconf = {
+        discovery.enable = true;
+        publish.enable = true;
+      };
+    };
+    bluetooth.enable = true;
+  };
+
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
