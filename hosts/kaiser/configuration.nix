@@ -76,6 +76,7 @@ in {
     deadbeef-mpris2-plugin
     dos2unix
     exa
+    file
     gimp
     gitAndTools.diff-so-fancy
     gitAndTools.gitFull
@@ -88,7 +89,10 @@ in {
     htop
     extrapkgs.hamster-gtk
     inkscape
-    libxml2
+    jq
+    libxml2 # for xmllint
+    ltrace
+    meld
     mkpasswd
     mozilla.firefox-nightly-bin
     mypaint
