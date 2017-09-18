@@ -106,6 +106,37 @@ in {
     xsel
   ];
 
+  fonts = {
+    fonts = with pkgs; [
+      cantarell_fonts
+      cm_unicode
+      crimson
+      dejavu_fonts
+      font-droid
+      gentium
+      google-fonts
+      input-fonts
+      ipafont
+      ipaexfont
+      league-of-moveable-type
+      libertine
+      libre-baskerville
+      libre-bodoni
+      libre-caslon
+      lmmath
+      lmodern
+      noto-fonts
+      noto-fonts-cjk
+      opensans-ttf
+      roboto
+      source-code-pro
+      source-sans-pro
+      source-serif-pro
+      fira
+      fira-mono
+    ];
+  };
+
   # List programs
   programs = {
     command-not-found.enable = true;
