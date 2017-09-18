@@ -155,7 +155,6 @@ in {
 
   # List services that you want to enable:
 
-  services.dbus.packages = [ pkgs.gnome3.gconf ];
 
   # Enable the OpenSSH daemon.
   services.openssh = {
