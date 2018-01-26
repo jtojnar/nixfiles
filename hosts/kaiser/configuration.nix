@@ -41,12 +41,17 @@ in {
     }
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   boot.kernel.sysctl = {
     # Note that inotify watches consume 1kB on 64-bit machines.
-    "fs.inotify.max_user_watches"   = 1048576;   # default:  8192
-    "fs.inotify.max_user_instances" =    1024;   # default:   128
-    "fs.inotify.max_queued_events"  =   32768;   # default: 16384
+    "fs.inotify.max_user_watches" = 1048576; # default: 8192
+    "fs.inotify.max_user_instances" = 1024; # default: 128
+    "fs.inotify.max_queued_events" = 32768; # default: 16384
+    "kernel.perf_event_paranoid" = 1; # for rr, default: 2
   };
+
+  boot.cleanTmpDir = true;
 
   networking.hostName = "kaiser"; # Define your hostname.
   # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
@@ -60,6 +65,8 @@ in {
 
   # Set your time zone.
   time.timeZone = "Europe/Prague";
+
+  systemd.coredump.enable = true;
 
   # Configure sound.
   hardware = {
@@ -139,6 +146,8 @@ in {
     xsel
   ];
 
+  environment.enableDebugInfo = true;
+
   fonts = {
     fonts = with pkgs; [
       cantarell_fonts
@@ -193,7 +202,7 @@ in {
   };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 5900 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -208,7 +217,11 @@ in {
   services.xserver.xkbOptions = "compose:caps";
 
   # Enable the Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm = {
+    enable = true;
+    debug = true;
+  };
+
   services.xserver.desktopManager.gnome3 = {
     enable = true;
     extraGSettingsOverrides = ''
@@ -231,11 +244,11 @@ in {
   ];
 
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don’t forget to set a password with ‘passwd’.
   users.extraUsers.jtojnar = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "wireshark" "docker" ];
     useDefaultShell = true;
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYbOlZydfRRCGCT08wdtPcpfSrgxMc6weDx3NcWrnMpVgxnMs3HozzkaS/hbcZUocn7XbCOyaxEd1O8Fuaw4JXpUBcMetpPXkQC+bZHQ3YsZZyzVgCXFPRF88QQj0nR7YVE1AeAifjk3TCODstTxit868V1639/TVIi5y5fC0/VbYG2Lt4AadNH67bRv8YiO3iTsHQoZPKD1nxA7yANHCuw38bGTHRhsxeVD+72ThbsYSZeA9dBrzACpEdnwyXclaoyIOnKdN224tu4+4ytgH/vH/uoUfL8SmzzIDvwZ4Ba2yHhZHs5iwsVjTvLe7jjE6I1u8qY7X8ofnanfNcsmz/ jtojnar@kaiser"
@@ -255,9 +268,6 @@ in {
     packageOverrides = pkgs: with pkgs; {
       deadbeef-with-plugins = deadbeef-with-plugins.override {
         plugins = [ deadbeef-mpris2-plugin ];
-      };
-      gnupg = gnupg.override {
-        pinentry = pinentry_gnome;
       };
     };
   };
