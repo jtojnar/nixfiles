@@ -6,7 +6,17 @@
 
 let
   extrapkgs = import <extrapkgs> {};
-  mozilla = import <mozilla> { inherit pkgs; };
+  unstable =
+    let
+      # nix-prefetch-git --no-deepClone https://github.com/nixos/nixpkgs-channels.git refs/heads/nixos-unstable > unstable.json
+      nixpkgs = builtins.fromJSON (builtins.readFile ./unstable.json);
+
+      src = pkgs.fetchFromGitHub {
+        owner = "NixOS";
+        repo  = "nixpkgs-channels";
+        inherit (nixpkgs) rev sha256;
+      };
+    in import src { };
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -67,45 +77,64 @@ in {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    abiword
+    unstable.abiword
     apg
-    atom
-    blender
+    binutils # readelf, xstrings
+    bind
+    bustle
+    unstable.blender
+    common-updater-scripts
+    unstable.chromium
     corebird
     deadbeef-with-plugins
-    deadbeef-mpris2-plugin
+    dfeet
+    diffoscope
     dos2unix
+    unstable.easytag
     exa
+    exiftool
+    fd
     file
-    gimp
+    font-manager
+    unstable.gimp
+    gcolor3
     gitAndTools.diff-so-fancy
     gitAndTools.gitFull
     gitg
+    glib.dev # for gsettings
+    gnome3.geary
     gnome3.ghex
     gnome3.polari
     gnomeExtensions.dash-to-dock
-    gnumeric
+    gnomeExtensions.topicons-plus
+    gnomeExtensions.nohotcorner
+    unstable.gnumeric
     gnupg
     htop
     extrapkgs.hamster-gtk
-    inkscape
+    imagemagick
+    indent
+    unstable.inkscape
     jq
     libxml2 # for xmllint
     ltrace
     meld
     mkpasswd
-    mozilla.firefox-nightly-bin
+    moreutils # isutf8
     mypaint
     ncdu
     nix-repl
-    pinentry_gnome
-    psmisc
-    python27Packages.syncthing-gtk
+    onboard
+    paprefs
+    patchutils # for filterdiff
+    python3Full
     ripgrep
     sublime3
-    tdesktop
+    unstable.sqlitebrowser
+    unstable.tdesktop
+    tldr
     transmission_gtk
-    vlc
+    unstable.vlc
     wget
     xsel
   ];
@@ -117,6 +146,8 @@ in {
       crimson
       dejavu_fonts
       font-droid
+      fira
+      fira-mono
       gentium
       google-fonts
       input-fonts
@@ -129,24 +160,21 @@ in {
       libre-caslon
       lmmath
       lmodern
-      noto-fonts
-      noto-fonts-cjk
-      opensans-ttf
-      roboto
       source-code-pro
       source-sans-pro
       source-serif-pro
-      fira
-      fira-mono
+      ubuntu_font_family
     ];
   };
 
   # List programs
   programs = {
+    adb.enable = true;
     command-not-found.enable = true;
     fish = {
       enable = true;
     };
+    man.enable = true;
     wireshark = {
       enable = true;
       package = pkgs.wireshark-gtk;
@@ -155,6 +183,7 @@ in {
 
   # List services that you want to enable:
 
+  services.gnome3.gpaste.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -189,8 +218,6 @@ in {
     '';
 
   };
-
-  services.gnome3.at-spi2-core.enable = true;
 
   environment.gnome3.excludePackages = with pkgs.gnome3; [
     evolution
