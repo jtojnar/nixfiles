@@ -228,10 +228,57 @@ in {
 
   services.xserver.desktopManager.gnome3 = {
     enable = true;
+    extraGSettingsOverridePackages = with pkgs; [ gnome3.nautilus gnome3.gnome_settings_daemon gtk3 ];
     extraGSettingsOverrides = ''
-      [org.gnome.desktop.input-sources]
-      sources=[('xkb', 'cz+qwerty')]
-      xkb-options=['compose:caps']
+      [org.gnome.desktop.background]
+      primary-color='#000000'
+      secondary-color='#000000'
+      picture-uri='file://${pkgs.reflection_by_yuumei}'
+
+      [org.gnome.desktop.screensaver]
+      lock-delay=3600
+      lock-enabled=true
+      picture-uri='file://${pkgs.undersea_city_by_mrainbowwj}'
+      primary-color='#000000'
+      secondary-color='#000000'
+
+      [org.gnome.desktop.session]
+      idle-delay=900
+
+      [org.gnome.desktop.wm.keybindings]
+      switch-input-source-backward=@as []
+      switch-input-source=[]
+
+      [org.gnome.settings-daemon.plugins.power]
+      power-button-action='nothing'
+      idle-dim=true
+      sleep-inactive-battery-type='nothing'
+      sleep-inactive-ac-timeout=3600
+      sleep-inactive-ac-type='nothing'
+      sleep-inactive-battery-timeout=1800
+
+      [org.gnome.settings-daemon.plugins.media-keys]
+      previous='<Super>b'
+      custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
+      next='<Super>n'
+      home='<Super>e'
+      play='<Super>space'
+
+      [org.gnome.settings-daemon.plugins.media-keys.custom-keybindings.custom0]
+      binding='<Super>t'
+      command='gnome-terminal'
+      name='Open terminal'
+
+      [org.gnome.desktop.peripherals.touchpad]
+      click-method='default'
+
+      [org.gnome.nautilus.preferences]
+      automatic-decompression=false
+      sort-directories-first=true
+
+      [org.gtk.settings.file-chooser]
+      sort-directories-first=true
+      location-mode='path-bar'
     '';
 
   };
@@ -278,6 +325,16 @@ in {
       (self: super: {
         deadbeef-with-plugins = super.deadbeef-with-plugins.override {
           plugins = with super.deadbeefPlugins; [ mpris2 opus ];
+        };
+
+        reflection_by_yuumei = super.fetchurl {
+          url = "https://orig00.deviantart.net/0054/f/2015/129/b/9/reflection_by_yuumei-d8sqdu2.jpg";
+          sha256 = "0f0vlmdj5wcsn20qg79ir5cmpmz5pysypw6a711dbaz2r9x1c79l";
+        };
+
+        undersea_city_by_mrainbowwj = super.fetchurl {
+          url = "https://orig00.deviantart.net/5d0b/f/2015/270/2/5/undersea_city_by_mrainbowwj-d9b21c7.jpg";
+          sha256 = "1rhsbirhfv865if3w6pxd3p4g158rjar1zinm7wpd7y4gc45yh5y";
         };
       })
     ];
