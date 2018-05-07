@@ -259,13 +259,18 @@ in {
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "unstable";
   system.autoUpgrade.channel = https://nixos.org/channels/nixos-unstable;
-  nixpkgs.config = {
-    allowUnfree = true;
-    packageOverrides = pkgs: with pkgs; {
-      deadbeef-with-plugins = deadbeef-with-plugins.override {
-        plugins = [ deadbeef-mpris2-plugin ];
-      };
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
     };
+
+    overlays = [
+      (self: super: {
+        deadbeef-with-plugins = super.deadbeef-with-plugins.override {
+          plugins = with super.deadbeefPlugins; [ mpris2 opus ];
+        };
+      })
+    ];
   };
 
 }
