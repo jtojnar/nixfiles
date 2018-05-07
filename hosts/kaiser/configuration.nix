@@ -185,6 +185,9 @@ in {
 
   # List services that you want to enable:
 
+  services.fwupd.enable = true;
+  programs.plotinus.enable = true;
+
   services.gnome3.gpaste.enable = true;
 
   # Enable the OpenSSH daemon.
