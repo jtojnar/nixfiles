@@ -52,6 +52,12 @@ in {
     consoleFont = "Lat2-Terminus16";
     consoleUseXkbConfig = true;
     defaultLocale = "en_GB.UTF-8";
+    inputMethod = {
+      enabled = "ibus";
+      ibus.engines = with pkgs.ibus-engines; [
+        mozc
+      ];
+    };
   };
 
   # Set your time zone.
