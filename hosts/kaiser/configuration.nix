@@ -173,11 +173,14 @@ in {
     fish = {
       enable = true;
     };
-    man.enable = true;
     wireshark = {
       enable = true;
       package = pkgs.wireshark-gtk;
     };
+  };
+
+  documentation = {
+    man.enable = true;
   };
 
   # List services that you want to enable:
