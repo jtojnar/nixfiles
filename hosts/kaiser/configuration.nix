@@ -7,6 +7,7 @@
 let
   extrapkgs = import <extrapkgs> {};
   unstable = import (builtins.fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz) { };
+  firefoxOverlay = import ("${builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz}/firefox-overlay.nix");
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -75,6 +76,7 @@ in {
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     unstable.abiword
+    latest.firefox-nightly-bin
     apg
     binutils # readelf, xstrings
     bind
@@ -265,6 +267,8 @@ in {
     };
 
     overlays = [
+      firefoxOverlay
+
       (self: super: {
         deadbeef-with-plugins = super.deadbeef-with-plugins.override {
           plugins = with super.deadbeefPlugins; [ mpris2 opus ];
