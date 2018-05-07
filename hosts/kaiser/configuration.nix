@@ -6,17 +6,7 @@
 
 let
   extrapkgs = import <extrapkgs> {};
-  unstable =
-    let
-      # nix-prefetch-git --no-deepClone https://github.com/nixos/nixpkgs-channels.git refs/heads/nixos-unstable > unstable.json
-      nixpkgs = builtins.fromJSON (builtins.readFile ./unstable.json);
-
-      src = pkgs.fetchFromGitHub {
-        owner = "NixOS";
-        repo  = "nixpkgs-channels";
-        inherit (nixpkgs) rev sha256;
-      };
-    in import src { };
+  unstable = import (builtins.fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz) { };
 in {
   imports =
     [ # Include the results of the hardware scan.
