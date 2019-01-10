@@ -495,56 +495,16 @@ in {
 				};
 				# ostrov-tucnaku.cz
 				"ostrov-tucnaku.cz" = mkVirtualHost {
-					path = "ostrov-tucnaku.cz/www";
+					path = "ostrov-tucnaku.cz/www/public";
 					acme = "ostrov-tucnaku.cz";
 					config = ''
-						index index.html index.htm index.php;
-
-						location / { try_files $uri $uri/ /index.php?$query_string; }
-						location /api { try_files $uri $uri/ /api.php?$query_string; }
-						location /admin { try_files $uri $uri/ /admin.php?$query_string; }
-
-						location /flarum {
-							deny all;
-							return 404;
-						}
-
 						location ~* \.php$ {
 							${enablePHP "ostrov-tucnaku"}
 						}
 
-						location ~* \.html$ {
-							expires -1;
-						}
+						index index.html index.htm index.php;
 
-						location ~* \.(css|js|gif|jpe?g|png)$ {
-							expires 1M;
-							add_header Pragma public;
-							add_header Cache-Control "public, must-revalidate, proxy-revalidate";
-						}
-
-						gzip on;
-						gzip_http_version 1.1;
-						gzip_vary on;
-						gzip_comp_level 6;
-						gzip_proxied any;
-						gzip_types application/atom+xml
-							application/javascript
-							application/json
-							application/vnd.ms-fontobject
-							application/x-font-ttf
-							application/x-web-app-manifest+json
-							application/xhtml+xml
-							application/xml
-							font/opentype
-							image/svg+xml
-							image/x-icon
-							text/css
-							text/html
-							text/plain
-							text/xml;
-						gzip_buffers 16 8k;
-						gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+						include /var/www/ostrov-tucnaku.cz/www/.nginx.conf;
 
 						client_max_body_size 10M;
 					'';
