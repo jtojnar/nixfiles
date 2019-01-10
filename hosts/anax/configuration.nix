@@ -193,7 +193,7 @@ in {
 				};
 				# fan-club-penguin.cz
 				"fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					path = "fan-club-penguin.cz/www";
 					config = ''
 						index index.php index.html index.htm;
@@ -284,11 +284,11 @@ in {
 					'';
 				};
 				"www.fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					redirect = "fan-club-penguin.cz";
 				};
 				"archiv.fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					path = "fan-club-penguin.cz/archiv";
 					config = ''
 						index index.php;
@@ -302,8 +302,27 @@ in {
 						}
 					'';
 				};
+				"beta.fan-club-penguin.cz" = mkVirtualHost {
+					acme = "fan-club-penguin.cz";
+					path = "fan-club-penguin.cz/@beta/www";
+					config = ''
+						index index.php;
+
+						if ($cookie_beta != "1") {
+							return 401;
+						}
+
+						location / {
+							try_files $uri $uri/ /index.php;
+						}
+
+						location ~ \.php$ {
+							${enablePHP "fcp"}
+						}
+					'';
+				};
 				"cdn.fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					path = "fan-club-penguin.cz/cdn";
 					config = ''
 						index index.php;
@@ -314,7 +333,7 @@ in {
 					'';
 				};
 				"forum.fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					path = "fan-club-penguin.cz/forum";
 					config = ''
 						index index.php index.html index.htm;
@@ -370,15 +389,22 @@ in {
 					'';
 				};
 				"lisured.fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					path = "fan-club-penguin.cz/lisured";
+					config = ''
+						index index.php;
+
+						location ~ \.php$ {
+							${enablePHP "fcp"}
+						}
+					'';
 				};
 				"mediacache.fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					path = "fan-club-penguin.cz/mediacache";
 				};
 				"preklady.fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					path = "fan-club-penguin.cz/preklady";
 					config = ''
 						index index.php;
@@ -398,7 +424,7 @@ in {
 
 				};
 				"provider.fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					path = "fan-club-penguin.cz/provider";
 					config = ''
 						index index.php;
@@ -409,7 +435,7 @@ in {
 					'';
 				};
 				"shout.fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					path = "fan-club-penguin.cz/shout";
 					config = ''
 						index index.php;
@@ -420,7 +446,7 @@ in {
 					'';
 				};
 				"upload.fan-club-penguin.cz" = mkVirtualHost {
-					# acme = "fan-club-penguin.cz";
+					acme = "fan-club-penguin.cz";
 					path = "fan-club-penguin.cz/upload";
 					config = ''
 						location / {
@@ -617,10 +643,10 @@ in {
 			user = "nginx";
 			domains = [ "www.ogion.cz" "mechmice.ogion.cz" "mysql.ogion.cz" "reader.ogion.cz" ]; # "tools.ogion.cz" "develop.ogion.cz"
 		};
-		# "fan-club-penguin.cz" = mkCert {
-		# 	user = "fcp";
-		# 	domains = ["www.fan-club-penguin.cz" "archiv.fan-club-penguin.cz" "cdn.fan-club-penguin.cz" "forum.fan-club-penguin.cz" "lisured.fan-club-penguin.cz" "mediacache.fan-club-penguin.cz" "preklady.fan-club-penguin.cz" "provider.fan-club-penguin.cz" "shout.fan-club-penguin.cz" "upload.fan-club-penguin.cz" ];
-		# };
+		"fan-club-penguin.cz" = mkCert {
+			user = "fcp";
+			domains = ["www.fan-club-penguin.cz" "archiv.fan-club-penguin.cz" "beta.fan-club-penguin.cz" "cdn.fan-club-penguin.cz" "forum.fan-club-penguin.cz" "lisured.fan-club-penguin.cz" "mediacache.fan-club-penguin.cz" "preklady.fan-club-penguin.cz" "provider.fan-club-penguin.cz" "shout.fan-club-penguin.cz" "upload.fan-club-penguin.cz" ];
+		};
 		# "krk-litvinov.cz" = mkCert {
 		# 	user = "";
 		# 	domains = [ "bloudeni.krk-litvinov.cz" "entries.krk-litvinov.cz" ];
