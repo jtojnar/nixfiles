@@ -493,6 +493,48 @@ in {
 						location = /favicon.ico { access_log off; log_not_found off; }
 					'';
 				};
+				"lob-2019.krk-litvinov.cz" = mkVirtualHost {
+					# acme = "krk-litvinov.cz";
+					acme = true;
+					path = "krk-litvinov.cz/lob-2019";
+				};
+				"rogaining-2019.krk-litvinov.cz" = mkVirtualHost {
+					# acme = "krk-litvinov.cz";
+					acme = true;
+					path = "krk-litvinov.cz/rogaining-2019";
+					config = ''
+						index index.php;
+
+						location = /favicon.ico {
+							log_not_found off;
+							access_log off;
+						}
+
+						location = /robots.txt {
+							allow all;
+							log_not_found off;
+							access_log off;
+						}
+
+						location / {
+							# This is cool because no php is touched for static content.
+							# include the "?$args" part so non-default permalinks doesn't break when using query string
+							try_files $uri $uri/ /index.php?$args;
+						}
+
+						location ~ \.php$ {
+							#NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+							fastcgi_intercept_errors on;
+							fastcgi_read_timeout 500;
+							${enablePHP "rogaining-2019"}
+						}
+
+						location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+							expires max;
+							log_not_found off;
+						}
+					'';
+				};
 				# ostrov-tucnaku.cz
 				"ostrov-tucnaku.cz" = mkVirtualHost {
 					path = "ostrov-tucnaku.cz/www/public";
@@ -564,6 +606,10 @@ in {
 					user = "mechmice";
 					debug = true;
 				};
+				rogaining-2019 = mkPhpPool {
+					user = "rogaining-2019";
+					debug = true;
+				};
 				ostrov-tucnaku = mkPhpPool {
 					user = "ostrov-tucnaku";
 					debug = true;
@@ -631,7 +677,7 @@ in {
 			jtojnar = {
 				isNormalUser = true;
 				uid = 1000;
-				extraGroups = [ "wheel" "entries" "fcp" "reader" "adminer" "mechmice" ];
+				extraGroups = [ "wheel" "entries" "fcp" "reader" "adminer" "mechmice" "rogaining-2019" ];
 				openssh.authorizedKeys.keys = [
 					kaiserKey
 					"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNxXH1FOY0Mr0c43ailpNUgZKmjqj7A53orVpeH0wLevX6fJbKkCbN6WhIz7HoNuS1sAsmnSfeAd8oOHQvJRmTDGiwtXInls5wht4QSKUmvcXta1XsToSquZRM3XQSBJj7qaPE6zGkT0WSQUkLllL+hMGpmPF+M/HcifmP4CitmsWXvG/LaPpZ5LQkq4sNkp1keC2rHz/WqLHineb6BRenr1kyP9KH/ZqW9uwmliVi5dJzOEWvcGErO/i52QlKa7hX2QGYwb//oFQiRkXQoyMSbDjSikyQbtX8uXeEa8tFbaZLHa359GeV0j0CEkDBMi5NEvMB7gpamjENT0gGSWwR jtojnar@gmail.com"
@@ -650,7 +696,7 @@ in {
 			};
 
 			nginx = {
-				extraGroups = [ "entries" "fcp" "reader" "adminer" "mechmice" "krk" "ostrov-tucnaku" ];
+				extraGroups = [ "entries" "fcp" "reader" "adminer" "mechmice" "krk" "ostrov-tucnaku" "rogaining-2019" ];
 			};
 
 			fcp = { uid = 500; group = "fcp"; isSystemUser = true; };
@@ -660,6 +706,7 @@ in {
 			entries = { uid = 504; group = "entries"; isSystemUser = true; };
 			krk = { uid = 505; group = "krk"; isSystemUser = true; };
 			ostrov-tucnaku = { uid = 506; group = "ostrov-tucnaku"; isSystemUser = true; };
+			rogaining-2019 = { uid = 507; group = "rogaining-2019"; isSystemUser = true; };
 		};
 
 		groups = {
@@ -670,6 +717,7 @@ in {
 			entries = { gid = 504; };
 			krk = { gid = 505; };
 			ostrov-tucnaku = { gid = 506; };
+			rogaining-2019 = { gid = 507; };
 		};
 
 		defaultUserShell = pkgs.fish;
