@@ -69,6 +69,7 @@ in {
 
 	programs = {
 		fish.enable = true;
+		man.enable = true;
 	};
 
 	environment.systemPackages = with pkgs; [
