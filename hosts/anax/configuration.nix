@@ -617,6 +617,11 @@ in {
 			};
 		};
 
+		postfix = {
+			enable = true;
+			domain = "mxproxy.ogion.cz";
+		};
+
 		mysql = {
 			enable = true;
 			# ensureDatabases = [ "cpforum" "fcp" "entries" "mechmice" "ostrov-tucnaku" ];
