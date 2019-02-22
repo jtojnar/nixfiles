@@ -43,6 +43,7 @@ let
 		fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
 	'';
 	nixos1703 = import <nixos-1703> {};
+	unstable = import <unstable> {};
 in {
 	imports = [
 		<unstable/nixos/modules/services/web-servers/nginx/default.nix>
@@ -662,7 +663,7 @@ in {
 			# 	{ name = "tojnar"; ensurePermissions = { "entries.*" = "ALL PRIVILEGES"; }; }
 			# 	{ name = "ostrov-tucnaku"; ensurePermissions = { "ostrov-tucnaku.*" = "ALL PRIVILEGES"; }; }
 			# ];
-			package = pkgs.mariadb;
+			package = unstable.mariadb;
 		};
 	};
 
