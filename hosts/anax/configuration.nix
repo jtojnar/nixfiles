@@ -35,7 +35,7 @@ let
 			''}
 		'';
 	};
-	kaiserKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYbOlZydfRRCGCT08wdtPcpfSrgxMc6weDx3NcWrnMpVgxnMs3HozzkaS/hbcZUocn7XbCOyaxEd1O8Fuaw4JXpUBcMetpPXkQC+bZHQ3YsZZyzVgCXFPRF88QQj0nR7YVE1AeAifjk3TCODstTxit868V1639/TVIi5y5fC0/VbYG2Lt4AadNH67bRv8YiO3iTsHQoZPKD1nxA7yANHCuw38bGTHRhsxeVD+72ThbsYSZeA9dBrzACpEdnwyXclaoyIOnKdN224tu4+4ytgH/vH/uoUfL8SmzzIDvwZ4Ba2yHhZHs5iwsVjTvLe7jjE6I1u8qY7X8ofnanfNcsmz/ jtojnar@kaiser";
+	keys = import ../../keys.nix;
 	enablePHP = sockName: ''
 		fastcgi_pass unix:/var/run/phpfpm/${sockName}.sock;
 		include ${pkgs.nginx}/conf/fastcgi.conf;
@@ -683,10 +683,7 @@ in {
 				isNormalUser = true;
 				uid = 1000;
 				extraGroups = [ "wheel" "entries" "fcp" "reader" "adminer" "mechmice" "rogaining-2019" ];
-				openssh.authorizedKeys.keys = [
-					kaiserKey
-					"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNxXH1FOY0Mr0c43ailpNUgZKmjqj7A53orVpeH0wLevX6fJbKkCbN6WhIz7HoNuS1sAsmnSfeAd8oOHQvJRmTDGiwtXInls5wht4QSKUmvcXta1XsToSquZRM3XQSBJj7qaPE6zGkT0WSQUkLllL+hMGpmPF+M/HcifmP4CitmsWXvG/LaPpZ5LQkq4sNkp1keC2rHz/WqLHineb6BRenr1kyP9KH/ZqW9uwmliVi5dJzOEWvcGErO/i52QlKa7hX2QGYwb//oFQiRkXQoyMSbDjSikyQbtX8uXeEa8tFbaZLHa359GeV0j0CEkDBMi5NEvMB7gpamjENT0gGSWwR jtojnar@gmail.com"
-				];
+				openssh.authorizedKeys.keys = keys.jtojnar;
 				hashedPassword = "$6$yqXBTritxLsTNhy.$baY8JEagVyeBmpV6WCLY7nH4YH6YAjWiBPAvgF0zcVjYr7yagBmpZtmX/EFMedgxbCnU7l97SdG7EV6yfT.In/";
 			};
 
@@ -694,10 +691,7 @@ in {
 				uid = 1001;
 				isNormalUser = true;
 				extraGroups = [ "entries" "krk" ];
-				openssh.authorizedKeys.keys = [
-					kaiserKey
-					"ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA8gvnoe1XOcfe8m4/GjMxzlD/UnZxVP5kHELuOpu8RjA4jiL/S7zfUE1Va3oR6cTiJj3WzqbSVl21+bv5kj5gOKymlKTxzazAmT5FVwJNM2Sp3OKpPGW8yiiRVnhU5JxwRbLj76Gnh2GXZ28B+Ra9co37mO7YpqTjjV4VbVXrv08d7V39MnXrNqFpm/act+zUw5REgs9KiNFvxlnggUWlr6THR9iHel9icXLO3uWJuikmYKPhPr7bLEN9cYfAhKXIQySP8DxfEdB8+yX9GkBAuLie4YypzEOdXtzLOUcIU2wnknudfbdNvNoB4aaD0m/kNoFy64HasKQ5x/9vCCvIyQ== Otec@HP"
-				];
+				openssh.authorizedKeys.keys = keys.otec;
 			};
 
 			nginx = {
