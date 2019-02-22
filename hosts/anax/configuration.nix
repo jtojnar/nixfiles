@@ -38,7 +38,7 @@ let
 	keys = import ../../keys.nix;
 	enablePHP = sockName: ''
 		fastcgi_pass unix:/var/run/phpfpm/${sockName}.sock;
-		include ${pkgs.nginx}/conf/fastcgi.conf;
+		include ${config.services.nginx.package}/conf/fastcgi.conf;
 		fastcgi_param PATH_INFO $fastcgi_path_info;
 		fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
 	'';
@@ -99,6 +99,10 @@ in {
 
 		nginx = {
 			enable = true;
+			package = unstable.nginx.override {
+				openssl = unstable.openssl_1_1;
+			};
+			sslProtocols = "TLSv1.3 TLSv1.2";
 			virtualHosts = {
 				# ogion.cz
 				"ogion.cz" = mkVirtualHost {
