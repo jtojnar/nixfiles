@@ -535,6 +535,31 @@ in {
 						}
 					'';
 				};
+
+				"entries.rogaining-2019.krk-litvinov.cz" = mkVirtualHost {
+					# acme = "krk-litvinov.cz";
+					acme = true;
+					path = "krk-litvinov.cz/rogaining-2019/entries/www";
+					config = ''
+						index index.php;
+
+						location / {
+							try_files $uri $uri/ /index.php;
+						}
+
+						sendfile on;
+						send_timeout 1024s;
+
+						location ~ \.php {
+							fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+							${enablePHP "entries-2019"}
+							try_files $uri =404;
+						}
+
+						location = /robots.txt { access_log off; log_not_found off; }
+						location = /favicon.ico { access_log off; log_not_found off; }
+					'';
+				};
 				# ostrov-tucnaku.cz
 				"ostrov-tucnaku.cz" = mkVirtualHost {
 					path = "ostrov-tucnaku.cz/www/public";
@@ -610,6 +635,10 @@ in {
 					user = "rogaining-2019";
 					debug = true;
 				};
+				entries-2019 = mkPhpPool {
+					user = "entries-2019";
+					debug = true;
+				};
 				ostrov-tucnaku = mkPhpPool {
 					user = "ostrov-tucnaku";
 					debug = true;
@@ -682,7 +711,7 @@ in {
 			jtojnar = {
 				isNormalUser = true;
 				uid = 1000;
-				extraGroups = [ "wheel" "entries" "fcp" "reader" "adminer" "mechmice" "rogaining-2019" ];
+				extraGroups = [ "wheel" "entries" "fcp" "reader" "adminer" "mechmice" "rogaining-2019" "entries-2019" ];
 				openssh.authorizedKeys.keys = keys.jtojnar;
 				hashedPassword = "$6$yqXBTritxLsTNhy.$baY8JEagVyeBmpV6WCLY7nH4YH6YAjWiBPAvgF0zcVjYr7yagBmpZtmX/EFMedgxbCnU7l97SdG7EV6yfT.In/";
 			};
@@ -690,12 +719,12 @@ in {
 			tojnar = {
 				uid = 1001;
 				isNormalUser = true;
-				extraGroups = [ "entries" "krk" ];
+				extraGroups = [ "entries" "krk" "entries-2019" ];
 				openssh.authorizedKeys.keys = keys.otec;
 			};
 
 			nginx = {
-				extraGroups = [ "entries" "fcp" "reader" "adminer" "mechmice" "krk" "ostrov-tucnaku" "rogaining-2019" ];
+				extraGroups = [ "entries" "fcp" "reader" "adminer" "mechmice" "krk" "ostrov-tucnaku" "rogaining-2019" "entries-2019" ];
 			};
 
 			fcp = { uid = 500; group = "fcp"; isSystemUser = true; };
@@ -706,6 +735,7 @@ in {
 			krk = { uid = 505; group = "krk"; isSystemUser = true; };
 			ostrov-tucnaku = { uid = 506; group = "ostrov-tucnaku"; isSystemUser = true; };
 			rogaining-2019 = { uid = 507; group = "rogaining-2019"; isSystemUser = true; };
+			entries-2019 = { uid = 508; group = "entries-2019"; isSystemUser = true; };
 		};
 
 		groups = {
@@ -717,6 +747,7 @@ in {
 			krk = { gid = 505; };
 			ostrov-tucnaku = { gid = 506; };
 			rogaining-2019 = { gid = 507; };
+			entries-2019 = { gid = 508; };
 		};
 
 		defaultUserShell = pkgs.fish;
