@@ -34,6 +34,9 @@ in {
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelParams = [
+    "boot.shell_on_fail"
+  ];
 
   boot.kernel.sysctl = {
     # Note that inotify watches consume 1kB on 64-bit machines.
