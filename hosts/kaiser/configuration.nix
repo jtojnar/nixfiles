@@ -63,6 +63,12 @@ in {
 
   systemd.coredump.enable = true;
 
+  swapDevices = [
+    {
+      device = "/var/swap";
+    }
+  ];
+
   # Configure sound.
   hardware = {
     pulseaudio = {
