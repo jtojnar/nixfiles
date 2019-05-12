@@ -11,6 +11,7 @@ in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./development/web.nix
     ];
 
   boot.supportedFilesystems = [ "ntfs" ];
@@ -326,11 +327,7 @@ in {
       sort-directories-first=true
       location-mode='path-bar'
     '';
-
   };
-
-  ];
-
 
   # Define a user account. Don’t forget to set a password with ‘passwd’.
   users.extraUsers.jtojnar = {
@@ -354,8 +351,9 @@ in {
 
     overlays = [
 
-      (self: super: {
+      (import ../../overlays/debugging.nix)
 
+      (self: super: {
         deadbeef = super.deadbeef.override {
           wavpackSupport = true;
           ffmpegSupport = true;
