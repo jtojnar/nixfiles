@@ -5,9 +5,7 @@
 { config, pkgs, ... }:
 
 let
-  extrapkgs = import <extrapkgs> {};
   unstable = import (builtins.fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz) { };
-  firefoxOverlay = import ("${builtins.fetchTarball https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz}/firefox-overlay.nix");
   keys = import ../../keys.nix;
 in {
   imports =
@@ -53,12 +51,6 @@ in {
     consoleFont = "Lat2-Terminus16";
     consoleUseXkbConfig = true;
     defaultLocale = "en_GB.UTF-8";
-    inputMethod = {
-      enabled = "ibus";
-      ibus.engines = with pkgs.ibus-engines; [
-        mozc
-      ];
-    };
   };
 
   # Set your time zone.
@@ -83,18 +75,24 @@ in {
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     unstable.abiword
-    latest.firefox-nightly-bin
+    almanah
+    firefox
     apg
+    bat
     binutils # readelf, xstrings
     bind
-    bustle
-    unstable.blender
+    blueman
+    gsmartcontrol
+    # bustle
+    # unstable.blender
     common-updater-scripts
-    unstable.chromium
+    chromium
     corebird
     deadbeef-with-plugins
+    deja-dup
     dfeet
     diffoscope
+    direnv
     dos2unix
     unstable.easytag
     exa
@@ -105,19 +103,23 @@ in {
     unstable.gimp
     gcolor3
     gitAndTools.diff-so-fancy
+    gitAndTools.git-bz
     gitAndTools.gitFull
     gitg
     glib.dev # for gsettings
     gnome3.geary
+    gtk3.dev # for gtk-builder-tool etc
     gnome3.ghex
     gnome3.polari
+    gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
-    gnomeExtensions.topicons-plus
     gnomeExtensions.nohotcorner
+    gnomeExtensions.sound-output-device-chooser
+    gnomeExtensions.window-corner-preview
+    gnomeExtensions.gsconnect
     unstable.gnumeric
     gnupg
     htop
-    extrapkgs.hamster-gtk
     imagemagick
     indent
     unstable.inkscape
@@ -129,20 +131,35 @@ in {
     moreutils # isutf8
     mypaint
     ncdu
-    nix-repl
     onboard
+    orca
     paprefs
+    pulseeffects
     patchutils # for filterdiff
+    posix_man_pages
     python3Full
     ripgrep
-    sublime3
-    unstable.sqlitebrowser
+    rstudio
+    sequeler
+    sublime3-dev
+    # unstable.sqlitebrowser
     unstable.tdesktop
     tldr
     transmission_gtk
     unstable.vlc
     wget
     xsel
+    # xsv # handling CSV files
+    # gnome3.gnome-boxes
+    gnome3.glade
+    gnome3.bijiben
+    gnome3.gnome-dictionary
+    gnome3.gnome-disk-utility
+    gnome3.devhelp
+    gnome3.cheese
+    # gnome3.anjuta
+    gnome3.gnome-chess
+    gdb
   ];
 
   environment.enableDebugInfo = true;
@@ -153,7 +170,6 @@ in {
       cm_unicode
       crimson
       dejavu_fonts
-      font-droid
       fira
       fira-mono
       gentium
@@ -163,6 +179,7 @@ in {
       ipaexfont
       league-of-moveable-type
       libertine
+      noto-fonts-emoji
       libre-baskerville
       libre-bodoni
       libre-caslon
@@ -181,19 +198,36 @@ in {
     command-not-found.enable = true;
     fish = {
       enable = true;
+      interactiveShellInit = ''
+        eval (${pkgs.direnv}/bin/direnv hook fish)
+      '';
     };
-    wireshark = {
-      enable = true;
-      package = pkgs.wireshark-gtk;
-    };
+    wireshark.enable = true;
   };
 
   documentation = {
-    man.enable = true;
+    dev.enable = true;
   };
 
   # List services that you want to enable:
 
+  services.flatpak.enable = true;
+  services.pipewire.enable = true;
+  services.acpid = {
+    enable = true;
+    handlers = {
+      mute = {
+        event = "button/fnf1";
+        action = ''
+          device=/sys/devices/platform/sony-laptop/touchpad
+          expr 1 - $(cat $device) > $device
+        '';
+      };
+    };
+  };
+
+  boot.plymouth.enable = true;
+  services.sysprof.enable = true;
   services.fwupd.enable = true;
   programs.plotinus.enable = true;
 
@@ -284,15 +318,6 @@ in {
 
   };
 
-  environment.gnome3.excludePackages = with pkgs.gnome3; [
-    evolution
-    epiphany
-    gnome-calendar
-    gnome-documents
-    gnome-maps
-    gnome-music
-    gnome-photos
-    totem
   ];
 
 
@@ -300,7 +325,7 @@ in {
   users.extraUsers.jtojnar = {
     isNormalUser = true;
     uid = 1000;
-    extraGroups = [ "wheel" "networkmanager" "wireshark" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "wireshark" "docker" "vboxusers" ];
     useDefaultShell = true;
     openssh.authorizedKeys.keys = keys.jtojnar;
     passwordFile = "/etc/nixos/passwd/jtojnar";
@@ -310,19 +335,23 @@ in {
   users.mutableUsers = false;
 
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "unstable";
-  system.autoUpgrade.channel = https://nixos.org/channels/nixos-unstable;
+  system.stateVersion = "18.03";
   nixpkgs = {
     config = {
       allowUnfree = true;
     };
 
     overlays = [
-      firefoxOverlay
 
       (self: super: {
+
+        deadbeef = super.deadbeef.override {
+          wavpackSupport = true;
+          ffmpegSupport = true;
+        };
+
         deadbeef-with-plugins = super.deadbeef-with-plugins.override {
-          plugins = with super.deadbeefPlugins; [ mpris2 opus ];
+          plugins = with super.deadbeefPlugins; [ headerbar-gtk3 infobar mpris2 ];
         };
 
         reflection_by_yuumei = super.fetchurl {
@@ -338,4 +367,10 @@ in {
     ];
   };
 
+  virtualisation = {
+    docker.enable = true;
+    # libvirtd.enable = true;
+    # virtualbox.host.enable = true;
+    # virtualbox.host.enableExtensionPack = true;
+  };
 }
