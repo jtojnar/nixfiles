@@ -152,7 +152,6 @@ in {
     posix_man_pages
     python3Full
     ripgrep
-    rstudio
     sequeler
     sublime3-dev
     # unstable.sqlitebrowser
