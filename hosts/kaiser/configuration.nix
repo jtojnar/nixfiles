@@ -123,6 +123,7 @@ in {
     gtk3.dev # for gtk-builder-tool etc
     gnome3.ghex
     gnome3.polari
+    gnome-mpv
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.nohotcorner
@@ -158,7 +159,6 @@ in {
     unstable.tdesktop
     tldr
     transmission_gtk
-    unstable.vlc
     wget
     xsel
     # xsv # handling CSV files
