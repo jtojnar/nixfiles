@@ -1,8 +1,6 @@
 (self: super: {
   deadbeef = super.enableDebugging super.deadbeef;
-  deadbeefPlugins.headerbar-gtk3 = super.enableDebugging super.deadbeefPlugins.headerbar-gtk3;
-  deadbeefPlugins.infobar = super.enableDebugging super.deadbeefPlugins.infobar;
-  deadbeefPlugins.mpris2 = super.enableDebugging super.deadbeefPlugins.mpris2;
+  deadbeefPlugins = builtins.mapAttrs (name: plugin: super.enableDebugging plugin) super.deadbeefPlugins;
 
   gnome3 = super.gnome3.overrideScope' (gself: gsuper: {
     geary = super.enableDebugging gsuper.geary;

@@ -359,7 +359,7 @@ in {
         };
 
         deadbeef-with-plugins = super.deadbeef-with-plugins.override {
-          plugins = with super.deadbeefPlugins; [ headerbar-gtk3 infobar mpris2 ];
+          plugins = with super.deadbeefPlugins; [ headerbar-gtk3 lyricbar mpris2 ];
         };
 
         reflection_by_yuumei = super.fetchurl {
