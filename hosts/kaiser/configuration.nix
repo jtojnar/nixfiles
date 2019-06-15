@@ -86,7 +86,7 @@ in {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    unstable.abiword
+    abiword
     almanah
     firefox
     apg
@@ -106,13 +106,13 @@ in {
     diffoscope
     direnv
     dos2unix
-    unstable.easytag
+    easytag
     exa
     exiftool
     fd
     file
     font-manager
-    unstable.gimp
+    gimp
     gcolor3
     gitAndTools.diff-so-fancy
     gitAndTools.git-bz
@@ -130,12 +130,12 @@ in {
     gnomeExtensions.sound-output-device-chooser
     gnomeExtensions.window-corner-preview
     gnomeExtensions.gsconnect
-    unstable.gnumeric
+    gnumeric
     gnupg
     htop
     imagemagick
     indent
-    unstable.inkscape
+    inkscape
     jq
     libxml2 # for xmllint
     ltrace
