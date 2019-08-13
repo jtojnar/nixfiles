@@ -242,7 +242,7 @@ in {
   services.fwupd.enable = true;
   programs.plotinus.enable = true;
 
-  services.gnome3.gpaste.enable = true;
+  programs.gpaste.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -274,7 +274,7 @@ in {
 
   services.xserver.desktopManager.gnome3 = {
     enable = true;
-    extraGSettingsOverridePackages = with pkgs; [ gnome3.nautilus gnome3.gnome_settings_daemon gtk3 ];
+    extraGSettingsOverridePackages = with pkgs; [ gnome3.nautilus gnome3.gnome-settings-daemon gtk3 ];
     extraGSettingsOverrides = ''
       [org.gnome.desktop.background]
       primary-color='#000000'
