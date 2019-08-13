@@ -155,7 +155,7 @@ in {
     sequeler
     sublime3-dev
     # unstable.sqlitebrowser
-    unstable.tdesktop
+    tdesktop
     tldr
     transmission_gtk
     wget
