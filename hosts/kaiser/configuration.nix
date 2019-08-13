@@ -178,6 +178,9 @@ in {
   fonts = {
     fonts = with pkgs; [
       cantarell_fonts
+      caladea # Cambria replacement
+      carlito # Calibri replacement
+      comic-relief # Comic Sans replacement
       cm_unicode
       crimson
       dejavu_fonts
@@ -191,6 +194,7 @@ in {
       league-of-moveable-type
       libertine
       noto-fonts-emoji
+      liberation_ttf_v2 # Arial, Times New Roman & Courier New replacement
       libre-baskerville
       libre-bodoni
       libre-caslon
