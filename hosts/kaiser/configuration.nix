@@ -357,11 +357,6 @@ in {
       (import ../../overlays/debugging.nix)
 
       (self: super: {
-        deadbeef = super.deadbeef.override {
-          wavpackSupport = true;
-          ffmpegSupport = true;
-        };
-
         deadbeef-with-plugins = super.deadbeef-with-plugins.override {
           plugins = with super.deadbeefPlugins; [ headerbar-gtk3 lyricbar mpris2 ];
         };
