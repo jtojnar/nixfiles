@@ -9,6 +9,9 @@ in {
     <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
     ./build.nix
     ./networking.nix
+
+    # sites
+    ./rogaining.cz
   ];
 
   environment.systemPackages = with pkgs; [
