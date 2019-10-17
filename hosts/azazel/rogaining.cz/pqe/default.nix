@@ -19,6 +19,11 @@ in {
               proxyPass = "http://localhost:${toString port}";
             };
           };
+          extraConfig = ''
+            if ($host !~* ^pqe\.rogaining\.(cz|org)$ ) {
+                return 444;
+            }
+          '';
         };
       };
     };
