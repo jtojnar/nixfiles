@@ -195,6 +195,7 @@ in {
       league-of-moveable-type
       libertine
       noto-fonts-emoji
+      joypixels
       liberation_ttf_v2 # Arial, Times New Roman & Courier New replacement
       libre-baskerville
       libre-bodoni
@@ -207,6 +208,8 @@ in {
       ubuntu_font_family
     ];
   };
+
+  fonts.fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
 
   # List programs
   programs = {
