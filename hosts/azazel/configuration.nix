@@ -48,6 +48,11 @@ in {
     mutableUsers = false;
   };
 
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
+
   time.timeZone = "Europe/Prague";
 
   documentation.enable = true;
