@@ -45,6 +45,7 @@ in {
     "fs.inotify.max_user_instances" = 1024; # default: 128
     "fs.inotify.max_queued_events" = 32768; # default: 16384
     "kernel.perf_event_paranoid" = 1; # for rr, default: 2
+    "kernel.sysrq" = 1; # allow all magic SysRq keys
   };
 
   boot.cleanTmpDir = true;
