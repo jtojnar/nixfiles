@@ -135,7 +135,6 @@ in {
     mypaint
     ncdu
     onboard
-    orca
     paprefs
     patchelf
     pulseeffects
