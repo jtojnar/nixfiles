@@ -762,7 +762,10 @@ in {
 	nix = {
 		useSandbox = true;
 
-		# filterSyscalls = true;
+		# filterSyscalls = false;
+		extraOptions = ''
+			filter-syscalls = 0
+		'';
 
 		nixPath = [
 			"nixpkgs=https://github.com/NixOS/nixpkgs-channels/archive/nixos-17.09.tar.gz"
@@ -771,13 +774,7 @@ in {
 		];
 
 		# OpenVZ kernel does not support seccomp, required by Nix ≥ 1.11.10
-		package = (import (pkgs.fetchFromGitHub {
-			owner = "NixOS";
-			repo = "nixpkgs";
-			rev = "300fa462b31ad2106d37fcdb4b504ec60dfd62aa";
-			sha256 = "1cbjmi34ll5xa2nafz0jlsciivj62mq78qr3zl4skgdk6scl328s";
-		}) {}).nix;
-		# package = pkgs.nixUnstable;
+		package = pkgs.nixUnstable;
 	};
 
 	nixpkgs.config.packageOverrides = super:
