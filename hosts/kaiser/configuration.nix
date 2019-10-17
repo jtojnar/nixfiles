@@ -86,7 +86,7 @@ in {
     bind
     blueman
     gsmartcontrol
-    # bustle
+    bustle
     common-updater-scripts
     chromium
     cawbird
@@ -102,10 +102,12 @@ in {
     fd
     file
     font-manager
+    fractal
     gimp
     gcolor3
     gitAndTools.diff-so-fancy
     gitAndTools.git-bz
+    gitAndTools.git-hub
     gitAndTools.gitFull
     gitg
     gnome3.geary
@@ -135,9 +137,11 @@ in {
     onboard
     orca
     paprefs
+    patchelf
     pulseeffects
     patchutils # for filterdiff
     posix_man_pages
+    p7zip
     python3Full
     ripgrep
     sequeler
@@ -145,13 +149,18 @@ in {
     tdesktop
     tldr
     transmission_gtk
+    unrar
+    valgrind
     wget
+    wirelesstools # for iwlist
     xsel
     # xsv # handling CSV files
+    gnome3.dconf-editor
     gnome3.glade
     gnome3.bijiben
     gnome3.gnome-dictionary
     gnome3.gnome-disk-utility
+    gnome3.gnome-tweaks
     gnome3.devhelp
     gnome3.cheese
     gnome3.gnome-chess
