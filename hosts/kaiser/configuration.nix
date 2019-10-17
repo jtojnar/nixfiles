@@ -154,7 +154,7 @@ in {
     wget
     wirelesstools # for iwlist
     xsel
-    # xsv # handling CSV files
+    xsv # handling CSV files
     gnome3.dconf-editor
     gnome3.glade
     gnome3.gnome-dictionary
