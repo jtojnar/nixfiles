@@ -31,7 +31,6 @@ in {
     postgresql = {
       enable = true;
       package = pkgs.postgresql_11;
-      enableTCPIP = true;
       extraPlugins = with pkgs.postgresql_11.pkgs; [
         plv8
       ];
