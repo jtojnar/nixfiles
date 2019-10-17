@@ -157,7 +157,6 @@ in {
     # xsv # handling CSV files
     gnome3.dconf-editor
     gnome3.glade
-    gnome3.bijiben
     gnome3.gnome-dictionary
     gnome3.gnome-disk-utility
     gnome3.gnome-tweaks
