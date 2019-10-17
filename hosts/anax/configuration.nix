@@ -50,7 +50,6 @@ in {
 		<nixpkgs/nixos/modules/profiles/minimal.nix>
 		<nixpkgs/nixos/modules/virtualisation/container-config.nix>
 		<nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
-		# (builtins.fetchTarball "https://github.com/r-raymond/nixos-mailserver/releases/tag/v1.1-rc2")
 	];
 
 	disabledModules = [
