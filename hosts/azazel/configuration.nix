@@ -48,6 +48,8 @@ in {
     mutableUsers = false;
   };
 
+  networking.hostName = "azazel";
+
   networking.firewall.allowedTCPPorts = [
     80
     443
