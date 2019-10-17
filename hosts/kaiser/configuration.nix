@@ -79,17 +79,15 @@ in {
   environment.systemPackages = with pkgs; [
     abiword
     almanah
-    firefox
     apg
     bat
-    binutils # readelf, xstrings
     bind
+    binutils # readelf, xstrings
     blueman
-    gsmartcontrol
     bustle
-    common-updater-scripts
-    chromium
     cawbird
+    chromium
+    common-updater-scripts
     deadbeef-with-plugins
     deja-dup
     dfeet
@@ -101,27 +99,38 @@ in {
     exiftool
     fd
     file
+    firefox
     font-manager
     fractal
-    gimp
     gcolor3
+    gdb
+    gimp
     gitAndTools.diff-so-fancy
     gitAndTools.git-bz
     gitAndTools.git-hub
     gitAndTools.gitFull
     gitg
-    gnome3.geary
-    gtk3.dev # for gtk-builder-tool etc
-    gnome3.ghex
-    gnome3.polari
     gnome-mpv
+    gnome3.cheese
+    gnome3.dconf-editor
+    gnome3.devhelp
+    gnome3.geary
+    gnome3.ghex
+    gnome3.glade
+    gnome3.gnome-chess
+    gnome3.gnome-dictionary
+    gnome3.gnome-disk-utility
+    gnome3.gnome-tweaks
+    gnome3.polari
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
+    gnomeExtensions.gsconnect
     gnomeExtensions.sound-output-device-chooser
     gnomeExtensions.window-corner-preview
-    gnomeExtensions.gsconnect
     gnumeric
     gnupg
+    gsmartcontrol
+    gtk3.dev # for gtk-builder-tool etc
     htop
     imagemagick
     indent
@@ -135,12 +144,12 @@ in {
     mypaint
     ncdu
     onboard
+    p7zip
     paprefs
     patchelf
-    pulseeffects
     patchutils # for filterdiff
     posix_man_pages
-    p7zip
+    pulseeffects
     python3Full
     ripgrep
     sequeler
@@ -154,15 +163,6 @@ in {
     wirelesstools # for iwlist
     xsel
     xsv # handling CSV files
-    gnome3.dconf-editor
-    gnome3.glade
-    gnome3.gnome-dictionary
-    gnome3.gnome-disk-utility
-    gnome3.gnome-tweaks
-    gnome3.devhelp
-    gnome3.cheese
-    gnome3.gnome-chess
-    gdb
   ];
 
   environment.enableDebugInfo = true;
