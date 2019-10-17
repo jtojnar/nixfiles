@@ -1,18 +1,13 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 let
-  unstable = import (builtins.fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz) { };
   keys = import ../../keys.nix;
 in {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./development/web.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./development/web.nix
+  ];
 
   boot.supportedFilesystems = [ "ntfs" ];
 
@@ -51,7 +46,6 @@ in {
   boot.cleanTmpDir = true;
 
   networking.hostName = "kaiser"; # Define your hostname.
-  # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
 
   # Select internationalisation properties.
   i18n = {
@@ -62,8 +56,6 @@ in {
 
   # Set your time zone.
   time.timeZone = "Europe/Prague";
-
-  systemd.coredump.enable = true;
 
   swapDevices = [
     {
@@ -84,8 +76,6 @@ in {
     bluetooth.enable = true;
   };
 
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     abiword
     almanah
@@ -97,10 +87,9 @@ in {
     blueman
     gsmartcontrol
     # bustle
-    # unstable.blender
     common-updater-scripts
     chromium
-    corebird
+    cawbird
     deadbeef-with-plugins
     deja-dup
     dfeet
@@ -119,7 +108,6 @@ in {
     gitAndTools.git-bz
     gitAndTools.gitFull
     gitg
-    glib.dev # for gsettings
     gnome3.geary
     gtk3.dev # for gtk-builder-tool etc
     gnome3.ghex
@@ -127,7 +115,6 @@ in {
     gnome-mpv
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
-    gnomeExtensions.nohotcorner
     gnomeExtensions.sound-output-device-chooser
     gnomeExtensions.window-corner-preview
     gnomeExtensions.gsconnect
@@ -155,21 +142,18 @@ in {
     ripgrep
     sequeler
     sublime3-dev
-    # unstable.sqlitebrowser
     tdesktop
     tldr
     transmission_gtk
     wget
     xsel
     # xsv # handling CSV files
-    # gnome3.gnome-boxes
     gnome3.glade
     gnome3.bijiben
     gnome3.gnome-dictionary
     gnome3.gnome-disk-utility
     gnome3.devhelp
     gnome3.cheese
-    # gnome3.anjuta
     gnome3.gnome-chess
     gdb
   ];
@@ -178,7 +162,7 @@ in {
 
   fonts = {
     fonts = with pkgs; [
-      cantarell_fonts
+      cantarell-fonts
       caladea # Cambria replacement
       carlito # Calibri replacement
       comic-relief # Comic Sans replacement
@@ -248,25 +232,8 @@ in {
   boot.plymouth.enable = true;
   services.sysprof.enable = true;
   services.fwupd.enable = true;
-  programs.plotinus.enable = true;
 
   programs.gpaste.enable = true;
-
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    permitRootLogin = "no";
-    passwordAuthentication = false;
-  };
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 5900 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -357,7 +324,6 @@ in {
     };
 
     overlays = [
-
       (import ../../overlays/debugging.nix)
 
       (self: super: {
@@ -378,10 +344,4 @@ in {
     ];
   };
 
-  virtualisation = {
-    docker.enable = true;
-    # libvirtd.enable = true;
-    # virtualbox.host.enable = true;
-    # virtualbox.host.enableExtensionPack = true;
-  };
 }
