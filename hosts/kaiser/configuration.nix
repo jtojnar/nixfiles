@@ -351,4 +351,26 @@ in {
     ];
   };
 
+  nix = {
+    package = pkgs.nixUnstable;
+    useSandbox = true;
+    buildCores = 0;
+    maxJobs = 8;
+
+    nixPath = [
+      "nixpkgs=/home/jtojnar/Projects/nixpkgs"
+    ];
+
+    distributedBuilds = true;
+    buildMachines = [
+      {
+        hostName = "aarch64.nixos.community";
+        maxJobs = 64;
+        sshKey = "/root/id_aarch64box";
+        sshUser = "jtojnar";
+        system = "aarch64-linux";
+        supportedFeatures = [ "big-parallel" ];
+      }
+    ];
+  };
 }
