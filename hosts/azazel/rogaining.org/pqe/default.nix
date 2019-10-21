@@ -10,17 +10,16 @@ in {
       enable = true;
 
       virtualHosts = {
-        "pqe.rogaining.cz" = {
+        "pqe.rogaining.org" = {
           enableACME = true;
           forceSSL = true;
-          serverAliases = [ "pqe.rogaining.org" ];
           locations = {
             "/" = {
               proxyPass = "http://localhost:${toString port}";
             };
           };
           extraConfig = ''
-            if ($host !~* ^pqe\.rogaining\.(cz|org)$ ) {
+            if ($host !~* ^pqe\.rogaining\.org$ ) {
                 return 444;
             }
           '';

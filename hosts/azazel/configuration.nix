@@ -11,7 +11,7 @@ in {
     ./networking.nix
 
     # sites
-    ./rogaining.cz
+    ./rogaining.org
   ];
 
   environment.systemPackages = with pkgs; [
