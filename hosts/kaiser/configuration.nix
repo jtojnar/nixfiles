@@ -110,7 +110,6 @@ in {
     gitAndTools.git-hub
     gitAndTools.gitFull
     gitg
-    gnome-mpv
     gnome3.cheese
     gnome3.dconf-editor
     gnome3.devhelp
@@ -159,6 +158,7 @@ in {
     transmission_gtk
     unrar
     valgrind
+    vlc
     wget
     wirelesstools # for iwlist
     xsel
