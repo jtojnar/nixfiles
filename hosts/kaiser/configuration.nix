@@ -163,6 +163,7 @@ in {
     wirelesstools # for iwlist
     xsel
     xsv # handling CSV files
+    youtube-dl
   ];
 
   environment.enableDebugInfo = true;
