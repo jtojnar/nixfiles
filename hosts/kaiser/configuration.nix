@@ -237,6 +237,7 @@ in {
         set -x RIPGREP_CONFIG_PATH $XDG_CONFIG_HOME/ripgrep/config
       '';
     };
+    gnupg.agent.enable = true;
     wireshark.enable = true;
   };
 
@@ -333,6 +334,23 @@ in {
       sort-directories-first=true
       location-mode='path-bar'
     '';
+  };
+
+  # Ugly hack for GPG choosing socket directory based on GNUPGHOME.
+  # If any other user wants to use gpg-agent they are out of luck,
+  # unless they modify the socket in their profile (e.g. using home-manager).
+  systemd.user.sockets.gpg-agent = {
+    listenStreams = let
+      user = "jtojnar";
+      socketDir = pkgs.runCommand "gnupg-socketdir" {
+        nativeBuildInputs = [ pkgs.python3 ];
+      } ''
+        python3 ${../../common/gnupgdir.py} '/home/${user}/.local/share/gnupg' > $out
+      '';
+    in [
+      "" # unset
+      "%t/gnupg/${builtins.readFile socketDir}/S.gpg-agent"
+    ];
   };
 
   # Define a user account. Don’t forget to set a password with ‘passwd’.
