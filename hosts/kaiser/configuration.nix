@@ -147,6 +147,7 @@ in {
     paprefs
     patchelf
     patchutils # for filterdiff
+    playerctl
     posix_man_pages
     pulseeffects
     python3Full
