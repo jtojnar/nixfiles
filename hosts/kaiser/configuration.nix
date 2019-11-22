@@ -248,6 +248,7 @@ in {
   # List services that you want to enable:
 
   services.flatpak.enable = true;
+  services.lorri.enable = true;
   services.pipewire.enable = true;
   services.acpid = {
     enable = true;
