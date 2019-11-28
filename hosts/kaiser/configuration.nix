@@ -403,9 +403,6 @@ in {
 
   nix = {
     package = pkgs.nixUnstable;
-    useSandbox = true;
-    buildCores = 0;
-    maxJobs = 8;
 
     nixPath = [
       "nixpkgs=/home/jtojnar/Projects/nixpkgs"
