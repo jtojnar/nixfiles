@@ -355,13 +355,19 @@ in {
   };
 
   # Define a user account. Don’t forget to set a password with ‘passwd’.
-  users.extraUsers.jtojnar = {
-    isNormalUser = true;
-    uid = 1000;
-    extraGroups = [ "wheel" "networkmanager" "wireshark" "docker" "vboxusers" ];
-    useDefaultShell = true;
-    openssh.authorizedKeys.keys = keys.jtojnar;
-    passwordFile = "/etc/nixos/passwd/jtojnar";
+  users.extraUsers = {
+    root = {
+      hashedPassword = "*";
+    };
+
+    jtojnar = {
+      isNormalUser = true;
+      uid = 1000;
+      extraGroups = [ "wheel" "networkmanager" "wireshark" "docker" "vboxusers" ];
+      useDefaultShell = true;
+      openssh.authorizedKeys.keys = keys.jtojnar;
+      passwordFile = "/etc/nixos/passwd/jtojnar";
+    };
   };
 
   users.defaultUserShell = pkgs.fish;
