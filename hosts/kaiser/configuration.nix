@@ -278,6 +278,8 @@ in {
     enable = true;
     debug = true;
   };
+  services.xserver.desktopManager.default = "gnome";
+
 
   services.xserver.desktopManager.gnome3 = {
     enable = true;
