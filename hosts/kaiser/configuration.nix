@@ -138,6 +138,7 @@ in {
     moreutils # isutf8
     mypaint
     ncdu
+    nixpkgs-fmt
     onboard
     p7zip
     paprefs
@@ -150,6 +151,7 @@ in {
     ripgrep
     sequeler
     sublime3-dev
+    spotify
     tdesktop
     tldr
     transmission_gtk
