@@ -18,14 +18,9 @@ in {
   boot.initrd.luks.devices = [
     {
       name = "root";
-      device = "/dev/disk/by-uuid/e1dbb444-15cd-4e82-beff-08dd0b9de34f"; # Obtained using `blkid /dev/sda2`
+      device = "/dev/disk/by-uuid/53c65a34-aef8-4a68-9485-b4415b202e03"; # Obtained using `blkid /dev/sda2`
       preLVM = true;
       allowDiscards = true;
-    }
-    {
-      name = "ManjaroRoot";
-      device = "/dev/disk/by-uuid/1f5da579-7241-4ac6-b0bb-cf25f7083ba2"; # Obtained using `blkid /dev/sdb2`
-      preLVM = true;
     }
   ];
 
@@ -60,6 +55,7 @@ in {
   swapDevices = [
     {
       device = "/var/swap";
+      size = 1024 * 8 * 2; # twice the RAM should leave enough space for hibernation
     }
   ];
 
