@@ -43,9 +43,11 @@ in {
   networking.hostName = "kaiser"; # Define your hostname.
 
   # Select internationalisation properties.
+  console = {
+    font = "Lat2-Terminus16";
+    useXkbConfig = true;
+  };
   i18n = {
-    consoleFont = "Lat2-Terminus16";
-    consoleUseXkbConfig = true;
     defaultLocale = "en_GB.UTF-8";
   };
 
