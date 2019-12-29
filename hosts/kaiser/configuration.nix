@@ -81,7 +81,6 @@ in {
     bat
     bind
     binutils # readelf, xstrings
-    blueman
     bustle
     cawbird
     chromium
