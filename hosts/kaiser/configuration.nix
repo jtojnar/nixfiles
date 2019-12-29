@@ -99,6 +99,7 @@ in {
     firefox
     font-manager
     fractal
+    fzf
     gcolor3
     gdb
     gimp
@@ -127,6 +128,8 @@ in {
     gnupg
     gsmartcontrol
     gtk3.dev # for gtk-builder-tool etc
+    graphviz
+    python3.pkgs.xdot
     htop
     imagemagick
     indent
@@ -151,6 +154,7 @@ in {
     python3Full
     ripgrep
     sequeler
+    sman
     sublime3-dev
     spotify
     tdesktop
