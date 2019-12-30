@@ -411,6 +411,8 @@ in {
   nix = {
     package = pkgs.nixUnstable;
 
+    trustedUsers = [ "@wheel" ];
+
     nixPath = [
       "nixpkgs=/home/jtojnar/Projects/nixpkgs"
     ];
