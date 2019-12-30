@@ -108,6 +108,7 @@ in {
     gitAndTools.git-hub
     gitAndTools.gitFull
     gitg
+    git-part-pick
     gnome3.cheese
     gnome3.dconf-editor
     gnome3.devhelp
@@ -387,6 +388,7 @@ in {
 
     overlays = [
       (import ../../overlays/debugging.nix)
+      (import ../../overlays/utils.nix)
 
       (self: super: {
         deadbeef-with-plugins = super.deadbeef-with-plugins.override {

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if (( $# != 1 )); then
+    echo "usage: git part-pick <rev>"
+    exit 1
+fi
+
+rev=$1
+patch=$(mktemp)
+git format-patch --stdout -1 "$rev" -- $(git diff-tree --no-commit-id --name-only -r "$rev" | fzf -m) > "$patch"
+git am --3way "$patch"
+rm "$patch"
