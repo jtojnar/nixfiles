@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+for f in $(git ls-files -m); do
+    lastTouch=$(git log --format=%H -- "$f" | head -n 1)
+    git add "$f"
+    git commit --fixup "$lastTouch"
+done

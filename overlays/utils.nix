@@ -17,4 +17,5 @@
   };
 in with super; {
   git-part-pick = mkUtil "git-part-pick" [ fzf ];
+  git-auto-fixup = mkUtil "git-auto-fixup" [ ];
 })

@@ -108,6 +108,7 @@ in {
     gitAndTools.git-hub
     gitAndTools.gitFull
     gitg
+    git-auto-fixup
     git-part-pick
     gnome3.cheese
     gnome3.dconf-editor
