@@ -8,11 +8,11 @@
 
     installPhase = ''
       mkdir -p $out/bin
-      cp ${./utils}/${name} $out/bin
 
-      for f in $out/bin/*; do
-        wrapProgram $f --prefix PATH : ${super.lib.makeBinPath path}
-      done
+      makeWrapper \
+        ${./. + "/utils/${name}"} \
+        $out/bin/${name} \
+        --prefix PATH : ${super.lib.makeBinPath path}
     '';
   };
 in with super; {
