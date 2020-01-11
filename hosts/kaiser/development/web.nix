@@ -28,7 +28,11 @@
   services.httpd = {
     enable = true;
     adminAddr = "admin@localhost";
-    documentRoot = "/home/jtojnar/Projects";
+    virtualHosts = {
+      localhost = {
+        documentRoot = "/home/jtojnar/Projects";
+      };
+    };
     enablePHP = true;
     phpOptions = ''
       display_errors = 1
