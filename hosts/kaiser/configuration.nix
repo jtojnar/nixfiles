@@ -15,14 +15,13 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices = [
-    {
-      name = "root";
+  boot.initrd.luks.devices = {
+    root = {
       device = "/dev/disk/by-uuid/53c65a34-aef8-4a68-9485-b4415b202e03"; # Obtained using `blkid /dev/sda2`
       preLVM = true;
       allowDiscards = true;
-    }
-  ];
+    };
+  };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
