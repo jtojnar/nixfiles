@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if (( $# != 1 )); then
+    echo "usage: sman <page>"
+    exit 1
+fi
+
+page=$1
+man --where --all $page | fzf | xargs man
