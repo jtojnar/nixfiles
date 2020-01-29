@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   keys = import ../../keys.nix;
@@ -340,6 +340,10 @@ in {
       [org.gtk.settings.file-chooser]
       sort-directories-first=true
       location-mode='path-bar'
+
+      [org.gnome.desktop.input-sources]
+      sources=[('xkb', '${config.services.xserver.layout}${lib.optionalString (config.services.xserver.xkbVariant != "") "+" + config.services.xserver.xkbVariant}')]
+      xkb-options=['${config.services.xserver.xkbOptions}']
     '';
   };
 
