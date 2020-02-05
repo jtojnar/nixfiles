@@ -31,6 +31,11 @@
     virtualHosts = {
       localhost = {
         documentRoot = "/home/jtojnar/Projects";
+        extraConfig = ''
+          <Directory "/home/jtojnar/Projects">
+            AllowOverride All
+          </Directory>
+        '';
       };
     };
     enablePHP = true;
@@ -40,11 +45,7 @@
       error_reporting = E_ALL;
     '';
     extraConfig = ''
-      DirectoryIndex index.php
-      <Directory "/home/jtojnar/Projects">
-        Options Indexes FollowSymLinks
-        AllowOverride All
-      </Directory>
+      DirectoryIndex index.php index.html
     '';
   };
 }
