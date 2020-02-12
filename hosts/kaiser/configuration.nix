@@ -102,9 +102,9 @@ in {
     gcolor3
     gdb
     gimp
+    gitAndTools.gh
     gitAndTools.diff-so-fancy
     gitAndTools.git-bz
-    gitAndTools.git-hub
     gitAndTools.gitFull
     gitg
     git-auto-fixup
