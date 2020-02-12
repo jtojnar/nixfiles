@@ -5,6 +5,10 @@ let
 
   port = 5000;
 in {
+  imports = [
+    ../../../../common/modules/postgres.nix
+  ];
+
   services = {
     nginx = {
       enable = true;
@@ -26,24 +30,17 @@ in {
         };
       };
     };
-
-    postgresql = {
-      enable = true;
-      package = pkgs.postgresql_11;
-      extraPlugins = with pkgs.postgresql_11.pkgs; [
-        plv8
-      ];
-      authentication = lib.mkForce ''
-        local all postgres peer
-        local sameuser all peer
-      '';
-      ensureUsers = [
-        {
-          name = "pqe";
-        }
-      ];
-    };
   };
+
+  custom.postgresql.databases = [
+    {
+      database = "pqe";
+      extensions = [
+        "plv8"
+        "unaccent"
+      ];
+    }
+  ];
 
   systemd.services = {
     pqe = {
@@ -64,13 +61,6 @@ in {
         DATABASE_URL = "socket:/run/postgresql?db=pqe";
         PORT = toString port;
       };
-    };
-
-    postgresql = {
-      # TODO: allow ensureDatabases to set owner
-      postStart = ''
-        $PSQL -tAc "SELECT 1 FROM pg_database WHERE datname = 'pqe'" | grep -q 1 || $PSQL -tAc 'CREATE DATABASE "pqe" WITH OWNER = "pqe"'
-      '';
     };
   };
 
