@@ -1,0 +1,9 @@
+{
+  "url": "https://kolaente.dev/vikunja/frontend.git",
+  "rev": "683012f468fdbad4c92ff805ffa23a8168753975",
+  "date": "2020-02-18T19:11:25+01:00",
+  "sha256": "1lgdsrhpwjcj76yiwrf3h04wl2z7615qpp3axi4xzfn46ykgppjc",
+  "fetchSubmodules": false,
+  "deepClone": false,
+  "leaveDotGit": true
+}

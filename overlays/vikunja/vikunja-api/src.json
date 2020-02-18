@@ -1,0 +1,9 @@
+{
+  "url": "https://kolaente.dev/vikunja/api.git",
+  "rev": "1f039c4cda218089d6522b7acfcd4985b111c516",
+  "date": "2020-02-19T21:57:56+00:00",
+  "sha256": "0cnazq1kf00m8x0dqkh08yiz7k12dsvyaa1sn0m72va1f6ppr5cz",
+  "fetchSubmodules": false,
+  "deepClone": false,
+  "leaveDotGit": true
+}

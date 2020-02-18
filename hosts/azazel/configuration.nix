@@ -11,6 +11,7 @@ in {
     ./networking.nix
 
     # sites
+    ./ogion.cz
     ./rogaining.org
   ];
 
