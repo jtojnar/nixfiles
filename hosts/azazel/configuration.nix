@@ -30,6 +30,11 @@ in {
     };
   };
 
+  security.acme = {
+    email = "acme@ogion.cz";
+    acceptTerms = true;
+  };
+
   users = {
     users = {
       root = {
