@@ -8,12 +8,16 @@
 
     installPhase = ''
       mkdir -p $out/bin
-
+    '' + (if builtins.length path > 0 then ''
       makeWrapper \
         ${./. + "/utils/${script}"} \
         $out/bin/${name} \
         --prefix PATH : ${super.lib.makeBinPath path}
-    '';
+    '' else ''
+      cp \
+        ${./. + "/utils/${script}"} \
+        $out/bin/${name}
+    '');
   };
 in with super; {
   git-part-pick = mkUtil "git-part-pick" { path = [ fzf ]; };
