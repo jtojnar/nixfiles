@@ -1,5 +1,5 @@
 (self: super: let
-  mkUtil = name: path: super.stdenv.mkDerivation {
+  mkUtil = name: { path ? [], script ? name }: super.stdenv.mkDerivation {
     inherit name;
 
     buildInputs = [ super.makeWrapper ];
@@ -10,13 +10,13 @@
       mkdir -p $out/bin
 
       makeWrapper \
-        ${./. + "/utils/${name}"} \
+        ${./. + "/utils/${script}"} \
         $out/bin/${name} \
         --prefix PATH : ${super.lib.makeBinPath path}
     '';
   };
 in with super; {
-  git-part-pick = mkUtil "git-part-pick" [ fzf ];
-  git-auto-fixup = mkUtil "git-auto-fixup" [ ];
-  sman = mkUtil "sman" [ fzf ];
+  git-part-pick = mkUtil "git-part-pick" { path = [ fzf ]; };
+  git-auto-fixup = mkUtil "git-auto-fixup" { };
+  sman = mkUtil "sman" { path = [ fzf ]; };
 })
