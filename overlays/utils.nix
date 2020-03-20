@@ -22,5 +22,6 @@
 in with super; {
   git-part-pick = mkUtil "git-part-pick" { path = [ fzf ]; };
   git-auto-fixup = mkUtil "git-auto-fixup" { };
+  git-auto-squash = mkUtil "git-auto-squash" { script = "git-auto-fixup"; };
   sman = mkUtil "sman" { path = [ fzf ]; };
 })

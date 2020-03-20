@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
+if [[ $(basename "$0") = git-auto-squash ]]; then
+    command=--squash
+else
+    command=--fixup
+fi
+
 for f in $(git ls-files -m); do
     lastTouch=$(git log --format=%H -- "$f" | head -n 1)
     git add "$f"
-    git commit --fixup "$lastTouch"
+    git commit "$command" "$lastTouch"
 done
