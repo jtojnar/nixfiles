@@ -146,6 +146,7 @@ in {
     mypaint
     ncdu
     nixpkgs-fmt
+    nix-explore-closure-size
     onboard
     p7zip
     paprefs

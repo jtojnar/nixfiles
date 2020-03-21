@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if (( $# != 1 )); then
+    echo "usage: nix-explore-closure-size <store-path>"
+    exit 1
+fi
+
+store_path=$1
+
+until [[ -z $store_path ]]
+do
+    store_path=$(nix path-info --human-readable --closure-size $(nix-store --query --requisites "$store_path") | sort --key 2 --human-numeric-sort --reverse | fzf | cut --delimiter ' ' --field 1)
+done
