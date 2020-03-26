@@ -28,6 +28,27 @@ in {
       enable = true;
       passwordAuthentication = false;
     };
+
+    phpfpm = rec {
+      phpOptions = ''
+        display_startup_errors = On
+        display_errors = On
+        log_errors = On
+        upload_max_filesize = 20M
+        memory_limit = 256M
+        default_socket_timeout = 500
+        max_execution_time = 500
+        request_terminate_timeout = 500
+        post_max_size = 20M
+        error_reporting = E_ALL | E_STRICT
+        date.timezone = "Europe/Prague"
+      '';
+    };
+
+    postfix = {
+      enable = true;
+      domain = "mxproxy.ogion.cz";
+    };
   };
 
   security.acme = {

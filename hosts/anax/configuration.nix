@@ -103,98 +103,6 @@ in {
 			};
 			sslProtocols = "TLSv1.3 TLSv1.2";
 			virtualHosts = {
-				# ogion.cz
-				"ogion.cz" = mkVirtualHost {
-					acme = "ogion.cz";
-					path = "ogion.cz/www";
-				};
-				"www.ogion.cz" = mkVirtualHost {
-					acme = "ogion.cz";
-					redirect = "ogion.cz";
-				};
-				"tools.ogion.cz" = mkVirtualHost {
-					# acme = "ogion.cz";
-					path = "ogion.cz/tools";
-				};
-				"develop.ogion.cz" = mkVirtualHost {
-					# acme = "ogion.cz";
-					path = "ogion.cz/develop";
-				};
-				"mechmice.ogion.cz" = mkVirtualHost {
-					path = "ogion.cz/mechmice";
-					acme = "ogion.cz";
-					config = ''
-						index index.php;
-
-						location = /favicon.ico {
-							log_not_found off;
-							access_log off;
-						}
-
-						location = /robots.txt {
-							allow all;
-							log_not_found off;
-							access_log off;
-						}
-
-						location / {
-							# This is cool because no php is touched for static content.
-							# include the "?$args" part so non-default permalinks doesn't break when using query string
-							try_files $uri $uri/ /index.php?$args;
-						}
-
-						location ~ \.php$ {
-							#NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
-							fastcgi_intercept_errors on;
-							fastcgi_read_timeout 500;
-							${enablePHP "mechmice"}
-						}
-
-						location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
-							expires max;
-							log_not_found off;
-						}
-					'';
-				};
-				"mysql.ogion.cz" = mkVirtualHost {
-					acme = "ogion.cz";
-					path = "fan-club-penguin.cz/mysql";
-					config = ''
-						index index.php;
-
-						location / {
-							index index.php;
-							try_files $uri $uri/ /index.php?$args;
-						}
-
-						location ~ \.php$ {
-							${enablePHP "adminer"}
-							fastcgi_read_timeout 500;
-						}
-					'';
-				};
-				"reader.ogion.cz" = mkVirtualHost {
-					acme = "ogion.cz";
-					path = "ogion.cz/reader";
-					config = ''
-						location ~* \ (gif|jpg|png) {
-							expires 30d;
-						}
-						location ~ ^/(favicons|thumbnails)/.*$ {
-							try_files $uri /data/$uri;
-						}
-						location ~* ^/(data\/logs|data\/sqlite|config\.ini|\.ht) {
-							deny all;
-						}
-						location / {
-							index index.php;
-							try_files $uri /public/$uri /index.php$is_args$args;
-						}
-						location ~ \.php$ {
-							${enablePHP "reader"}
-						}
-					'';
-				};
 				# fan-club-penguin.cz
 				"fan-club-penguin.cz" = mkVirtualHost {
 					acme = "fan-club-penguin.cz";
@@ -619,20 +527,8 @@ in {
 				fcp = mkPhpPool {
 					user = "fcp";
 				};
-				reader = mkPhpPool {
-					user = "reader";
-					debug = true;
-				};
-				adminer = mkPhpPool {
-					user = "adminer";
-					debug = true;
-				};
 				entries = mkPhpPool {
 					user = "entries";
-					debug = true;
-				};
-				mechmice = mkPhpPool {
-					user = "mechmice";
 					debug = true;
 				};
 				rogaining-2019 = mkPhpPool {
@@ -648,11 +544,6 @@ in {
 					debug = true;
 				};
 			};
-		};
-
-		postfix = {
-			enable = true;
-			domain = "mxproxy.ogion.cz";
 		};
 
 		mysql = {
@@ -683,10 +574,6 @@ in {
 			'';
 		};
 	in {
-		"ogion.cz" = mkCert {
-			user = "nginx";
-			domains = [ "www.ogion.cz" "mechmice.ogion.cz" "mysql.ogion.cz" "reader.ogion.cz" ]; # "tools.ogion.cz" "develop.ogion.cz"
-		};
 		"fan-club-penguin.cz" = mkCert {
 			user = "fcp";
 			domains = ["www.fan-club-penguin.cz" "archiv.fan-club-penguin.cz" "beta.fan-club-penguin.cz" "cdn.fan-club-penguin.cz" "forum.fan-club-penguin.cz" "lisured.fan-club-penguin.cz" "mediacache.fan-club-penguin.cz" "preklady.fan-club-penguin.cz" "provider.fan-club-penguin.cz" "shout.fan-club-penguin.cz" "upload.fan-club-penguin.cz" ];
@@ -701,21 +588,12 @@ in {
 		};
 	};
 
-	systemd.services.selfoss-update = {
-		serviceConfig = {
-			ExecStart = "${pkgs.php}/bin/php /var/www/ogion.cz/reader/cliupdate.php";
-			User = "nginx";
-		};
-		startAt = "hourly";
-		wantedBy = [ "multi-user.target" ];
-	};
-
 	users = {
 		users = {
 			jtojnar = {
 				isNormalUser = true;
 				uid = 1000;
-				extraGroups = [ "wheel" "entries" "fcp" "reader" "adminer" "mechmice" "rogaining-2019" "entries-2019" ];
+				extraGroups = [ "wheel" "entries" "fcp" "rogaining-2019" "entries-2019" ];
 				openssh.authorizedKeys.keys = keys.jtojnar;
 				hashedPassword = "$6$yqXBTritxLsTNhy.$baY8JEagVyeBmpV6WCLY7nH4YH6YAjWiBPAvgF0zcVjYr7yagBmpZtmX/EFMedgxbCnU7l97SdG7EV6yfT.In/";
 			};
@@ -728,13 +606,10 @@ in {
 			};
 
 			nginx = {
-				extraGroups = [ "entries" "fcp" "reader" "adminer" "mechmice" "krk" "ostrov-tucnaku" "rogaining-2019" "entries-2019" ];
+				extraGroups = [ "entries" "fcp" "krk" "ostrov-tucnaku" "rogaining-2019" "entries-2019" ];
 			};
 
 			fcp = { uid = 500; group = "fcp"; isSystemUser = true; };
-			reader = { uid = 501; group = "reader"; isSystemUser = true; };
-			adminer = { uid = 502; group = "adminer"; isSystemUser = true; };
-			mechmice = { uid = 503; group = "mechmice"; isSystemUser = true; };
 			entries = { uid = 504; group = "entries"; isSystemUser = true; };
 			krk = { uid = 505; group = "krk"; isSystemUser = true; };
 			ostrov-tucnaku = { uid = 506; group = "ostrov-tucnaku"; isSystemUser = true; };
@@ -744,9 +619,6 @@ in {
 
 		groups = {
 			fcp = { gid = 500; };
-			reader = { gid = 501; };
-			adminer = { gid = 502; };
-			mechmice = { gid = 503; };
 			entries = { gid = 504; };
 			krk = { gid = 505; };
 			ostrov-tucnaku = { gid = 506; };
