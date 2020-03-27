@@ -12,6 +12,7 @@ in {
 
     # sites
     ./fan-club-penguin.cz
+    ./krk-litvinov.cz
     ./ogion.cz
     ./ostrov-tucnaku.cz
     ./rogaining.org
@@ -74,6 +75,12 @@ in {
         extraGroups = [ "wheel" ];
         openssh.authorizedKeys.keys = keys.jtojnar;
         hashedPassword = "$6$yqXBTritxLsTNhy.$baY8JEagVyeBmpV6WCLY7nH4YH6YAjWiBPAvgF0zcVjYr7yagBmpZtmX/EFMedgxbCnU7l97SdG7EV6yfT.In/";
+      };
+
+      tojnar = {
+        uid = 1001;
+        isNormalUser = true;
+        openssh.authorizedKeys.keys = keys.otec;
       };
     };
 
