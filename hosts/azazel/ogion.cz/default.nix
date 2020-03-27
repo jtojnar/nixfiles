@@ -30,7 +30,6 @@ in {
   services = {
     mysql = {
       enable = true;
-      package = pkgs.mariadb;
     };
 
     phpfpm = rec {

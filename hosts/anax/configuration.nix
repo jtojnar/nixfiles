@@ -103,274 +103,6 @@ in {
 			};
 			sslProtocols = "TLSv1.3 TLSv1.2";
 			virtualHosts = {
-				# fan-club-penguin.cz
-				"fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/www";
-					config = ''
-						index index.php index.html index.htm;
-
-						location /index {
-							rewrite ^/index\.php$ / redirect;
-						}
-
-						location /sitemap {
-							rewrite ^/sitemap\.xml$ /sitemap.php;
-						}
-
-						location /rss {
-							rewrite ^/rss\.xml$ /rss.php;
-						}
-
-						location = /search {
-							rewrite ^(.*)$ /search.php;
-						}
-
-						location / {
-							if (!-e $request_filename){
-								rewrite ^/(.+)\.html$ /?section=pages&page=$1;
-							}
-						}
-
-						location /page/ {
-							rewrite ^/page/show/(.+)$ /$1.html redirect;
-						}
-
-						location /post/ {
-							rewrite ^/post/rss$ /rss.xml redirect;
-							rewrite ^/post/([^/]+)$ /?section=posts&page=view&id=$1;
-							rewrite ^/post/([^/]+)/edit$ /?section=admin&page=postedit&id=$1;
-							rewrite ^/post/show/(\d+)$ /post/$1 redirect;
-						}
-
-						location /profile/ {
-							rewrite ^/profile/show/(\d+)$ /profile/$1 redirect;
-							rewrite ^/profile/(\d*)$ /?section=profile&page=view&id=$1;
-							rewrite ^/profile/(\d*)/(givestamps|mail)$ /?section=profile&page=$2&id=$1;
-						}
-
-						location /user/ {
-							rewrite ^/user/(logout|login|edit|register)$ /?section=user&page=$1;
-						}
-
-						location = /meeting {
-							rewrite ^(.*)$ /?section=meeting&page=list;
-						}
-
-						location /meeting {
-							rewrite ^/meeting/(new)$ /?section=meeting&page=$1;
-							rewrite ^/meeting/(\d*)/(delete|edit)$ /?section=meeting&page=$2&id=$1;
-						}
-
-						location = /profile {
-							rewrite ^(.*)$ /?section=profile&page=list;
-						}
-
-						location = /profile/me {
-							rewrite ^(.*)$ /?section=profile&page=me;
-						}
-
-						location = /mail {
-							rewrite ^(.*)$ /?section=mail&page=list;
-						}
-
-						location /mail/ {
-							rewrite ^/mail/(sent)$ /?section=mail&page=sent;
-							rewrite ^/mail/(\d*)$ /?section=mail&page=view&id=$1;
-							rewrite ^/mail/(\d*)/(reply)$ /?section=mail&page=$2&id=$1;
-							rewrite ^/mail/show/(\d+)$ /mail/$1 redirect;
-						}
-
-						location = /admin {
-							rewrite ^(.*)$ /?section=admin&page=panel;
-						}
-
-						location /admin/ {
-							rewrite ^/admin/(pagenew|pageedit|postnew|posts|pages|twitter|saturdaystamp)$ /?section=admin&page=$1;
-							rewrite ^/admin/(highlight|stats)$ /?section=admin&page=$1;
-						}
-
-						location ~ \.php$ {
-							${enablePHP "fcp"}
-						}
-					'';
-				};
-				"www.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					redirect = "fan-club-penguin.cz";
-				};
-				"archiv.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/archiv";
-					config = ''
-						index index.php;
-
-						location / {
-							try_files $uri $uri/ /index.php;
-						}
-
-						location ~ \.php$ {
-							${enablePHP "fcp"}
-						}
-					'';
-				};
-				"beta.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/@beta/www";
-					config = ''
-						index index.php;
-
-						if ($cookie_beta != "1") {
-							return 401;
-						}
-
-						location / {
-							try_files $uri $uri/ /index.php;
-						}
-
-						location ~ \.php$ {
-							${enablePHP "fcp"}
-						}
-					'';
-				};
-				"cdn.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/cdn";
-					config = ''
-						index index.php;
-
-						location ~ \.php$ {
-							${enablePHP "fcp"}
-						}
-					'';
-				};
-				"forum.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/forum";
-					config = ''
-						index index.php index.html index.htm;
-
-						location / {
-							# phpBB uses index.htm
-							index index.php index.html index.htm;
-							try_files $uri $uri/ @rewriteapp;
-						}
-
-						location @rewriteapp {
-							rewrite ^(.*)$ /app.php/$1 last;
-						}
-
-						# Deny access to internal phpbb files.
-						location ~ /(config\.php|common\.php|cache|files|images/avatars/upload|includes|phpbb|store|vendor) {
-							deny all;
-							# deny was ignored before 0.8.40 for connections over IPv6.
-							# Use internal directive to prohibit access on older versions.
-							internal;
-						}
-
-						# Pass the php scripts to fastcgi server specified in upstream declaration.
-						location ~ \.php(/|$) {
-							${enablePHP "fcp"}
-							fastcgi_split_path_info ^(.+\.php)(/.*)$;
-							try_files $uri $uri/ /app.php$is_args$args;
-						}
-
-						# Correctly pass scripts for installer
-						location /install/ {
-							# phpBB uses index.htm
-							try_files $uri $uri/ @rewrite_installapp;
-
-							# Pass the php scripts to fastcgi server specified in upstream declaration.
-							location ~ \.php(/|$) {
-								${enablePHP "fcp"}
-								fastcgi_split_path_info ^(.+\.php)(/.*)$;
-								try_files $uri $uri/ /install/app.php$is_args$args;
-								fastcgi_read_timeout 500;
-							}
-						}
-
-						location @rewrite_installapp {
-							rewrite ^(.*)$ /install/app.php/$1 last;
-						}
-
-						# Deny access to version control system directories.
-						location ~ /\.svn|/\.git {
-							deny all;
-							internal;
-						}
-					'';
-				};
-				"lisured.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/lisured";
-					config = ''
-						index index.php;
-
-						location ~ \.php$ {
-							${enablePHP "fcp"}
-						}
-					'';
-				};
-				"mediacache.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/mediacache";
-				};
-				"preklady.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/preklady";
-					config = ''
-						index index.php;
-
-						location / {
-							try_files $uri $uri/;
-						}
-
-						location /comic {
-							try_files $uri $uri/ /comic/index.php;
-						}
-
-						location ~ \.php$ {
-							${enablePHP "fcp"}
-						}
-					'';
-
-				};
-				"provider.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/provider";
-					config = ''
-						index index.php;
-
-						location ~ \.php$ {
-							${enablePHP "fcp"}
-						}
-					'';
-				};
-				"shout.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/shout";
-					config = ''
-						index index.php;
-
-						location ~ \.php$ {
-							${enablePHP "fcp"}
-						}
-					'';
-				};
-				"upload.fan-club-penguin.cz" = mkVirtualHost {
-					acme = "fan-club-penguin.cz";
-					path = "fan-club-penguin.cz/upload";
-					config = ''
-						location / {
-							if (!-e $request_filename){
-								rewrite ^(.+)$ /files/$1;
-							}
-							if (!-e $request_filename){
-								rewrite ^(.*)$ /index.php break;
-							}
-						}
-					'';
-				};
 				# krk-litvinov.cz
 				"agenda.krk-litvinov.cz" = mkVirtualHost {
 					# acme = "krk-litvinov.cz";
@@ -524,9 +256,6 @@ in {
 				date.timezone = "Europe/Prague"
 			'';
 			pools = {
-				fcp = mkPhpPool {
-					user = "fcp";
-				};
 				entries = mkPhpPool {
 					user = "entries";
 					debug = true;
@@ -574,10 +303,6 @@ in {
 			'';
 		};
 	in {
-		"fan-club-penguin.cz" = mkCert {
-			user = "fcp";
-			domains = ["www.fan-club-penguin.cz" "archiv.fan-club-penguin.cz" "beta.fan-club-penguin.cz" "cdn.fan-club-penguin.cz" "forum.fan-club-penguin.cz" "lisured.fan-club-penguin.cz" "mediacache.fan-club-penguin.cz" "preklady.fan-club-penguin.cz" "provider.fan-club-penguin.cz" "shout.fan-club-penguin.cz" "upload.fan-club-penguin.cz" ];
-		};
 		# "krk-litvinov.cz" = mkCert {
 		# 	user = "";
 		# 	domains = [ "bloudeni.krk-litvinov.cz" "entries.krk-litvinov.cz" ];
@@ -593,7 +318,7 @@ in {
 			jtojnar = {
 				isNormalUser = true;
 				uid = 1000;
-				extraGroups = [ "wheel" "entries" "fcp" "rogaining-2019" "entries-2019" ];
+				extraGroups = [ "wheel" "entries" "rogaining-2019" "entries-2019" ];
 				openssh.authorizedKeys.keys = keys.jtojnar;
 				hashedPassword = "$6$yqXBTritxLsTNhy.$baY8JEagVyeBmpV6WCLY7nH4YH6YAjWiBPAvgF0zcVjYr7yagBmpZtmX/EFMedgxbCnU7l97SdG7EV6yfT.In/";
 			};
@@ -606,10 +331,9 @@ in {
 			};
 
 			nginx = {
-				extraGroups = [ "entries" "fcp" "krk" "ostrov-tucnaku" "rogaining-2019" "entries-2019" ];
+				extraGroups = [ "entries" "krk" "ostrov-tucnaku" "rogaining-2019" "entries-2019" ];
 			};
 
-			fcp = { uid = 500; group = "fcp"; isSystemUser = true; };
 			entries = { uid = 504; group = "entries"; isSystemUser = true; };
 			krk = { uid = 505; group = "krk"; isSystemUser = true; };
 			ostrov-tucnaku = { uid = 506; group = "ostrov-tucnaku"; isSystemUser = true; };
@@ -618,7 +342,6 @@ in {
 		};
 
 		groups = {
-			fcp = { gid = 500; };
 			entries = { gid = 504; };
 			krk = { gid = 505; };
 			ostrov-tucnaku = { gid = 506; };

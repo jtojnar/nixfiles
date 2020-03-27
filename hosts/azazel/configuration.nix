@@ -11,6 +11,7 @@ in {
     ./networking.nix
 
     # sites
+    ./fan-club-penguin.cz
     ./ogion.cz
     ./rogaining.org
   ];
@@ -24,6 +25,10 @@ in {
   };
 
   services = {
+    mysql = {
+      package = pkgs.mariadb;
+    };
+
     openssh = {
       enable = true;
       passwordAuthentication = false;
