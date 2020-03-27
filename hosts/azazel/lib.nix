@@ -14,24 +14,22 @@
     extraConfig = config;
   };
   mkPhpPool = { user, debug ? false }: {
-    listen = "/var/run/phpfpm/${user}.sock";
     inherit user;
-    extraConfig = ''
-      listen.owner = nginx
-      listen.group = root
-      pm = dynamic
-      pm.max_children = 5
-      pm.start_servers = 2
-      pm.min_spare_servers = 1
-      pm.max_spare_servers = 3
-      ${lib.optionalString debug ''
-        ; log worker's stdout, but this has a performance hit
-        catch_workers_output = yes
-      ''}
-    '';
+    settings = {
+      "listen.owner" = "nginx";
+      "listen.group" = "root";
+      "pm" = "dynamic";
+      "pm.max_children" = 5;
+      "pm.start_servers" = 2;
+      "pm.min_spare_servers" = 1;
+      "pm.max_spare_servers" = 3;
+    } // (lib.optionalAttrs debug {
+      # log worker's stdout, but this has a performance hit
+      "catch_workers_output" = true;
+    });
   };
   enablePHP = sockName: ''
-    fastcgi_pass unix:/var/run/phpfpm/${sockName}.sock;
+    fastcgi_pass unix:${config.services.phpfpm.pools.${sockName}.socket};
     include ${config.services.nginx.package}/conf/fastcgi.conf;
     fastcgi_param PATH_INFO $fastcgi_path_info;
     fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
