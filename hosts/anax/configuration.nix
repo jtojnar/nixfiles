@@ -204,37 +204,6 @@ in {
 						location = /favicon.ico { access_log off; log_not_found off; }
 					'';
 				};
-				# ostrov-tucnaku.cz
-				"ostrov-tucnaku.cz" = mkVirtualHost {
-					path = "ostrov-tucnaku.cz/www/public";
-					acme = "ostrov-tucnaku.cz";
-					config = ''
-						location ~* \.php$ {
-							${enablePHP "ostrov-tucnaku"}
-						}
-
-						index index.html index.htm index.php;
-
-						include /var/www/ostrov-tucnaku.cz/www/.nginx.conf;
-
-						client_max_body_size 10M;
-					'';
-				};
-				"www.ostrov-tucnaku.cz" = mkVirtualHost {
-					acme = "ostrov-tucnaku.cz";
-					redirect = "ostrov-tucnaku.cz";
-				};
-				"obrazky.ostrov-tucnaku.cz" = mkVirtualHost {
-					path = "ostrov-tucnaku.cz/obrazky";
-					acme = "ostrov-tucnaku.cz";
-					config = ''
-						location ~* \.(css|js|gif|jpe?g|png)$ {
-							expires 1M;
-							add_header Pragma public;
-							add_header Cache-Control "public, must-revalidate, proxy-revalidate";
-						}
-					'';
-				};
 			};
 
 		};
@@ -266,10 +235,6 @@ in {
 				};
 				entries-2019 = mkPhpPool {
 					user = "entries-2019";
-					debug = true;
-				};
-				ostrov-tucnaku = mkPhpPool {
-					user = "ostrov-tucnaku";
 					debug = true;
 				};
 			};
@@ -307,10 +272,6 @@ in {
 		# 	user = "";
 		# 	domains = [ "bloudeni.krk-litvinov.cz" "entries.krk-litvinov.cz" ];
 		# };
-		"ostrov-tucnaku.cz" = mkCert {
-			user = "ostrov-tucnaku";
-			domains = [ "obrazky.ostrov-tucnaku.cz" ];
-		};
 	};
 
 	users = {
@@ -331,12 +292,11 @@ in {
 			};
 
 			nginx = {
-				extraGroups = [ "entries" "krk" "ostrov-tucnaku" "rogaining-2019" "entries-2019" ];
+				extraGroups = [ "entries" "krk" "rogaining-2019" "entries-2019" ];
 			};
 
 			entries = { uid = 504; group = "entries"; isSystemUser = true; };
 			krk = { uid = 505; group = "krk"; isSystemUser = true; };
-			ostrov-tucnaku = { uid = 506; group = "ostrov-tucnaku"; isSystemUser = true; };
 			rogaining-2019 = { uid = 507; group = "rogaining-2019"; isSystemUser = true; };
 			entries-2019 = { uid = 508; group = "entries-2019"; isSystemUser = true; };
 		};
@@ -344,7 +304,6 @@ in {
 		groups = {
 			entries = { gid = 504; };
 			krk = { gid = 505; };
-			ostrov-tucnaku = { gid = 506; };
 			rogaining-2019 = { gid = 507; };
 			entries-2019 = { gid = 508; };
 		};

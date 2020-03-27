@@ -13,6 +13,7 @@ in {
     # sites
     ./fan-club-penguin.cz
     ./ogion.cz
+    ./ostrov-tucnaku.cz
     ./rogaining.org
   ];
 
