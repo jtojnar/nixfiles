@@ -37,7 +37,7 @@ in {
   systemd.services.selfoss-update = {
     serviceConfig = {
       ExecStart = "${pkgs.php}/bin/php /var/www/ogion.cz/reader/cliupdate.php";
-      User = "nginx";
+      User = "reader";
     };
     startAt = "hourly";
     wantedBy = [ "multi-user.target" ];
