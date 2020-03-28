@@ -14,7 +14,6 @@ in {
 
   security.acme.certs = {
     # "krk-litvinov.cz" = mkCert {
-    #   user = "";
     #   domains = [
     #     "bloudeni.krk-litvinov.cz"
     #     "entries.krk-litvinov.cz"

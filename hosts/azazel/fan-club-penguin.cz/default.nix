@@ -19,7 +19,6 @@ in {
 
   security.acme.certs = {
     "fan-club-penguin.cz" = mkCert {
-      user = "fcp";
       domains = [
         "www.fan-club-penguin.cz"
         "archiv.fan-club-penguin.cz"

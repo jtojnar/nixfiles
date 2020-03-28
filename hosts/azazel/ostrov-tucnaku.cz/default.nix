@@ -10,7 +10,6 @@ in {
 
   security.acme.certs = {
     "ostrov-tucnaku.cz" = mkCert {
-      user = "ostrov-tucnaku";
       domains = [ "obrazky.ostrov-tucnaku.cz" ];
     };
   };

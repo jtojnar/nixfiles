@@ -15,7 +15,6 @@ in {
 
   security.acme.certs = {
     "ogion.cz" = mkCert {
-      user = "nginx";
       domains = [
         "www.ogion.cz"
         # "develop.ogion.cz"

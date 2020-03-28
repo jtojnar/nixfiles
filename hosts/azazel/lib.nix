@@ -34,9 +34,9 @@
     fastcgi_param PATH_INFO $fastcgi_path_info;
     fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
   '';
-  mkCert = { user, domains }: {
-    user = user;
-    group = user;
+  mkCert = { domains }: {
+    user = config.users.users.nginx.name;
+    group = config.users.groups.nginx.name;
     allowKeysForGroup = true;
     webroot = "/var/lib/acme/acme-challenge";
     extraDomains = builtins.listToAttrs (map (d: {name = d; value = null;}) domains);
