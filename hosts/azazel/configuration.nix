@@ -29,6 +29,16 @@ in {
   services = {
     mysql = {
       package = pkgs.mariadb;
+
+      settings = {
+        "mariadb" = {
+          # TODO: remove after upgrading 10.4.3
+          "unix_socket" = "ON";
+          "plugin_load_add" = [
+            "auth_socket"
+          ];
+        };
+      };
     };
 
     openssh = {
