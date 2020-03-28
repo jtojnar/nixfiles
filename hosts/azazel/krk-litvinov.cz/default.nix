@@ -25,6 +25,24 @@ in {
   services = {
     mysql = {
       enable = true;
+
+      ensureDatabases = [
+        "entries"
+        "entries-2019"
+        "rogaining-2019"
+      ];
+      ensureUsers = [
+        { name = "entries"; ensurePermissions = { "entries.*" = "ALL PRIVILEGES"; }; }
+        { name = "entries-2019"; ensurePermissions = { "\\`entries-2019\\`.*" = "ALL PRIVILEGES"; }; }
+        { name = "rogaining-2019"; ensurePermissions = { "\\`rogaining-2019\\`.*" = "ALL PRIVILEGES"; }; }
+        {
+          name = "tojnar";
+          ensurePermissions = {
+            "entries.*" = "DELETE, INSERT, SELECT, UPDATE";
+            "\\`entries-2019\\`.*" = "DELETE, INSERT, SELECT, UPDATE";
+          };
+        }
+      ];
     };
 
     phpfpm = rec {

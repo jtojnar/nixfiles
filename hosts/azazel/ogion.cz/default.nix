@@ -30,6 +30,13 @@ in {
   services = {
     mysql = {
       enable = true;
+
+      ensureDatabases = [
+        "mechmice"
+      ];
+      ensureUsers = [
+        { name = "mechmice"; ensurePermissions = { "mechmice.*" = "ALL PRIVILEGES"; }; }
+      ];
     };
 
     phpfpm = rec {

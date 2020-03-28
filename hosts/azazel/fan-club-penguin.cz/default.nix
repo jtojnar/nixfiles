@@ -39,6 +39,15 @@ in {
   services = {
     mysql = {
       enable = true;
+
+      ensureDatabases = [
+        "cpforum"
+        "fcp"
+      ];
+      ensureUsers = [
+        { name = "cpforum"; ensurePermissions = { "cpforum.*" = "ALL PRIVILEGES"; }; }
+        { name = "fcp"; ensurePermissions = { "fcp.*" = "ALL PRIVILEGES"; }; }
+      ];
     };
 
     phpfpm = rec {

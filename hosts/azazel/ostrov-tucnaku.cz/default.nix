@@ -18,6 +18,13 @@ in {
   services = {
     mysql = {
       enable = true;
+
+      ensureDatabases = [
+        "ostrov-tucnaku"
+      ];
+      ensureUsers = [
+        { name = "ostrov-tucnaku"; ensurePermissions = { "\\`ostrov-tucnaku\\`.*" = "ALL PRIVILEGES"; }; }
+      ];
     };
 
     phpfpm = rec {
