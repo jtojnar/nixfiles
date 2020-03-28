@@ -19,7 +19,13 @@ in {
   ];
 
   environment.systemPackages = with pkgs; [
-    vim
+    file
+    gitAndTools.diff-so-fancy
+    gitAndTools.gitFull
+    moreutils # isutf8
+    ncdu
+    ripgrep
+    tldr
   ];
 
   programs = {
