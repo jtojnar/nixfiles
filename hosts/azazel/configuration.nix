@@ -28,6 +28,8 @@ in {
     tldr
   ];
 
+  environment.noXlibs = false;
+
   programs = {
     fish.enable = true;
   };
