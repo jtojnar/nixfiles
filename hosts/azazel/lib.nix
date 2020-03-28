@@ -41,7 +41,7 @@
     webroot = "/var/lib/acme/acme-challenge";
     extraDomains = builtins.listToAttrs (map (d: {name = d; value = null;}) domains);
     postRun = ''
-      systemctl reload nginx
+      systemctl reload nginx || true
     '';
   };
 }
