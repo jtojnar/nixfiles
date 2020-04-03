@@ -84,6 +84,7 @@ in {
     cawbird
     chromium
     common-updater-scripts
+    curlFull
     deadbeef-with-plugins
     deja-dup
     dfeet
