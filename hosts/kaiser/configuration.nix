@@ -74,6 +74,8 @@ in {
       };
     };
     bluetooth.enable = true;
+
+    cpu.intel.updateMicrocode = true;
   };
 
   environment.systemPackages = with pkgs; [
