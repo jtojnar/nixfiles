@@ -154,7 +154,6 @@ in {
     nixpkgs-fmt
     nix-explore-closure-size
     onboard
-    p7zip
     paprefs
     patchelf
     patchutils # for filterdiff
