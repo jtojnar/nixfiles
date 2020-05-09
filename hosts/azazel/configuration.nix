@@ -113,6 +113,8 @@ in {
     443
   ];
 
+  services.fail2ban.enable = true;
+
   time.timeZone = "Europe/Prague";
 
   documentation.enable = true;
