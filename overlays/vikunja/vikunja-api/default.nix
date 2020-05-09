@@ -8,12 +8,12 @@
 buildGoModule rec {
   name = "vikunja-api";
 
-  src = lib.pipe ./src.json [
-    builtins.readFile
-    builtins.fromJSON
-    (s: { inherit (s) url rev sha256 leaveDotGit; })
-    fetchgit
-  ];
+  src = fetchgit {
+    url = "https://kolaente.dev/vikunja/api.git";
+    rev = "8ac158cdb4957bdbb34c4b9eab46447596906884";
+    hash = "sha256-YBE9QdLkCUEwa+R716g/ix1JaVw63qloO5wuFxgBqv8=";
+    leaveDotGit = true;
+  };
 
   nativeBuildInputs = [
     git
@@ -23,7 +23,7 @@ buildGoModule rec {
     make generate
   '';
 
-  modSha256 = "sha256-uHMjaJiJaUYv3jquKeSCeBLdF3EdsQ5a2CpOmd9iDYA=";
+  modSha256 = "sha256-ad9jafZ8Nxeb6MbyKy0OdKYfNGeriwrWFm+RWPUp4DI=";
 
   passthru = {
     updateScript = ./update.py;
