@@ -11,7 +11,7 @@ buildGoModule rec {
   src = lib.pipe ./src.json [
     builtins.readFile
     builtins.fromJSON
-    (s: builtins.removeAttrs s [ "date" ])
+    (s: { inherit (s) url rev sha256 leaveDotGit; })
     fetchgit
   ];
 
@@ -23,7 +23,7 @@ buildGoModule rec {
     make generate
   '';
 
-  modSha256 = "sha256-J/4Bpgjz7+oP82m8IaYn1CZGc7P3SH3A0nWPLM+Aw8U=";
+  modSha256 = "sha256-uHMjaJiJaUYv3jquKeSCeBLdF3EdsQ5a2CpOmd9iDYA=";
 
   passthru = {
     updateScript = ./update.py;

@@ -5,14 +5,14 @@
 , python2
 , nodejs
 , yarn
-, apiBase ? "/api/v1/"
+, apiBase ? "/api/v1"
 }:
 
 let
   src = lib.pipe ./src.json [
     builtins.readFile
     builtins.fromJSON
-    (s: builtins.removeAttrs s [ "date" ])
+    (s: { inherit (s) url rev sha256; })
     fetchgit
   ];
 
@@ -40,7 +40,7 @@ let
 
     preInstall = ''
       # for some reason the two node_modules have non-overlapping contents
-      cp -r deps/vikunja-frontend/node_modules/core-js/ node_modules/
+      cp -r deps/vikunja-frontend/node_modules/* node_modules/
       chmod -R a+w node_modules/
     '';
 
@@ -59,9 +59,9 @@ in stdenv.mkDerivation {
   buildPhase = ''
     # Cannot use symlink or postcss-loader will crap out
     cp -r ${frontend-modules}/libexec/vikunja-frontend/node_modules/ .
-    # Unfortunately, this needs to be hardcoded at build.
-    sed -i 's#http://localhost:8080/api/v1/#${apiBase}#g' public/config.json
     yarn run build
+    # Unfortunately, this needs to be hardcoded at build.
+    sed -i 's#http://localhost:3456/api/v1#${apiBase}#g' dist/index.html
   '';
 
   installPhase = ''
@@ -70,6 +70,7 @@ in stdenv.mkDerivation {
 
   passthru = {
     updateScript = ./update.py;
+    inherit frontend-modules;
     maintainers = with lib.maintainers; [ jtojnar ];
   };
 }
