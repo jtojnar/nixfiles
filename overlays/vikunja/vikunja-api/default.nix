@@ -10,8 +10,8 @@ buildGoModule rec {
 
   src = fetchgit {
     url = "https://kolaente.dev/vikunja/api.git";
-    rev = "8ac158cdb4957bdbb34c4b9eab46447596906884";
-    hash = "sha256-YBE9QdLkCUEwa+R716g/ix1JaVw63qloO5wuFxgBqv8=";
+    rev = "91a3b7aba2f0b99a1e8131ff5f7bf88d535c1cf5";
+    sha256 = "sha256-RW1wcLptQZwD6pGR+iGRCWw2zXN8T8Q6SgTtCCbixnM=";
     leaveDotGit = true;
   };
 
@@ -23,7 +23,7 @@ buildGoModule rec {
     make generate
   '';
 
-  modSha256 = "sha256-ad9jafZ8Nxeb6MbyKy0OdKYfNGeriwrWFm+RWPUp4DI=";
+  modSha256 = "sha256-7RA35lIbGZ/IjNOLqRNMdlzppHlhA5xlUPUzjuZ09MA=";
 
   passthru = {
     updateScript = ./update.py;

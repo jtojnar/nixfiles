@@ -3,6 +3,8 @@
 , mkYarnPackage
 , fetchgit
 , python2
+, pkg-config
+, libsass
 , nodejs
 , yarn
 , apiBase ? "/api/v1"
@@ -31,9 +33,11 @@ let
 
     pkgConfig = {
       node-sass = {
-        buildInputs = [ python2 ];
+        buildInputs = [ python2 pkg-config libsass ];
+        # https://github.com/moretea/yarn2nix/issues/12#issuecomment-545084619
         postInstall = ''
-          yarn --offline run build
+          LIBSASS_EXT=auto yarn --offline run build
+          rm build/config.gypi
         '';
       };
     };
@@ -59,7 +63,7 @@ in stdenv.mkDerivation {
   buildPhase = ''
     # Cannot use symlink or postcss-loader will crap out
     cp -r ${frontend-modules}/libexec/vikunja-frontend/node_modules/ .
-    yarn run build
+    yarn --offline run build
     # Unfortunately, this needs to be hardcoded at build.
     sed -i 's#http://localhost:3456/api/v1#${apiBase}#g' dist/index.html
   '';
