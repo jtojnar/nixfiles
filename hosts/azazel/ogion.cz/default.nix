@@ -40,10 +40,6 @@ in {
 
     phpfpm = rec {
       pools = {
-        reader = mkPhpPool {
-          user = "reader";
-          debug = true;
-        };
         adminer = mkPhpPool {
           user = "adminer";
           debug = true;

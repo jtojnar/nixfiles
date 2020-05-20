@@ -20,6 +20,9 @@ stdenv.mkDerivation rec {
   installPhase = ''
     runHook preInstall
 
+    # Enable debug mode.
+    substituteInPlace src/common.php --replace "\$f3->set('DEBUG', 0);" "\$f3->set('DEBUG', 1);"
+
     cp -r . $out
 
     runHook postInstall

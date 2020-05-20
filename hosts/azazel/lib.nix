@@ -1,5 +1,5 @@
 { config, lib, ... }: {
-  mkVirtualHost = { path ? null, config ? "", acme ? null, redirect ? null }:
+  mkVirtualHost = { path ? null, config ? "", acme ? null, redirect ? null, ... }@args:
   (if lib.isString acme then {
     useACMEHost = acme;
     forceSSL = true;
@@ -12,8 +12,8 @@
     root = "/var/www/" + path;
   } else {}) // {
     extraConfig = config;
-  };
-  mkPhpPool = { user, debug ? false }: {
+  } // builtins.removeAttrs args [ "path" "config" "acme" "redirect" ];
+  mkPhpPool = { user, debug ? false, settings ? {}, ... }@args: {
     inherit user;
     settings = {
       "listen.owner" = "nginx";
@@ -26,8 +26,8 @@
     } // (lib.optionalAttrs debug {
       # log worker's stdout, but this has a performance hit
       "catch_workers_output" = true;
-    });
-  };
+    } // settings);
+  } // builtins.removeAttrs args [ "user" "debug" "settings" ];
   enablePHP = sockName: ''
     fastcgi_pass unix:${config.services.phpfpm.pools.${sockName}.socket};
     include ${config.services.nginx.package}/conf/fastcgi.conf;
