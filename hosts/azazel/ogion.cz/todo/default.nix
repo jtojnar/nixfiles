@@ -5,10 +5,6 @@ let
 
   inherit (pkgs) vikunja-frontend vikunja-api;
 in {
-  imports = [
-    ../../../../common/modules/postgres.nix
-  ];
-
   services = {
     nginx = {
       enable = true;

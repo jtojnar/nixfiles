@@ -15,9 +15,6 @@
 
   services.mysql = {
     enable = true;
-    initialDatabases = [
-      { name = "entries"; schema = /home/jtojnar/Projects/entries/install.sql; }
-    ];
     package = pkgs.mariadb;
   };
 

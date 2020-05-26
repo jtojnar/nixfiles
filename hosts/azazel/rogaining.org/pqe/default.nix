@@ -5,10 +5,6 @@ let
 
   port = 5000;
 in {
-  imports = [
-    ../../../../common/modules/postgres.nix
-  ];
-
   services = {
     nginx = {
       enable = true;

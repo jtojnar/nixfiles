@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ...}:
+{ config, inputs, pkgs, lib, ...}:
 
 let
   nameservers = [
@@ -35,7 +35,7 @@ in
       ${config.nix.package.out}/bin/nix-env -p /nix/var/nix/profiles/system --set /run/current-system
     '';
 
-  system.build.tarball = import <nixpkgs/nixos/lib/make-system-tarball.nix> {
+  system.build.tarball = import "${inputs.nixpkgs}/nixos/lib/make-system-tarball.nix" {
     inherit (pkgs) stdenv closureInfo pixz;
     compressCommand = "gzip";
     compressionExtension = ".gz";

@@ -1,12 +1,11 @@
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 
 let
   keys = import ../../keys.nix;
 in {
   imports = [
-    <nixpkgs/nixos/modules/profiles/minimal.nix>
-    <nixpkgs/nixos/modules/virtualisation/container-config.nix>
-    <nixpkgs/nixos/modules/installer/cd-dvd/channel.nix>
+    "${inputs.nixpkgs}/nixos/modules/profiles/minimal.nix"
+    "${inputs.nixpkgs}/nixos/modules/virtualisation/container-config.nix"
     ./build.nix
     ./networking.nix
 
@@ -103,10 +102,7 @@ in {
     };
 
     defaultUserShell = pkgs.fish;
-    mutableUsers = false;
   };
-
-  networking.hostName = "azazel";
 
   networking.firewall.allowedTCPPorts = [
     80
@@ -121,8 +117,4 @@ in {
   documentation.nixos.enable = true;
 
   system.stateVersion = "18.09";
-
-  nixpkgs.overlays = [
-    (import ../../common/pkgs)
-  ];
 }

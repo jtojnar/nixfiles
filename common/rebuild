@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import platform
+
+def main(args):
+    sudo = ['sudo', '--preserve-env']
+
+    nix_args = ['--print-build-logs']
+    if args.nixpkgs:
+        nix_args += ['--override-input', 'nixpkgs', args.nixpkgs, '--no-write-lock-file']
+    if args.keep_going:
+        nix_args += ['--keep-going']
+
+    path = os.getcwd()
+    attr = f'{path}#nixosConfigurations.{args.hostname}.config.system.build.toplevel'
+
+    nix_shell = ['nix', 'shell'] + nix_args + [attr] + ['-c'] + sudo + ['switch-to-configuration', f'{args.action}']
+
+    os.execvp(nix_shell[0], nix_shell)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Rebuild system')
+    parser.add_argument('--nixpkgs', dest='nixpkgs', help='Override the nixpkgs flake input with this path', nargs='?')
+    parser.add_argument('--keep-going', '-k', dest='keep_going', action='store_true', help='Do not stop after first failure')
+    parser.add_argument('hostname', help='Host whose configuration should we rebuild', nargs='?', default=platform.node())
+    parser.add_argument('action', choices=['switch', 'boot', 'test'])
+
+    args = parser.parse_args()
+
+    main(args)
