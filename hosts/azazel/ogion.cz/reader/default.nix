@@ -83,8 +83,4 @@ in {
     startAt = "hourly";
     wantedBy = [ "multi-user.target" ];
   };
-
-  nixpkgs.overlays = [
-    (import ../../../../overlays/selfoss)
-  ];
 }

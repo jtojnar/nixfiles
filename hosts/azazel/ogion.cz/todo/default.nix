@@ -83,8 +83,4 @@ in {
       };
     };
   };
-
-  nixpkgs.overlays = [
-    (import ../../../../overlays/vikunja)
-  ];
 }

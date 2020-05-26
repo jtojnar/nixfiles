@@ -121,4 +121,8 @@ in {
   documentation.nixos.enable = true;
 
   system.stateVersion = "18.09";
+
+  nixpkgs.overlays = [
+    (import ../../common/pkgs)
+  ];
 }

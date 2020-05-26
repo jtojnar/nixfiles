@@ -398,8 +398,8 @@ in {
     };
 
     overlays = [
-      (import ../../overlays/debugging.nix)
-      (import ../../overlays/utils.nix)
+      (import ../../common/overlays/debugging)
+      (import ../../common/pkgs)
 
       (self: super: {
         deadbeef-with-plugins = super.deadbeef-with-plugins.override {
