@@ -384,7 +384,7 @@ in {
     jtojnar = {
       isNormalUser = true;
       uid = 1000;
-      extraGroups = [ "wheel" "networkmanager" "wireshark" "docker" "vboxusers" ];
+      extraGroups = [ "wheel" "networkmanager" "wireshark" "docker" "kvm" "vboxusers" ];
       useDefaultShell = true;
       openssh.authorizedKeys.keys = keys.jtojnar;
       passwordFile = "/etc/nixos/passwd/jtojnar";
