@@ -91,7 +91,13 @@ in {
     chromium
     common-updater-scripts
     curlFull
-    deadbeef-with-plugins
+    (deadbeef-with-plugins.override {
+      plugins = with deadbeefPlugins; [
+        headerbar-gtk3
+        lyricbar
+        mpris2
+      ];
+    })
     deja-dup
     dfeet
     diffoscope
@@ -402,10 +408,6 @@ in {
       (import ../../common/pkgs)
 
       (self: super: {
-        deadbeef-with-plugins = super.deadbeef-with-plugins.override {
-          plugins = with super.deadbeefPlugins; [ headerbar-gtk3 lyricbar mpris2 ];
-        };
-
         reflection_by_yuumei = super.fetchurl {
           url = "https://orig00.deviantart.net/0054/f/2015/129/b/9/reflection_by_yuumei-d8sqdu2.jpg";
           sha256 = "0f0vlmdj5wcsn20qg79ir5cmpmz5pysypw6a711dbaz2r9x1c79l";
