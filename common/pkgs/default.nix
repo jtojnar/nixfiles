@@ -1,11 +1,11 @@
-self: super: {
-  selfoss = super.callPackage ./selfoss {};
+final: prev: {
+  selfoss = prev.callPackage ./selfoss {};
 
-  vikunja-api = super.callPackage ./vikunja/vikunja-api {};
+  vikunja-api = prev.callPackage ./vikunja/vikunja-api {};
 
-  vikunja-frontend = super.callPackage ./vikunja/vikunja-frontend {};
+  vikunja-frontend = prev.callPackage ./vikunja/vikunja-frontend {};
 
-  inherit (super.callPackages ./utils {})
+  inherit (prev.callPackages ./utils {})
     git-part-pick
     git-auto-fixup
     git-auto-squash
