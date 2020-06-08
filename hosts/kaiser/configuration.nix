@@ -28,6 +28,10 @@ in {
     "boot.shell_on_fail"
   ];
 
+  # Sony Vaio keyboard not working after suspend
+  # https://discourse.nixos.org/t/keyboard-touchpad-do-not-wake-after-closing-laptop-lid/7565/6
+  powerManagement.resumeCommands = "${pkgs.kmod}/bin/rmmod atkbd; ${pkgs.kmod}/bin/modprobe atkbd reset=1";
+
   boot.kernel.sysctl = {
     # Note that inotify watches consume 1kB on 64-bit machines.
     "fs.inotify.max_user_watches" = 1048576; # default: 8192
