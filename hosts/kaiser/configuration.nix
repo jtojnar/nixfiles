@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, inputs, pkgs, lib, ... }:
 
 let
   keys = import ../../keys.nix;
@@ -6,6 +6,7 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    inputs.self.nixosModules.profiles.virt
     ./development/web.nix
   ];
 
