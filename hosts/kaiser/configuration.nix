@@ -2,6 +2,8 @@
 
 let
   keys = import ../../keys.nix;
+
+  userData = import ../../common/data/users.nix;
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -378,6 +380,66 @@ in {
       "" # unset
       "%t/gnupg/${builtins.readFile socketDir}/S.gpg-agent"
     ];
+  };
+
+  environment.etc = {
+    "gitconfig".text = ''
+      [user]
+        name = ${userData.jtojnar.name}
+        email = ${userData.jtojnar.email}
+        signingkey = ${userData.jtojnar.gpg}
+
+      [push]
+        default = current
+        followTags = true
+
+      [pull]
+        ff = only
+
+      [core]
+        eol = lf
+        autocrlf = false
+        pager = diff-so-fancy | less --tabs=4 -RFX
+        # allow using markdown headings in commit messages
+        commentChar = ";"
+
+      [commit]
+        gpgsign = true
+
+      [gpg]
+        program = gpg
+
+      # colour scheme for diff-so-fancy & co.
+      # https://github.com/so-fancy/diff-so-fancy#improved-colors-for-the-highlighted-bits
+      [color]
+        ui = true
+      [color "diff-highlight"]
+        oldNormal = red bold
+        oldHighlight = red bold 52
+        newNormal = green bold
+        newHighlight = green bold 22
+      [color "diff"]
+        meta = 227
+        frag = magenta bold
+        commit = 227 bold
+        old = red bold
+        new = green bold
+        whitespace = red reverse
+
+      [sendemail]
+        smtpEncryption = tls
+        smtpServer = smtp.gmail.com
+        smtpUser = ${userData.jtojnar.email}
+        smtpServerPort = 587
+
+      [credential]
+        helper = libsecret
+
+      # redirect HTTP URIs to only have to configure SSH auth
+      [url "git@github.com:"]
+        insteadOf = http://github.com/
+        insteadOf = https://github.com/
+    '';
   };
 
   # Define a user account. Don’t forget to set a password with ‘passwd’.
