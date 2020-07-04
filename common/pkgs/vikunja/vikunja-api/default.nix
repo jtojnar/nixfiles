@@ -10,8 +10,8 @@ buildGoModule rec {
 
   src = fetchgit {
     url = "https://kolaente.dev/vikunja/api.git";
-    rev = "cc47d11792079e1abd0d997c898607b023efb196";
-    sha256 = "sha256-DbG9ou6sL6Q4AsjRss1Ltxufgy+2dAjWfBm0sbrmRdA=";
+    rev = "158d98c2bdc93026da15f775daec895c991c5168";
+    sha256 = "sha256-RIYu7sJHUU4FctQMcmktDLcXKVN+orXmb6fnaEH0pPQ=";
     leaveDotGit = true;
   };
 
@@ -20,11 +20,13 @@ buildGoModule rec {
   ];
 
   preBuild = ''
+    # GOFLAGS defined in the Makefile takes precedence over the environment variable so we need to pass them different way.
+    export EXTRA_GOFLAGS="$GOFLAGS"
     make generate
   '';
 
   deleteVendor = true;
-  vendorSha256 = "sha256-FD/g6Vv8+Zv+gSbg1kqrCQQ7JJ4nTAiD7Vzt7GIbAdc=";
+  vendorSha256 = "sha256-BecxQY7g+n57Slj28vMyI5JREl6AlLcdgZJWuGAdvzg=";
 
   passthru = {
     updateScript = ./update.py;
