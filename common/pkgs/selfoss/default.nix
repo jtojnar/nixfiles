@@ -33,7 +33,10 @@ stdenv.mkDerivation rec {
   };
 
   meta = {
-    license = lib.licenses.gpl3Plus;
+    description = "Multipurpose RSS reader and aggregation web app";
+    homepage = "https://selfoss.aditu.de";
+    license = lib.licenses.gpl3;
     maintainers = with lib.maintainers; [ jtojnar ];
+    platforms = lib.platforms.all;
   };
 }

@@ -11,17 +11,17 @@
 }:
 
 let
-  src = lib.pipe ./src.json [
-    builtins.readFile
-    builtins.fromJSON
-    (s: { inherit (s) url rev sha256; })
-    fetchgit
-  ];
+  srcData = builtins.fromJSON (builtins.readFile ./src.json);
+
+  version = "unstable-" + builtins.head (lib.splitString "T" srcData.date);
+
+  src = fetchgit {
+    inherit (srcData) url rev sha256;
+  };
 
   frontend-modules = mkYarnPackage rec {
     name = "vikunja-frontend-modules";
-
-    inherit src;
+    inherit version src;
 
     # cargo culted for node-sass
     # https://github.com/input-output-hk/cardano-explorer/blob/7f28075951f248d2a5040dd30d8403f704474df6/nix/cardano-graphql/packages.nix
@@ -49,14 +49,10 @@ let
     '';
 
     doDist = false;
-
-    meta = {
-      license = lib.licenses.gpl3Plus;
-    };
   };
 in stdenv.mkDerivation {
-  name = "vikunja-frontend";
-  inherit src;
+  pname = "vikunja-frontend";
+  inherit version src;
 
   nativeBuildInputs = [ frontend-modules yarn ];
 
@@ -75,6 +71,13 @@ in stdenv.mkDerivation {
   passthru = {
     updateScript = ./update.py;
     inherit frontend-modules;
+  };
+
+  meta = {
+    description = "Front-end for Vikunja to-do list app";
+    homepage = "https://vikunja.io/";
+    license = lib.licenses.gpl3Plus;
     maintainers = with lib.maintainers; [ jtojnar ];
+    platforms = lib.platforms.all;
   };
 }

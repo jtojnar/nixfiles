@@ -33,7 +33,10 @@ buildGoModule rec {
   };
 
   meta = {
+    description = "Back-end for Vikunja to-do list app";
+    homepage = "https://vikunja.io/";
     license = lib.licenses.gpl3Plus;
     maintainers = with lib.maintainers; [ jtojnar ];
+    platforms = lib.platforms.all;
   };
 }
