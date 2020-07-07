@@ -85,6 +85,7 @@
             git
             nixFlakes
             rebuild
+            update
           ];
 
           # Enable flakes even though they are optional

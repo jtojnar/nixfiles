@@ -11,5 +11,6 @@ final: prev: {
     git-auto-squash
     nix-explore-closure-size
     rebuild
+    update
     sman;
 }
