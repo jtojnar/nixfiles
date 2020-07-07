@@ -442,7 +442,6 @@ in {
     '';
   };
 
-  # Define a user account. Don’t forget to set a password with ‘passwd’.
   users.extraUsers = {
     root = {
       hashedPassword = "*";
@@ -454,7 +453,10 @@ in {
       extraGroups = [ "wheel" "networkmanager" "wireshark" "docker" "kvm" "vboxusers" ];
       useDefaultShell = true;
       openssh.authorizedKeys.keys = keys.jtojnar;
-      passwordFile = "/etc/nixos/passwd/jtojnar";
+
+      # generated with `diceware -w en_eff` and hashed using `mkpasswd --method=sha-512 --rounds=2000000`
+      # https://logs.nix.samueldr.com/nixos/2020-04-09#1586472710-1586474674;
+      hashedPassword = "$6$rounds=2000000$Dvz6kfE6/kkPOaS$Df8KT7WcpPWvSriQiKNm16a4IRVRi5q9r6o81QfaYxhQyWoTdJQDIqAQONPpR7bSGPiRRMT3baDDi62qnXIXm0";
     };
   };
 

@@ -24,12 +24,8 @@ let
           global = {
             networking.hostName = hostName;
 
-            # NIX_PATH for various legacy tools.
-            nix.nixPath = [
-              "nixpkgs=${nixpkgs}"
-              "nixos-config=/etc/nixos/hosts/${hostName}/configuration.nix"
-              "nixpkgs-overlays=/etc/nixos/common/overlays"
-            ];
+            # Nuke NIX_PATH.
+            nix.nixPath = [ ];
 
             # For nixos-version.
             system.configurationRevision = self.rev or "dirty-${self.lastModifiedDate}";
