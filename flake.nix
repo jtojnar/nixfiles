@@ -77,5 +77,27 @@
             profiles = pathsToImportedAttrs (import ./common/profiles/list.nix);
           };
         in modulesAttrs // profilesAttrs;
+
+      # Development shell containing our maintenance utils
+      devShell = forAllPlatforms (platform:
+        pkgss.${platform}.mkShell {
+          nativeBuildInputs = with pkgss.${platform}; [
+            git
+            nixFlakes
+            rebuild
+          ];
+
+          # Enable flakes even though they are optional
+          NIX_CONF_DIR = let
+            current = pkgss.${platform}.lib.optionalString (builtins.pathExists /etc/nix/nix.conf)
+              (builtins.readFile /etc/nix/nix.conf);
+
+            nixConf = pkgss.${platform}.writeTextDir "opt/nix.conf" ''
+              ${current}
+              experimental-features = nix-command flakes ca-references
+            '';
+          in "${nixConf}/opt";
+        }
+      );
     };
 }

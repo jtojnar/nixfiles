@@ -10,5 +10,6 @@ final: prev: {
     git-auto-fixup
     git-auto-squash
     nix-explore-closure-size
+    rebuild
     sman;
 }
