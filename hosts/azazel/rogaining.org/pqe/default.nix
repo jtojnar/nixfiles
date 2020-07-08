@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  pqe = (import ./source { inherit pkgs; }).package;
+  pqe = pkgs.wrcq;
 
   port = 5000;
 in {

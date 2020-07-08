@@ -5,6 +5,8 @@ final: prev: {
 
   vikunja-frontend = prev.callPackage ./vikunja/vikunja-frontend {};
 
+  wrcq = prev.callPackage ./wrcq {};
+
   inherit (prev.callPackages ./utils {})
     git-part-pick
     git-auto-fixup

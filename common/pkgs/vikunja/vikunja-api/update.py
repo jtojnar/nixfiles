@@ -1,7 +1,8 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -p python3 -i python3
+#!nix-shell -I nixpkgs=channel:nixos-unstable -p python3 -i python3
 
 from typing import List, Optional
+import argparse
 import json
 import pathlib
 import re
@@ -38,11 +39,14 @@ def escape_nix_identifier(s: str) -> str:
 def attr_path_to_accessor(attr_path: List[str]) -> str:
     return '.'.join([ escape_nix_identifier(attr) for attr in attr_path ])
 
-def get_derivation_attribute(expr_file: pathlib.Path, attr_path: List[str]):
-    return json.loads(subprocess.check_output(['nix-instantiate', '--eval', '--json', '-E', f'(((import <nixpkgs> {{}}).callPackage {expr_file} {{}}).{attr_path_to_accessor(attr_path)})'], encoding='utf-8'))
+def get_current_platform() -> str:
+    return json.loads(subprocess.check_output(['nix-instantiate', '--eval', '--json', '-E', 'builtins.currentSystem'], encoding='utf-8'))
 
-def try_building_attr(expr_file: pathlib.Path, attr_path: List[str]):
-    return subprocess.run(['nix-build', '--no-out-link', '-E', f'(((import <nixpkgs> {{}}).callPackage {expr_file} {{}}).{attr_path_to_accessor(attr_path)})'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
+def get_derivation_attribute(platform: str, attr_path: List[str]):
+    return json.loads(subprocess.check_output(['nix-instantiate', '--eval', '--json', '-A', f'outputs.packages.{platform}.{attr_path_to_accessor(attr_path)}'], encoding='utf-8'))
+
+def try_building_attr(platform: str, attr_path: List[str]):
+    return subprocess.run(['nix-build', '--no-out-link', '-A', f'outputs.packages.{platform}.{attr_path_to_accessor(attr_path)}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
 
 def get_mismatched_checksum(error_output) -> Optional[str]:
     if MISMATCH_PATTERN not in error_output:
@@ -55,14 +59,21 @@ def get_mismatched_checksum(error_output) -> Optional[str]:
 
 
 def main():
+    parser = argparse.ArgumentParser(description='Update Go package')
+    parser.add_argument('attr_path', metavar='attr-path', help='Attribute path of package to update')
+    args = parser.parse_args()
+
     current_dir = pathlib.Path(__file__).parent
     expr_file = (current_dir / 'default.nix').absolute()
 
+    platform = get_current_platform()
+    package_path = args.attr_path
+
     # Obtain all the required data from the expression: URL, old commit and the checksums of src and go-modules.
-    repo_url = get_derivation_attribute(expr_file, ['src', 'url'])
-    previous_rev = get_derivation_attribute(expr_file, ['src', 'rev'])
-    src_hash = get_derivation_attribute(expr_file, ['src', 'outputHash'])
-    go_deps_hash = get_derivation_attribute(expr_file, ['go-modules', 'outputHash'])
+    repo_url = get_derivation_attribute(platform, [package_path, 'src', 'url'])
+    previous_rev = get_derivation_attribute(platform, [package_path, 'src', 'rev'])
+    src_hash = get_derivation_attribute(platform, [package_path, 'src', 'outputHash'])
+    go_deps_hash = get_derivation_attribute(platform, [package_path, 'go-modules', 'outputHash'])
 
     # Find the latest upstream commit.
     remote_refs = subprocess.check_output(['git', 'ls-remote', repo_url, 'HEAD'], encoding='utf-8')
@@ -73,7 +84,7 @@ def main():
     replace_contents(expr_file, lambda contents: contents.replace(previous_rev, latest_commit).replace(src_hash, NIL_HASH))
 
     # Get the checksum for the new src and replace it in the expression.
-    src_build_attempt = try_building_attr(expr_file, ['src'])
+    src_build_attempt = try_building_attr(platform, [package_path, 'src'])
     if src_build_attempt.returncode == 0:
         print('Building src succeeded', file=sys.stderr)
         sys.exit(1)
@@ -90,7 +101,7 @@ def main():
     replace_contents(expr_file, lambda contents: contents.replace(go_deps_hash, NIL_HASH))
 
     # Get the checksum for the new go-modules and replace it in the expression.
-    go_deps_build_attempt = try_building_attr(expr_file, ['go-modules'])
+    go_deps_build_attempt = try_building_attr(platform, [package_path, 'go-modules'])
     if go_deps_build_attempt.returncode == 0:
         print('Building go-modules succeeded', file=sys.stderr)
         sys.exit(1)

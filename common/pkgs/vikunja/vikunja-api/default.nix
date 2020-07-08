@@ -29,7 +29,7 @@ buildGoModule rec {
   vendorSha256 = "sha256-BecxQY7g+n57Slj28vMyI5JREl6AlLcdgZJWuGAdvzg=";
 
   passthru = {
-    updateScript = ./update.py;
+    updateScript = [ ./update.py "vikunja-api" ];
   };
 
   meta = {

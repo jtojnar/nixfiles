@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -p python3 -p nix-prefetch-git -i python3
+#!nix-shell -I nixpkgs=channel:nixos-unstable -p python3 -p nix-prefetch-git -i python3
 
 import json
 import pathlib
