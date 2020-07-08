@@ -5,7 +5,7 @@ import os
 import platform
 
 def main(args):
-    sudo = ['sudo', '--preserve-env']
+    priv_run = ['pkexec']
 
     nix_args = ['--print-build-logs']
     if args.nixpkgs:
@@ -16,7 +16,7 @@ def main(args):
     path = os.getcwd()
     attr = f'{path}#nixosConfigurations.{args.hostname}.config.system.build.toplevel'
 
-    nix_shell = ['nix', 'shell'] + nix_args + [attr] + ['-c'] + sudo + ['switch-to-configuration', f'{args.action}']
+    nix_shell = ['nix', 'shell'] + nix_args + [attr] + ['-c'] + priv_run + ['switch-to-configuration', f'{args.action}']
 
     os.execvp(nix_shell[0], nix_shell)
 
