@@ -8,6 +8,7 @@ in {
     ./bloudeni
     ./entries
     ./entries.rogaining-2019
+    ./hrob-2020
     ./lob-2019
     ./rogaining-2019
   ];
