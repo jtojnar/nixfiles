@@ -40,6 +40,9 @@
       display_errors = 1
       display_startup_errors = 1
       error_reporting = E_ALL;
+      ; Set up $_ENV superglobal.
+      ; http://php.net/request-order
+      variables_order = "EGPCS"
     '';
     extraConfig = ''
       DirectoryIndex index.php index.html
