@@ -174,6 +174,7 @@ in {
     ncdu
     nixpkgs-fmt
     nix-explore-closure-size
+    nix-index
     onboard
     paprefs
     patchelf
@@ -240,7 +241,6 @@ in {
   # List programs
   programs = {
     adb.enable = true;
-    command-not-found.enable = true;
     fish = {
       enable = true;
       interactiveShellInit = ''
