@@ -8,11 +8,11 @@ final: prev: {
   wrcq = prev.callPackage ./wrcq {};
 
   inherit (prev.callPackages ./utils {})
+    deploy
     git-part-pick
     git-auto-fixup
     git-auto-squash
     nix-explore-closure-size
-    rebuild
     update
     sman;
 }

@@ -82,9 +82,9 @@
       devShell = forAllPlatforms (platform:
         pkgss.${platform}.mkShell {
           nativeBuildInputs = with pkgss.${platform}; [
+            deploy
             git
             nixFlakes
-            rebuild
             update
           ];
 

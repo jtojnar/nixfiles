@@ -1,22 +1,41 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 import os
 import platform
+import subprocess
+import sys
 
 def main(args):
-    priv_run = ['pkexec']
+    same_host = args.hostname == platform.node()
 
-    nix_args = ['--print-build-logs']
+    priv_run = []
+
+    # We only need to run privileged on the same host, otherwise we need to ssh as root 😿
+    if same_host:
+        priv_run = ['pkexec']
+
+    # Print build logs
+    nix_args = ['-L']
     if args.nixpkgs:
         nix_args += ['--override-input', 'nixpkgs', args.nixpkgs, '--no-write-lock-file']
     if args.keep_going:
         nix_args += ['--keep-going']
 
-    path = os.getcwd()
-    attr = f'{path}#nixosConfigurations.{args.hostname}.config.system.build.toplevel'
+    if not same_host:
+        connection_string = json.loads(subprocess.check_output(['nix', 'eval', '--json', '--impure', '--expr', f'(import ./hosts/list.nix).{args.hostname}.connectionString or null']))
 
-    nix_shell = ['nix', 'shell'] + nix_args + [attr] + ['-c'] + priv_run + ['switch-to-configuration', f'{args.action}']
+        if not connection_string:
+            print(f'No connection string defined in hosts/list.nix for host {args.hostname}', file=sys.stderr)
+            sys.exit(1)
+
+        nix_args += ['--target-host', connection_string, '--build-host', 'localhost']
+
+    path = os.getcwd()
+    attr = f'{path}#{args.hostname}'
+
+    nix_shell = priv_run + ['nixos-rebuild'] + nix_args + ['--flake', attr] + [f'{args.action}']
 
     os.execvp(nix_shell[0], nix_shell)
 
