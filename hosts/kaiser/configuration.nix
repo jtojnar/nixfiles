@@ -295,6 +295,11 @@ in {
     };
   };
 
+  security.sudo.extraConfig = ''
+    Defaults pwfeedback
+    Defaults timestamp_timeout=25
+  '';
+
   boot.plymouth.enable = true;
   services.sysprof.enable = true;
   services.fwupd.enable = true;

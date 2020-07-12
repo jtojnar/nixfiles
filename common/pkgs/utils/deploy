@@ -14,7 +14,7 @@ def main(args):
 
     # We only need to run privileged on the same host, otherwise we need to ssh as root 😿
     if same_host:
-        priv_run = ['pkexec']
+        priv_run = ['sudo']
 
     # Print build logs
     nix_args = ['-L']
