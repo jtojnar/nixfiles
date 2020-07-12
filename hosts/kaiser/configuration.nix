@@ -29,7 +29,11 @@ in {
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
     "boot.shell_on_fail"
+    # https://wiki.archlinux.org/index.php/Power_management/Suspend_and_hibernate#Hibernation
+    "resume_offset=96640659" # physical offset of the first ext in `filefrag -v /var/swap`
   ];
+
+  boot.resumeDevice = "/dev/mapper/doge-root";
 
   # Sony Vaio keyboard not working after suspend
   # https://discourse.nixos.org/t/keyboard-touchpad-do-not-wake-after-closing-laptop-lid/7565/6
@@ -43,6 +47,12 @@ in {
     "kernel.perf_event_paranoid" = 1; # for rr, default: 2
     "kernel.sysrq" = 1; # allow all magic SysRq keys
   };
+
+  systemd.tmpfiles.rules = [
+    # 12G (RAM size) for hibernation image size
+    # https://bbs.archlinux.org/viewtopic.php?pid=1731292#p1731292
+    "w /sys/power/image_size - - - - ${toString (12*1024*1024*1024)}"
+  ];
 
   boot.cleanTmpDir = true;
 
