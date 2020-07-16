@@ -1,6 +1,8 @@
 final: prev: {
   selfoss = prev.callPackage ./selfoss {};
 
+  sunflower = prev.callPackage ./sunflower {};
+
   vikunja-api = prev.callPackage ./vikunja/vikunja-api {};
 
   vikunja-frontend = prev.callPackage ./vikunja/vikunja-frontend {};
