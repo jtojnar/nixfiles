@@ -186,7 +186,7 @@ in {
     ripgrep
     sequeler
     sman
-    sublime3-dev
+    sublime4-dev
     spotify
     tdesktop
     tldr
