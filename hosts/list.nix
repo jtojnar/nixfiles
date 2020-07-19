@@ -5,7 +5,7 @@
     connectionString = "root@azazel.ogion.cz";
   };
 
-  kaiser = {
+  theo = {
     platform = "x86_64-linux";
   };
 }
