@@ -1,7 +1,7 @@
 { config, inputs, pkgs, lib, ... }:
 
 let
-  keys = import ../../keys.nix;
+  keys = import ../../common/data/keys.nix;
 
   userData = import ../../common/data/users.nix;
 in {

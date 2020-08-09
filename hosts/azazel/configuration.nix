@@ -1,7 +1,7 @@
 { config, inputs, pkgs, ... }:
 
 let
-  keys = import ../../keys.nix;
+  keys = import ../../common/data/keys.nix;
 in {
   imports = [
     "${inputs.nixpkgs}/nixos/modules/profiles/minimal.nix"
