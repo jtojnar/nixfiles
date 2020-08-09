@@ -48,20 +48,33 @@ in
     };
 
     systemd.services = {
-      postgresql = {
-        # TODO: allow ensureDatabases to set owner and create extensions
-        postStart = lib.concatMapStringsSep "\n" ({database, extensions, ...}: let
-          psql = "$PSQL --tuples-only --no-align";
-          createExtensionsSql = lib.concatMapStringsSep "; " (ext: ''CREATE EXTENSION IF NOT EXISTS "${ext}"'') extensions;
-          createExtensionsIfAny = lib.optionalString (extensions != []) ''
-            ${psql} -d '${database}' -c '${createExtensionsSql}'
-          '';
-        in ''
-          if ! ${psql} -c "SELECT 1 FROM pg_database WHERE datname = '${database}'" | grep --quiet 1; then
-              ${psql} -c 'CREATE DATABASE "${database}" WITH OWNER = "${database}"'
-              ${createExtensionsIfAny}
-          fi
-        '') cfg.databases;
+      postgres-setup = let pgsql = config.services.postgresql; in {
+        after = [ "postgresql.service" ];
+        wantedBy = [ "multi-user.target" ];
+        path = [ pgsql.package ];
+        script =
+          lib.concatMapStringsSep "\n"
+            ({ database, extensions, ... }:
+              let
+                createExtensionsSql = lib.concatMapStringsSep "; " (ext: ''CREATE EXTENSION IF NOT EXISTS "${ext}"'') extensions;
+                createExtensionsIfAny = lib.optionalString (extensions != [ ]) ''
+                  $PSQL -d '${database}' -c '${createExtensionsSql}'
+                '';
+              in ''
+                set -eu
+
+                PSQL="${pkgs.utillinux}/bin/runuser -u ${pgsql.superUser} -- psql --port=${toString pgsql.port} --tuples-only --no-align"
+
+                if ! $PSQL -c "SELECT 1 FROM pg_database WHERE datname = '${database}'" | grep --quiet 1; then
+                    $PSQL -c 'CREATE DATABASE "${database}" WITH OWNER = "${database}"'
+                    ${createExtensionsIfAny}
+                fi
+              '')
+            cfg.databases;
+
+        serviceConfig = {
+          Type = "oneshot";
+        };
       };
     };
   };
