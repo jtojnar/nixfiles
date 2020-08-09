@@ -27,6 +27,7 @@ in {
     tldr
   ];
 
+  # Prefer using cached builds over saving space.
   environment.noXlibs = false;
 
   programs = {
