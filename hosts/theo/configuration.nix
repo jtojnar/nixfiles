@@ -177,6 +177,7 @@ in {
     nix-index
     onboard
     paprefs
+    pavucontrol
     patchelf
     patchutils # for filterdiff
     playerctl
