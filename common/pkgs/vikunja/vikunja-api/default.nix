@@ -25,8 +25,10 @@ buildGoModule rec {
     make generate
   '';
 
-  deleteVendor = true;
   vendorSha256 = "sha256-x97ny0OJSOVrQu2anLURlsZIeXqSpxCAUoUxUhayHbo=";
+
+  # Cannot locate text fixtures.
+  doCheck = false;
 
   passthru = {
     updateScript = [ ./update.py "vikunja-api" ];
