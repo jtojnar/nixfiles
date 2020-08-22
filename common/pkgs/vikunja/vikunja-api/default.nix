@@ -10,8 +10,8 @@ buildGoModule rec {
 
   src = fetchgit {
     url = "https://kolaente.dev/vikunja/api.git";
-    rev = "6a82d4e2af87344a2ed51788744b4b6e97065640";
-    sha256 = "sha256-C6fBZS5eG2G+c65Q7XlK9R99QIs9MaVgyGpC5nPrbqk=";
+    rev = "b4771c1bced504b0a53364ae4ad45749c1282656";
+    sha256 = "sha256-FWxe//vEGT7jMCDd2GzoxKPNPDUQ/xPAFRTj+ZcBSlY=";
     leaveDotGit = true;
   };
 
@@ -25,7 +25,7 @@ buildGoModule rec {
     make generate
   '';
 
-  vendorSha256 = "sha256-x97ny0OJSOVrQu2anLURlsZIeXqSpxCAUoUxUhayHbo=";
+  vendorSha256 = "sha256-gaRZBYOQWnmoV46aR73x5XHNgCQ2UEVHy159fpS9cXY=";
 
   # Cannot locate text fixtures.
   doCheck = false;

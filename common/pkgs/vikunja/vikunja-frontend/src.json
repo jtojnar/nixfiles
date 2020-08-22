@@ -1,9 +1,9 @@
 {
   "url": "https://kolaente.dev/vikunja/frontend.git",
-  "rev": "2c21fd430c40aaf95deb443c89591f82ba8aa5e5",
-  "date": "2020-08-07T10:06:01+00:00",
-  "path": "/nix/store/c7mcns4i1qy432mdrlk72vainbr8kmd9-frontend",
-  "sha256": "0qxh4588lda0a4jqn13yjvvxwf2ygb2g2wcfh12jppb06cgdmarq",
+  "rev": "30f6e39f8401af2bab4b0f1f5fbaf9e0334f87ee",
+  "date": "2020-08-21T10:40:37+00:00",
+  "path": "/nix/store/knmx3gp93z1hyrlprfg5lcwd9dq9kh56-frontend",
+  "sha256": "12m2x5ivpmnlqgi1r9nvqrpf6343xy2hgvywif05hv8pchnypi3p",
   "fetchSubmodules": false,
   "deepClone": false,
   "leaveDotGit": false
