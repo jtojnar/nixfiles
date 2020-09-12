@@ -456,6 +456,12 @@ in {
         insteadOf = http://github.com/
         insteadOf = https://github.com/
     '';
+
+    # Sound card keeps flickering on brian.
+    # https://www.techtimejourney.net/how-to-blacklist-a-sound-card-in-linux/
+    "modprobe.d/sound.blacklist.conf".text = ''
+      blacklist snd_hda_intel
+    '';
   };
 
   users.extraUsers = {
