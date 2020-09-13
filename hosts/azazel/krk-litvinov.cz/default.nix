@@ -1,7 +1,7 @@
 { config, lib, pkgs,  ... }:
 let
   myLib = import ../lib.nix { inherit lib config; };
-  inherit (myLib) mkCert mkPhpPool;
+  inherit (myLib) mkPhpPool;
 in {
   imports = [
     ./agenda
@@ -13,14 +13,10 @@ in {
     ./rogaining-2019
   ];
 
-  security.acme.certs = {
-    # "krk-litvinov.cz" = mkCert {
-    #   domains = [
-    #     "bloudeni.krk-litvinov.cz"
-    #     "entries.krk-litvinov.cz"
-    #   ];
-    # };
-  };
+  # security.acme.certs."krk-litvinov.cz".extraDomainNames = [
+  #   "bloudeni.krk-litvinov.cz"
+  #   "entries.krk-litvinov.cz"
+  # ];
 
   services = {
     mysql = {

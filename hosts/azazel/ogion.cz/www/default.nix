@@ -9,7 +9,7 @@ in {
 
       virtualHosts = {
         "ogion.cz" = mkVirtualHost {
-          acme = "ogion.cz";
+          acme = true;
           path = "ogion.cz/www";
         };
 

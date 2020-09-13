@@ -1,7 +1,7 @@
 { config, lib, pkgs,  ... }:
 let
   myLib = import ../lib.nix { inherit lib config; };
-  inherit (myLib) mkCert mkPhpPool;
+  inherit (myLib) mkPhpPool;
 in {
   imports = [
     ./archiv
@@ -17,23 +17,19 @@ in {
     ./www
   ];
 
-  security.acme.certs = {
-    "fan-club-penguin.cz" = mkCert {
-      domains = [
-        "www.fan-club-penguin.cz"
-        "archiv.fan-club-penguin.cz"
-        "beta.fan-club-penguin.cz"
-        "cdn.fan-club-penguin.cz"
-        "forum.fan-club-penguin.cz"
-        "lisured.fan-club-penguin.cz"
-        "mediacache.fan-club-penguin.cz"
-        "preklady.fan-club-penguin.cz"
-        "provider.fan-club-penguin.cz"
-        "shout.fan-club-penguin.cz"
-        "upload.fan-club-penguin.cz"
-      ];
-    };
-  };
+  security.acme.certs."fan-club-penguin.cz".extraDomainNames = [
+    "www.fan-club-penguin.cz"
+    "archiv.fan-club-penguin.cz"
+    "beta.fan-club-penguin.cz"
+    "cdn.fan-club-penguin.cz"
+    "forum.fan-club-penguin.cz"
+    "lisured.fan-club-penguin.cz"
+    "mediacache.fan-club-penguin.cz"
+    "preklady.fan-club-penguin.cz"
+    "provider.fan-club-penguin.cz"
+    "shout.fan-club-penguin.cz"
+    "upload.fan-club-penguin.cz"
+  ];
 
   services = {
     mysql = {

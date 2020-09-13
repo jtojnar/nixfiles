@@ -1,7 +1,7 @@
 { config, lib, pkgs,  ... }:
 let
   myLib = import ../lib.nix { inherit lib config; };
-  inherit (myLib) mkCert mkPhpPool;
+  inherit (myLib) mkPhpPool;
 in {
   imports = [
     ./develop
@@ -13,18 +13,14 @@ in {
     ./www
   ];
 
-  security.acme.certs = {
-    "ogion.cz" = mkCert {
-      domains = [
-        "www.ogion.cz"
-        # "develop.ogion.cz"
-        "mechmice.ogion.cz"
-        "mysql.ogion.cz"
-        "reader.ogion.cz"
-        # "tools.ogion.cz"
-      ];
-    };
-  };
+  security.acme.certs."ogion.cz".extraDomainNames = [
+    "www.ogion.cz"
+    # "develop.ogion.cz"
+    "mechmice.ogion.cz"
+    "mysql.ogion.cz"
+    "reader.ogion.cz"
+    # "tools.ogion.cz"
+  ];
 
   services = {
     mysql = {

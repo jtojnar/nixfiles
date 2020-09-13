@@ -10,7 +10,7 @@ in {
       virtualHosts = {
         "ostrov-tucnaku.cz" = mkVirtualHost {
           path = "ostrov-tucnaku.cz/www/public";
-          acme = "ostrov-tucnaku.cz";
+          acme = true;
           config = ''
             location ~* \.php$ {
               ${enablePHP "ostrov-tucnaku"}

@@ -1,18 +1,16 @@
 { config, lib, pkgs,  ... }:
 let
   myLib = import ../lib.nix { inherit lib config; };
-  inherit (myLib) mkCert mkPhpPool;
+  inherit (myLib) mkPhpPool;
 in {
   imports = [
     ./obrazky
     ./www
   ];
 
-  security.acme.certs = {
-    "ostrov-tucnaku.cz" = mkCert {
-      domains = [ "obrazky.ostrov-tucnaku.cz" ];
-    };
-  };
+  security.acme.certs."ostrov-tucnaku.cz".extraDomainNames = [
+    "obrazky.ostrov-tucnaku.cz"
+  ];
 
   services = {
     mysql = {

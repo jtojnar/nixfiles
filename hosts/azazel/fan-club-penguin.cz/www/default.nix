@@ -9,7 +9,7 @@ in {
 
       virtualHosts = {
         "fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
+          acme = true;
           path = "fan-club-penguin.cz/www";
           config = ''
             index index.php index.html index.htm;
