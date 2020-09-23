@@ -86,6 +86,15 @@
             git
             nixFlakes
             update
+            (writeShellScriptBin "deploy-nix-profile" ''
+              profile="hosts/$(hostname)/profile.nix"
+              if [[ ! -f $profile ]]; then
+                  echo "Missing profile.nix for host “$(hostname)”"
+                  exit 1
+              fi
+
+              nix-env -f "$profile" --remove-all --install
+            '')
           ];
 
           # Enable flakes even though they are optional
