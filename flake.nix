@@ -1,11 +1,15 @@
 {
   description = "jtojnar’s machines";
 
-  inputs = {
+  inputs = rec {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    hm = {
+      url = "github:rycee/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs }@inputs:
+  outputs = { self, nixpkgs, hm }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -32,19 +36,22 @@
       # Create combined package set from nixpkgs and our overlays.
       mkPkgs = platform: import nixpkgs {
         system = platform;
-        overlays = builtins.attrValues self.overlays;
+        overlays = builtins.attrValues self.overlays ++ [
+          (import "${hm.outPath}/overlay.nix")
+        ];
         config = { allowUnfree = true; };
       };
 
       # Package sets for each platform.
       pkgss = forAllPlatforms mkPkgs;
+
+      configs = import ./hosts { inherit inputs pkgss; };
     in {
       # Configurations for our hosts.
       # These are used by tools like nixos-rebuild.
-      nixosConfigurations =
-        let
-          configs = import ./hosts { inherit inputs pkgss; };
-        in configs;
+      nixosConfigurations = configs.nixos;
+
+      homeConfigurations = configs.hm;
 
       # Overlay containing our packages defined in this repository.
       overlay = import ./common/pkgs;
@@ -86,6 +93,9 @@
             git
             nixFlakes
             update
+            (writeShellScriptBin "hm" ''
+              exec ${home-manager}/bin/home-manager build -I "nixpkgs=${nixpkgs}" -f . -A homeConfigurations.$(hostname) "$@"
+            '')
             (writeShellScriptBin "deploy-nix-profile" ''
               profile="hosts/$(hostname)/profile.nix"
               if [[ ! -f $profile ]]; then

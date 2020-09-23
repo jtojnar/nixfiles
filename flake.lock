@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "hm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1600859458,
+        "narHash": "sha256-IGwG5Qmv2J0RF3F8Gr08stA6gZPZUaoDI0tbQV34yhA=",
+        "owner": "rycee",
+        "repo": "home-manager",
+        "rev": "8a160f01abe97e86a89f0312ef4046ca7656f207",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rycee",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1599510591,
@@ -18,6 +38,7 @@
     },
     "root": {
       "inputs": {
+        "hm": "hm",
         "nixpkgs": "nixpkgs"
       }
     }

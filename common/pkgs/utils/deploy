@@ -24,7 +24,7 @@ def main(args):
         nix_args += ['--keep-going']
 
     if not same_host:
-        connection_string = json.loads(subprocess.check_output(['nix', 'eval', '--json', '--impure', '--expr', f'(import ./hosts/list.nix).{args.hostname}.connectionString or null']))
+        connection_string = json.loads(subprocess.check_output(['nix', 'eval', '--json', '--impure', '--expr', f'(import ./hosts/list.nix).nixos.{args.hostname}.connectionString or null']))
 
         if not connection_string:
             print(f'No connection string defined in hosts/list.nix for host {args.hostname}', file=sys.stderr)

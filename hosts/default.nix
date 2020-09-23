@@ -1,7 +1,7 @@
 # Let’s build a configuration for each host listed in ./list.nix.
 { inputs, pkgss }:
 let
-  inherit (inputs) self nixpkgs;
+  inherit (inputs) self nixpkgs hm;
   inherit (nixpkgs) lib;
 
   mkConfig = { hostName, platform, ... }:
@@ -46,9 +46,22 @@ let
           flakeModules ++ [ core global local ];
     };
 
-  hosts =
+  mkHomeConfig = { hostName, platform, username, ... }:
+    hm.lib.homeManagerConfiguration {
+      configuration = "${./.}/${hostName}/home.nix";
+      system = platform;
+      homeDirectory = "/home/${username}";
+      inherit username;
+      pkgs = pkgss.${platform};
+    };
+
+  hosts = import ./list.nix;
+
+  createConfigs = maker:
     builtins.mapAttrs
-      (hostName: props: mkConfig ({ inherit hostName; } // props) )
-      (import ./list.nix);
+      (hostName: props: maker ({ inherit hostName; } // props));
 in
-  hosts
+  {
+    hm = createConfigs mkHomeConfig hosts.hm;
+    nixos = createConfigs mkConfig hosts.nixos;
+  }
