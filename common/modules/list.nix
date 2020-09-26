@@ -1,3 +1,4 @@
 [
+  ./droidcam.nix
   ./postgres.nix
 ]

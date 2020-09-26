@@ -4,7 +4,13 @@ final: prev: {
   inherit (prev.recurseIntoAttrs (prev.callPackage ./sublime4/packages.nix { }))
     sublime4-dev;
 
+  droidcam = prev.callPackage ./droidcam {};
+
   sunflower = prev.callPackage ./sunflower {};
+
+  v4l2loopback-dc = prev.callPackage ./v4l2loopback-dc {
+    inherit (prev.linuxPackages) kernel;
+  };
 
   vikunja-api = prev.callPackage ./vikunja/vikunja-api {};
 
