@@ -1,12 +1,28 @@
 {
   "nodes": {
+    "nixgl": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1601897743,
+        "narHash": "sha256-sBxn5H80qjoDy3ZRacVsuO9y8aTk39L7I/VVX6R7hfE=",
+        "owner": "guibou",
+        "repo": "nixGL",
+        "rev": "fad15ba09de65fc58052df84b9f68fbc088e5e7c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "guibou",
+        "repo": "nixGL",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1603347458,
-        "narHash": "sha256-Ec9Xkb3U/WdUk6K51Ts4oLNGdlYxC02JyOMXoivYWjQ=",
-        "owner": "NixOS",
+        "lastModified": 1603153815,
+        "narHash": "sha256-uCav0CJ0Zm0vbqJiS9NUYD4XZg4Ww9bbsFzcDUzh2+U=",
+        "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "ec3aa4c109cf4ddb2094269d7673bae3d3867308",
+        "rev": "007126eef72271480cb7670e19e501a1ad2c1ff2",
         "type": "github"
       },
       "original": {
@@ -18,6 +34,7 @@
     },
     "root": {
       "inputs": {
+        "nixgl": "nixgl",
         "nixpkgs": "nixpkgs"
       }
     }

@@ -3,9 +3,13 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixgl = {
+      url = "github:guibou/nixGL";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs }@inputs:
+  outputs = { self, nixpkgs, nixgl }@inputs:
     let
       inherit (nixpkgs) lib;
 
