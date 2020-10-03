@@ -15,13 +15,13 @@
 
 python3.pkgs.buildPythonApplication rec {
   pname = "sunflower";
-  version = "2020-07-16-unstable";
+  version = "2020-10-12-unstable";
 
   src = fetchFromGitHub {
     owner = "MeanEYE";
     repo = "Sunflower";
-    rev = "841252d0f05c029ef89f52e7547d3630ff20091d";
-    sha256 = "zhyNJsCsX67n38j+/L2Z5sBhjhm4IP9CpX0KYkZt0/Y=";
+    rev = "8d75084e78f82276a13b51bd10fa9ae4fbae18f4";
+    sha256 = "jAh26yjNRZOIt++geWb7geVOdHpNhxlYhOiEiFTCtSg=";
   };
 
   nativeBuildInputs = [
