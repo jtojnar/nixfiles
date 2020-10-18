@@ -20,6 +20,10 @@ let
   };
 
   settingsEnv = lib.mapAttrs' (name: value: lib.nameValuePair "selfoss_${name}" value) settings;
+
+  php = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
+    blackfire
+  ]));
 in {
   services = {
     nginx = {
@@ -56,6 +60,7 @@ in {
         reader = mkPhpPool {
           user = "reader";
           debug = true;
+          phpPackage = php;
           phpOptions = ''
             ; Set up $_ENV superglobal.
             ; http://php.net/request-order
@@ -68,6 +73,11 @@ in {
         };
       };
     };
+
+    blackfire-agent = {
+      enable = true;
+      settings = import ../../../../secrets/blackfire-agent-credentials.nix;
+    };
   };
 
   # I was not able to pass the variables through services.phpfpm.pools.reader.phpEnv:
@@ -76,11 +86,13 @@ in {
 
   systemd.services.selfoss-update = {
     serviceConfig = {
-      ExecStart = "${pkgs.php}/bin/php ${pkgs.selfoss}/cliupdate.php";
+      ExecStart = "${php}/bin/php ${pkgs.selfoss}/cliupdate.php";
       User = "reader";
     };
     environment = settingsEnv;
     startAt = "hourly";
     wantedBy = [ "multi-user.target" ];
   };
+
+  systemd.services.blackfire-agent.wantedBy = [ "phpfpm-reader.service" ];
 }
