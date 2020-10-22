@@ -88,6 +88,7 @@
           nativeBuildInputs = with pkgss.${platform}; [
             deploy
             git
+            git-crypt
             nixFlakes
             update
             (writeShellScriptBin "deploy-nix-profile" ''
