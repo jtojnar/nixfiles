@@ -50,6 +50,9 @@ in {
         fcp = mkPhpPool {
           user = "fcp";
         };
+        cpforum = mkPhpPool {
+          user = "cpforum";
+        };
       };
     };
   };
@@ -59,20 +62,24 @@ in {
       jtojnar = {
         extraGroups = [
           "fcp"
+          "cpforum"
         ];
       };
 
       nginx = {
         extraGroups = [
           "fcp"
+          "cpforum"
         ];
       };
 
       fcp = { uid = 500; group = "fcp"; isSystemUser = true; };
+      cpforum = { uid = 511; group = "cpforum"; isSystemUser = true; };
     };
 
     groups = {
       fcp = { gid = 500; };
+      cpforum = { gid = 511; };
     };
   };
 }

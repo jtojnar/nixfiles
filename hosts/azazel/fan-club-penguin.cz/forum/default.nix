@@ -1,7 +1,17 @@
-{ config, lib,  ... }:
+{ config, lib, pkgs, ... }:
 let
   myLib = import ../../lib.nix { inherit lib config; };
+
   inherit (myLib) enablePHP mkVirtualHost;
+
+  phpbb = pkgs.phpbb.withConfig {
+    # enableInstaller = true;
+    unitName = "cpforum";
+    stateDir = "/var/www/fan-club-penguin.cz/cpforum";
+    enabledPackages = with pkgs.phpbb.packages; [
+      langs.cs
+    ];
+  };
 in {
   services = {
     nginx = {
@@ -10,7 +20,7 @@ in {
       virtualHosts = {
         "forum.fan-club-penguin.cz" = mkVirtualHost {
           acme = "fan-club-penguin.cz";
-          path = "fan-club-penguin.cz/forum";
+          root = phpbb;
           config = ''
             index index.php index.html index.htm;
 
@@ -34,7 +44,7 @@ in {
 
             # Pass the php scripts to fastcgi server specified in upstream declaration.
             location ~ \.php(/|$) {
-              ${enablePHP "fcp"}
+              ${enablePHP "cpforum"}
               fastcgi_split_path_info ^(.+\.php)(/.*)$;
               try_files $uri $uri/ /app.php$is_args$args;
             }
@@ -46,7 +56,7 @@ in {
 
               # Pass the php scripts to fastcgi server specified in upstream declaration.
               location ~ \.php(/|$) {
-                ${enablePHP "fcp"}
+                ${enablePHP "cpforum"}
                 fastcgi_split_path_info ^(.+\.php)(/.*)$;
                 try_files $uri $uri/ /install/app.php$is_args$args;
                 fastcgi_read_timeout 500;
@@ -66,5 +76,17 @@ in {
         };
       };
     };
+  };
+
+  systemd = {
+    services.phpfpm-cpforum = {
+      serviceConfig = {
+        CacheDirectory = "cpforum";
+      };
+    };
+
+    # The systemd service starts as root so it does not have correct ownership.
+    # The started phpfpm daemon lowers euid to cpforum but systemd is not aware of that.
+    tmpfiles.rules = [ "d %C/cpforum 0700 cpforum cpforum" ];
   };
 }
