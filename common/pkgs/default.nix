@@ -1,4 +1,6 @@
 final: prev: {
+  phpbb = prev.callPackage ./phpbb {};
+
   selfoss = prev.callPackage ./selfoss {};
 
   inherit (prev.recurseIntoAttrs (prev.callPackage ./sublime4/packages.nix { }))
