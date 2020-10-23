@@ -48,7 +48,7 @@ in {
       serviceConfig = {
         User = "vikunja";
         Group = "vikunja";
-        ExecStart = "${vikunja-api}/bin/api";
+        ExecStart = "${vikunja-api}/bin/vikunja";
         WorkingDirectory = "${vikunja-api}";
         Restart = "always";
         RestartSec = "10";

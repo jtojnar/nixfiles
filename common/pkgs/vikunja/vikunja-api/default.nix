@@ -2,36 +2,68 @@
 , lib
 , buildGoModule
 , fetchgit
-, git
+, mage
+, writeShellScriptBin
 }:
 
 buildGoModule rec {
-  name = "vikunja-api";
+  pname = "vikunja-api";
+  version = "v0.15.0-6-gffce9b51cc";
 
   src = fetchgit {
     url = "https://kolaente.dev/vikunja/api.git";
-    rev = "b4771c1bced504b0a53364ae4ad45749c1282656";
-    sha256 = "sha256-FWxe//vEGT7jMCDd2GzoxKPNPDUQ/xPAFRTj+ZcBSlY=";
-    leaveDotGit = true;
+    rev = "ffce9b51ccd8ebfe938e181df4fb3e7c433da91d";
+    sha256 = "sha256-XWk4gePxYbj5I05xA0xltS/qNbM2OoVqnkUqRw13Vq0=";
   };
 
-  nativeBuildInputs = [
-    git
-  ];
+  nativeBuildInputs =
+    let
+      fakeGit = writeShellScriptBin "git" ''
+        if [[ $@ = "${passthru.gitDescribeCommand}" ]]; then
+            echo "${version}"
+        else
+            >&2 echo "Unknown command: $@"
+            exit 1
+        fi
+      '';
+    in [
+      fakeGit
+      mage
+    ];
 
-  preBuild = ''
-    # GOFLAGS defined in the Makefile takes precedence over the environment variable so we need to pass them different way.
-    export EXTRA_GOFLAGS="$GOFLAGS"
-    make generate
+  # Wunderlist test requires network.
+  doCheck = false;
+
+  vendorSha256 = "sha256-AWjIaJ1yAtKifBx8P6G9OZdOpzSHd3SJ/HLm70CuEFM=";
+
+  buildPhase = ''
+    runHook preBuild
+
+    mage build:build
+
+    runHook postBuild
   '';
 
-  vendorSha256 = "sha256-gaRZBYOQWnmoV46aR73x5XHNgCQ2UEVHy159fpS9cXY=";
+  checkPhase = ''
+    runHook preCheck
 
-  # Cannot locate text fixtures.
-  doCheck = false;
+    mage test:unit
+
+    runHook postCheck
+  '';
+
+  installPhase = ''
+    runHook preInstall
+
+    install -Dt $out/bin vikunja
+
+    runHook postInstall
+  '';
 
   passthru = {
     updateScript = [ ./update.py "vikunja-api" ];
+
+    gitDescribeCommand = "describe --tags --always --abbrev=10";
   };
 
   meta = {

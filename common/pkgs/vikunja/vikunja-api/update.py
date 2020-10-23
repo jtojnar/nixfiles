@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -I nixpkgs=channel:nixos-unstable -p python3 -i python3
+#!nix-shell -I nixpkgs=channel:nixos-unstable -p python3 -p git -i python3
 
 from typing import List, Optional
 import argparse
@@ -7,7 +7,9 @@ import json
 import pathlib
 import re
 import subprocess
+import shlex
 import sys
+import tempfile
 
 NIL_HASH = 'sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='
 MISMATCH_PATTERN = 'hash mismatch in fixed-output derivation'
@@ -69,19 +71,22 @@ def main():
     platform = get_current_platform()
     package_path = args.attr_path
 
-    # Obtain all the required data from the expression: URL, old commit and the checksums of src and go-modules.
+    # Obtain all the required data from the expression: URL, old version, commit and the checksums of src and go-modules.
     repo_url = get_derivation_attribute(platform, [package_path, 'src', 'url'])
+    previous_version = get_derivation_attribute(platform, [package_path, 'version'])
     previous_rev = get_derivation_attribute(platform, [package_path, 'src', 'rev'])
     src_hash = get_derivation_attribute(platform, [package_path, 'src', 'outputHash'])
     go_deps_hash = get_derivation_attribute(platform, [package_path, 'go-modules', 'outputHash'])
 
     # Find the latest upstream commit.
-    remote_refs = subprocess.check_output(['git', 'ls-remote', repo_url, 'HEAD'], encoding='utf-8')
-    latest_commit, ref_name = remote_refs.split()
-    assert ref_name == 'HEAD'
+    with tempfile.TemporaryDirectory() as clone_path:
+        subprocess.run(['git', 'clone', repo_url, clone_path], check=True)
+        describe_command = get_derivation_attribute(platform, [package_path, 'gitDescribeCommand'])
+        latest_commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=clone_path, encoding='utf-8').strip()
+        latest_commit_description = subprocess.check_output(['git'] + shlex.split(describe_command), cwd=clone_path, encoding='utf-8').strip()
 
-    # Update the commit in the expression and set nil hash for TOFU.
-    replace_contents(expr_file, lambda contents: contents.replace(previous_rev, latest_commit).replace(src_hash, NIL_HASH))
+    # Update the version and commit in the expression and set nil hash for TOFU.
+    replace_contents(expr_file, lambda contents: contents.replace(previous_version, latest_commit_description).replace(previous_rev, latest_commit).replace(src_hash, NIL_HASH))
 
     # Get the checksum for the new src and replace it in the expression.
     src_build_attempt = try_building_attr(platform, [package_path, 'src'])
