@@ -11,6 +11,7 @@ let
     inherit pkgs;
   };
 in with pkgs; [
+  bat
   common-updater-scripts
   chromium
   (deadbeef-with-plugins.override {
