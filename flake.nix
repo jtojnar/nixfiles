@@ -21,6 +21,7 @@
       # Here we explicitly define all the platforms that will be exposed.
       platforms = [
         "x86_64-linux"
+        "aarch64-linux"
       ];
 
       forAllPlatforms = f: lib.genAttrs platforms (platform: f platform);
