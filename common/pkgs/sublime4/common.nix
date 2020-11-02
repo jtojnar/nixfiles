@@ -8,13 +8,10 @@
 
 let
   pname = "sublimetext4";
-  packageAttribute = "sublime4${stdenv.lib.optionalString dev "-dev"}";
   binaries = [ "sublime_text" "plugin_host-3.3" "plugin_host-3.8" "crash_reporter" ];
   primaryBinary = "sublime_text";
   primaryBinaryAliases = [ "subl" "sublime" "sublime4" ];
   downloadUrl = "https://download.sublimetext.com/sublime_text_build_${buildVersion}_${arch}.tar.xz";
-  versionUrl = "https://www.sublimetext.com/updates/4/dev_update_check";
-  versionFile = builtins.toString ./packages.nix;
   archSha256 = {
     "aarch64-linux" = aarch64sha256;
     "x86_64-linux" = x64sha256;
@@ -129,25 +126,7 @@ in stdenv.mkDerivation (rec {
     done
   '';
 
-  passthru.updateScript = writeScript "${pname}-update-script" ''
-    #!${stdenv.shell}
-    set -o errexit
-    PATH=${stdenv.lib.makeBinPath [ common-updater-scripts curl jq gnugrep ]}
-
-    latestVersion=$(curl -s ${versionUrl} | jq .latest_version)
-
-    if [[ "${buildVersion}" = "$latestVersion" ]]; then
-        echo "The new version same as the old version."
-        exit 0
-    fi
-
-    for platform in ${stdenv.lib.concatStringsSep " " meta.platforms}; do
-        # The script will not perform an update when the version attribute is up to date from previous platform run
-        # We need to clear it before each run
-        update-source-version ${packageAttribute}.${primaryBinary} 0 0000000000000000000000000000000000000000000000000000000000000000 --file=${versionFile} --version-key=buildVersion --system=$platform
-        update-source-version ${packageAttribute}.${primaryBinary} $latestVersion --file=${versionFile} --version-key=buildVersion --system=$platform
-    done
-  '';
+  passthru.updateScript = ./update.py;
 
   meta = with stdenv.lib; {
     description = "Sophisticated text editor for code, markup and prose";
