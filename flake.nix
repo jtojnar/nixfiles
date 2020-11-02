@@ -3,13 +3,17 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    napalm = {
+      url = "github:nmattia/napalm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixgl = {
       url = "github:guibou/nixGL";
       flake = false;
     };
   };
 
-  outputs = { self, nixpkgs, nixgl }@inputs:
+  outputs = { self, napalm, nixpkgs, nixgl }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -36,9 +40,23 @@
       # Create combined package set from nixpkgs and our overlays.
       mkPkgs = platform: import nixpkgs {
         system = platform;
-        overlays = builtins.attrValues self.overlays;
+        overlays = builtins.attrValues self.overlays ++ [
+          # Take only napalm attribute from napalm overlay and
+          # pass it the latest nodejs.
+          (lib.pipe napalm.overlay [
+            (locallyOverrideFinal (final: { nodejs = final.nodejs_latest; }))
+            (filterOverlayAttrs [ "napalm" ])
+          ])
+        ];
         config = { allowUnfree = true; };
       };
+
+      # We should not trust overlays to override arbitrary attribute paths.
+      # Let’s keep only those whitlelisted in the first attribute.
+      filterOverlayAttrs = attrs: overlay: final: prev: builtins.intersectAttrs (lib.genAttrs attrs (attr: null)) (overlay final prev);
+
+      # If a package from overlay depends on some final package, let’s change it into a different one.
+      locallyOverrideFinal = mkAttrs: overlay: final: prev: overlay (final // mkAttrs final) prev;
 
       # Package sets for each platform.
       pkgss = forAllPlatforms mkPkgs;

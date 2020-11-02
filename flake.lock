@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "napalm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1604227931,
+        "narHash": "sha256-KthOdmVIadsDBxLh+Rpbuh7I5sVbLAeERrMY4IIYLeA=",
+        "owner": "nmattia",
+        "repo": "napalm",
+        "rev": "799a2946690d2d9429c5120b21afe587fe1f4360",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nmattia",
+        "repo": "napalm",
+        "type": "github"
+      }
+    },
     "nixgl": {
       "flake": false,
       "locked": {
@@ -34,6 +54,7 @@
     },
     "root": {
       "inputs": {
+        "napalm": "napalm",
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs"
       }

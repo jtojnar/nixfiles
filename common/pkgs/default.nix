@@ -1,4 +1,6 @@
 final: prev: {
+  pengu = prev.callPackage ./pengu {};
+
   phpbb = prev.callPackage ./phpbb {};
 
   selfoss = prev.callPackage ./selfoss {};

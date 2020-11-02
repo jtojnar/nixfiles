@@ -12,6 +12,7 @@ in {
     ./mediacache
     ./preklady
     ./provider
+    ./pengu
     ./shout
     ./upload
     ./www
@@ -27,6 +28,7 @@ in {
     "mediacache.fan-club-penguin.cz"
     "preklady.fan-club-penguin.cz"
     "provider.fan-club-penguin.cz"
+    "pengu.fan-club-penguin.cz"
     "shout.fan-club-penguin.cz"
     "upload.fan-club-penguin.cz"
   ];
@@ -63,6 +65,7 @@ in {
         extraGroups = [
           "fcp"
           "cpforum"
+          "pengu"
         ];
       };
 
@@ -75,11 +78,13 @@ in {
 
       fcp = { uid = 500; group = "fcp"; isSystemUser = true; };
       cpforum = { uid = 511; group = "cpforum"; isSystemUser = true; };
+      pengu = { uid = 512; group = "pengu"; isSystemUser = true; };
     };
 
     groups = {
       fcp = { gid = 500; };
       cpforum = { gid = 511; };
+      pengu = { gid = 512; };
     };
   };
 }
