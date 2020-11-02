@@ -1,1 +1,1 @@
-../pkgs/default.nix
+../../pkgs/default.nix

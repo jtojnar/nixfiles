@@ -70,7 +70,7 @@
         in configs;
 
       # Overlay containing our packages defined in this repository.
-      overlay = import ./common/pkgs;
+      overlay = import ./pkgs;
 
       # All our overlays.
       # We will apply them to all hosts.
@@ -81,7 +81,7 @@
           overlayPaths = map fullPath (builtins.attrNames (builtins.readDir overlayDir));
         in pathsToImportedAttrs overlayPaths;
 
-      # All our packages listed in /common/pkgs.
+      # All our packages listed in /pkgs.
       packages =
         let
           # We only have our packages listed in an overlay so we need to extract them from there.

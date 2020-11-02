@@ -16,7 +16,7 @@ def main(args):
     update_nix = os.path.join(nixpkgs, 'maintainers/scripts/update.nix')
 
     nix_args = [update_nix]
-    nix_args += ['--arg', 'include-overlays', f'[ (import {path}/common/pkgs) ]']
+    nix_args += ['--arg', 'include-overlays', f'[ (import {path}/pkgs) ]']
     nix_args += ['--argstr', 'path', args.attr_path]
 
     nix_shell = ['nix-shell'] + nix_args

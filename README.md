@@ -4,11 +4,11 @@
 * `common`
     * `modules` – NixOS modules that will be auto-loaded by all configurations
     * `overlays` – Nixpkgs overlays that will be applied to package set
-    * `pkgs` – utilities and software not suitable/ready to be in Nixpkgs
     * `profiles` – configuration profiles that can be imported
 * `hosts`
     * `azazel` – VPS
     * `theo` – personal laptop
+* `pkgs` – utilities and software not suitable/ready to be in Nixpkgs
 
 ## Commands
 
