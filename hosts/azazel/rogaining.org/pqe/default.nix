@@ -47,8 +47,8 @@ in {
       serviceConfig = {
         User = "pqe";
         Group = "pqe";
-        ExecStart = "${pkgs.nodejs-12_x}/bin/node ${pqe}/lib/node_modules/wrcQ/index.js";
-        WorkingDirectory = "${pqe}/lib/node_modules/wrcQ";
+        ExecStart = "${pkgs.nodejs_latest}/bin/node ${pqe}/index.js";
+        WorkingDirectory = pqe;
         Restart = "always";
         RestartSec = "10";
       };

@@ -1,6 +1,7 @@
 {
     "owner": "jtojnar",
     "repo": "wrcq",
-    "rev": "5ffcb4e24a4d389342ead75328bf409d90c2f8bf",
-    "sha256": "1yra7sgdysyd5xa3bpanlw7cgbw65bgliaj2jr2s1c33zs5xddc2"
+    "rev": "6b9f304bd2326edaec4e4c9a2f911623312aa819",
+    "sha256": "sha256-3pRf2f1/si4ByKqmBdcoD2xpU8bz8P8O//McMkDuL8E=",
+    "fetchSubmodules": true
 }
