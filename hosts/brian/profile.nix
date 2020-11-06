@@ -11,6 +11,7 @@ let
     inherit pkgs;
   };
 in with pkgs; [
+  anki
   bat
   common-updater-scripts
   chromium
