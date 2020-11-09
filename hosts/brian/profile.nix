@@ -31,6 +31,7 @@ in with pkgs; [
   nixgl.nixGLIntel
   inkscape
   nix-du
+  nix-direnv
   nix-index
   nix-review
   patchelf
