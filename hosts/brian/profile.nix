@@ -27,6 +27,7 @@ in with pkgs; [
   fd
   gimp
   gitAndTools.gh
+  gitAndTools.git-crypt
   nixFlakes
   nixgl.nixGLIntel
   inkscape
