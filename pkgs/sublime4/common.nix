@@ -1,7 +1,6 @@
 { buildVersion, aarch64sha256, x64sha256, dev ? false }:
 
-{ fetchurl, stdenv, xorg, glib, libglvnd, glibcLocales, gtk3, cairo, pango, libredirect, makeWrapper, wrapGAppsHook
-, pkexecPath ? "/run/wrappers/bin/pkexec"
+{ fetchurl, stdenv, xorg, glib, libglvnd, glibcLocales, gtk3, cairo, pango, makeWrapper, wrapGAppsHook
 , writeScript, common-updater-scripts, curl, jq, gnugrep
 , openssl, bzip2, bash, unzip, zip
 }:
@@ -22,7 +21,6 @@ let
   }.${stdenv.hostPlatform.system};
 
   libPath = stdenv.lib.makeLibraryPath [ xorg.libX11 glib libglvnd openssl gtk3 cairo pango ];
-  redirects = [ "/usr/bin/pkexec=${pkexecPath}" ];
 in let
   binaryPackage = stdenv.mkDerivation {
     pname = "${pname}-bin";
@@ -88,19 +86,11 @@ in let
     dontWrapGApps = true; # non-standard location, need to wrap the executables manually
 
     postFixup = ''
-      wrapProgram $out/sublime_bash \
-        --set LD_PRELOAD "${stdenv.cc.cc.lib}/lib${stdenv.lib.optionalString stdenv.is64bit "64"}/libgcc_s.so.1"
+      sed -i 's#/usr/bin/pkexec#pkexec\x00\x00\x00\x00\x00\x00\x00\x00\x00#g' "$out/${primaryBinary}"
 
       wrapProgram $out/${primaryBinary} \
-        --set LD_PRELOAD "${libredirect}/lib/libredirect.so" \
-        --set NIX_REDIRECTS ${builtins.concatStringsSep ":" redirects} \
         --set LOCALE_ARCHIVE "${glibcLocales.out}/lib/locale/locale-archive" \
         "''${gappsWrapperArgs[@]}"
-
-      # Without this, plugin_host crashes, even though it has the rpath
-      for host in $out/plugin_host-{3.3,3.8}; do
-          wrapProgram $host --prefix LD_PRELOAD : ${stdenv.cc.cc.lib}/lib${stdenv.lib.optionalString stdenv.is64bit "64"}/libgcc_s.so.1:${openssl.out}/lib/libssl.so:${bzip2.out}/lib/libbz2.so
-      done
     '';
   };
 in stdenv.mkDerivation (rec {
