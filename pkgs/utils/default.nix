@@ -3,6 +3,7 @@
 , makeWrapper
 , fzf
 , python3
+, nixos
 }:
 let
   mkUtil = name: { path ? [], buildInputs ? [], script ? name }: stdenv.mkDerivation {
@@ -28,7 +29,16 @@ let
     '');
   };
 in {
-  deploy = mkUtil "deploy" { buildInputs = [ python3 ]; };
+  deploy = mkUtil "deploy" {
+    buildInputs = [
+      python3
+    ];
+    path = [
+      (nixos ({pkgs, ...}: {
+        nix.package = pkgs.nixFlakes;
+      })).nixos-rebuild
+    ];
+  };
   git-part-pick = mkUtil "git-part-pick" { path = [ fzf ]; };
   git-auto-fixup = mkUtil "git-auto-fixup" { };
   git-auto-squash = mkUtil "git-auto-squash" { script = "git-auto-fixup"; };
