@@ -63,6 +63,7 @@ in {
     users = {
       jtojnar = {
         extraGroups = [
+          "bloudeni"
           "entries"
           "rogaining-2019"
           "entries-2019"
@@ -71,6 +72,7 @@ in {
 
       tojnar = {
         extraGroups = [
+          "bloudeni"
           "entries"
           "krk"
           "entries-2019"
@@ -79,6 +81,7 @@ in {
 
       nginx = {
         extraGroups = [
+          "bloudeni"
           "entries"
           "krk"
           "rogaining-2019"
@@ -86,6 +89,7 @@ in {
         ];
       };
 
+      bloudeni = { uid = 513; group = "bloudeni"; isSystemUser = true; };
       entries = { uid = 504; group = "entries"; isSystemUser = true; };
       krk = { uid = 505; group = "krk"; isSystemUser = true; };
       rogaining-2019 = { uid = 507; group = "rogaining-2019"; isSystemUser = true; };
@@ -93,6 +97,7 @@ in {
     };
 
     groups = {
+      bloudeni = { gid = 513; };
       entries = { gid = 504; };
       krk = { gid = 505; };
       rogaining-2019 = { gid = 507; };
