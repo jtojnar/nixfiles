@@ -26,6 +26,7 @@ in with pkgs; [
   exa
   fd
   gimp
+  gnome3.geary
   gitAndTools.gh
   gitAndTools.git-crypt
   nixFlakes
