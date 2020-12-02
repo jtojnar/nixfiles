@@ -39,6 +39,15 @@ in {
       package = pkgs.mariadb;
     };
 
+    nginx = {
+      # Use mainline nginx instead of stable, and add some modules.
+      package = pkgs.nginxMainline.override (orig: {
+        modules = orig.modules ++ [
+          pkgs.nginxModules.fancyindex
+        ];
+      });
+    };
+
     openssh = {
       enable = true;
       passwordAuthentication = false;
