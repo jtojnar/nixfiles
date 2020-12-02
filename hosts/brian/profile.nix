@@ -44,4 +44,5 @@ in with pkgs; [
   sublime4-dev
   tdesktop
   vlc
+  youtube-dl
 ]
