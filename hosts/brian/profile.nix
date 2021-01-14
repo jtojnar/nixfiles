@@ -36,6 +36,7 @@ in with pkgs; [
   nix-direnv
   nix-index
   nix-review
+  pandoc
   patchelf
   ripgrep
   source-code-pro
