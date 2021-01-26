@@ -23,6 +23,7 @@ in with pkgs; [
     ];
   })
   direnv
+  droidcam
   exa
   fd
   gimp
