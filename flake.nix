@@ -8,6 +8,11 @@
       flake = false;
     };
 
+    naersk = {
+      url = "github:nmattia/naersk";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     napalm = {
       url = "github:nmattia/napalm";
@@ -17,9 +22,15 @@
       url = "github:guibou/nixGL";
       flake = false;
     };
+
+    nixpkgs-mozilla = {
+      # https://github.com/mozilla/nixpkgs-mozilla/pull/250
+      url = "github:andersk/nixpkgs-mozilla/stdenv.lib";
+      flake = false;
+    };
   };
 
-  outputs = { self, flake-compat, napalm, nixpkgs, nixgl }@inputs:
+  outputs = { self, flake-compat, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -54,6 +65,22 @@
             (locallyOverrideFinal (final: { nodejs = final.nodejs_latest; }))
             (filterOverlayAttrs [ "napalm" ])
           ])
+
+          (final: prev: {
+            naerskUnstable =
+              let
+                nmo = import nixpkgs-mozilla final prev;
+                rust = (nmo.rustChannelOf {
+                  date = "2021-01-27";
+                  channel = "nightly";
+                  sha256 = "447SQnx5OrZVv6Na5xbhiWoaCwIUrB1KskyMOQEDJb8=";
+                }).rust;
+              in
+                naersk.lib.${platform}.override {
+                  cargo = rust;
+                  rustc = rust;
+                };
+          })
         ];
         config = {
           allowUnfree = true;

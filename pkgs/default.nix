@@ -1,4 +1,7 @@
 final: prev: {
+  inherit (prev.callPackages ./activitywatch { })
+    aw-server-rust;
+
   pengu = prev.callPackage ./pengu {};
 
   phpbb = prev.callPackage ./phpbb {};
