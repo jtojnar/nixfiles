@@ -6,11 +6,11 @@
 
 stdenv.mkDerivation rec {
   pname = "selfoss";
-  version = "2.19-664481d";
+  version = "2.19-2d41ce3";
 
   src = fetchurl {
     url = "https://dl.bintray.com/fossar/selfoss/selfoss-${version}.zip";
-    sha256 = "gnGpcCBHjQvdL5GJyU7fDDV0eACJtcnySBnhZ2PiThw=";
+    sha256 = "sz0r1AkkcvzJpodpJMA5h+XsQCmhnaP9TfKxFSOTOoY=";
   };
 
   nativeBuildInputs = [
