@@ -10,10 +10,6 @@ final: prev: {
 
   sunflower = prev.callPackage ./sunflower {};
 
-  v4l2loopback-dc = prev.callPackage ./v4l2loopback-dc {
-    inherit (prev.linuxPackages) kernel;
-  };
-
   vikunja-api = prev.callPackage ./vikunja/vikunja-api {};
 
   vikunja-frontend = prev.callPackage ./vikunja/vikunja-frontend {};
