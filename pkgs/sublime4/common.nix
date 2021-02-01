@@ -1,6 +1,6 @@
 { buildVersion, aarch64sha256, x64sha256, dev ? false }:
 
-{ fetchurl, stdenv, xorg, glib, libglvnd, glibcLocales, gtk3, cairo, pango, makeWrapper, wrapGAppsHook
+{ fetchurl, stdenv, lib, xorg, glib, libglvnd, glibcLocales, gtk3, cairo, pango, makeWrapper, wrapGAppsHook
 , writeScript, common-updater-scripts, curl, jq, gnugrep
 , openssl, bzip2, bash, unzip, zip
 }:
@@ -20,7 +20,7 @@ let
     "x86_64-linux" = "x64";
   }.${stdenv.hostPlatform.system};
 
-  libPath = stdenv.lib.makeLibraryPath [ xorg.libX11 glib libglvnd openssl gtk3 cairo pango ];
+  libPath = lib.makeLibraryPath [ xorg.libX11 glib libglvnd openssl gtk3 cairo pango ];
 in let
   binaryPackage = stdenv.mkDerivation {
     pname = "${pname}-bin";
@@ -60,7 +60,7 @@ in let
       for binary in ${ builtins.concatStringsSep " " binaries }; do
         patchelf \
           --interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-          --set-rpath ${libPath}:${stdenv.cc.cc.lib}/lib${stdenv.lib.optionalString stdenv.is64bit "64"} \
+          --set-rpath ${libPath}:${stdenv.cc.cc.lib}/lib${lib.optionalString stdenv.is64bit "64"} \
           $binary
       done
 
@@ -118,7 +118,7 @@ in stdenv.mkDerivation (rec {
 
   passthru.updateScript = ./update.py;
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Sophisticated text editor for code, markup and prose";
     homepage = "https://www.sublimetext.com/";
     maintainers = with maintainers; [ jtojnar wmertens demin-dmitriy zimbatm ];
