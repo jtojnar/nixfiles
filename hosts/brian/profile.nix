@@ -26,6 +26,7 @@ in with pkgs; [
   droidcam
   exa
   fd
+  fzf
   gimp
   gnome3.geary
   gitAndTools.gh
