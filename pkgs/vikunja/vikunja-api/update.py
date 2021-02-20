@@ -90,34 +90,34 @@ def main():
 
     # Get the checksum for the new src and replace it in the expression.
     src_build_attempt = try_building_attr(platform, [package_path, 'src'])
-    if src_build_attempt.returncode == 0:
+    if False: # src_build_attempt.returncode == 0:
         print('Building src succeeded', file=sys.stderr)
         sys.exit(1)
     else:
         checksum = get_mismatched_checksum(src_build_attempt.stderr)
         if checksum:
             replace_contents(expr_file, lambda contents: contents.replace(NIL_HASH, checksum))
-        else:
-            print(src_build_attempt.stderr, file=sys.stderr)
-            print('Hash mismatch not found', file=sys.stderr)
-            sys.exit(1)
+        # else:
+        #     print(src_build_attempt.stderr, file=sys.stderr)
+        #     print('Hash mismatch not found', file=sys.stderr)
+        #     sys.exit(1)
 
     # Set nil hash for go-modules TOFU.
     replace_contents(expr_file, lambda contents: contents.replace(go_deps_hash, NIL_HASH))
 
     # Get the checksum for the new go-modules and replace it in the expression.
     go_deps_build_attempt = try_building_attr(platform, [package_path, 'go-modules'])
-    if go_deps_build_attempt.returncode == 0:
+    if False: # go_deps_build_attempt.returncode == 0:
         print('Building go-modules succeeded', file=sys.stderr)
         sys.exit(1)
     else:
         checksum = get_mismatched_checksum(go_deps_build_attempt.stderr)
         if checksum:
             replace_contents(expr_file, lambda contents: contents.replace(NIL_HASH, checksum))
-        else:
-            print(go_deps_build_attempt.stderr, file=sys.stderr)
-            print('Hash mismatch not found', file=sys.stderr)
-            sys.exit(1)
+        # else:
+        #     print(go_deps_build_attempt.stderr, file=sys.stderr)
+        #     print('Hash mismatch not found', file=sys.stderr)
+        #     sys.exit(1)
 
 if __name__ == '__main__':
     main()
