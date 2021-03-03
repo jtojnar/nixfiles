@@ -4,6 +4,7 @@ let
   inherit (myLib) mkPhpPool;
 in {
   imports = [
+    ./bag
     ./develop
     ./mechmice
     ./mysql
@@ -15,6 +16,7 @@ in {
 
   security.acme.certs."ogion.cz".extraDomainNames = [
     "www.ogion.cz"
+    "bag.ogion.cz"
     # "develop.ogion.cz"
     "mechmice.ogion.cz"
     "mysql.ogion.cz"
@@ -52,6 +54,7 @@ in {
     users = {
       jtojnar = {
         extraGroups = [
+          "bag"
           "reader"
           "adminer"
           "mechmice"
@@ -60,18 +63,21 @@ in {
 
       nginx = {
         extraGroups = [
+          "bag"
           "reader"
           "adminer"
           "mechmice"
         ];
       };
 
+      bag = { uid = 514; group = "bag"; isSystemUser = true; };
       reader = { uid = 501; group = "reader"; isSystemUser = true; };
       adminer = { uid = 502; group = "adminer"; isSystemUser = true; };
       mechmice = { uid = 503; group = "mechmice"; isSystemUser = true; };
     };
 
     groups = {
+      bag = { gid = 514; };
       reader = { gid = 501; };
       adminer = { gid = 502; };
       mechmice = { gid = 503; };
