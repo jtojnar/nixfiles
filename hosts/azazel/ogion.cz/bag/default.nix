@@ -5,7 +5,17 @@ let
 
   datadir = "/var/www/ogion.cz/bag";
 
-  package = pkgs.wallabag;
+  package = pkgs.wallabag.overrideAttrs (attrs: {
+    patches = attrs.patches or [] ++ [
+      # Use sendmail from php.ini
+      (pkgs.fetchpatch {
+        url = "https://github.com/symfony/swiftmailer-bundle/commit/31a4fed8f621f141ba70cb42ffb8f73184995f4c.patch";
+        stripLen = 1;
+        extraPrefix = "vendor/symfony/swiftmailer-bundle/";
+        sha256 = "rxHiGhKFd/ZWnIfTt6omFLLoNFlyxOYNCHIv/UtxCho=";
+      })
+    ];
+  });
 
   # Based on https://github.com/wallabag/wallabag/blob/c018d41f908343cb79bfc09f4ed5955c46f65b15/app/config/parameters.yml.dist
   settings = {
@@ -26,7 +36,7 @@ let
     mailer_transport = "sendmail";
     mailer_user = null;
     mailer_password = null;
-    mailer_host = "default";
+    mailer_host = null;
     mailer_port = null;
     mailer_encryption = null;
     mailer_auth_mode = null;
@@ -37,7 +47,7 @@ let
     secret = import ../../../../secrets/bag.ogion.cz-secret.nix;
 
     # two factor stuff
-    twofactor_auth = false;
+    twofactor_auth = true;
     twofactor_sender = "bag@ogion.cz";
 
     # fosuser stuff
