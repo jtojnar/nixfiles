@@ -2,6 +2,12 @@
   description = "jtojnar’s machines";
 
   inputs = {
+    # Shim to make flake.nix work with stable Nix.
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     napalm = {
       url = "github:nmattia/napalm";
@@ -13,7 +19,7 @@
     };
   };
 
-  outputs = { self, napalm, nixpkgs, nixgl }@inputs:
+  outputs = { self, flake-compat, napalm, nixpkgs, nixgl }@inputs:
     let
       inherit (nixpkgs) lib;
 
