@@ -97,7 +97,10 @@ let
     ];
   };
 
-  php = pkgs.php;
+  php = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
+    imagick
+    tidy
+  ]));
 in {
   custom.postgresql.databases = [
     {
