@@ -182,7 +182,7 @@ in {
     patchutils # for filterdiff
     playerctl
     posix_man_pages
-    pulseeffects
+    pulseeffects-legacy
     python3Full
     ripgrep
     sequeler
@@ -223,7 +223,7 @@ in {
       league-of-moveable-type
       libertine
       noto-fonts-emoji
-      joypixels
+      (joypixels.override { acceptLicense = true; })
       liberation_ttf_v2 # Arial, Times New Roman & Courier New replacement
       libre-baskerville
       libre-bodoni
