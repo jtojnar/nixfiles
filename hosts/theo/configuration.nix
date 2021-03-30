@@ -20,7 +20,7 @@ in {
 
   boot.initrd.luks.devices = {
     root = {
-      device = "/dev/disk/by-uuid/53c65a34-aef8-4a68-9485-b4415b202e03"; # Obtained using `blkid /dev/sda2`
+      device = "/dev/disk/by-uuid/cdfe8ed6-90bf-4b26-a1d3-0f0efa267c58"; # Obtained using `blkid /dev/sda2`
       preLVM = true;
       allowDiscards = true;
     };
@@ -30,10 +30,10 @@ in {
   boot.kernelParams = [
     "boot.shell_on_fail"
     # https://wiki.archlinux.org/index.php/Power_management/Suspend_and_hibernate#Hibernation
-    "resume_offset=96640659" # physical offset of the first ext in `filefrag -v /var/swap`
+    "resume_offset=1736704" # physical offset of the first ext in `filefrag -v /var/swap`
   ];
 
-  boot.resumeDevice = "/dev/mapper/doge-root";
+  boot.resumeDevice = "/dev/mapper/verbatim--20--vg-root";
 
   # Sony Vaio keyboard not working after suspend
   # https://discourse.nixos.org/t/keyboard-touchpad-do-not-wake-after-closing-laptop-lid/7565/6
@@ -476,9 +476,9 @@ in {
       useDefaultShell = true;
       openssh.authorizedKeys.keys = keys.jtojnar;
 
-      # generated with `diceware -w en_eff` and hashed using `mkpasswd --method=sha-512 --rounds=2000000`
+      # generated with `diceware -w en_eff` and hashed using `mkpasswd --method=sha-512 --rounds=1000000`
       # https://logs.nix.samueldr.com/nixos/2020-04-09#1586472710-1586474674;
-      hashedPassword = "$6$rounds=2000000$Dvz6kfE6/kkPOaS$Df8KT7WcpPWvSriQiKNm16a4IRVRi5q9r6o81QfaYxhQyWoTdJQDIqAQONPpR7bSGPiRRMT3baDDi62qnXIXm0";
+      hashedPassword = "$6$rounds=1000000$B4206OAvwCfr$5yakyriBawsKHHYsziytYmpzgR0zjPaBgWAJEE6ir0KT0if4yX7NCan4codw48eyORNy3YFCAlVaww0mHfZg0/";
     };
   };
 
