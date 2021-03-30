@@ -353,11 +353,11 @@ in {
       sleep-inactive-battery-timeout=1800
 
       [org.gnome.settings-daemon.plugins.media-keys]
-      previous='<Super>b'
+      previous=['<Super>b']
       custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
-      next='<Super>n'
-      home='<Super>e'
-      play='<Super>space'
+      next=['<Super>n']
+      home=['<Super>e']
+      play=['<Super>space']
 
       [org.gnome.settings-daemon.plugins.media-keys.custom-keybindings.custom0]
       binding='<Super>t'
@@ -366,10 +366,6 @@ in {
 
       [org.gnome.desktop.peripherals.touchpad]
       click-method='default'
-
-      [org.gnome.nautilus.preferences]
-      automatic-decompression=false
-      sort-directories-first=true
 
       [org.gtk.settings.file-chooser]
       sort-directories-first=true
