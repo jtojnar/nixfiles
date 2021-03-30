@@ -117,6 +117,7 @@ in {
     dfeet
     diffoscope
     direnv
+    nix-direnv
     dos2unix
     easytag
     exa
@@ -200,6 +201,10 @@ in {
     xsel
     xsv # handling CSV files
     youtube-dl
+  ];
+
+  environment.pathsToLink = [
+    "/share/nix-direnv"
   ];
 
   environment.enableDebugInfo = true;
@@ -495,5 +500,11 @@ in {
         supportedFeatures = [ "big-parallel" ];
       }
     ];
+
+    # nix options for derivations to persist garbage collection
+    extraOptions = ''
+      keep-outputs = true
+      keep-derivations = true
+    '';
   };
 }
