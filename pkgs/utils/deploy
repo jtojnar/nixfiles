@@ -22,6 +22,8 @@ def main(args):
         nix_args += ['--override-input', 'nixpkgs', args.nixpkgs, '--no-write-lock-file']
     if args.keep_going:
         nix_args += ['--keep-going']
+    if args.show_trace:
+        nix_args += ['--show-trace']
 
     if not same_host:
         connection_string = json.loads(subprocess.check_output(['nix', 'eval', '--json', '--impure', '--expr', f'(import ./hosts/list.nix).{args.hostname}.connectionString or null']))
@@ -43,6 +45,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Rebuild system')
     parser.add_argument('--nixpkgs', dest='nixpkgs', help='Override the nixpkgs flake input with this path', nargs='?')
     parser.add_argument('--keep-going', '-k', dest='keep_going', action='store_true', help='Do not stop after first failure')
+    parser.add_argument('--show-trace', dest='show_trace', action='store_true', help='Enable the show-trace setting')
     parser.add_argument('hostname', help='Host whose configuration should we rebuild', nargs='?', default=platform.node())
     parser.add_argument('action', choices=['switch', 'boot', 'test'])
 
