@@ -1,10 +1,15 @@
 { config, pkgs, ... }:
+
+let
+  postgres = pkgs.postgresql_13;
+in
+
 {
   services.postgresql = {
     enable = true;
-    package = pkgs.postgresql_10;
+    package = postgres;
     enableTCPIP = true;
-    extraPlugins = [ (pkgs.plv8.override { postgresql = pkgs.postgresql_10; }) ];
+    extraPlugins = [ postgres.pkgs.plv8 ];
     authentication = ''
       local all all trust
       host all all 10.0.0.28/0 trust
