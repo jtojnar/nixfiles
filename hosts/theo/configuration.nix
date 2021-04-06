@@ -222,7 +222,7 @@ in {
       fira-mono
       gentium
       google-fonts
-      input-fonts
+      (input-fonts.override { acceptLicense = true; })
       ipafont
       ipaexfont
       league-of-moveable-type
