@@ -6,11 +6,11 @@
 
 stdenv.mkDerivation rec {
   pname = "selfoss";
-  version = "2.19-2d41ce3";
+  version = "2.19-6e74ffa";
 
   src = fetchurl {
-    url = "https://dl.bintray.com/fossar/selfoss/selfoss-${version}.zip";
-    sha256 = "sz0r1AkkcvzJpodpJMA5h+XsQCmhnaP9TfKxFSOTOoY=";
+    url = "https://dl.cloudsmith.io/public/fossar/selfoss-git/raw/names/selfoss.zip/versions/${version}/selfoss-${version}.zip";
+    sha256 = "1sk8ji6qf0icshzzlgq1aqw7g34clcbkj46wkgkp92k4wr8nljxh";
   };
 
   nativeBuildInputs = [
@@ -35,7 +35,7 @@ stdenv.mkDerivation rec {
   meta = {
     description = "Multipurpose RSS reader and aggregation web app";
     homepage = "https://selfoss.aditu.de";
-    license = lib.licenses.gpl3;
+    license = lib.licenses.gpl3Plus;
     maintainers = with lib.maintainers; [ jtojnar ];
     platforms = lib.platforms.all;
   };
