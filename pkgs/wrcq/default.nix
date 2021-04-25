@@ -28,6 +28,9 @@ in
       updateScript = ./update.sh;
     };
   } ''
+    # Required for npm config.
+    export HOME=$(mktemp -d)
+
     cp -r ${wrcq-deps}/* .
     chmod +w -R _napalm-install
     cd _napalm-install
