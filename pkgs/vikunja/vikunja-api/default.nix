@@ -39,6 +39,9 @@ buildGoModule rec {
   buildPhase = ''
     runHook preBuild
 
+    # Fixes “Error: error compiling magefiles” during build.
+    export HOME=$(mktemp -d)
+
     mage build:build
 
     runHook postBuild
