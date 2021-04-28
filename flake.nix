@@ -55,7 +55,10 @@
             (filterOverlayAttrs [ "napalm" ])
           ])
         ];
-        config = { allowUnfree = true; };
+        config = {
+          allowUnfree = true;
+          allowAliases = false;
+        };
       };
 
       # We should not trust overlays to override arbitrary attribute paths.
@@ -133,7 +136,7 @@
             deploy
             git
             git-crypt
-            nixFlakes
+            nixUnstable
             update
             (writeShellScriptBin "deploy-nix-profile" ''
               nix-env -f . -E 'flake: flake.nixEnvEnvironments.'"$(hostname)" --remove-all --install

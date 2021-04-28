@@ -23,15 +23,15 @@ in with pkgs; [
   fzf
   gimp
   gnome3.geary
-  gitAndTools.gh
-  gitAndTools.git-crypt
-  nixFlakes
+  gh
+  git-crypt
+  nixUnstable
   nixgl.nixGLIntel
   inkscape
   nix-du
   nix-direnv
   nix-index
-  nix-review
+  nixpkgs-review
   pandoc
   patchelf
   ripgrep

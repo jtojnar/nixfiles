@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nixUnstable;
 
     allowedUsers = [ "@wheel" ];
 

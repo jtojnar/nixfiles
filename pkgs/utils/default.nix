@@ -35,7 +35,7 @@ in {
     ];
     path = [
       (nixos ({pkgs, ...}: {
-        nix.package = pkgs.nixFlakes;
+        nix.package = pkgs.nixUnstable;
       })).nixos-rebuild
     ];
   };

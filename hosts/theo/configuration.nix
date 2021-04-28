@@ -131,20 +131,20 @@ in {
     gcolor3
     gdb
     gimp
-    gitAndTools.gh
-    gitAndTools.diff-so-fancy
-    gitAndTools.git-bz
-    gitAndTools.gitFull
+    gh
+    diff-so-fancy
+    git-bz
+    gitFull
     gitg
     git-auto-fixup
     git-auto-squash
     git-part-pick
+    glade
     gnome3.cheese
     gnome3.dconf-editor
     gnome3.devhelp
     gnome3.geary
     gnome3.ghex
-    gnome3.glade
     gnome3.gnome-chess
     gnome3.gnome-dictionary
     gnome3.gnome-disk-utility
@@ -182,7 +182,7 @@ in {
     patchelf
     patchutils # for filterdiff
     playerctl
-    posix_man_pages
+    man-pages-posix
     pulseeffects-legacy
     python3Full
     ripgrep
@@ -192,7 +192,7 @@ in {
     spotify
     tdesktop
     tldr
-    transmission_gtk
+    transmission-gtk
     unrar
     valgrind
     vlc

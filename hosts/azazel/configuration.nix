@@ -19,8 +19,8 @@ in {
 
   environment.systemPackages = with pkgs; [
     file
-    gitAndTools.diff-so-fancy
-    gitAndTools.gitFull
+    diff-so-fancy
+    gitFull
     moreutils # isutf8
     ncdu
     ripgrep
