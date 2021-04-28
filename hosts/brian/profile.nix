@@ -48,4 +48,11 @@ in with pkgs; [
   tdesktop
   vlc
   youtube-dl
+
+  # Custom utils
+  git-part-pick
+  git-auto-fixup
+  git-auto-squash
+  nix-explore-closure-size
+  sman
 ]
