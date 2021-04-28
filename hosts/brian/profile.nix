@@ -1,13 +1,7 @@
+{ inputs, pkgs, ... }:
+
 let
-  flake = import ../..;
-
-  pkgs = import flake.inputs.nixpkgs {
-    system = builtins.currentSystem;
-    overlays = builtins.attrValues flake.overlays;
-    config = { allowUnfree = true; };
-  };
-
-  nixgl = import flake.inputs.nixgl {
+  nixgl = import inputs.nixgl {
     inherit pkgs;
   };
 in with pkgs; [

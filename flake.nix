@@ -75,6 +75,25 @@
           configs = import ./hosts { inherit inputs pkgss; };
         in configs;
 
+      # Environments for nix-env.
+      # These are used by nix-deploy-profile tool defined below.
+      nixEnvEnvironments =
+        let
+          envs = {
+            brian = {
+              platform = "x86_64-linux";
+            };
+          };
+        in
+          builtins.mapAttrs (
+            hostName:
+            { platform }:
+              import (./hosts + "/${hostName}/profile.nix") {
+                inherit inputs lib;
+                pkgs = pkgss.${platform};
+              }
+          ) envs;
+
       # Overlay containing our packages defined in this repository.
       overlay = import ./pkgs;
 
@@ -117,13 +136,7 @@
             nixFlakes
             update
             (writeShellScriptBin "deploy-nix-profile" ''
-              profile="hosts/$(hostname)/profile.nix"
-              if [[ ! -f $profile ]]; then
-                  echo "Missing profile.nix for host “$(hostname)”"
-                  exit 1
-              fi
-
-              nix-env -f "$profile" --remove-all --install
+              nix-env -f . -E 'flake: flake.nixEnvEnvironments.'"$(hostname)" --remove-all --install
             '')
           ];
 
