@@ -105,6 +105,22 @@
         "type": "github"
       }
     },
+    "npmlock2nix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1608299130,
+        "narHash": "sha256-yuwxROMoHIm2yCf9Gyvy2bhzkLxvLaknNI5pw1hvL4I=",
+        "owner": "tweag",
+        "repo": "npmlock2nix",
+        "rev": "7a321e2477d1f97167847086400a7a4d75b8faf8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tweag",
+        "repo": "npmlock2nix",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -112,7 +128,8 @@
         "napalm": "napalm",
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-mozilla": "nixpkgs-mozilla"
+        "nixpkgs-mozilla": "nixpkgs-mozilla",
+        "npmlock2nix": "npmlock2nix"
       }
     }
   },

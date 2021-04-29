@@ -28,9 +28,14 @@
       url = "github:andersk/nixpkgs-mozilla/stdenv.lib";
       flake = false;
     };
+
+    npmlock2nix = {
+      url = "github:tweag/npmlock2nix";
+      flake = false;
+    };
   };
 
-  outputs = { self, flake-compat, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl }@inputs:
+  outputs = { self, flake-compat, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl, npmlock2nix }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -80,6 +85,8 @@
                   cargo = rust;
                   rustc = rust;
                 };
+
+            npmlock2nix = import npmlock2nix { pkgs = prev; };
           })
         ];
         config = {
