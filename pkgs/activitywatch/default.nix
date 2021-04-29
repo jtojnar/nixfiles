@@ -25,7 +25,7 @@ in
 
 # I did not try to package the Python server due to issues with poetry2nix I encountered for aw-qt and since there is a Rust server available. The Rust server [requires unstable Rust](https://github.com/ActivityWatch/aw-server-rust/issues/116) preventing us to include it in nixpkgs.
 
-{
+rec {
   aw-server-rust = naerskUnstable.buildPackage {
     pname = "aw-server-rust";
     inherit version;
