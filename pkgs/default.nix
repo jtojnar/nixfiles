@@ -4,6 +4,7 @@ final: prev: {
     aw-server-rust
     aw-qt
     aw-watcher-afk
+    aw-watcher-window
     aw-webui;
 
   pengu = prev.callPackage ./pengu {};

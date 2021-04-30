@@ -288,6 +288,36 @@ rec {
     };
   };
 
+  aw-watcher-window = python3.pkgs.buildPythonApplication rec {
+    pname = "aw-watcher-window";
+    inherit version;
+
+    format = "pyproject";
+
+    src = "${sources}/aw-watcher-window";
+
+    nativeBuildInputs = [
+      python3.pkgs.poetry
+    ];
+
+    propagatedBuildInputs = with python3.pkgs; [
+      aw-client
+      xlib
+    ];
+
+    postPatch = ''
+      sed -E 's#\bgit = ".+?"#version = "*"#g' -i pyproject.toml
+      sed -E 's#python-xlib = \{version = "\^0.28"#python-xlib = \{ version = "^0.29"#g' -i pyproject.toml
+    '';
+
+    meta = with lib; {
+      description = "Cross-platform window watcher (for use with ActivityWatch)";
+      homepage = "https://github.com/ActivityWatch/aw-watcher-window";
+      maintainers = with maintainers; [ jtojnar ];
+      license = licenses.mpl20;
+    };
+  };
+
   aw-webui =
     let
       webui-src = runCommand "webui-src" {} ''
