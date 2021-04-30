@@ -6,6 +6,10 @@ let
   };
 in with pkgs; [
   anki
+  aw-qt
+  aw-server-rust
+  aw-watcher-afk
+  aw-watcher-window
   bat
   common-updater-scripts
   chromium
