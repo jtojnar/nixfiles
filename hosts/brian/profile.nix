@@ -5,7 +5,7 @@ let
     inherit pkgs;
   };
 in with pkgs; [
-  anki
+  anki-bin
   aw-qt
   aw-server-rust
   aw-watcher-afk
