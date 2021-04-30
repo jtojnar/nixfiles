@@ -1,6 +1,7 @@
 { lib
 , fetchFromGitHub
 , naerskUnstable
+, makeWrapper
 , pkg-config
 , perl
 , openssl
@@ -220,7 +221,7 @@ rec {
   };
 
   aw-server-rust = naerskUnstable.buildPackage {
-    pname = "aw-server-rust";
+    name = "aw-server-rust";
     inherit version;
 
     root = "${sources}/aw-server-rust";
@@ -234,14 +235,23 @@ rec {
       openssl
     ];
 
-    postInstall = ''
-      mkdir "$out/bin/aw_server_rust"
-      ln -s "${aw-webui}" "$out/bin/aw_server_rust/static"
-    '';
+    overrideMain = attrs: {
+      nativeBuildInputs = attrs.nativeBuildInputs or [] ++ [
+        makeWrapper
+      ];
+
+      postFixup = attrs.postFixup or "" + ''
+        wrapProgram "$out/bin/aw-server" \
+          --prefix XDG_DATA_DIRS : "$out/share"
+
+        mkdir -p "$out/share/aw-server"
+        ln -s "${aw-webui}" "$out/share/aw-server/static"
+      '';
+    };
 
     meta = with lib; {
       description = "Cross-platform, extensible, privacy-focused, free and open-source automated time tracker";
-      homepage = "https://activitywatch.net/";
+      homepage = "https://github.com/ActivityWatch/aw-server-rust";
       maintainers = with maintainers; [ jtojnar ];
       platforms = platforms.linux;
       license = licenses.mpl20;
