@@ -1,6 +1,8 @@
 final: prev: {
   inherit (prev.callPackages ./activitywatch { })
+    aw-core
     aw-server-rust
+    aw-qt
     aw-webui;
 
   pengu = prev.callPackage ./pengu {};
