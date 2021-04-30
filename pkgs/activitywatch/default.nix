@@ -63,6 +63,62 @@ rec {
     };
   };
 
+  aw-client = python3.pkgs.buildPythonPackage rec {
+    pname = "aw-client";
+    inherit version;
+
+    format = "pyproject";
+
+    src = "${sources}/aw-client";
+
+    nativeBuildInputs = [
+      python3.pkgs.poetry
+    ];
+
+    propagatedBuildInputs = with python3.pkgs; [
+      aw-core
+      requests
+      persist-queue
+      click
+    ];
+
+    meta = with lib; {
+      description = "Client library for ActivityWatch";
+      homepage = "https://github.com/ActivityWatch/aw-client";
+      maintainers = with maintainers; [ jtojnar ];
+      license = licenses.mpl20;
+    };
+  };
+
+  persist-queue = python3.pkgs.buildPythonPackage rec {
+    version = "0.6.0";
+    pname = "persist-queue";
+
+    src = python3.pkgs.fetchPypi {
+      inherit pname version;
+      sha256 = "5z3WJUXTflGSR9ljaL+lxRD95mmZozjW0tRHkNwQ+Js=";
+    };
+
+    checkInputs = with python3.pkgs; [
+      msgpack
+      nose2
+    ];
+
+    checkPhase = ''
+      runHook preCheck
+
+      nose2
+
+      runHook postCheck
+    '';
+
+    meta = with lib; {
+      description = "Thread-safe disk based persistent queue in Python";
+      homepage = "https://github.com/peter-wangxu/persist-queue";
+      license = licenses.bsd3;
+    };
+  };
+
   TakeTheTime = python3.pkgs.buildPythonPackage rec {
     pname = "TakeTheTime";
     version = "0.3.1";
@@ -188,6 +244,46 @@ rec {
       homepage = "https://activitywatch.net/";
       maintainers = with maintainers; [ jtojnar ];
       platforms = platforms.linux;
+      license = licenses.mpl20;
+    };
+  };
+
+  aw-watcher-afk = python3.pkgs.buildPythonApplication rec {
+    pname = "aw-watcher-afk";
+    inherit version;
+
+    format = "pyproject";
+
+    # src = "${sources}/aw-watcher-afk";
+    src = fetchFromGitHub {
+      owner = "ActivityWatch";
+      repo = "aw-watcher-afk";
+      # https://github.com/ActivityWatch/aw-watcher-afk/pull/48
+      rev = "f39dfa1d06ffe73c5ed58a10e01cc6438c63ab17";
+      sha256 = "8+mdispLHJeNK7P+tGsTlNCvjT0PRB9CeJpwIPx6GqM=";
+      fetchSubmodules = true;
+    };
+
+    nativeBuildInputs = [
+      python3.pkgs.poetry
+    ];
+
+    propagatedBuildInputs = with python3.pkgs; [
+      aw-core
+      aw-client
+      xlib
+      pynput
+    ];
+
+    postPatch = ''
+      sed -E 's#\bgit = ".+?"#version = "*"#g' -i pyproject.toml
+      sed -E 's#python-xlib = \{ version = "\^0.28"#python-xlib = \{ version = "^0.29"#g' -i pyproject.toml
+    '';
+
+    meta = with lib; {
+      description = "Watches keyboard and mouse activity to determine if you are AFK or not (for use with ActivityWatch)";
+      homepage = "https://github.com/ActivityWatch/aw-watcher-afk";
+      maintainers = with maintainers; [ jtojnar ];
       license = licenses.mpl20;
     };
   };
