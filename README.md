@@ -20,7 +20,7 @@ Wrapper around `nixos-rebuild` to avoid the need for specifying the full hostnam
 
 ### `update <attr-path>`
 
-Run update script for a package on given attribute path. Currently broken due to to <https://github.com/NixOS/nix/issues/3347>.
+Run update script for a package on given attribute path.
 
 ## License
 
