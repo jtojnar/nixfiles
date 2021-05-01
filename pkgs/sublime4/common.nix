@@ -20,7 +20,7 @@ let
     "x86_64-linux" = "x64";
   }.${stdenv.hostPlatform.system};
 
-  libPath = lib.makeLibraryPath [ xorg.libX11 glib libglvnd openssl gtk3 cairo pango ];
+  libPath = lib.makeLibraryPath [ xorg.libX11 xorg.libXtst glib libglvnd openssl gtk3 cairo pango ];
 in let
   binaryPackage = stdenv.mkDerivation {
     pname = "${pname}-bin";
@@ -116,7 +116,7 @@ in stdenv.mkDerivation (rec {
     done
   '';
 
-  passthru.updateScript = ./update.py;
+  passthru.updateScript = [ ./update.py "sublime4-dev" ];
 
   meta = with lib; {
     description = "Sophisticated text editor for code, markup and prose";
