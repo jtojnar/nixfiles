@@ -6,13 +6,13 @@
 
 stdenv.mkDerivation rec {
   pname = "phpbb";
-  version = "3.3.3";
+  version = "3.3.4";
 
   outputs = [ "out" "installer" ];
 
   src = fetchurl {
     url = "https://download.phpbb.com/pub/release/${lib.versions.majorMinor version}/${version}/phpBB-${version}.zip";
-    sha256 = "iTlzVe3cQ55kMxw7HoWmba5c815bvTcH82oRitlBAZM=";
+    sha256 = "f+oGdWf4GQ7VyEZFv1NdoNylR/bBFsVDusM5QIJHc6g=";
   };
 
   nativeBuildInputs = [
