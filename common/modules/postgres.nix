@@ -63,7 +63,7 @@ in
               in ''
                 set -eu
 
-                PSQL="${pkgs.utillinux}/bin/runuser -u ${pgsql.superUser} -- psql --port=${toString pgsql.port} --tuples-only --no-align"
+                PSQL="${pkgs.util-linux}/bin/runuser -u ${pgsql.superUser} -- psql --port=${toString pgsql.port} --tuples-only --no-align"
 
                 if ! $PSQL -c "SELECT 1 FROM pg_database WHERE datname = '${database}'" | grep --quiet 1; then
                     $PSQL -c 'CREATE DATABASE "${database}" WITH OWNER = "${database}"'
