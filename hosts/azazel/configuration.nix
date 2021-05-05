@@ -4,10 +4,9 @@ let
   keys = import ../../common/data/keys.nix;
 in {
   imports = [
-    "${inputs.nixpkgs}/nixos/modules/profiles/minimal.nix"
+    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
     "${inputs.nixpkgs}/nixos/modules/virtualisation/container-config.nix"
-    ./build.nix
-    ./networking.nix
+    ./vpsadminos.nix
 
     # sites
     ./fan-club-penguin.cz
@@ -117,4 +116,41 @@ in {
   documentation.nixos.enable = true;
 
   system.stateVersion = "18.09";
+
+  # The rest of the file is taken from:
+  # https://github.com/vpsfreecz/vpsadminos/blob/bb71d18ef104796cbb559a8bda399b39eb24daec/os/lib/nixos-container/configuration.nix
+  # Modulo the config copying as I will not be creating containers.
+  systemd.extraConfig = ''
+    DefaultTimeoutStartSec=900s
+  '';
+
+  boot.postBootCommands = ''
+    # After booting, register the contents of the Nix store in the Nix database.
+    if [ -f /nix-path-registration ]; then
+      ${config.nix.package.out}/bin/nix-store --load-db < /nix-path-registration &&
+      rm /nix-path-registration
+    fi
+    # nixos-rebuild also requires a "system" profile
+    ${config.nix.package.out}/bin/nix-env -p /nix/var/nix/profiles/system --set /run/current-system
+    # Add profiles to gcroots
+    ln -sf /nix/var/nix/profiles /nix/var/nix/gcroots/profiles
+  '';
+
+  system.build.tarball = import "${inputs.nixpkgs}/nixos/lib/make-system-tarball.nix" {
+    inherit (pkgs) stdenv closureInfo pixz;
+    compressCommand = "gzip";
+    compressionExtension = ".gz";
+    extraInputs = [ pkgs.gzip ];
+
+    contents = [];
+    storeContents = [
+      { object = config.system.build.toplevel + "/init";
+        symlink = "/sbin/init";
+      }
+      { object = config.system.build.toplevel;
+        symlink = "/run/current-system";
+      }
+    ];
+    extraCommands = "mkdir -p boot proc sys dev etc";
+  };
 }
