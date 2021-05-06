@@ -2,7 +2,7 @@
 , lib
 , mkYarnPackage
 , fetchgit
-, python2
+, python3
 , pkg-config
 , libsass
 , nodejs
@@ -23,17 +23,19 @@ let
     name = "vikunja-frontend-modules";
     inherit version src;
 
-    # cargo culted for node-sass
-    # https://github.com/input-output-hk/cardano-explorer/blob/7f28075951f248d2a5040dd30d8403f704474df6/nix/cardano-graphql/packages.nix
     yarnPreBuild = ''
-      mkdir -p $HOME/.node-gyp/${nodejs.version}
-      echo 9 > $HOME/.node-gyp/${nodejs.version}/installVersion
-      ln -sfv ${nodejs}/include $HOME/.node-gyp/${nodejs.version}
+      mkdir -p $HOME/.cache/node-gyp/${nodejs.version}
+
+      # Set up version which node-gyp checks in <https://github.com/nodejs/node-gyp/blob/4937722cf597ccd1953628f3d5e2ab5204280051/lib/install.js#L87-L96> against the version in <https://github.com/nodejs/node-gyp/blob/4937722cf597ccd1953628f3d5e2ab5204280051/package.json#L15>.
+      echo 9 > $HOME/.cache/node-gyp/${nodejs.version}/installVersion
+
+      # Link node headers so that node-gyp does not try to download them.
+      ln -sfv ${nodejs}/include $HOME/.cache/node-gyp/${nodejs.version}
     '';
 
     pkgConfig = {
       node-sass = {
-        buildInputs = [ python2 pkg-config libsass ];
+        buildInputs = [ python3 pkg-config libsass ];
         # https://github.com/moretea/yarn2nix/issues/12#issuecomment-545084619
         postInstall = ''
           LIBSASS_EXT=auto yarn --offline run build
