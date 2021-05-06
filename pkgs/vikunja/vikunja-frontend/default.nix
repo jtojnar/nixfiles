@@ -2,10 +2,6 @@
 , lib
 , mkYarnPackage
 , fetchgit
-, python3
-, pkg-config
-, libsass
-, nodejs
 , yarn
 , apiBase ? "/api/v1"
 }:
@@ -22,33 +18,6 @@ let
   frontend-modules = mkYarnPackage rec {
     name = "vikunja-frontend-modules";
     inherit version src;
-
-    yarnPreBuild = ''
-      mkdir -p $HOME/.cache/node-gyp/${nodejs.version}
-
-      # Set up version which node-gyp checks in <https://github.com/nodejs/node-gyp/blob/4937722cf597ccd1953628f3d5e2ab5204280051/lib/install.js#L87-L96> against the version in <https://github.com/nodejs/node-gyp/blob/4937722cf597ccd1953628f3d5e2ab5204280051/package.json#L15>.
-      echo 9 > $HOME/.cache/node-gyp/${nodejs.version}/installVersion
-
-      # Link node headers so that node-gyp does not try to download them.
-      ln -sfv ${nodejs}/include $HOME/.cache/node-gyp/${nodejs.version}
-    '';
-
-    pkgConfig = {
-      node-sass = {
-        buildInputs = [ python3 pkg-config libsass ];
-        # https://github.com/moretea/yarn2nix/issues/12#issuecomment-545084619
-        postInstall = ''
-          LIBSASS_EXT=auto yarn --offline run build
-          rm build/config.gypi
-        '';
-      };
-    };
-
-    preInstall = ''
-      # for some reason the two node_modules have non-overlapping contents
-      cp -r deps/vikunja-frontend/node_modules/* node_modules/
-      chmod -R a+w node_modules/
-    '';
 
     doDist = false;
   };
