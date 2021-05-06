@@ -189,6 +189,7 @@ in {
     sequeler
     sman
     sublime4-dev
+    sublime-merge
     spotify
     tdesktop
     tldr
