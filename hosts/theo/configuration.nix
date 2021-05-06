@@ -383,7 +383,7 @@ in {
   };
 
   i18n.inputMethod.enabled = "ibus";
-  i18n.inputMethod.ibus.engines = with pkgs.ibus-engines; [ anthy ];
+  i18n.inputMethod.ibus.engines = with pkgs.ibus-engines; [ mozc ];
 
   # Ugly hack for GPG choosing socket directory based on GNUPGHOME.
   # If any other user wants to use gpg-agent they are out of luck,
