@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  postgres = pkgs.postgresql_13;
+  postgres = pkgs.postgresql_11;
 in
 
 {
