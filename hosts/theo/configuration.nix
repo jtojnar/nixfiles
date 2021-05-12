@@ -140,16 +140,16 @@ in {
     git-auto-squash
     git-part-pick
     glade
-    gnome3.cheese
-    gnome3.dconf-editor
-    gnome3.devhelp
-    gnome3.geary
-    gnome3.ghex
-    gnome3.gnome-chess
-    gnome3.gnome-dictionary
-    gnome3.gnome-disk-utility
-    gnome3.gnome-tweaks
-    gnome3.polari
+    gnome.cheese
+    gnome.dconf-editor
+    gnome.devhelp
+    gnome.geary
+    gnome.ghex
+    gnome.gnome-chess
+    gnome.gnome-dictionary
+    gnome.gnome-disk-utility
+    gnome.gnome-tweaks
+    gnome.polari
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.gsconnect
@@ -327,9 +327,9 @@ in {
   services.xserver.displayManager.defaultSession = "gnome";
 
 
-  services.xserver.desktopManager.gnome3 = {
+  services.xserver.desktopManager.gnome = {
     enable = true;
-    extraGSettingsOverridePackages = with pkgs; [ gnome3.nautilus gnome3.gnome-settings-daemon gtk3 ];
+    extraGSettingsOverridePackages = with pkgs; [ gnome.nautilus gnome.gnome-settings-daemon gtk3 ];
     extraGSettingsOverrides = ''
       [org.gnome.desktop.background]
       primary-color='#000000'

@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    gnome3.gnome-boxes
+    gnome.gnome-boxes
     spice-gtk
   ];
 

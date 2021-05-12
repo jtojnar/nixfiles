@@ -26,7 +26,7 @@ in with pkgs; [
   fd
   fzf
   gimp
-  gnome3.geary
+  gnome.geary
   gh
   git-crypt
   nixUnstable
