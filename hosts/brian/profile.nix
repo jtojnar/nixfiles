@@ -11,6 +11,7 @@ in with pkgs; [
   aw-watcher-afk
   aw-watcher-window
   bat
+  cachix
   common-updater-scripts
   chromium
   (deadbeef-with-plugins.override {
@@ -39,6 +40,7 @@ in with pkgs; [
   pandoc
   patchelf
   ripgrep
+  sd
   source-code-pro
   spotify
   sublime-merge
