@@ -5,13 +5,21 @@ let
 
   adminer = pkgs.adminer.overrideAttrs (attrs: {
     postInstall = attrs.postInstall or "" + ''
-      cp ${./index.php} $out/index.php
-      cp ${./adminer.css} $out/adminer.css
       mkdir $out/plugins
       cp plugins/{plugin,enum-option,login-servers}.php $out/plugins
       cp designs/brade/adminer.css $out/brade.css
     '';
   });
+
+  # If we want to use otp plug-in, we cannot have adminer.php accessible since that does not load plug-ins and would allow bypassing the otp plug-in.
+  wwwRoot = pkgs.runCommand "adminer-with-plugins" {
+    inherit adminer;
+  } ''
+    mkdir -p "$out"
+    substituteAll "${./index.php}" "$out/index.php"
+    ln -s "${adminer}/brade.css" $out/brade.css
+    cp "${./adminer.css}" "$out/adminer.css"
+  '';
 in {
   services = {
     nginx = {
@@ -20,7 +28,7 @@ in {
       virtualHosts = {
         "mysql.ogion.cz" = mkVirtualHost {
           acme = "ogion.cz";
-          root = adminer;
+          root = wwwRoot;
           config = ''
             index index.php;
 
