@@ -143,13 +143,8 @@
           overlayPaths = map fullPath (builtins.attrNames (builtins.readDir overlayDir));
         in pathsToImportedAttrs overlayPaths;
 
-      # All our packages listed in /pkgs.
-      packages =
-        let
-          # We only have our packages listed in an overlay so we need to extract them from there.
-          packageAttributes = builtins.attrNames (self.overlay null null);
-        in
-          forAllPlatforms (platform: lib.getAttrs packageAttributes pkgss.${platform});
+      # Nixpkgs packages with our overlays and packages.
+      packages = pkgss;
 
       # All our modules and profiles that can be imported.
       # A module in /common/modules/baz/qux.nix can be accessed as ‘${flakeRef}.nixosModules.qux’
