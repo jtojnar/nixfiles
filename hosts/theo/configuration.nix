@@ -77,17 +77,7 @@ in {
 
   # Configure sound.
   hardware = {
-    pulseaudio = {
-      enable = true;
-      extraModules = [
-        pkgs.pulseaudio-modules-bt
-      ];
-      package = pkgs.pulseaudioFull;
-      zeroconf = {
-        discovery.enable = true;
-        publish.enable = true;
-      };
-    };
+    pulseaudio.enable = false; # Using PipeWire
     bluetooth.enable = true;
 
     cpu.intel.updateMicrocode = true;
@@ -288,7 +278,14 @@ in {
   # List services that you want to enable:
 
   services.flatpak.enable = true;
-  services.pipewire.enable = true;
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
   services.acpid = {
     enable = true;
     handlers = {
