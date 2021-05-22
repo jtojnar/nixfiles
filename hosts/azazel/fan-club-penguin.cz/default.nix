@@ -14,6 +14,7 @@ in {
     ./preklady
     ./provider
     ./pengu
+    ./saman
     ./shout
     ./upload
     ./www
@@ -31,6 +32,7 @@ in {
     "preklady.fan-club-penguin.cz"
     "provider.fan-club-penguin.cz"
     "pengu.fan-club-penguin.cz"
+    "saman.fan-club-penguin.cz"
     "shout.fan-club-penguin.cz"
     "upload.fan-club-penguin.cz"
   ];
