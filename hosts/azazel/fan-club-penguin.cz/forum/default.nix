@@ -82,11 +82,13 @@ in {
     services.phpfpm-cpforum = {
       serviceConfig = {
         CacheDirectory = "cpforum";
+        ExecStartPost= [
+          # The service starts under “root” user and the phpfpm daemon then lowers the euid to “cpforum”.
+          # But because systemd is not aware of that, the cache directory it creates does not have correct ownership.
+          "${pkgs.coreutils}/bin/chmod -R 700 %C/cpforum"
+          "${pkgs.coreutils}/bin/chown -R cpforum:cpforum %C/cpforum"
+        ];
       };
     };
-
-    # The systemd service starts as root so it does not have correct ownership.
-    # The started phpfpm daemon lowers euid to cpforum but systemd is not aware of that.
-    tmpfiles.rules = [ "d %C/cpforum 0700 cpforum cpforum" ];
   };
 }
