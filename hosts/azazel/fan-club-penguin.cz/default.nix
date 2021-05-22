@@ -8,6 +8,7 @@ in {
     ./beta
     ./cdn
     ./forum
+    ./jitsucards
     ./kafu
     ./lisured
     ./mediacache
@@ -26,6 +27,7 @@ in {
     "beta.fan-club-penguin.cz"
     "cdn.fan-club-penguin.cz"
     "forum.fan-club-penguin.cz"
+    "jitsucards.fan-club-penguin.cz"
     "kafu.fan-club-penguin.cz"
     "lisured.fan-club-penguin.cz"
     "mediacache.fan-club-penguin.cz"
