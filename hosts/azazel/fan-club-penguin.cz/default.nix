@@ -8,6 +8,7 @@ in {
     ./beta
     ./cdn
     ./forum
+    ./kafu
     ./lisured
     ./mediacache
     ./preklady
@@ -24,6 +25,7 @@ in {
     "beta.fan-club-penguin.cz"
     "cdn.fan-club-penguin.cz"
     "forum.fan-club-penguin.cz"
+    "kafu.fan-club-penguin.cz"
     "lisured.fan-club-penguin.cz"
     "mediacache.fan-club-penguin.cz"
     "preklady.fan-club-penguin.cz"
