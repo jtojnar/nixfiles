@@ -166,6 +166,7 @@
             git
             git-crypt
             nixUnstable
+            nopt
             update
             (writeShellScriptBin "deploy-nix-profile" ''
               nix-env -f . -E 'flake: flake.nixEnvEnvironments.'"$(hostname)" --remove-all --install

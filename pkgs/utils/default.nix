@@ -1,4 +1,5 @@
 { stdenv
+, callPackage
 , lib
 , makeWrapper
 , fzf
@@ -43,6 +44,7 @@ in {
   git-auto-fixup = mkUtil "git-auto-fixup" { };
   git-auto-squash = mkUtil "git-auto-squash" { script = "git-auto-fixup"; };
   nix-explore-closure-size = mkUtil "nix-explore-closure-size" { path = [ fzf ]; };
+  nopt = callPackage ./nopt { };
   update = mkUtil "update" { buildInputs = [ python3 ]; };
   sman = mkUtil "sman" { path = [ fzf ]; };
 }

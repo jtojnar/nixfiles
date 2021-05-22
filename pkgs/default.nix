@@ -30,6 +30,7 @@ final: prev: {
     git-auto-fixup
     git-auto-squash
     nix-explore-closure-size
+    nopt
     update
     sman;
 }
