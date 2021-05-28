@@ -39,6 +39,8 @@ in with pkgs; [
   nixpkgs-review
   pandoc
   patchelf
+  pdftag
+  playerctl
   ripgrep
   sd
   source-code-pro
@@ -47,6 +49,7 @@ in with pkgs; [
   sublime4-dev
   tdesktop
   vlc
+  vscodium
   youtube-dl
 
   # Custom utils
