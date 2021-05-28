@@ -13,9 +13,6 @@ final: prev: {
 
   selfoss = prev.callPackage ./selfoss {};
 
-  inherit (prev.recurseIntoAttrs (prev.callPackage ./sublime4/packages.nix { }))
-    sublime4-dev;
-
   sunflower = prev.callPackage ./sunflower {};
 
   vikunja-api = prev.callPackage ./vikunja/vikunja-api {};
