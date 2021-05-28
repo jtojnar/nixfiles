@@ -1,10 +1,6 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 
-let
-  nixgl = import inputs.nixgl {
-    inherit pkgs;
-  };
-in with pkgs; [
+with pkgs; [
   anki-bin
   aw-qt
   aw-server-rust

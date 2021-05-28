@@ -86,6 +86,8 @@
                   rustc = rust;
                 };
 
+            nixgl = import nixgl { pkgs = prev; };
+
             npmlock2nix = import npmlock2nix { pkgs = prev; };
           })
         ];
@@ -126,7 +128,6 @@
             hostName:
             { platform }:
               import (./hosts + "/${hostName}/profile.nix") {
-                inherit inputs lib;
                 pkgs = pkgss.${platform};
               }
           ) envs;
