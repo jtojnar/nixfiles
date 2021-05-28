@@ -8,6 +8,11 @@
       flake = false;
     };
 
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     naersk = {
       url = "github:nmattia/naersk";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,7 +40,7 @@
     };
   };
 
-  outputs = { self, flake-compat, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl, npmlock2nix }@inputs:
+  outputs = { self, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl, npmlock2nix }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -72,6 +77,8 @@
           ])
 
           (final: prev: {
+            home-manager = prev.callPackage "${home-manager}/home-manager" { };
+
             naerskUnstable =
               let
                 nmo = import nixpkgs-mozilla final prev;
@@ -116,20 +123,30 @@
 
       # Environments for nix-env.
       # These are used by nix-deploy-profile tool defined below.
-      nixEnvEnvironments =
+      homeConfigurations =
         let
           envs = {
             brian = {
               platform = "x86_64-linux";
+              user = "jtojnar";
             };
           };
         in
           builtins.mapAttrs (
             hostName:
-            { platform }:
-              import (./hosts + "/${hostName}/profile.nix") {
-                pkgs = pkgss.${platform};
-              }
+            {
+              platform,
+              user,
+            }:
+
+            home-manager.lib.homeManagerConfiguration {
+              configuration = ./hosts + "/${hostName}/home.nix";
+              system = platform;
+              homeDirectory = "/home/${user}";
+              username = "${user}";
+              pkgs = pkgss.${platform};
+              stateVersion = "20.09";
+            }
           ) envs;
 
       # Overlay containing our packages defined in this repository.
@@ -169,8 +186,8 @@
             nixUnstable
             nopt
             update
-            (writeShellScriptBin "deploy-nix-profile" ''
-              nix-env -f . -E 'flake: flake.nixEnvEnvironments.'"$(hostname)" --remove-all --install
+            (writeShellScriptBin "deploy-home" ''
+              nix run .#home-manager -- switch --flake ".#$(hostname)"
             '')
           ];
 

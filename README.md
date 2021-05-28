@@ -7,6 +7,7 @@
     * `profiles` – configuration profiles that can be imported
 * `hosts`
     * `azazel` – VPS
+    * `brian` – personal Ubuntu desktop (home-manager config)
     * `theo` – personal laptop
 * `pkgs` – utilities and software not suitable/ready to be in Nixpkgs
 
@@ -17,6 +18,10 @@ This repo contains some commands to be available in `nix-shell` to make deployme
 ### `deploy [hostname] {switch,boot,test}`
 
 Wrapper around `nixos-rebuild` to avoid the need for specifying the full hostname and pass some default arguments.
+
+### `deploy-home`
+
+Wrapper around `home-manager` to avoid the need for specifying the full hostname and pass some default arguments.
 
 ### `update <attr-path>`
 
