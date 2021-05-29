@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  imports = [
+    ./dwarffs.nix
+  ];
+
   home.packages = with pkgs; [
     anki-bin
     aw-qt
@@ -23,6 +27,7 @@
     exa
     fd
     fzf
+    gdb
     gimp
     gnome.geary
     gh

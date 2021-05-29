@@ -1,5 +1,28 @@
 {
   "nodes": {
+    "dwarffs": {
+      "inputs": {
+        "nix": [
+          "nixpkgs"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1611240086,
+        "narHash": "sha256-z8NmKUm7rfcAIkwtO4JZZo2KKDNQmHyExgNFRRzi1kM=",
+        "owner": "edolstra",
+        "repo": "dwarffs",
+        "rev": "f691e2c991e75edb22836f1dbe632c40324215c5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "dwarffs",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -144,6 +167,7 @@
     },
     "root": {
       "inputs": {
+        "dwarffs": "dwarffs",
         "flake-compat": "flake-compat",
         "home-manager": "home-manager",
         "naersk": "naersk",

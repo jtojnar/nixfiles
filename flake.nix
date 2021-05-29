@@ -2,6 +2,16 @@
   description = "jtojnar’s machines";
 
   inputs = {
+    dwarffs = {
+      url = "github:edolstra/dwarffs";
+      inputs.nixpkgs.follows = "nixpkgs";
+      # HACK: Prevent adding a second nixpkgs copy.
+      # `inputs.nix.inputs.nixpkgs.follows = "nixpkgs";` does not seem to help
+      # so let’s just replace the nix input with a dummy input.
+      # Fortunately, we only use overlays, which do not depend on any inputs.
+      inputs.nix.follows = "nixpkgs";
+    };
+
     # Shim to make flake.nix work with stable Nix.
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -19,10 +29,12 @@
     };
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
     napalm = {
       url = "github:nmattia/napalm";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     nixgl = {
       url = "github:guibou/nixGL";
       flake = false;
@@ -40,7 +52,7 @@
     };
   };
 
-  outputs = { self, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl, npmlock2nix }@inputs:
+  outputs = { self, dwarffs, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl, npmlock2nix }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -69,6 +81,13 @@
       mkPkgs = platform: import nixpkgs {
         system = platform;
         overlays = builtins.attrValues self.overlays ++ [
+          # Take only dwarffs attribute from dwarffs overlay and
+          # pass it unstable Nix.
+          (lib.pipe dwarffs.overlay [
+            (locallyOverrideFinal (final: { nix = final.nixUnstable; }))
+            (filterOverlayAttrs [ "dwarffs" ])
+          ])
+
           # Take only napalm attribute from napalm overlay and
           # pass it the latest nodejs.
           (lib.pipe napalm.overlay [
