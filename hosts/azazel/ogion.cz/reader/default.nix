@@ -4,6 +4,7 @@ let
   inherit (myLib) enablePHP mkPhpPool mkVirtualHost;
 
   settings = {
+    debug = "1";
     username = "jtojnar";
     password = "$2y$10$vLbhYNg4KvHQOCggf1rrx.pVcALVYG.zEkYuBMXWEqOE84u/wOSzS";
     auto_mark_as_read = "1";
