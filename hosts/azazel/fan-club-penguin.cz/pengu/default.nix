@@ -42,7 +42,7 @@ in {
       serviceConfig = {
         User = "pengu";
         Group = "pengu";
-        ExecStart = "${pkgs.nodejs-15_x}/bin/node ${pengu}/src";
+        ExecStart = "${pkgs.nodejs-16_x}/bin/node ${pengu}/src";
         WorkingDirectory = pengu;
         Restart = "always";
         RestartSec = "10";
