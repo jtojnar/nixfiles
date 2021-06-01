@@ -31,6 +31,7 @@
     gimp
     gnome.geary
     gh
+    gitFull
     git-crypt
     nixUnstable
     nixgl.nixGLIntel
