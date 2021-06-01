@@ -61,4 +61,24 @@
     nix-explore-closure-size
     sman
   ];
+
+  programs.fish = {
+    enable = true;
+
+    interactiveShellInit = builtins.readFile ../../common/data/config.fish;
+
+    functions = {
+      mkcd = {
+        description = "Create a directory then “cd” to it";
+        body = ''
+          #doc
+          # `mkcd foo/bar/baz`: Runs `mkdir foo/bar/baz` then `cd foo/bar/baz`
+          #enddoc
+
+          mkdir -p "$argv[1]"
+          cd "$argv[1]"
+        '';
+      };
+    };
+  };
 }
