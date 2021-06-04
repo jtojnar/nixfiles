@@ -44,6 +44,7 @@ in {
         };
         mechmice = mkPhpPool {
           user = "mechmice";
+          phpPackage = pkgs.php74;
           debug = true;
         };
       };

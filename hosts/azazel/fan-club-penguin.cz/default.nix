@@ -57,9 +57,11 @@ in {
       pools = {
         fcp = mkPhpPool {
           user = "fcp";
+          phpPackage = pkgs.php74;
         };
         cpforum = mkPhpPool {
           user = "cpforum";
+          phpPackage = pkgs.php74;
         };
       };
     };
