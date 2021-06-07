@@ -22,6 +22,11 @@ in {
               try_files $uri $uri/ /comic/index.php;
             }
 
+            location /comic/data/prelozit {
+              fancyindex on; # Enable directory listing.
+              fancyindex_exact_size off; # Use human-readable file sizes.
+            }
+
             location ~ \.php$ {
               ${enablePHP "fcp"}
             }
