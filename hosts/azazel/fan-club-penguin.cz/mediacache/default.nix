@@ -13,6 +13,7 @@ in {
           path = "fan-club-penguin.cz/mediacache";
           config = ''
             location / {
+              add_header Access-Control-Allow-Origin *;
               try_files /from-icer.ink/$uri /from-fcp/$uri =404;
             }
           '';
