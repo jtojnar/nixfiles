@@ -7,6 +7,8 @@ final: prev: {
     aw-watcher-window
     aw-webui;
 
+  pechar = prev.callPackage ./pechar {};
+
   pengu = prev.callPackage ./pengu {};
 
   phpbb = prev.callPackage ./phpbb {};

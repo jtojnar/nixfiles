@@ -10,19 +10,7 @@ in {
       virtualHosts = {
         "pechar.fan-club-penguin.cz" = mkVirtualHost {
           acme = "fan-club-penguin.cz";
-          root =
-            pkgs.runCommand "pechar" {
-              src = pkgs.fetchFromGitHub {
-                owner = "ogioncz";
-                repo = "pechar";
-                rev = "48f3d48ad0111b38132afa59bda9a1be0a76da73";
-                sha256 = "r8oDLZz8b0M3Fpf3BfhOnpQouOvmtrPLlTjGmv5DcJc=";
-              };
-            } ''
-              cp -r "$src" "$out"
-              chmod -R +w "$out"
-              sed -i "s#var mediaServer = 'mediacache';#var mediaServer = 'https://mediacache.fan-club-penguin.cz';#" $out/main.js
-            '';
+          root = pkgs.pechar;
           config = ''
             index index.html;
 
