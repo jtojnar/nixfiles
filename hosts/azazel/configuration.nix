@@ -39,6 +39,8 @@ in {
     };
 
     nginx = {
+      recommendedOptimisation = true;
+
       # Use mainline nginx instead of stable, and add some modules.
       package = pkgs.nginxMainline.override (orig: {
         modules = orig.modules ++ [
