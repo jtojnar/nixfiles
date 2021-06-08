@@ -11,6 +11,11 @@ in {
         "mediacache.fan-club-penguin.cz" = mkVirtualHost {
           acme = "fan-club-penguin.cz";
           path = "fan-club-penguin.cz/mediacache";
+          config = ''
+            location / {
+              try_files /from-icer.ink/$uri /from-fcp/$uri =404;
+            }
+          '';
         };
       };
     };
