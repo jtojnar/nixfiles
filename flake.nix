@@ -165,6 +165,9 @@
               username = "${user}";
               pkgs = pkgss.${platform};
               stateVersion = "20.09";
+              extraSpecialArgs = {
+                inherit inputs;
+              };
             }
           ) envs;
 

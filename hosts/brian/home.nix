@@ -1,4 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
+
+let
+  fonts = (inputs.self.nixosModules.profiles.fonts { inherit pkgs; }).fonts.fonts;
+in
 
 {
   imports = [
@@ -61,7 +65,9 @@
     git-auto-squash
     nix-explore-closure-size
     sman
-  ];
+  ] ++ fonts;
+
+  fonts.fontconfig.enable = true;
 
   programs.fish = {
     enable = true;
