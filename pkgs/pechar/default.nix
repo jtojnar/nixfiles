@@ -2,6 +2,7 @@
   fetchFromGitHub,
   lib,
   napalm,
+  unstableGitUpdater,
 }:
 
 let
@@ -16,11 +17,15 @@ let
   src = fetchFromGitHub {
     owner = "ogioncz";
     repo = "pechar";
-    rev = "4760f128fa58c9cb76b936e47ffef47a7541e933";
-    sha256 = "gL7oiTZXT2dkVv68ImftwDeqbG8DXSSRGkH3KGt98a0=";
+    rev = "a4baddf4d59499612c927a2b0f457ebb37c3ee3c";
+    sha256 = "RB1kBkcLXu5+zqBoIzTMYSCwsNgEt+TF9GHgHQUvQbs=";
   };
 in
-napalm.buildPackage src {
+napalm.buildPackage src rec {
+  version = "unstable-2021-06-09";
+  # Napalm will default to value from package.json otherwise.
+  name = "pechar-${version}";
+
   MEDIA_SERVER_URI = "https://mediacache.fan-club-penguin.cz";
 
   npmCommands = [
@@ -45,6 +50,11 @@ napalm.buildPackage src {
     mv data $out/
     runHook postInstall
   '';
+
+  passthru.updateScript = unstableGitUpdater {
+    # The updater tries src.url by default, which does not exist for fetchFromGitHub (fetchurl).
+    url = "${src.meta.homepage}.git";
+  };
 
   meta = {
     description = "Outfit editor for Club Penguin";
