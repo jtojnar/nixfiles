@@ -11,6 +11,7 @@ in {
     inputs.self.nixosModules.profiles.virt
     inputs.self.nixosModules.profiles.fonts
     ./development/web.nix
+    ../../common/cachix.nix
   ];
 
   boot.supportedFilesystems = [ "ntfs" ];
