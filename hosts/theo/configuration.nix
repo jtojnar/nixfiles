@@ -145,6 +145,7 @@ in {
     gnomeExtensions.dash-to-dock
     gnomeExtensions.gsconnect
     gnomeExtensions.sound-output-device-chooser
+    gnomeExtensions.system-monitor
     gnumeric
     gnupg
     gsmartcontrol
