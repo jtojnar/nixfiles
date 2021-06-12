@@ -19,7 +19,7 @@ in {
               tryFiles = "$uri $uri/ /";
               index = "index.html";
             };
-            "/api/" = {
+            "~* ^/(api|dav|\\.well-known)/" = {
               proxyPass = "http://localhost:${toString port}";
             };
           };
