@@ -7,5 +7,6 @@
 
   theo = {
     platform = "x86_64-linux";
+    managedHome = true;
   };
 }

@@ -1,10 +1,10 @@
 # Let’s build a configuration for each host listed in ./list.nix.
 { inputs, pkgss }:
 let
-  inherit (inputs) self nixpkgs;
+  inherit (inputs) self nixpkgs home-manager;
   inherit (nixpkgs) lib;
 
-  mkConfig = { hostName, platform, ... }:
+  mkConfig = { hostName, platform, managedHome, ... }:
     lib.nixosSystem {
       # Platform the host will be running on.
       system = platform;
@@ -42,8 +42,17 @@ let
           # Though avoid importing profiles since those set config values.
           flakeModules =
             builtins.attrValues (builtins.removeAttrs self.nixosModules [ "profiles" ]);
+
+          hmModules =
+            lib.optionals managedHome [
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+              }
+            ];
         in
-          flakeModules ++ [ core global local ];
+          flakeModules ++ [ core global local ] ++ hmModules;
     };
 
   hosts =
