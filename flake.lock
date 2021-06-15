@@ -46,11 +46,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1623343236,
-        "narHash": "sha256-Cl/0/WW3AWjkO7gphw9FqUr4P7T98KKyFCX3Vxv22Sk=",
+        "lastModified": 1623705021,
+        "narHash": "sha256-/GZUHILpflqCINtlY1seepsiUbkx89b2PoGWIKV1+Io=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "666eee4f72979b0ebbd2e065a3846d7a8a16895c",
+        "rev": "1375fd4a030c27e6c6208b31b8189ca41da01fb0",
         "type": "github"
       },
       "original": {
@@ -118,11 +118,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1623324058,
-        "narHash": "sha256-Jm9GUTXdjXz56gWDKy++EpFfjrBaxqXlLvTLfgEi8lo=",
+        "lastModified": 1623580589,
+        "narHash": "sha256-Ayp1cjXpwFCkAiWUE46rj9APTltsiEBdIs2+cj+U7+c=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "432fc2d9a67f92e05438dff5fdc2b39d33f77997",
+        "rev": "fa0326ce5233f7d592271df52c9d0812bec47b84",
         "type": "github"
       },
       "original": {
@@ -152,11 +152,11 @@
     "npmlock2nix": {
       "flake": false,
       "locked": {
-        "lastModified": 1622316091,
-        "narHash": "sha256-Xg2qIEKJr802b6LO8jBkv/KHw5B9NJeg6LDNrpcKKRs=",
+        "lastModified": 1623530217,
+        "narHash": "sha256-/X970SY1RHpIsMva/dFIDI+jscMf7+L6UZAFx4n5I1o=",
         "owner": "tweag",
         "repo": "npmlock2nix",
-        "rev": "1499b402eda50976435f5b1b0525dc7d0404900b",
+        "rev": "8ada8945e05b215f3fffbd10111f266ea70bb502",
         "type": "github"
       },
       "original": {
