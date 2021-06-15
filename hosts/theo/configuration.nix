@@ -158,6 +158,7 @@ in {
     indent
     inkscape
     jq
+    keepassxc
     libxml2 # for xmllint
     lorri
     ltrace
@@ -184,6 +185,7 @@ in {
     sublime4-dev
     sublime-merge
     spotify
+    syncthing
     tdesktop
     tldr
     transmission-gtk

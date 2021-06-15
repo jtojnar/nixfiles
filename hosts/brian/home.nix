@@ -39,6 +39,7 @@ in
     git-crypt
     git-lfs
     ijq
+    keepassxc
     nixUnstable
     nixgl.nixGLIntel
     inkscape
@@ -67,6 +68,7 @@ in
     git-auto-squash
     nix-explore-closure-size
     sman
+    syncthing
   ] ++ fonts;
 
   fonts.fontconfig.enable = true;
