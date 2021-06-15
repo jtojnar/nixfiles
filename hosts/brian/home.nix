@@ -7,6 +7,7 @@ in
 {
   imports = [
     ./dwarffs.nix
+    ../../common/configs/keepassxc
   ];
 
   home.packages = with pkgs; [
@@ -39,7 +40,6 @@ in
     git-crypt
     git-lfs
     ijq
-    keepassxc
     nixUnstable
     nixgl.nixGLIntel
     inkscape

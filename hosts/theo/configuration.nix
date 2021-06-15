@@ -158,7 +158,6 @@ in {
     indent
     inkscape
     jq
-    keepassxc
     libxml2 # for xmllint
     lorri
     ltrace
@@ -427,6 +426,12 @@ in {
       # https://logs.nix.samueldr.com/nixos/2020-04-09#1586472710-1586474674;
       hashedPassword = "$6$rounds=1000000$B4206OAvwCfr$5yakyriBawsKHHYsziytYmpzgR0zjPaBgWAJEE6ir0KT0if4yX7NCan4codw48eyORNy3YFCAlVaww0mHfZg0/";
     };
+  };
+
+  home-manager.users.jtojnar = {
+    imports = [
+      ../../common/configs/keepassxc
+    ];
   };
 
   users.defaultUserShell = pkgs.fish;
