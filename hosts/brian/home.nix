@@ -37,6 +37,8 @@ in
     gh
     gitFull
     git-crypt
+    git-lfs
+    ijq
     nixUnstable
     nixgl.nixGLIntel
     inkscape
