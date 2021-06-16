@@ -47,4 +47,5 @@ in {
   nopt = callPackage ./nopt { };
   update = mkUtil "update" { buildInputs = [ python3 ]; };
   sman = mkUtil "sman" { path = [ fzf ]; };
+  strip-clip-path-transforms = callPackage ./strip-clip-path-transforms { };
 }

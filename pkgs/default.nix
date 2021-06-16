@@ -31,5 +31,6 @@ final: prev: {
     nix-explore-closure-size
     nopt
     update
-    sman;
+    sman
+    strip-clip-path-transforms;
 }
