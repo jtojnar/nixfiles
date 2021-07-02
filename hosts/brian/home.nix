@@ -40,9 +40,10 @@ in
     git-crypt
     git-lfs
     ijq
+    inkscape
+    markdown-anki-decks
     nixUnstable
     nixgl.nixGLIntel
-    inkscape
     nix-du
     nix-direnv
     nix-index
@@ -51,6 +52,7 @@ in
     patchelf
     pdftag
     playerctl
+    reflex # running program when a file changes
     ripgrep
     sd
     source-code-pro
@@ -61,6 +63,7 @@ in
     vlc
     vscodium
     youtube-dl
+    zotero
 
     # Custom utils
     git-part-pick
