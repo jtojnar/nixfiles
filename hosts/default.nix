@@ -4,7 +4,7 @@ let
   inherit (inputs) self nixpkgs home-manager;
   inherit (nixpkgs) lib;
 
-  mkConfig = { hostName, platform, managedHome, ... }:
+  mkConfig = { hostName, platform, managedHome ? false, ... }:
     lib.nixosSystem {
       # Platform the host will be running on.
       system = platform;
