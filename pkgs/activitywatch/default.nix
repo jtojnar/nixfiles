@@ -7,19 +7,20 @@
 , openssl
 , python3
 , runCommand
-, npmlock2nix
+, napalm
+, nodejs_latest
 , libsForQt5
 , xdg-utils
 }:
 
 let
-  version = "unstable-2020-04-22";
+  version = "unstable-2021-06-21";
 
   sources = fetchFromGitHub {
     owner = "ActivityWatch";
     repo = "activitywatch";
-    rev = "d39648092fa8fa1adff0809b2f9bccdde99537af";
-    sha256 = "3Sz+Vjn20cfD5UnR3pvevX+icU8l//uNMOkfnRp/+NU=";
+    rev = "9ac2e2fab448cd83edf76bed2fd371089250f338";
+    sha256 = "HWVy9FjxFFDoDmVJdslji5ckSlA76Ut+NUYFouQ9ckI=";
     fetchSubmodules = true;
   };
 
@@ -49,6 +50,8 @@ rec {
       TakeTheTime
       pymongo
       strict-rfc3339
+      tomlkit
+      deprecation
       timeslot
     ];
 
@@ -82,6 +85,10 @@ rec {
       persist-queue
       click
     ];
+
+    postPatch = ''
+      sed -E 's#click = "\^7.1.1"#click = "^8.0"#g' -i pyproject.toml
+    '';
 
     meta = with lib; {
       description = "Client library for ActivityWatch";
@@ -193,7 +200,8 @@ rec {
     dontWrapQtApps = true;
 
     postPatch = ''
-      sed -E 's#\bgit = ".+?"#version = "*"#g' -i pyproject.toml
+      sed -E 's#click = "\^7.1.2"#click = "^8.0"#g' -i pyproject.toml
+      sed -E 's#PyQt5 = "5.15.2"#PyQt5 = "^5.15.2"#g' -i pyproject.toml
     '';
 
     preBuild = ''
@@ -264,29 +272,19 @@ rec {
 
     format = "pyproject";
 
-    # src = "${sources}/aw-watcher-afk";
-    src = fetchFromGitHub {
-      owner = "ActivityWatch";
-      repo = "aw-watcher-afk";
-      # https://github.com/ActivityWatch/aw-watcher-afk/pull/48
-      rev = "f39dfa1d06ffe73c5ed58a10e01cc6438c63ab17";
-      sha256 = "8+mdispLHJeNK7P+tGsTlNCvjT0PRB9CeJpwIPx6GqM=";
-      fetchSubmodules = true;
-    };
+    src = "${sources}/aw-watcher-afk";
 
     nativeBuildInputs = [
       python3.pkgs.poetry
     ];
 
     propagatedBuildInputs = with python3.pkgs; [
-      aw-core
       aw-client
       xlib
       pynput
     ];
 
     postPatch = ''
-      sed -E 's#\bgit = ".+?"#version = "*"#g' -i pyproject.toml
       sed -E 's#python-xlib = \{ version = "\^0.28"#python-xlib = \{ version = "^0.29"#g' -i pyproject.toml
     '';
 
@@ -316,7 +314,6 @@ rec {
     ];
 
     postPatch = ''
-      sed -E 's#\bgit = ".+?"#version = "*"#g' -i pyproject.toml
       sed -E 's#python-xlib = \{version = "\^0.28"#python-xlib = \{ version = "^0.29"#g' -i pyproject.toml
     '';
 
@@ -330,20 +327,51 @@ rec {
 
   aw-webui =
     let
-      webui-src = runCommand "webui-src" {} ''
-        cp -r "${sources}/aw-server-rust/aw-webui" "$out"
-        chmod +w "$out" "$out/package-lock.json"
+      # Node.js used by napalm.
+      nodejs = nodejs_latest;
 
-        # Bypass query string in URL producing invalid derivation name.
-        # https://github.com/nmattia/napalm/issues/30
-        sed -Ei 's#\?cache=0&other_urls[^"]+##' "$out/package-lock.json"
+      installHeadersForNodeGyp = ''
+        mkdir -p "$HOME/.cache/node-gyp/${nodejs.version}"
 
-        # Some packages resolved to Taobao registry, which does not seem to get substituted.
-        sed -Ei 's#https://registry.npm.taobao.org/(.+?)/download/#https://registry.npmjs.org/\1/-/#' "$out/package-lock.json"
+        # Set up version which node-gyp checks in <https://github.com/nodejs/node-gyp/blob/4937722cf597ccd1953628f3d5e2ab5204280051/lib/install.js#L87-L96> against the version in <https://github.com/nodejs/node-gyp/blob/4937722cf597ccd1953628f3d5e2ab5204280051/package.json#L15>.
+        echo 9 > "$HOME/.cache/node-gyp/${nodejs.version}/installVersion"
+
+        # Link node headers so that node-gyp does not try to download them.
+        ln -sfv "${nodejs}/include" "$HOME/.cache/node-gyp/${nodejs.version}"
+      '';
+
+      stopNpmCallingHome = ''
+        # Do not try to find npm in napalm-registry –
+        # it is not there and checking will slow down the build.
+        npm config set update-notifier false
+        # Same for security auditing, it does not make sense in the sandbox.
+        npm config set audit false
       '';
     in
-      npmlock2nix.build {
-        src = webui-src;
-        installPhase = "cp -r dist $out";
+      napalm.buildPackage "${sources}/aw-server-rust/aw-webui" {
+        nativeBuildInputs = [
+          # deasync uses node-gyp
+          python3
+        ];
+
+        npmCommands = [
+          # Let’s install again, this time running scripts.
+          "npm install --loglevel verbose"
+
+          # Build the front-end.
+          "npm run build"
+        ];
+
+        postConfigure = ''
+          # configurePhase sets $HOME
+          ${installHeadersForNodeGyp}
+          ${stopNpmCallingHome}
+        '';
+
+        installPhase = ''
+          runHook preInstall
+          mv dist $out
+          runHook postInstall
+        '';
       };
 }

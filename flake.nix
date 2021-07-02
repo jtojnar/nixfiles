@@ -45,14 +45,9 @@
       url = "github:andersk/nixpkgs-mozilla/stdenv.lib";
       flake = false;
     };
-
-    npmlock2nix = {
-      url = "github:tweag/npmlock2nix";
-      flake = false;
-    };
   };
 
-  outputs = { self, dwarffs, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl, npmlock2nix }@inputs:
+  outputs = { self, dwarffs, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -102,9 +97,9 @@
               let
                 nmo = import nixpkgs-mozilla final prev;
                 rust = (nmo.rustChannelOf {
-                  date = "2021-01-27";
+                  date = "2021-06-30";
                   channel = "nightly";
-                  sha256 = "447SQnx5OrZVv6Na5xbhiWoaCwIUrB1KskyMOQEDJb8=";
+                  sha256 = "d02mYpeoCuv+tf2oFUOGybJ23GzcA9pSyJT8z/7RuSg=";
                 }).rust;
               in
                 naersk.lib.${platform}.override {
@@ -113,8 +108,6 @@
                 };
 
             nixgl = import nixgl { pkgs = prev; };
-
-            npmlock2nix = import npmlock2nix { pkgs = prev; };
           })
         ];
         config = {
