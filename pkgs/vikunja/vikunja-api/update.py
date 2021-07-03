@@ -4,6 +4,7 @@
 from typing import List, Optional
 import argparse
 import json
+import os
 import pathlib
 import re
 import subprocess
@@ -44,6 +45,16 @@ def attr_path_to_accessor(attr_path: List[str]) -> str:
 def get_current_platform() -> str:
     return json.loads(subprocess.check_output(['nix-instantiate', '--eval', '--json', '-E', 'builtins.currentSystem'], encoding='utf-8'))
 
+def get_flake_outpath() -> Optional[pathlib.Path]:
+    # Third-party repositories might not accept arguments in their default.nix.
+    import_tree = '(let tree = import ./.; in if builtins.isFunction tree then tree {} else tree)'
+    path = json.loads(subprocess.check_output(['nix-instantiate', '--eval', '--json', '-E', f'with {import_tree}; outPath'], encoding='utf-8'))
+
+    if path:
+        return pathlib.Path(path)
+    else:
+        return None
+
 def get_derivation_attribute(platform: str, attr_path: List[str]):
     return json.loads(subprocess.check_output(['nix-instantiate', '--eval', '--json', '-A', f'outputs.packages.{platform}.{attr_path_to_accessor(attr_path)}'], encoding='utf-8'))
 
@@ -62,14 +73,19 @@ def get_mismatched_checksum(error_output) -> Optional[str]:
 
 def main():
     parser = argparse.ArgumentParser(description='Update Go package')
-    parser.add_argument('attr_path', metavar='attr-path', help='Attribute path of package to update')
     args = parser.parse_args()
 
     current_dir = pathlib.Path(__file__).parent
+
+    # flake-compat will return paths in the Nix store, we need to correct for that.
+    possibly_out_path = get_flake_outpath()
+    if possibly_out_path and str(current_dir).startswith(str(possibly_out_path)):
+        current_dir = pathlib.Path(str(current_dir).replace(str(possibly_out_path), str(pathlib.Path.cwd()), 1))
+
     expr_file = (current_dir / 'default.nix').absolute()
 
     platform = get_current_platform()
-    package_path = args.attr_path
+    package_path = os.environ['UPDATE_NIX_ATTR_PATH']
 
     # Obtain all the required data from the expression: URL, old version, commit and the checksums of src and go-modules.
     repo_url = get_derivation_attribute(platform, [package_path, 'src', 'url'])
