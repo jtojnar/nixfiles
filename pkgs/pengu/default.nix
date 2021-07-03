@@ -1,4 +1,10 @@
-{ runCommand, fetchFromGitHub, nodejs_latest, napalm }:
+{
+  runCommand,
+  fetchFromGitHub,
+  nodejs_latest,
+  napalm,
+  unstableGitUpdater,
+}:
 
 let
   nodejs = nodejs_latest;
@@ -12,7 +18,12 @@ let
     npm config set audit false
   '';
 
-  src = fetchFromGitHub (builtins.fromJSON (builtins.readFile ./src.json));
+  src = fetchFromGitHub {
+    owner = "jtojnar";
+    repo = "pengu";
+    rev = "2d547241feed1b2a1b9515c1cd45d6f3d90246ea";
+    sha256 = "sha256-UbQs2ga1Kjg+BwSFVdOhOuQz5wlGRHET7XY5fQdoHsg=";
+  };
 
   pengu-deps = napalm.buildPackage src {
     npmCommands = [
@@ -35,13 +46,18 @@ let
   };
 in
   runCommand "pengu" {
+    version = "unstable-2021-07-03";
+
     nativeBuildInputs = [
       nodejs
     ];
 
     passthru = {
       inherit src;
-      updateScript = ./update.sh;
+      updateScript = unstableGitUpdater {
+        # The updater tries src.url by default, which does not exist for fetchFromGitHub (fetchurl).
+        url = "${src.meta.homepage}.git";
+      };
     };
   } ''
     # Required for npm config.
