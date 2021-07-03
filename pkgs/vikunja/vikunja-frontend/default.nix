@@ -1,18 +1,21 @@
 { stdenv
 , lib
 , mkYarnPackage
-, fetchgit
+, fetchFromGitea
 , yarn
 , apiBase ? "/api/v1"
+, unstableGitUpdater
 }:
 
 let
-  srcData = builtins.fromJSON (builtins.readFile ./src.json);
+  version = "unstable-2021-06-28";
 
-  version = "unstable-" + builtins.head (lib.splitString "T" srcData.date);
-
-  src = fetchgit {
-    inherit (srcData) url rev sha256;
+  src = fetchFromGitea {
+    domain = "kolaente.dev";
+    owner = "vikunja";
+    repo = "frontend";
+    rev = "7e48f65ff03213b09dece8e66adf106e84c76f4c";
+    sha256 = "AQCHire2IFdoiMeDR2iUYRQIDOOSzKrm/OMube3Bxt8=";
   };
 
   frontend-modules = mkYarnPackage rec {
@@ -40,7 +43,10 @@ in stdenv.mkDerivation {
   '';
 
   passthru = {
-    updateScript = ./update.py;
+    updateScript = unstableGitUpdater {
+      # The updater tries src.url by default, which does not exist for fetchFromGitHub (fetchurl).
+      url = "${src.meta.homepage}.git";
+    };
     inherit frontend-modules;
   };
 
