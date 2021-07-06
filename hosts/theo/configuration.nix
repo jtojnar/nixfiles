@@ -196,6 +196,7 @@ in {
     xsel
     xsv # handling CSV files
     youtube-dl
+    zotero
   ];
 
   environment.pathsToLink = [
