@@ -1,4 +1,10 @@
-{ runCommand, fetchFromGitHub, nodejs_latest, napalm }:
+{
+  runCommand,
+  fetchFromGitHub,
+  nodejs_latest,
+  napalm,
+  unstableGitUpdater,
+}:
 
 let
   nodejs = nodejs_latest;
@@ -12,20 +18,30 @@ let
     npm config set audit false
   '';
 
-  src = fetchFromGitHub (builtins.fromJSON (builtins.readFile ./src.json));
+  src = fetchFromGitHub {
+    owner = "jtojnar";
+    repo = "wrcq";
+    rev = "9d05992edb9b00d876a7bc02c6f1dfd7261f9e28";
+    sha256 = "tCBIu2VlAOvEpvcgu8ybzjlR92dioft6Hhhq9eJTweU=";
+  };
 
   wrcq-deps = napalm.buildPackage src {
     postConfigure = stopNpmCallingHome;
   };
 in
   runCommand "wrcq" {
+    version = "unstable-2021-07-08";
+
     nativeBuildInputs = [
       nodejs
     ];
 
     passthru = {
       inherit src;
-      updateScript = ./update.sh;
+      updateScript = unstableGitUpdater {
+        # The updater tries src.url by default, which does not exist for fetchFromGitHub (fetchurl).
+        url = "${src.meta.homepage}.git";
+      };
     };
   } ''
     # Required for npm config.
