@@ -4,10 +4,21 @@ let
   keys = import ../../common/data/keys.nix;
 
   userData = import ../../common/data/users.nix;
+
+  dwarffsModule =
+    { pkgs, ... }@args:
+    let
+      originalModule = inputs.dwarffs.nixosModules.dwarffs args;
+    in
+      originalModule // {
+        # Overlay is already added when creating our pkgs (and with the correct Nix).
+        nixpkgs = builtins.removeAttrs originalModule.nixpkgs [ "overlays" ];
+      };
 in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    dwarffsModule
     inputs.self.nixosModules.profiles.virt
     inputs.self.nixosModules.profiles.fonts
     ./development/web.nix
