@@ -31,7 +31,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     napalm = {
-      url = "github:nmattia/napalm";
+      url = "github:nix-community/napalm";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
