@@ -41,8 +41,7 @@
     };
 
     nixpkgs-mozilla = {
-      # https://github.com/mozilla/nixpkgs-mozilla/pull/250
-      url = "github:andersk/nixpkgs-mozilla/stdenv.lib";
+      url = "github:mozilla/nixpkgs-mozilla";
       flake = false;
     };
   };
