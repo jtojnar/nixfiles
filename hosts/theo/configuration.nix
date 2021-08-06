@@ -137,6 +137,7 @@ in {
     gh
     diff-so-fancy
     git-bz
+    git-crypt
     gitFull
     gitg
     git-auto-fixup
@@ -156,6 +157,7 @@ in {
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.gsconnect
+    gnomeExtensions.hot-edge
     gnomeExtensions.sound-output-device-chooser
     gnomeExtensions.system-monitor
     gnumeric
@@ -202,6 +204,7 @@ in {
     unrar
     valgrind
     vlc
+    vscodium
     wget
     wirelesstools # for iwlist
     xsel
