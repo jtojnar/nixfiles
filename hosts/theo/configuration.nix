@@ -122,6 +122,7 @@ in {
     direnv
     nix-direnv
     dos2unix
+    easyeffects
     easytag
     exa
     exiftool
@@ -189,7 +190,6 @@ in {
     patchutils # for filterdiff
     playerctl
     man-pages-posix
-    pulseeffects-legacy
     python3Full
     ripgrep
     sequeler
