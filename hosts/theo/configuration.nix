@@ -99,7 +99,7 @@ in {
   environment.systemPackages = with pkgs; [
     abiword
     almanah
-    anki
+    anki-bin
     apg
     bat
     bind
