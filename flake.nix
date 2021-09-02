@@ -201,7 +201,7 @@
             nopt
             update
             (writeShellScriptBin "deploy-home" ''
-              nix run .#home-manager -- switch --flake ".#$(hostname)"
+              nix run .#home-manager -- switch --flake ".#$(hostname)" "$@"
             '')
           ];
 
