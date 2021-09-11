@@ -5,6 +5,10 @@ let
 in
 
 {
+  networking.extraHosts = ''
+    127.0.0.1 adminer.local
+  '';
+
   services.postgresql = {
     enable = true;
     package = postgres;
@@ -38,6 +42,23 @@ in
             AllowOverride All
           </Directory>
         '';
+      };
+      "adminer.local" = {
+        documentRoot = pkgs.adminer-with-plugins.override {
+          theme = "brade";
+          plugins = [
+            "enum-option"
+          ];
+          pluginConfigs = ''
+            new AdminerEnumOption,
+            new class {
+                // Allow empty passwords again.
+                public function login($login, $password) {
+                    return true;
+                }
+            },
+          '';
+        };
       };
     };
     enablePHP = true;
