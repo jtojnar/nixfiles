@@ -3,23 +3,25 @@ let
   myLib = import ../../lib.nix { inherit lib config; };
   inherit (myLib) enablePHP mkVirtualHost;
 
-  adminer = pkgs.adminer.overrideAttrs (attrs: {
-    postInstall = attrs.postInstall or "" + ''
-      mkdir $out/plugins
-      cp plugins/{plugin,enum-option,login-servers}.php $out/plugins
-      cp designs/brade/adminer.css $out/brade.css
+  wwwRoot = pkgs.adminer-with-plugins.override {
+    theme = "brade";
+    plugins = [
+      "enum-option"
+      "login-servers"
+    ];
+    pluginConfigs = ''
+      new AdminerEnumOption,
+      new AdminerLoginServers([
+        'localhost' => [
+          'server' => 'localhost',
+          // mysql is called server for BC:
+          // https://github.com/vrana/adminer/blob/75cd1c3f286c31329072d9b6e3314a5b2b4ff5f0/adminer/drivers/mysql.inc.php#L6
+          'driver' => 'server',
+        ],
+      ]),
     '';
-  });
-
-  # If we want to use otp plug-in, we cannot have adminer.php accessible since that does not load plug-ins and would allow bypassing the otp plug-in.
-  wwwRoot = pkgs.runCommand "adminer-with-plugins" {
-    inherit adminer;
-  } ''
-    mkdir -p "$out"
-    substituteAll "${./index.php}" "$out/index.php"
-    ln -s "${adminer}/brade.css" $out/brade.css
-    cp "${./adminer.css}" "$out/adminer.css"
-  '';
+    customStyle = ./adminer.css;
+  };
 in {
   services = {
     nginx = {

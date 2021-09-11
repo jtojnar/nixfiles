@@ -1,4 +1,6 @@
 final: prev: {
+  adminer-with-plugins = prev.callPackage ./adminer {};
+
   inherit (prev.callPackages ./activitywatch { })
     aw-core
     aw-server-rust

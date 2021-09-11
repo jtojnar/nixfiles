@@ -1,4 +1,3 @@
-@import "brade.css";
 #lang { background-image: url(adminer.svg); background-repeat: no-repeat; background-position: 10px 4px; background-size: 32px; background-color: #3a9efc; padding-left: 50px; }
 #menu { background-color: #cfebff; border-color: #b8ccff; }
 #lang select { border-color: #3a9efc; }
