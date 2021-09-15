@@ -11,14 +11,14 @@
 }:
 
 let
-  version = "unstable-2021-09-08";
+  version = "unstable-2021-09-10";
 
   src = fetchFromGitea {
     domain = "kolaente.dev";
     owner = "vikunja";
     repo = "frontend";
-    rev = "4f305b28fdf769c813ca4bdc5702d17376da2cdf";
-    sha256 = "0gvdabps3mvwcnqipajr6v6922n1z6g03m5pfiw3qqzlxlybd9zw";
+    rev = "50c1a2e4d59aeedc4a9f362210a0ed6cf5da1c4e";
+    sha256 = "wEDm5TDLujyHymU4D1YdZ+wlFMJuv3eMTvGZF2n2yV4=";
   };
 
   frontend-modules = mkYarnPackage rec {
@@ -28,8 +28,8 @@ let
     doDist = false;
   };
 
-  esbuildCustom = esbuild.overrideAttrs (old:
-    let
+  esbuildCustom = esbuild.override (old: {
+    buildGoModule = attrs: old.buildGoModule (attrs // rec {
       # Version of esbuild required by vite.
       # It should complain when not matching.
       version = "0.12.20";
@@ -40,16 +40,10 @@ let
         rev = "v${version}";
         sha256 = "40r0f+bzzD0M97pbiSoVSJvVvcCizQvw9PPeXhw7U48=";
       };
-    in
-    rec {
-      name = "esbuild-${version}";
-      inherit src;
-      go-modules = (buildGoModule {
-        inherit name src;
-        vendorSha256 = "2ABWPqhK2Cf4ipQH7XvRrd+ZscJhYPc3SV2cGT0apdg=";
-      }).go-modules;
-    }
-  );
+
+      vendorSha256 = "2ABWPqhK2Cf4ipQH7XvRrd+ZscJhYPc3SV2cGT0apdg=";
+    });
+  });
 in stdenv.mkDerivation {
   pname = "vikunja-frontend";
   inherit version src;
