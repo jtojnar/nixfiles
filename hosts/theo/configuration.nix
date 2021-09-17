@@ -448,7 +448,15 @@ in {
     jtojnar = {
       isNormalUser = true;
       uid = 1000;
-      extraGroups = [ "wheel" "networkmanager" "wireshark" "docker" "kvm" "vboxusers" ];
+      extraGroups = [
+        "wheel"
+        "dialout" # for serial
+        "networkmanager"
+        "wireshark"
+        "docker"
+        "kvm"
+        "vboxusers"
+      ];
       useDefaultShell = true;
       openssh.authorizedKeys.keys = keys.jtojnar;
 
