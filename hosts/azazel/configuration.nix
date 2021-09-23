@@ -117,7 +117,7 @@ in {
   documentation.enable = true;
   documentation.nixos.enable = true;
 
-  system.stateVersion = "18.09";
+  system.stateVersion = "21.05";
 
   # The rest of the file is taken from:
   # https://github.com/vpsfreecz/vpsadminos/blob/bb71d18ef104796cbb559a8bda399b39eb24daec/os/lib/nixos-container/configuration.nix
