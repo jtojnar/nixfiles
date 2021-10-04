@@ -23,7 +23,7 @@ let
   };
 in
 napalm.buildPackage src rec {
-  name = "pengu-${version}";
+  pname = "pengu";
   version = "unstable-2021-07-03";
 
   npmCommands = [

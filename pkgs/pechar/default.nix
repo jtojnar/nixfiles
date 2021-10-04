@@ -22,9 +22,9 @@ let
   };
 in
 napalm.buildPackage src rec {
-  version = "unstable-2021-06-09";
   # Napalm will default to value from package.json otherwise.
-  name = "pechar-${version}";
+  pname = "pechar";
+  version = "unstable-2021-06-09";
 
   MEDIA_SERVER_URI = "https://mediacache.fan-club-penguin.cz";
 
