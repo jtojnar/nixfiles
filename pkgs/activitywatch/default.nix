@@ -205,7 +205,7 @@ rec {
     '';
 
     preBuild = ''
-      make aw_qt/resources.py
+      HOME=$TMPDIR make aw_qt/resources.py
     '';
 
     postInstall = ''
