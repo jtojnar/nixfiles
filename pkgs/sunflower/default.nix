@@ -11,17 +11,18 @@
 , gnome
 , gobject-introspection
 , wrapGAppsHook
+, unstableGitUpdater
 }:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "sunflower";
-  version = "2020-10-12-unstable";
+  version = "unstable-2021-09-08";
 
   src = fetchFromGitHub {
     owner = "MeanEYE";
     repo = "Sunflower";
-    rev = "8d75084e78f82276a13b51bd10fa9ae4fbae18f4";
-    sha256 = "jAh26yjNRZOIt++geWb7geVOdHpNhxlYhOiEiFTCtSg=";
+    rev = "b91481b83353e830078291c10b1d7e99d6161da2";
+    sha256 = "0bx2RtZyn8BaJsymKYNAHbo3f0PG/EmLyyKkL2hj4d8=";
   };
 
   nativeBuildInputs = [
@@ -57,6 +58,11 @@ python3.pkgs.buildPythonApplication rec {
     # We do neither so we need to override the variable ourselves.
     echo "import sys; sys.prefix = '${placeholder "out"}'" | cat - sunflower/__init__.py > temp && mv temp sunflower/__init__.py
   '';
+
+  passthru.updateScript = unstableGitUpdater {
+    # The updater tries src.url by default, which does not exist for fetchFromGitHub (fetchurl).
+    url = "https://github.com/MeanEYE/Sunflower.git";
+  };
 
   meta = with lib; {
     description = "Small and highly customizable twin-panel file manager for Linux with support for plugins";
