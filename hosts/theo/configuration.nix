@@ -104,6 +104,7 @@ in {
     bat
     bind
     binutils # readelf, xstrings
+    bpb
     bustle
     cawbird
     chromium
@@ -405,7 +406,7 @@ in {
         gpgsign = true
 
       [gpg]
-        program = gpg
+        program = bpb
 
       # colour scheme for diff-so-fancy & co.
       # https://github.com/so-fancy/diff-so-fancy#improved-colors-for-the-highlighted-bits
