@@ -12,5 +12,8 @@
     '';
   };
 
+  # Does not work without channels.
+  programs.command-not-found.enable = false;
+
   users.mutableUsers = false;
 }
