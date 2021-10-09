@@ -129,7 +129,7 @@ in {
     exiftool
     fd
     file
-    firefox
+    firefox-wayland
     font-manager
     fractal
     fzf
