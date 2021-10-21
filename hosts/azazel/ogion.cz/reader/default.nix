@@ -95,5 +95,6 @@ in {
     wantedBy = [ "multi-user.target" ];
   };
 
+  # WantedBy= from the upstream unit not respected: https://github.com/NixOS/nixpkgs/issues/81138
   systemd.services.blackfire-agent.wantedBy = [ "phpfpm-reader.service" ];
 }
