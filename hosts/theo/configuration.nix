@@ -471,6 +471,8 @@ in {
     imports = [
       ../../common/configs/keepassxc
     ];
+
+    programs.nix-index.enable = true;
   };
 
   users.defaultUserShell = pkgs.fish;
