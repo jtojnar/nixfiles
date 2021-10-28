@@ -129,7 +129,11 @@ in {
     exiftool
     fd
     file
-    firefox-wayland
+    (firefox-wayland.override (args: args // {
+      cfg = args.cfg or {} // {
+        enableGnomeExtensions = true;
+      };
+    }))
     font-manager
     fractal
     fzf
