@@ -159,6 +159,7 @@ in {
     gnome.gnome-dictionary
     gnome.gnome-disk-utility
     gnome.gnome-tweaks
+    gnome.nautilus-python
     gnome.polari
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
