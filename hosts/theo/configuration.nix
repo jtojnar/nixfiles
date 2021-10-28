@@ -163,7 +163,6 @@ in {
     gnome.polari
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
-    gnomeExtensions.gsconnect
     gnomeExtensions.hot-edge
     gnomeExtensions.sound-output-device-chooser
     gnomeExtensions.system-monitor
@@ -254,6 +253,12 @@ in {
         + builtins.readFile ../../common/data/config.fish;
     };
     gnupg.agent.enable = true;
+
+    kdeconnect = {
+      enable = true;
+      package = pkgs.gnomeExtensions.gsconnect;
+    };
+
     wireshark.enable = true;
   };
 
