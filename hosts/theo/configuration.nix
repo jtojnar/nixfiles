@@ -44,6 +44,9 @@ in {
     "boot.shell_on_fail"
     # https://wiki.archlinux.org/index.php/Power_management/Suspend_and_hibernate#Hibernation
     "resume_offset=1736704" # physical offset of the first ext in `filefrag -v /var/swap`
+
+    # The passive default severely degrades performance.
+    "intel_pstate=active"
   ];
 
   boot.resumeDevice = "/dev/mapper/verbatim--20--vg-root";
