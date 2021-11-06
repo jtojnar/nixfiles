@@ -44,7 +44,8 @@ let
     locale = "en";
 
     # A secret key that's used to generate certain security-related tokens
-    secret = import ../../../../secrets/bag.ogion.cz-secret.nix;
+    # We use agenix so we need to substitute it at activation time.
+    secret = "@secret@";
 
     # two factor stuff
     twofactor_auth = true;
@@ -79,20 +80,24 @@ let
     sentry_dsn = null;
   };
 
-  configFile = pkgs.writeTextFile {
+  configFileTemplate = pkgs.writeTextFile {
     name = "wallabag-config";
     text = builtins.toJSON {
       parameters = settings;
     };
-    destination = "/config/parameters.yml";
   };
+
+  configFileLink = pkgs.runCommandLocal "wallabag-config-link" { } ''
+    mkdir -p "$out/config"
+    ln -s "/etc/wallabag/parameters.yml" "$out/config/parameters.yml"
+  '';
 
   appDir = pkgs.buildEnv {
     name = "wallabag-app-dir";
     ignoreCollisions = true;
     checkCollisionContents = false;
     paths = [
-      configFile
+      configFileLink
       "${package}/app"
     ];
   };
@@ -163,6 +168,18 @@ in {
       };
     };
   };
+
+  # We use agenix so we need to create the config at activation time.
+  system.activationScripts."bag.ogion.cz-secret" = lib.stringAfter [ "etc" "agenix" "agenixRoot" ] ''
+    secret=$(cat "${config.age.secrets."bag.ogion.cz-secret".path}")
+    configDir=/etc/wallabag
+    mkdir -p "$configDir"
+    configFile=$configDir/parameters.yml
+    ${pkgs.gnused}/bin/sed "s#@secret@#$secret#" "${configFileTemplate}" > "$configFile"
+    chown -R bag:nginx "$configDir"
+    chmod 700 "$configDir"
+    chmod 600 "$configFile"
+  '';
 
   systemd.services.wallabag-install = {
     description = "Wallabag install service";

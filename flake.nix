@@ -2,6 +2,11 @@
   description = "jtojnar’s machines";
 
   inputs = {
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dwarffs = {
       url = "github:edolstra/dwarffs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,7 +51,7 @@
     };
   };
 
-  outputs = { self, dwarffs, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl }@inputs:
+  outputs = { self, agenix, dwarffs, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -194,6 +199,7 @@
       devShell = forAllPlatforms (platform:
         pkgss.${platform}.mkShell {
           nativeBuildInputs = with pkgss.${platform}; [
+            agenix.defaultPackage.${platform}
             deploy
             git
             git-crypt

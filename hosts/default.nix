@@ -1,7 +1,7 @@
 # Let’s build a configuration for each host listed in ./list.nix.
 { inputs, pkgss }:
 let
-  inherit (inputs) self nixpkgs home-manager;
+  inherit (inputs) self agenix nixpkgs home-manager;
   inherit (nixpkgs) lib;
 
   mkConfig = { hostName, platform, managedHome ? false, ... }:
@@ -52,7 +52,9 @@ let
               }
             ];
         in
-          flakeModules ++ [ core global local ] ++ hmModules;
+          flakeModules ++ [ core global local ] ++ hmModules ++ [
+            agenix.nixosModules.age
+          ];
     };
 
   hosts =
