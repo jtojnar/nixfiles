@@ -488,6 +488,11 @@ in {
     programs.nix-index.enable = true;
   };
 
+  # For agenix.
+  age.sshKeyPaths = [
+    "/etc/ssh/ssh_host_ed25519_key"
+  ];
+
   users.defaultUserShell = pkgs.fish;
 
   # The NixOS release to be compatible with for stateful data such as databases.

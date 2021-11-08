@@ -113,6 +113,10 @@ in {
     }
   ];
 
+  age.secrets = {
+    "bag.ogion.cz-secret".file = ../../../../secrets/bag.ogion.cz-secret.age;
+  };
+
   services = {
     nginx = {
       enable = true;

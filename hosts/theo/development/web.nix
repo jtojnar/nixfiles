@@ -1,10 +1,14 @@
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 
 let
   postgres = pkgs.postgresql_11;
 in
 
 {
+  imports = [
+    inputs.self.nixosModules.profiles.blackfire
+  ];
+
   networking.extraHosts = ''
     127.0.0.1 adminer.local
   '';
@@ -62,6 +66,9 @@ in
       };
     };
     enablePHP = true;
+    phpPackage = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
+      blackfire
+    ]));
     phpOptions = ''
       display_errors = 1
       display_startup_errors = 1

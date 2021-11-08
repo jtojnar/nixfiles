@@ -106,12 +106,6 @@ in {
     defaultUserShell = pkgs.fish;
   };
 
-  age.secrets = {
-    "bag.ogion.cz-secret".file = ../../secrets/bag.ogion.cz-secret.age;
-    "blackfire-agent-server-id".file = ../../secrets/blackfire-agent-server-id.age;
-    "blackfire-agent-server-token".file = ../../secrets/blackfire-agent-server-token.age;
-  };
-
   networking.firewall.allowedTCPPorts = [
     80
     443

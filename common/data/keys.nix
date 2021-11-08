@@ -1,8 +1,14 @@
 {
+  # Machines
   azazel = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJBnYnuUen7HpY43vvqgWzF7ZQ1UFkHCDzvSqGghwV0G"
   ];
 
+  theo = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGG1QXBggbiauDamPAWS7L0CjtHnr3kTnuK1oNBRoiPD"
+  ];
+
+  # Users
   jtojnar = [
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYbOlZydfRRCGCT08wdtPcpfSrgxMc6weDx3NcWrnMpVgxnMs3HozzkaS/hbcZUocn7XbCOyaxEd1O8Fuaw4JXpUBcMetpPXkQC+bZHQ3YsZZyzVgCXFPRF88QQj0nR7YVE1AeAifjk3TCODstTxit868V1639/TVIi5y5fC0/VbYG2Lt4AadNH67bRv8YiO3iTsHQoZPKD1nxA7yANHCuw38bGTHRhsxeVD+72ThbsYSZeA9dBrzACpEdnwyXclaoyIOnKdN224tu4+4ytgH/vH/uoUfL8SmzzIDvwZ4Ba2yHhZHs5iwsVjTvLe7jjE6I1u8qY7X8ofnanfNcsmz/ jtojnar@theo"
   ];
