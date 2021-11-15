@@ -485,6 +485,14 @@ in {
       ../../common/configs/keepassxc
     ];
 
+    dconf.settings = {
+      "org/gnome/shell"."enabled-extensions" = [
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "dash-to-dock@micxgx.gmail.com"
+        "GPaste@gnome-shell-extensions.gnome.org"
+      ];
+    };
+
     programs.nix-index.enable = true;
   };
 
