@@ -3,6 +3,6 @@
 }:
 
 let
-  flake = import (builtins.getEnv "FLAKE_PATH");
+  flake = import (builtins.getEnv "FLAKE_PATH") { };
 in
 flake.nixosConfigurations.${builtins.getEnv "HOSTNAME"}

@@ -1,5 +1,6 @@
 {
   writeShellScriptBin,
+  nixos-option,
 }:
 
 writeShellScriptBin "nopt" ''
@@ -21,5 +22,5 @@ writeShellScriptBin "nopt" ''
     exit 1
   fi
 
-  env "HOSTNAME=$hostname" "FLAKE_PATH=$PWD" nixos-option -I nixpkgs=${./compat} --argstr flakePath "$PWD" "$@"
+  env "HOSTNAME=$hostname" "FLAKE_PATH=$PWD" ${nixos-option}/bin/nixos-option -I nixpkgs=${./compat} --argstr flakePath "$PWD" "$@"
 ''
