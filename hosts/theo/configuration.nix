@@ -143,7 +143,6 @@ in {
     gcolor3
     gdb
     gimp
-    gh
     diff-so-fancy
     git-bz
     git-crypt
@@ -446,11 +445,6 @@ in {
 
       [credential]
         helper = libsecret
-
-      # redirect HTTP URIs to only have to configure SSH auth
-      [url "git@github.com:"]
-        insteadOf = http://github.com/
-        insteadOf = https://github.com/
     '';
   };
 
@@ -491,6 +485,17 @@ in {
         "dash-to-dock@micxgx.gmail.com"
         "GPaste@gnome-shell-extensions.gnome.org"
       ];
+    };
+
+    programs.gh = {
+      enable = true;
+      settings = {
+        git_protocol = "ssh";
+        editor = "subl -w";
+        aliases = {
+          "co" = "pr checkout";
+        };
+      };
     };
 
     programs.nix-index.enable = true;
