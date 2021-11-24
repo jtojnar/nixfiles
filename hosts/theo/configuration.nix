@@ -94,7 +94,15 @@ in {
   # Configure sound.
   hardware = {
     pulseaudio.enable = false; # Using PipeWire
-    bluetooth.enable = true;
+    bluetooth = {
+      enable = true;
+      settings = {
+        General = {
+          # Battery API does not have a separate UUID.
+          Experimental = "*";
+        };
+      };
+    };
 
     cpu.intel.updateMicrocode = true;
   };
