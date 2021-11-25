@@ -208,6 +208,7 @@ in {
     python3Full
     ripgrep
     sequeler
+    signal-desktop
     sman
     sublime4-dev
     sublime-merge
