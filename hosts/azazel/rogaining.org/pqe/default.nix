@@ -35,6 +35,10 @@ in {
         "plv8"
         "unaccent"
       ];
+      extraUsers = [
+        "tojnar"
+        "jtojnar"
+      ];
     }
   ];
 

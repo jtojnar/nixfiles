@@ -12,6 +12,12 @@ let
         description = "Database name";
       };
 
+      extraUsers = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        description = "List of extra users with access to this database.";
+      };
+
       extensions = mkOption {
         type = types.listOf types.str;
         default = [];
@@ -41,10 +47,35 @@ in
       authentication = lib.mkForce ''
         local all postgres peer
         local sameuser all peer
+
+        # extra users
+        ${lib.concatMapStringsSep
+          "\n"
+          (
+            {
+              database,
+              extraUsers,
+              ...
+            }:
+            lib.concatMapStringsSep "\n" (user: "local ${database} ${user} peer") extraUsers
+          )
+          cfg.databases
+        }
       '';
-      ensureUsers = map ({database, ...}: {
-        name = database; # we use same username as dbname
-      }) cfg.databases;
+      ensureUsers =
+        let
+          dbToUsers =
+            {
+              database,
+              extraUsers,
+              ...
+            }:
+            # we use same username as dbname
+            [ database ] ++ extraUsers;
+        in
+        map
+          (name: { inherit name; })
+          (lib.unique (builtins.concatMap dbToUsers cfg.databases));
     };
 
     systemd.services = {
@@ -54,7 +85,7 @@ in
         path = [ pgsql.package ];
         script =
           lib.concatMapStringsSep "\n"
-            ({ database, extensions, ... }:
+            ({ database, extensions, extraUsers, ... }:
               let
                 createExtensionsSql = lib.concatMapStringsSep "; " (ext: ''CREATE EXTENSION IF NOT EXISTS "${ext}"'') extensions;
                 createExtensionsIfAny = lib.optionalString (extensions != [ ]) ''
@@ -69,6 +100,7 @@ in
                     $PSQL -c 'CREATE DATABASE "${database}" WITH OWNER = "${database}"'
                     ${createExtensionsIfAny}
                 fi
+                ${lib.optionalString (extraUsers != []) "$PSQL '${database}' -c '${lib.concatMapStringsSep "\n" (user: "GRANT ALL ON ALL TABLES IN SCHEMA public TO ${user};") extraUsers}'"}
               '')
             cfg.databases;
 
