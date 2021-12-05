@@ -301,6 +301,11 @@ in {
     };
   };
 
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = false;
+  };
+
   security.sudo.extraConfig = ''
     Defaults pwfeedback
     Defaults timestamp_timeout=25
@@ -475,7 +480,7 @@ in {
         "vboxusers"
       ];
       useDefaultShell = true;
-      openssh.authorizedKeys.keys = keys.jtojnar;
+      openssh.authorizedKeys.keys = keys.jtojnar ++ keys.jtojnar-redmi;
 
       # generated with `diceware -w en_eff` and hashed using `mkpasswd --method=sha-512 --rounds=1000000`
       # https://logs.nix.samueldr.com/nixos/2020-04-09#1586472710-1586474674;
