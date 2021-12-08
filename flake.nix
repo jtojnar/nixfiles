@@ -218,7 +218,7 @@
 
             nixConf = pkgss.${platform}.writeTextDir "opt/nix.conf" ''
               ${current}
-              experimental-features = nix-command flakes ca-references
+              experimental-features = nix-command flakes
             '';
           in "${nixConf}/opt";
         }
