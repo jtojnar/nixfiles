@@ -1,12 +1,12 @@
 final: prev: {
-  gnome3 = prev.gnome3.overrideScope' (gself: gsuper: {
-    gnome-control-center = gsuper.gnome-control-center.overrideAttrs (attrs: {
+  gnome = prev.gnome.overrideScope' (gfinal: gprev: {
+    gnome-control-center = gprev.gnome-control-center.overrideAttrs (attrs: {
       separateDebugInfo = true;
     });
-    gnome-shell = gsuper.gnome-shell.overrideAttrs (attrs: {
+    gnome-shell = gprev.gnome-shell.overrideAttrs (attrs: {
       separateDebugInfo = true;
     });
-    mutter = gsuper.mutter.overrideAttrs (attrs: {
+    mutter = gprev.mutter.overrideAttrs (attrs: {
       separateDebugInfo = true;
     });
   });
