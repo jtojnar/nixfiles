@@ -6,11 +6,11 @@
 
 stdenv.mkDerivation rec {
   pname = "selfoss";
-  version = "2.19-1a1838e";
+  version = "2.19-048793f";
 
   src = fetchurl {
     url = "https://dl.cloudsmith.io/public/fossar/selfoss-git/raw/names/selfoss.zip/versions/${version}/selfoss-${version}.zip";
-    sha256 = "5lQhac88F9p3hotpICp0RqBF9WO0RlZht0V0y4yCao8=";
+    sha256 = "t8LVAngxdk5RPEOK0LCr4LSuoCGtIDxrOfABvVgZg74=";
   };
 
   nativeBuildInputs = [
