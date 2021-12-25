@@ -11,6 +11,7 @@ in
 
   networking.extraHosts = ''
     127.0.0.1 adminer.local
+    127.0.0.1 selfoss.local
   '';
 
   services.postgresql = {
@@ -63,6 +64,14 @@ in
             },
           '';
         };
+      };
+      "selfoss.local" = {
+        documentRoot = "/home/jtojnar/Projects/selfoss";
+        extraConfig = ''
+          <Directory "/home/jtojnar/Projects/selfoss">
+            AllowOverride All
+          </Directory>
+        '';
       };
     };
     enablePHP = true;
