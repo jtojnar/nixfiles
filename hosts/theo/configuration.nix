@@ -117,6 +117,7 @@ in {
     binutils # readelf, xstrings
     bpb
     bustle
+    cachix
     cawbird
     chromium
     common-updater-scripts
@@ -207,6 +208,7 @@ in {
     man-pages-posix
     python3Full
     ripgrep
+    sd
     sequeler
     signal-desktop
     sman
@@ -223,6 +225,7 @@ in {
     vscodium
     wget
     wirelesstools # for iwlist
+    xdot
     xsel
     xsv # handling CSV files
     youtube-dl
