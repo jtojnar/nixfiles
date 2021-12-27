@@ -40,7 +40,9 @@ in {
     };
 
     nginx = {
+      recommendedGzipSettings = true;
       recommendedOptimisation = true;
+      recommendedTlsSettings = true;
 
       # Use mainline nginx instead of stable, and add some modules.
       package = pkgs.nginxMainline.override (orig: {
