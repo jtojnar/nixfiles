@@ -80,7 +80,7 @@ in {
   };
 
   security.acme = {
-    email = "acme@ogion.cz";
+    defaults.email = "acme@ogion.cz";
     acceptTerms = true;
   };
 
