@@ -8,12 +8,12 @@
 
 buildGoModule rec {
   pname = "vikunja-api";
-  version = "v0.18.1-28-gfb9fa27488";
+  version = "v0.18.1-135-g614dcaeb9d";
 
   src = fetchgit {
     url = "https://kolaente.dev/vikunja/api.git";
-    rev = "fb9fa27488ef2930ab882e5c5c7c0a94330c8b7f";
-    sha256 = "sha256-U+dTYdvALGIkd4QYlL9xWyJiKizP7WE5xO0naSp5Qzg=";
+    rev = "614dcaeb9d4ef1e711024a39ae2e3f5a78ee5a45";
+    sha256 = "sha256-W7AocT2lWKh3iOTDu0VGgkZQaLvOmRtDo8iVJtmcR8s=";
   };
 
   nativeBuildInputs =
@@ -34,7 +34,7 @@ buildGoModule rec {
   # Wunderlist test requires network.
   doCheck = false;
 
-  vendorSha256 = "sha256-VHEmAAUsZ/pU/+DAn3q7gK2Wc4efcRlA+DyiR8sedOg=";
+  vendorSha256 = "sha256-H6SOA3VzfSbJB7u44nn3RWyasU4UU3Juy/rHWVQ5ya0=";
 
   buildPhase = ''
     runHook preBuild
