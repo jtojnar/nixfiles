@@ -11,14 +11,14 @@
 }:
 
 let
-  version = "unstable-2021-10-03";
+  version = "unstable-2022-01-09";
 
   src = fetchFromGitea {
     domain = "kolaente.dev";
     owner = "vikunja";
     repo = "frontend";
-    rev = "b59b5def57e93f9ad68b768dedffe388926ba3b4";
-    sha256 = "C1QibnYeI/Kex5k6OPi9+79eSwb81Ei9036XMAEaFXY=";
+    rev = "8d811fcf19e45293fc1f45e02883b4e5d53d597f";
+    sha256 = "cCjBdVcEzqv6X+xb+8A3dW+gPwB8DSuneAJvlU1hVGw=";
   };
 
   frontend-modules = mkYarnPackage rec {
@@ -26,19 +26,25 @@ let
     inherit version src;
 
     doDist = false;
+
+    postBuild = ''
+      # For some reason some packages are in a different place.
+      cp -r deps/vikunja-frontend/node_modules/* node_modules/
+      chmod -R +w node_modules/
+    '';
   };
 
   esbuildCustom = esbuild.override (old: {
     buildGoModule = attrs: old.buildGoModule (attrs // rec {
       # Version of esbuild required by vite.
       # It should complain when not matching.
-      version = "0.13.3";
+      version = "0.13.15";
 
       src = fetchFromGitHub {
         owner = "evanw";
         repo = "esbuild";
         rev = "v${version}";
-        sha256 = "JACy4h/UKcrIq5taHCRWhW94pmrsMLFXTF7GTj+IdA0=";
+        sha256 = "Ffnz70UfHAu3p39oZkiwPF0tX++uYr/T4E7G4jVRUUE=";
       };
 
       vendorSha256 = "QPkBR+FscUc3jOvH7olcGUhM6OW4vxawmNJuRQxPuGs=";
