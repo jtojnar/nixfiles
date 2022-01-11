@@ -6,6 +6,7 @@ in {
   imports = [
     ./bag
     ./develop
+    ./code
     ./mechmice
     ./mysql
     ./reader
@@ -17,7 +18,7 @@ in {
   security.acme.certs."ogion.cz".extraDomainNames = [
     "www.ogion.cz"
     "bag.ogion.cz"
-    # "develop.ogion.cz"
+    "code.ogion.cz"
     "mechmice.ogion.cz"
     "mysql.ogion.cz"
     "reader.ogion.cz"
