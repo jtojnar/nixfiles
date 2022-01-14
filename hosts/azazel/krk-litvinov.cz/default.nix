@@ -11,6 +11,7 @@ in {
     ./hrob-2020
     ./lob-2019
     ./rogaining-2019
+    ./skirogaining
   ];
 
   # security.acme.certs."krk-litvinov.cz".extraDomainNames = [
@@ -55,6 +56,10 @@ in {
           user = "entries-2019";
           debug = true;
         };
+        skirogaining = mkPhpPool {
+          user = "skirogaining";
+          debug = true;
+        };
       };
     };
   };
@@ -67,6 +72,7 @@ in {
           "entries"
           "rogaining-2019"
           "entries-2019"
+          "skirogaining"
         ];
       };
 
@@ -76,6 +82,7 @@ in {
           "entries"
           "krk"
           "entries-2019"
+          "skirogaining"
         ];
       };
 
@@ -85,6 +92,7 @@ in {
           "entries"
           "krk"
           "rogaining-2019"
+          "skirogaining"
           "entries-2019"
         ];
       };
@@ -93,6 +101,7 @@ in {
       entries = { uid = 504; group = "entries"; isSystemUser = true; };
       krk = { uid = 505; group = "krk"; isSystemUser = true; };
       rogaining-2019 = { uid = 507; group = "rogaining-2019"; isSystemUser = true; };
+      skirogaining = { uid = 517; group = "skirogaining"; isSystemUser = true; };
       entries-2019 = { uid = 508; group = "entries-2019"; isSystemUser = true; };
     };
 
@@ -101,6 +110,7 @@ in {
       entries = { gid = 504; };
       krk = { gid = 505; };
       rogaining-2019 = { gid = 507; };
+      skirogaining = { gid = 517; };
       entries-2019 = { gid = 508; };
     };
   };
