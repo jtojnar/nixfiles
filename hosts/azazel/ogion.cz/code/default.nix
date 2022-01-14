@@ -46,6 +46,7 @@ in
           DISABLE_GRAVATAR = true;
         };
         repository = {
+          DEFAULT_BRANCH = "main";
           DEFAULT_REPO_UNITS = "repo.code,repo.issues,repo.pulls";
         };
         server = {
