@@ -153,7 +153,6 @@ in {
     gdb
     gimp
     diff-so-fancy
-    git-bz
     git-crypt
     gitFull
     gitg
