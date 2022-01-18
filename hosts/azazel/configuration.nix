@@ -14,6 +14,7 @@ in {
     ./ogion.cz
     ./ostrov-tucnaku.cz
     ./rogaining.org
+    ./tojnar.cz
   ];
 
   environment.systemPackages = with pkgs; [
