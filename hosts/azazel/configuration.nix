@@ -17,13 +17,17 @@ in {
   ];
 
   environment.systemPackages = with pkgs; [
+    exa
     fd
     file
+    htop
     diff-so-fancy
     gitFull
+    git-lfs
     moreutils # isutf8
     ncdu
     ripgrep
+    sd
     tldr
   ];
 
