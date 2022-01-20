@@ -65,6 +65,10 @@ in
           locations = {
             "/" = {
               proxyPass = "http://${config.services.gitea.httpAddress}:${toString port}";
+              extraConfig = ''
+                # Git LFS fails with HTTP 413 sometimes.
+                client_max_body_size 256M;
+              '';
             };
           };
           extraConfig = ''
