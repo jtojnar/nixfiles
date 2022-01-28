@@ -39,6 +39,12 @@ in {
     };
   };
 
+  boot.kernelModules = [
+    "v4l2loopback"
+  ];
+  boot.extraModulePackages = [
+    config.boot.kernelPackages.v4l2loopback.out
+  ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
     "boot.shell_on_fail"
@@ -121,6 +127,7 @@ in {
     cawbird
     chromium
     common-updater-scripts
+    config.boot.kernelPackages.v4l2loopback
     curlFull
     (deadbeef-with-plugins.override {
       plugins = with deadbeefPlugins; [
@@ -133,6 +140,7 @@ in {
     dfeet
     diffoscope
     direnv
+    droidcam
     nix-direnv
     dos2unix
     easyeffects
