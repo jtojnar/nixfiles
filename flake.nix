@@ -111,6 +111,9 @@
                   rustc = rust;
                 };
 
+            # Convenience alias.
+            nixUnstable = prev.nixVersions.unstable;
+
             nixgl = import nixgl { pkgs = prev; };
           })
         ];
