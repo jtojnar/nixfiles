@@ -7,7 +7,7 @@ in {
   _module.args = {
     myLib =
       import ./lib.nix {
-        inherit lib config;
+        inherit lib config pkgs;
       };
   };
 

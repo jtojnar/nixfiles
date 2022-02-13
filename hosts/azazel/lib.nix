@@ -1,4 +1,4 @@
-{ config, lib, ... }: {
+{ config, lib, pkgs, ... }: {
   mkVirtualHost = { path ? null, config ? "", acme ? null, redirect ? null, ... }@args:
   (if lib.isString acme then {
     useACMEHost = acme;
@@ -34,4 +34,13 @@
     fastcgi_param PATH_INFO $fastcgi_path_info;
     fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
   '';
+
+  /*
+  Adds extra options to ssh key that will only allow it to be used for rsync.
+  See sshd(8) manual page for details.
+  */
+  restrictToRsync =
+    directory:
+    key:
+    ''command="${pkgs.rrsync}/bin/rrsync -wo ${directory}",restrict ${key}'';
 }

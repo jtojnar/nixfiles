@@ -1,6 +1,6 @@
 { config, lib, pkgs, myLib, ... }:
 let
-  inherit (myLib) mkPhpPool;
+  inherit (myLib) mkPhpPool restrictToRsync;
 in {
   imports = [
     ./cyklogaining
@@ -48,7 +48,21 @@ in {
       };
 
       cyklogaining = { uid = 516; group = "cyklogaining"; isSystemUser = true; };
-      tojnar-cz = { uid = 518; group = "tojnar-cz"; isSystemUser = true; };
+      tojnar-cz = {
+        uid = 518;
+        group = "tojnar-cz";
+        isSystemUser = true;
+        openssh.authorizedKeys.keys =
+          let
+            keys =
+              builtins.concatMap (user: config.users.users.${user}.openssh.authorizedKeys.keys) [
+                "jtojnar"
+                "tojnar"
+              ];
+          in
+          map (restrictToRsync config.services.nginx.virtualHosts."www.tojnar.cz".root) keys;
+        shell = "/bin/sh";
+      };
     };
 
     groups = {
