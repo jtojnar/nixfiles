@@ -1,6 +1,5 @@
-{ config, inputs, lib, pkgs, ... }:
+{ config, inputs, lib, pkgs, myLib, ... }:
 let
-  myLib = import ../../lib.nix { inherit lib config; };
   inherit (myLib) enablePHP mkPhpPool mkVirtualHost;
 
   settings = {

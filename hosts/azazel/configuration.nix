@@ -1,8 +1,16 @@
-{ config, inputs, pkgs, ... }:
+{ config, inputs, lib, pkgs, ... }:
 
 let
   keys = import ../../common/data/keys.nix;
 in {
+  # Pass extra arguments to all modules.
+  _module.args = {
+    myLib =
+      import ./lib.nix {
+        inherit lib config;
+      };
+  };
+
   imports = [
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
     "${inputs.nixpkgs}/nixos/modules/virtualisation/container-config.nix"

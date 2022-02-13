@@ -1,6 +1,5 @@
-{ config, lib, pkgs,  ... }:
+{ config, lib, pkgs, myLib, ... }:
 let
-  myLib = import ../../lib.nix { inherit lib config; };
   inherit (myLib) enablePHP mkPhpPool mkVirtualHost;
 
   datadir = "/var/www/ogion.cz/bag";
