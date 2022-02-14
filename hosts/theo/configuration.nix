@@ -14,6 +14,14 @@ let
         # Overlay is already added when creating our pkgs (and with the correct Nix).
         nixpkgs = builtins.removeAttrs originalModule.nixpkgs [ "overlays" ];
       };
+
+      firefox = pkgs.firefox-wayland.override (args: args // {
+        cfg = args.cfg or {} // {
+          # nixpkgs.config NixOS option not actually passed to Nixpkgs
+          # so we need to replicate this part of chrome-gnome-shell module.
+          enableGnomeExtensions = true;
+        };
+      });
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -149,11 +157,7 @@ in {
     exiftool
     fd
     file
-    (firefox-wayland.override (args: args // {
-      cfg = args.cfg or {} // {
-        enableGnomeExtensions = true;
-      };
-    }))
+    firefox
     font-manager
     fractal
     fzf
