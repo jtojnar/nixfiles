@@ -21,6 +21,11 @@ let
           # so we need to replicate this part of chrome-gnome-shell module.
           enableGnomeExtensions = true;
         };
+
+        extraPrefs = ''
+          // Downloading random PDFs from http website is super annoing with this.
+          lockPref("dom.block_download_insecure", false);
+        '';
       });
 in {
   imports = [
