@@ -152,9 +152,7 @@ in {
     deja-dup
     dfeet
     diffoscope
-    direnv
     droidcam
-    nix-direnv
     dos2unix
     easyeffects
     easytag
@@ -262,10 +260,6 @@ in {
     KERNEL=="hidraw*", ATTRS{idVendor}=="1fc9", ATTRS{idProduct}=="013*", MODE:="0666"
     SUBSYSTEMS=="usb", ATTRS{idVendor}=="1fc9", ATTRS{idProduct}=="013*", MODE:="0666"
   '';
-
-  environment.pathsToLink = [
-    "/share/nix-direnv"
-  ];
 
   environment.enableDebugInfo = true;
 
@@ -518,6 +512,11 @@ in {
         "dash-to-dock@micxgx.gmail.com"
         "GPaste@gnome-shell-extensions.gnome.org"
       ];
+    };
+
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
     };
 
     programs.gh = {
