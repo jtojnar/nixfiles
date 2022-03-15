@@ -558,9 +558,9 @@ in {
     ];
 
     # nix options for derivations to persist garbage collection
-    extraOptions = ''
-      keep-outputs = true
-      keep-derivations = true
-    '';
+    settings = {
+      keep-outputs = true;
+      keep-derivations = true;
+    };
   };
 }
