@@ -355,6 +355,7 @@ in {
       primary-color='#000000'
       secondary-color='#000000'
       picture-uri='file://${pkgs.reflection_by_yuumei}'
+      picture-uri-dark='file://${pkgs.reflection_by_yuumei}'
 
       [org.gnome.desktop.screensaver]
       lock-delay=3600
