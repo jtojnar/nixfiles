@@ -216,6 +216,7 @@ in {
     nixpkgs-fmt
     nix-explore-closure-size
     nix-index
+    nix-top
     onboard
     paprefs
     pavucontrol
