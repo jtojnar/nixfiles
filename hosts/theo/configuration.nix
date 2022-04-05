@@ -30,6 +30,16 @@ let
           lockPref("dom.block_download_insecure", false);
         '';
       });
+
+      openLocalhostAsHttp = pkgs.makeDesktopItem {
+        name = "localhost-proto-handler";
+        desktopName = "Open localhost protocol as http";
+        noDisplay = true;
+        exec = "${lib.getBin pkgs.glib}/bin/gio open http://%u";
+        mimeTypes = [
+          "x-scheme-handler/localhost"
+        ];
+      };
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -218,6 +228,7 @@ in {
     nix-index
     nix-top
     onboard
+    openLocalhostAsHttp
     paprefs
     pavucontrol
     patchelf
