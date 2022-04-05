@@ -332,6 +332,7 @@ in {
   services.sysprof.enable = true;
   services.fwupd.enable = true;
 
+  programs.gnome-terminal.enable = true;
   programs.gpaste.enable = true;
 
   # Enable the X11 windowing system.
