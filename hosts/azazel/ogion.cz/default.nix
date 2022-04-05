@@ -23,7 +23,7 @@ in {
     "mysql.ogion.cz"
     "reader.ogion.cz"
     "temp.ogion.cz"
-    # "tools.ogion.cz"
+    "tools.ogion.cz"
   ];
 
   services = {

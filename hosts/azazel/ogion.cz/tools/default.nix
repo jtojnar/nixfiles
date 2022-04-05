@@ -8,7 +8,7 @@ in {
 
       virtualHosts = {
         "tools.ogion.cz" = mkVirtualHost {
-          # acme = "ogion.cz";
+          acme = "ogion.cz";
           path = "ogion.cz/tools";
         };
       };
