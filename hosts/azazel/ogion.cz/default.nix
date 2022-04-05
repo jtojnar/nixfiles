@@ -9,6 +9,7 @@ in {
     ./mechmice
     ./mysql
     ./reader
+    ./temp
     ./todo
     ./tools
     ./www
@@ -21,6 +22,7 @@ in {
     "mechmice.ogion.cz"
     "mysql.ogion.cz"
     "reader.ogion.cz"
+    "temp.ogion.cz"
     # "tools.ogion.cz"
   ];
 
