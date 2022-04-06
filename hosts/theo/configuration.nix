@@ -28,6 +28,10 @@ let
         extraPrefs = ''
           // Downloading random PDFs from http website is super annoing with this.
           lockPref("dom.block_download_insecure", false);
+
+          // Always use XDG portals for stuff
+          lockPref("widget.use-xdg-desktop-portal.file-picker", 1);
+          lockPref("widget.use-xdg-desktop-portal.mime-handler", 1);
         '';
       });
 
