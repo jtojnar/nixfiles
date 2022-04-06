@@ -225,7 +225,6 @@ in {
     meld
     mkpasswd
     moreutils # isutf8
-    mypaint
     ncdu
     nixpkgs-fmt
     nix-explore-closure-size
