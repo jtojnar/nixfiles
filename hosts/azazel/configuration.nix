@@ -26,6 +26,7 @@ in {
   ];
 
   environment.systemPackages = with pkgs; [
+    bat
     exa
     fd
     file
@@ -33,6 +34,7 @@ in {
     diff-so-fancy
     gitFull
     git-lfs
+    links2
     moreutils # isutf8
     ncdu
     ripgrep
