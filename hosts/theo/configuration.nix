@@ -168,7 +168,6 @@ in {
     })
     deja-dup
     dfeet
-    diffoscope
     droidcam
     dos2unix
     easyeffects
@@ -202,7 +201,6 @@ in {
     gnome.gnome-disk-utility
     gnome.gnome-tweaks
     gnome.nautilus-python
-    gnome.polari
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.hot-edge
@@ -254,7 +252,6 @@ in {
     unrar
     valgrind
     vlc
-    vscodium
     wget
     wirelesstools # for iwlist
     xdot
