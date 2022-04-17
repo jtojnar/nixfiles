@@ -168,6 +168,7 @@ in {
     })
     deja-dup
     dfeet
+    d-spy
     droidcam
     dos2unix
     easyeffects
