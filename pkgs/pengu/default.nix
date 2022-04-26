@@ -2,6 +2,7 @@
   runCommand,
   fetchFromGitHub,
   napalm,
+  nodejs-17_x,
   unstableGitUpdater,
 }:
 
@@ -45,6 +46,10 @@ napalm.buildPackage src rec {
     # Clean up node_modules for production.
     "npm install --production --loglevel verbose"
   ];
+
+  # Work around a bug in source-map.
+  # https://github.com/parcel-bundler/parcel/issues/8005
+  nodejs = nodejs-17_x;
 
   postConfigure = ''
     # configurePhase sets $HOME
