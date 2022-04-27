@@ -226,6 +226,7 @@ in {
     moreutils # isutf8
     ncdu
     nixpkgs-fmt
+    nix-bisect
     nix-explore-closure-size
     nix-index
     nix-top
