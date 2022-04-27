@@ -77,6 +77,7 @@ in {
       reader = { uid = 501; group = "reader"; isSystemUser = true; };
       adminer = { uid = 502; group = "adminer"; isSystemUser = true; };
       mechmice = { uid = 503; group = "mechmice"; isSystemUser = true; };
+      tools = { uid = 519; group = "tools"; isSystemUser = true; };
     };
 
     groups = {
@@ -84,6 +85,7 @@ in {
       reader = { gid = 501; };
       adminer = { gid = 502; };
       mechmice = { gid = 503; };
+      tools = { gid = 519; };
     };
   };
 }
