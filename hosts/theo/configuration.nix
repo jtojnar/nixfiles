@@ -533,6 +533,20 @@ in {
       ];
     };
 
+    home.file.".config/mozc/ibus_config.textproto".text = ''
+      # `ibus write-cache; ibus restart` might be necessary to apply changes.
+      engines {
+        name : "mozc-jp"
+        longname : "Mozc"
+        layout : "default"
+        layout_variant : ""
+        layout_option : ""
+        rank : 80
+      }
+      # Ensure hiragana input mode is default.
+      active_on_launch: True
+    '';
+
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
