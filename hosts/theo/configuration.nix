@@ -227,6 +227,7 @@ in {
     ncdu
     nixpkgs-fmt
     nix-bisect
+    nix-diff
     nix-explore-closure-size
     nix-index
     nix-top
