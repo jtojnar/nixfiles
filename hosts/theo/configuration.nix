@@ -31,7 +31,6 @@ let
 
           // Always use XDG portals for stuff
           lockPref("widget.use-xdg-desktop-portal.file-picker", 1);
-          lockPref("widget.use-xdg-desktop-portal.mime-handler", 1);
         '';
       });
 
