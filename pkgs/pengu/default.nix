@@ -2,7 +2,8 @@
   runCommand,
   fetchFromGitHub,
   napalm,
-  nodejs-17_x,
+  nodejs_latest,
+  python3,
   unstableGitUpdater,
 }:
 
@@ -16,24 +17,35 @@ let
     npm config set audit false
   '';
 
+  nodejs = nodejs_latest;
+
   src = fetchFromGitHub {
     owner = "jtojnar";
     repo = "pengu";
-    rev = "2d547241feed1b2a1b9515c1cd45d6f3d90246ea";
-    sha256 = "sha256-UbQs2ga1Kjg+BwSFVdOhOuQz5wlGRHET7XY5fQdoHsg=";
+    rev = "ad24f1faa1b2501ec097fd134d3769f214b40466";
+    sha256 = "sha256-TDUCnl6bK6Mnp/5oQx/c59LjSXOTRVCrbqzxILVEytU=";
   };
 in
 napalm.buildPackage src rec {
   pname = "pengu";
-  version = "unstable-2021-07-03";
+  version = "unstable-2022-05-20";
+
+  customPatchPackages = {
+    # Patch shebangs.
+    "node-gyp-build" = pkgs: prev: {
+    };
+  };
+
+  nativeBuildInputs = [
+    # For node-gyp
+    python3
+  ];
+
+  inherit nodejs;
 
   npmCommands = [
-    # Just download and unpack all the npm packages,
-    # we need napalm to patch shebangs before we can run install scripts.
-    "npm install --loglevel verbose --ignore-scripts"
-
     # Let’s install again, this time running scripts.
-    "npm install --loglevel verbose"
+    "npm install --loglevel verbose --nodedir=${nodejs}/include/node"
 
     # Patch shebangs so that scripts can run.
     # napalm’s patching is not “overzealous” enough
@@ -44,12 +56,8 @@ napalm.buildPackage src rec {
     "npm run build"
 
     # Clean up node_modules for production.
-    "npm install --production --loglevel verbose"
+    "npm install --only=production --loglevel verbose"
   ];
-
-  # Work around a bug in source-map.
-  # https://github.com/parcel-bundler/parcel/issues/8005
-  nodejs = nodejs-17_x;
 
   postConfigure = ''
     # configurePhase sets $HOME
