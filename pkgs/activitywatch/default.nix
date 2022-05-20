@@ -330,16 +330,6 @@ rec {
       # Node.js used by napalm.
       nodejs = nodejs_latest;
 
-      installHeadersForNodeGyp = ''
-        mkdir -p "$HOME/.cache/node-gyp/${nodejs.version}"
-
-        # Set up version which node-gyp checks in <https://github.com/nodejs/node-gyp/blob/4937722cf597ccd1953628f3d5e2ab5204280051/lib/install.js#L87-L96> against the version in <https://github.com/nodejs/node-gyp/blob/4937722cf597ccd1953628f3d5e2ab5204280051/package.json#L15>.
-        echo 9 > "$HOME/.cache/node-gyp/${nodejs.version}/installVersion"
-
-        # Link node headers so that node-gyp does not try to download them.
-        ln -sfv "${nodejs}/include" "$HOME/.cache/node-gyp/${nodejs.version}"
-      '';
-
       stopNpmCallingHome = ''
         # Do not try to find npm in napalm-registry –
         # it is not there and checking will slow down the build.
@@ -356,7 +346,7 @@ rec {
 
         npmCommands = [
           # Let’s install again, this time running scripts.
-          "npm install --loglevel verbose"
+          "npm install --loglevel verbose --nodedir=${nodejs}/include/node"
 
           # Build the front-end.
           "npm run build"
@@ -364,7 +354,6 @@ rec {
 
         postConfigure = ''
           # configurePhase sets $HOME
-          ${installHeadersForNodeGyp}
           ${stopNpmCallingHome}
         '';
 
