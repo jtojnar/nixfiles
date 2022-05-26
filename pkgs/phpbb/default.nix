@@ -45,6 +45,7 @@ let
     passthru = {
       withConfig = newArgs: buildTree (args // newArgs);
 
+      core = phpbb;
       inherit stateDir cacheDir packages;
     };
   };

@@ -2,6 +2,10 @@
 , fetchurl
 , lib
 , unzip
+, common-updater-scripts
+, curl
+, jq
+, writeShellScript
 }:
 
 stdenv.mkDerivation rec {
@@ -33,6 +37,15 @@ stdenv.mkDerivation rec {
 
     runHook postInstall
   '';
+
+  passthru = {
+    updateScript = writeShellScript "phpbb-core-updater" ''
+      set -e
+      export PATH="${lib.makeBinPath [ common-updater-scripts curl jq ]}"
+      version="$(curl 'https://version.phpbb.com/phpbb/versions.json' | jq '.stable[.stable | keys | last].current' --raw-output)"
+      update-source-version phpbb.core "$version"
+    '';
+  };
 
   meta = {
     description = "Flat-forum bulletin board software";
