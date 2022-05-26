@@ -44,11 +44,6 @@ in {
           user = "adminer";
           debug = true;
         };
-        mechmice = mkPhpPool {
-          user = "mechmice";
-          phpPackage = pkgs.php74;
-          debug = true;
-        };
       };
     };
   };
