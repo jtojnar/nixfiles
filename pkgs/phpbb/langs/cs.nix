@@ -1,28 +1,41 @@
-{ fetchzip
+{ fetchFromGitHub
 , lib
+, gitUpdater
 }:
 
 let
-  version = "3.3.2";
-in
-fetchzip rec {
-  name = "phpbb-lang-cs-${version}";
+  version = "2021.12.17.2225";
+  self = fetchFromGitHub {
+    name = "phpbb-lang-cs-${version}";
 
-  url = "https://www.phpbb.cz/download/phpbb${version}_lang_cs.zip";
-  sha256 = "ps8s7sM5F01H1AT6CuaN3AYQEsMFSS53WTtXSO++SaE=";
+    owner = "R3gi";
+    repo = "phpbb-cz";
+    rev = version;
+    sha256 = "05uasSbIxS5BJ3naTil2LroRB4nHMiBIJYlsUf+ajm8=";
 
-  stripRoot = false;
+    postFetch = ''
+      # We do not want VigLink extension.
+      rm -r $out/ext
+    '';
 
-  postFetch = ''
-    # We do not want VigLink extension.
-    rm -r $out/ext
-  '';
+    passthru = {
+      updateScript = gitUpdater {
+        pname = "phpbb.packages.langs.cs";
+        inherit version;
+        url = "https://github.com/R3gi/phpbb-cz.git";
+      };
 
-  meta = {
-    description = "Czech phpBB translation";
-    homepage = "https://www.phpbb.cz/";
-    license = lib.licenses.gpl2Only;
-    maintainers = with lib.maintainers; [ jtojnar ];
-    platforms = lib.platforms.all;
+      # For updateScript
+      src = self;
+    };
+
+    meta = {
+      description = "Czech phpBB translation";
+      homepage = "https://www.phpbb.cz/";
+      license = lib.licenses.gpl2Only;
+      maintainers = with lib.maintainers; [ jtojnar ];
+      platforms = lib.platforms.all;
+    };
   };
-}
+in
+self
