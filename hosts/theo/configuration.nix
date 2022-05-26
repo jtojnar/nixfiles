@@ -364,59 +364,6 @@ in {
 
   services.xserver.desktopManager.gnome = {
     enable = true;
-    extraGSettingsOverridePackages = with pkgs; [ gnome.nautilus gnome.gnome-settings-daemon gtk3 ];
-    extraGSettingsOverrides = ''
-      [org.gnome.desktop.background]
-      primary-color='#000000'
-      secondary-color='#000000'
-      picture-uri='file://${pkgs.reflection_by_yuumei}'
-      picture-uri-dark='file://${pkgs.reflection_by_yuumei}'
-
-      [org.gnome.desktop.screensaver]
-      lock-delay=3600
-      lock-enabled=true
-      picture-uri='file://${pkgs.undersea_city_by_mrainbowwj}'
-      primary-color='#000000'
-      secondary-color='#000000'
-
-      [org.gnome.desktop.session]
-      idle-delay=900
-
-      [org.gnome.desktop.wm.keybindings]
-      switch-input-source-backward=@as []
-      switch-input-source=[]
-
-      [org.gnome.settings-daemon.plugins.power]
-      power-button-action='nothing'
-      idle-dim=true
-      sleep-inactive-battery-type='nothing'
-      sleep-inactive-ac-timeout=3600
-      sleep-inactive-ac-type='nothing'
-      sleep-inactive-battery-timeout=1800
-
-      [org.gnome.settings-daemon.plugins.media-keys]
-      previous=['<Super>b']
-      custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
-      next=['<Super>n']
-      home=['<Super>e']
-      play=['<Super>space']
-
-      [org.gnome.settings-daemon.plugins.media-keys.custom-keybindings.custom0]
-      binding='<Super>t'
-      command='gnome-terminal'
-      name='Open terminal'
-
-      [org.gnome.desktop.peripherals.touchpad]
-      click-method='default'
-
-      [org.gtk.settings.file-chooser]
-      sort-directories-first=true
-      location-mode='path-bar'
-
-      [org.gnome.desktop.input-sources]
-      sources=[('xkb', '${config.services.xserver.layout}${lib.optionalString (config.services.xserver.xkbVariant != "") "+" + config.services.xserver.xkbVariant}')]
-      xkb-options=['${config.services.xserver.xkbOptions}']
-    '';
   };
 
   i18n.inputMethod.enabled = "ibus";
@@ -520,17 +467,91 @@ in {
     };
   };
 
-  home-manager.users.jtojnar = {
+  home-manager.users.jtojnar = { lib, ... }: {
     imports = [
       ../../common/configs/keepassxc
     ];
 
     dconf.settings = {
-      "org/gnome/shell"."enabled-extensions" = [
-        "appindicatorsupport@rgcjonas.gmail.com"
-        "dash-to-dock@micxgx.gmail.com"
-        "GPaste@gnome-shell-extensions.gnome.org"
-      ];
+      "org/gnome/desktop/background" = {
+        primary-color = "#000000";
+        secondary-color = "#000000";
+        picture-uri = "file://${pkgs.reflection_by_yuumei}";
+        picture-uri-dark = "file://${pkgs.reflection_by_yuumei}";
+      };
+
+      "org/gnome/desktop/screensaver" = {
+        lock-delay = lib.hm.gvariant.mkUint32 3600;
+        lock-enabled = true;
+        picture-uri = "file://${pkgs.undersea_city_by_mrainbowwj}";
+        primary-color = "#000000";
+        secondary-color = "#000000";
+      };
+
+      "org/gnome/desktop/peripherals/touchpad" = {
+        click-method = "default";
+      };
+
+      "org/gnome/desktop/session" = {
+        idle-delay = lib.hm.gvariant.mkUint32 900;
+      };
+
+      "org/gnome/desktop/wm/keybindings" = {
+        switch-input-source-backward = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [];
+        switch-input-source = [];
+      };
+
+      "org/gnome/settings-daemon/plugins/media-keys" = {
+        previous = ["<Super>b"];
+        custom-keybindings = ["/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"];
+        next = ["<Super>n"];
+        home = ["<Super>e"];
+        play = ["<Super>space"];
+      };
+
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+        binding = "<Super>t";
+        command = "gnome-terminal";
+        name = "Open terminal";
+      };
+
+      "org/gnome/settings-daemon/plugins/power" = {
+        power-button-action = "nothing";
+        idle-dim = true;
+        sleep-inactive-battery-type = "nothing";
+        sleep-inactive-ac-timeout = 3600;
+        sleep-inactive-ac-type = "nothing";
+        sleep-inactive-battery-timeout = 1800;
+      };
+
+      "org/gnome/shell" = {
+        "enabled-extensions" = [
+          "appindicatorsupport@rgcjonas.gmail.com"
+          "dash-to-dock@micxgx.gmail.com"
+          "GPaste@gnome-shell-extensions.gnome.org"
+        ];
+      };
+
+      "org/gtk/settings/file-chooser" = {
+        sort-directories-first = true;
+        location-mode = "path-bar";
+      };
+
+      "org/gnome/desktop/input-sources" = {
+        sources = [
+          (lib.hm.gvariant.mkTuple [
+            "xkb"
+            "${config.services.xserver.layout}${lib.optionalString (config.services.xserver.xkbVariant != "") "+" + config.services.xserver.xkbVariant}"
+          ])
+          (lib.hm.gvariant.mkTuple [
+            "ibus"
+            "mozc-jp"
+          ])
+        ];
+        xkb-options = [
+          config.services.xserver.xkbOptions
+        ];
+      };
     };
 
     home.file.".config/mozc/ibus_config.textproto".text = ''
