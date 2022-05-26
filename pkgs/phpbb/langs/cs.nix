@@ -13,7 +13,7 @@ fetchzip rec {
 
   stripRoot = false;
 
-  extraPostFetch = ''
+  postFetch = ''
     # We do not want VigLink extension.
     rm -r $out/ext
   '';
