@@ -9,6 +9,8 @@ final: prev: {
     aw-watcher-window
     aw-webui;
 
+  flarum = prev.callPackage ./flarum {};
+
   flarum-webhooks-telegram-bridge = prev.callPackage ./flarum-webhooks-telegram-bridge {};
 
   pechar = prev.callPackage ./pechar {};
