@@ -20,6 +20,21 @@
         "type": "github"
       }
     },
+    "c4": {
+      "locked": {
+        "lastModified": 1653632860,
+        "narHash": "sha256-ZG4sKVlgwqMTMigJefu9H1AlHpcuxDbaG8KiziBdii8=",
+        "owner": "fossar",
+        "repo": "composition-c4",
+        "rev": "2175e6fc35126255ca51fe6dec978f93f3ce7464",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fossar",
+        "repo": "composition-c4",
+        "type": "github"
+      }
+    },
     "dwarffs": {
       "inputs": {
         "nix": [
@@ -187,6 +202,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "c4": "c4",
         "dwarffs": "dwarffs",
         "flake-compat": "flake-compat",
         "home-manager": "home-manager",

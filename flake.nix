@@ -7,6 +7,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    c4 = {
+      url = "github:fossar/composition-c4";
+    };
+
     dwarffs = {
       url = "github:edolstra/dwarffs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -51,7 +55,7 @@
     };
   };
 
-  outputs = { self, agenix, dwarffs, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl }@inputs:
+  outputs = { self, agenix, c4, dwarffs, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -80,6 +84,8 @@
       mkPkgs = platform: import nixpkgs {
         system = platform;
         overlays = builtins.attrValues self.overlays ++ [
+          c4.overlays.default
+
           # Take only dwarffs attribute from dwarffs overlay and
           # pass it unstable Nix.
           (lib.pipe dwarffs.overlay [
