@@ -20,6 +20,8 @@ def main(args):
     nix_args = ['-L']
     if args.nixpkgs:
         nix_args += ['--override-input', 'nixpkgs', args.nixpkgs, '--no-write-lock-file']
+    if args.impure:
+        nix_args += ['--impure']
     if args.keep_going:
         nix_args += ['--keep-going']
     if args.show_trace:
@@ -44,6 +46,7 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Rebuild system')
     parser.add_argument('--nixpkgs', dest='nixpkgs', help='Override the nixpkgs flake input with this path', nargs='?')
+    parser.add_argument('--impure', dest='impure', action='store_true', help='Allow access to mutable paths and repositories')
     parser.add_argument('--keep-going', '-k', dest='keep_going', action='store_true', help='Do not stop after first failure')
     parser.add_argument('--show-trace', dest='show_trace', action='store_true', help='Enable the show-trace setting')
     parser.add_argument('hostname', help='Host whose configuration should we rebuild', nargs='?', default=platform.node())
