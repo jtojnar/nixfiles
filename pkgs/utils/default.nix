@@ -35,9 +35,7 @@ in {
       python3
     ];
     path = [
-      (nixos ({pkgs, ...}: {
-        nix.package = pkgs.nixUnstable;
-      })).nixos-rebuild
+      (nixos {}).nixos-rebuild
     ];
   };
   git-part-pick = mkUtil "git-part-pick" { path = [ fzf ]; };
