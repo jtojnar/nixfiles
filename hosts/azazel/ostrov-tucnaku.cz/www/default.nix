@@ -1,4 +1,4 @@
-{ config, lib, myLib, ... }:
+{ config, lib, pkgs, myLib, ... }:
 let
   inherit (myLib) enablePHP mkVirtualHost;
 in {

@@ -18,4 +18,14 @@ in
 
     keys.jtojnar
   ];
+  "ostrov-tucnaku.cz-telegram-api-key.age".publicKeys = builtins.concatLists [
+    keys.azazel
+
+    keys.jtojnar
+  ];
+  "ostrov-tucnaku.cz-telegram-webhook-token.age".publicKeys = builtins.concatLists [
+    keys.azazel
+
+    keys.jtojnar
+  ];
 }

@@ -43,4 +43,50 @@
     directory:
     key:
     ''command="${pkgs.rrsync}/bin/rrsync -wo ${directory}",restrict ${key}'';
+
+  /*
+  Emulate systemd credentials.
+  Those will only be available to the user the service is running under,
+  not being aware of dropped euid.
+  http://systemd.io/CREDENTIALS/
+  */
+  emulateCredentials =
+    let
+      parseCredential =
+        credential:
+        let
+          matches = builtins.match "(.+):(.+)" credential;
+        in
+        assert lib.assertMsg (matches != null) "A credential needs to match “id:value” format";
+        {
+          id = builtins.elemAt matches 0;
+          value = builtins.elemAt matches 1;
+        };
+
+      parseCredentials =
+        credentials:
+        builtins.map parseCredential (
+          if builtins.isList credentials
+          then credentials
+          else lib.splitString "," credentials
+        );
+    in
+    serviceConfig:
+    lib.mkMerge [
+      (builtins.removeAttrs serviceConfig [ "SetCredential" "LoadCredential" ])
+      {
+        Environment = [
+          "CREDENTIALS_DIRECTORY=${
+            pkgs.runCommand
+              "credentials"
+              { }
+              ''
+                mkdir "$out"
+                ${lib.concatMapStringsSep "\n" ({ id, value }: ''ln -s "${value}" "$out/${id}"'') (parseCredentials serviceConfig.LoadCredential or [ ])}
+                ${lib.concatMapStringsSep "\n" ({ id, value }: ''echo -n "${value}" > "$out/${id}"'') (parseCredentials serviceConfig.SetCredential or [ ])}
+              ''
+          }"
+        ];
+      }
+    ];
 }

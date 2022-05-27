@@ -4,11 +4,13 @@ let
 in {
   imports = [
     ./obrazky
+    ./tgwh
     ./www
   ];
 
   security.acme.certs."ostrov-tucnaku.cz".extraDomainNames = [
     "obrazky.ostrov-tucnaku.cz"
+    "tgwh.ostrov-tucnaku.cz"
   ];
 
   services = {
@@ -29,6 +31,16 @@ in {
           user = "ostrov-tucnaku";
           phpPackage = pkgs.php74;
           debug = true;
+
+          phpOptions = ''
+            ; Set up $_ENV superglobal.
+            ; http://php.net/request-order
+            variables_order = "EGPCS"
+          '';
+          settings = {
+            # Accept settings from the systemd service.
+            clear_env = false;
+          };
         };
       };
     };
