@@ -2,6 +2,7 @@
 , fetchurl
 , lib
 , unzip
+, php
 , common-updater-scripts
 , curl
 , jq
@@ -22,6 +23,14 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [
     unzip
   ];
+
+  buildInputs = [
+    php
+  ];
+
+  postPatch = ''
+    chmod +x bin/phpbbcli.php
+  '';
 
   installPhase = ''
     runHook preInstall
