@@ -29,7 +29,7 @@ let
   buildTree = {
     enableInstaller ? false,
     unitName ? "phpbb",
-    stateDir ? "/var/run/${unitName}",
+    stateDir ? "/var/lib/${unitName}",
     enabledPackages ? [ ],
     cacheDir ? "/var/cache/${unitName}",
   }@args: symlinkJoin {
