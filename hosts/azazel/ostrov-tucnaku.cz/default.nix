@@ -29,8 +29,6 @@ in {
       pools = {
         ostrov-tucnaku = mkPhpPool {
           user = "ostrov-tucnaku";
-          phpPackage = pkgs.php74;
-          debug = true;
 
           phpOptions = ''
             ; Set up $_ENV superglobal.
