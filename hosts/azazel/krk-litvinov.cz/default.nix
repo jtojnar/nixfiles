@@ -6,7 +6,6 @@ in {
     ./agenda
     ./bloudeni
     ./entries
-    ./entries.rogaining-2019
     ./hrob-2020
     ./lob-2019
     ./rogaining-2019
@@ -24,18 +23,15 @@ in {
 
       ensureDatabases = [
         "entries"
-        "entries-2019"
         "rogaining-2019"
       ];
       ensureUsers = [
         { name = "entries"; ensurePermissions = { "entries.*" = "ALL PRIVILEGES"; }; }
-        { name = "entries-2019"; ensurePermissions = { "\\`entries-2019\\`.*" = "ALL PRIVILEGES"; }; }
         { name = "rogaining-2019"; ensurePermissions = { "\\`rogaining-2019\\`.*" = "ALL PRIVILEGES"; }; }
         {
           name = "tojnar";
           ensurePermissions = {
             "entries.*" = "DELETE, INSERT, SELECT, UPDATE";
-            "\\`entries-2019\\`.*" = "DELETE, INSERT, SELECT, UPDATE";
           };
         }
       ];
@@ -49,10 +45,6 @@ in {
         };
         rogaining-2019 = mkPhpPool {
           user = "rogaining-2019";
-          debug = true;
-        };
-        entries-2019 = mkPhpPool {
-          user = "entries-2019";
           debug = true;
         };
         skirogaining = mkPhpPool {
@@ -70,7 +62,6 @@ in {
           "bloudeni"
           "entries"
           "rogaining-2019"
-          "entries-2019"
           "skirogaining"
         ];
       };
@@ -80,7 +71,6 @@ in {
           "bloudeni"
           "entries"
           "krk"
-          "entries-2019"
           "skirogaining"
         ];
       };
@@ -92,7 +82,6 @@ in {
           "krk"
           "rogaining-2019"
           "skirogaining"
-          "entries-2019"
         ];
       };
 
@@ -101,7 +90,6 @@ in {
       krk = { uid = 505; group = "krk"; isSystemUser = true; };
       rogaining-2019 = { uid = 507; group = "rogaining-2019"; isSystemUser = true; };
       skirogaining = { uid = 517; group = "skirogaining"; isSystemUser = true; };
-      entries-2019 = { uid = 508; group = "entries-2019"; isSystemUser = true; };
     };
 
     groups = {
@@ -110,7 +98,6 @@ in {
       krk = { gid = 505; };
       rogaining-2019 = { gid = 507; };
       skirogaining = { gid = 517; };
-      entries-2019 = { gid = 508; };
     };
   };
 }
