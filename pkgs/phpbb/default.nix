@@ -42,6 +42,15 @@ let
       phpbb.installer
     ] ++ enabledPackages;
 
+    postBuild = ''
+      # Materialize files so that PHP’s __DIR__ constant refers to the combined tree.
+      for f in bin/phpbbcli.php includes/functions.php; do
+          original="$(readlink -f "$out/$f")"
+          rm "$out/$f"
+          cp "$original" "$out/$f"
+      done
+    '';
+
     passthru = {
       withConfig = newArgs: buildTree (args // newArgs);
 
