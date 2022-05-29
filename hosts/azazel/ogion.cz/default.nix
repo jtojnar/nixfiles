@@ -7,6 +7,7 @@ in {
     ./develop
     ./code
     ./mechmice
+    ./monitor
     ./mysql
     ./reader
     ./temp
@@ -20,6 +21,7 @@ in {
     "bag.ogion.cz"
     "code.ogion.cz"
     "mechmice.ogion.cz"
+    "monitor.ogion.cz"
     "mysql.ogion.cz"
     "reader.ogion.cz"
     "temp.ogion.cz"
