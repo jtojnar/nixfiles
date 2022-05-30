@@ -11,6 +11,7 @@ in {
   security.acme.certs."ostrov-tucnaku.cz".extraDomainNames = [
     "obrazky.ostrov-tucnaku.cz"
     "tgwh.ostrov-tucnaku.cz"
+    "www.ostrov-tucnaku.cz"
   ];
 
   services = {
