@@ -1,8 +1,6 @@
 { pkgs, ... }:
 {
   nix = {
-    package = pkgs.nixUnstable;
-
     settings = {
       allowed-users = [ "@wheel" ];
       trusted-users = [ "root" "@wheel" ];

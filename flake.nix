@@ -89,7 +89,6 @@
           # Take only dwarffs attribute from dwarffs overlay and
           # pass it unstable Nix.
           (lib.pipe dwarffs.overlay [
-            (locallyOverrideFinal (final: { nix = final.nixUnstable; }))
             (filterOverlayAttrs [ "dwarffs" ])
           ])
 
@@ -116,9 +115,6 @@
                   cargo = rust;
                   rustc = rust;
                 };
-
-            # Convenience alias.
-            nixUnstable = prev.nixVersions.unstable;
 
             nixgl = import nixgl { pkgs = prev; };
           })
@@ -212,7 +208,7 @@
             deploy
             git
             git-crypt
-            nixUnstable
+            nix
             nopt
             update
             (writeShellScriptBin "deploy-home" ''

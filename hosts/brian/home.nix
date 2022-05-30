@@ -42,7 +42,6 @@ in
     ijq
     inkscape
     markdown-anki-decks
-    nixUnstable
     nixgl.nixGLIntel
     nix-du
     nix-direnv
