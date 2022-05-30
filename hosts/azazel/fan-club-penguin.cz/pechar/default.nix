@@ -34,7 +34,6 @@ in {
       pools = {
         pechar = mkPhpPool {
           user = "pechar";
-          phpPackage = pkgs.php74;
           phpOptions = ''
             ; Set up $_ENV superglobal.
             ; http://php.net/request-order

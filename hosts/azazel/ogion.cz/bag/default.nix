@@ -101,7 +101,7 @@ let
     ];
   };
 
-  php = pkgs.php74.withExtensions ({ enabled, all }: enabled ++ (with all; [
+  php = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
     imagick
     tidy
   ]));
