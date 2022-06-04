@@ -67,8 +67,22 @@ napalm.buildPackage src rec {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out
-    cp -r * $out
+    mkdir -p "$out"
+    cp -r * "$out"
+
+    mkdir -p "$out/lib/systemd/system"
+    echo > "$out/lib/systemd/system/pengu.service" "
+    [Unit]
+    After=network.target
+    After=postgresql.service
+    Description=Pengu virtual chat
+
+    [Service]
+    ExecStart=${nodejs}/bin/node $out/src
+    Restart=always
+    RestartSec=10
+    WorkingDirectory=$out
+    "
 
     runHook postInstall
   '';

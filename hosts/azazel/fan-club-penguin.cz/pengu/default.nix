@@ -32,19 +32,15 @@ in {
     }
   ];
 
+  systemd.packages = [
+    pengu
+  ];
+
   systemd.services = {
     pengu = {
-      description = "Pengu virtual chat";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" "postgresql.service" ];
-
       serviceConfig = {
         User = "pengu";
         Group = "pengu";
-        ExecStart = "${pkgs.nodejs-16_x}/bin/node ${pengu}/src";
-        WorkingDirectory = pengu;
-        Restart = "always";
-        RestartSec = "10";
       };
 
       environment = {
