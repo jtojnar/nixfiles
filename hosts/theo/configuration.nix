@@ -165,7 +165,7 @@ in {
         mpris2
       ];
     })
-    deja-dup
+    (deja-dup.override { vala = vala_0_54; })
     dfeet
     d-spy
     droidcam
