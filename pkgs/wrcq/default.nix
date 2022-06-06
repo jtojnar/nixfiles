@@ -56,6 +56,20 @@ in
     # Clean up node_modules.
     npm install --production  --loglevel verbose
 
-    mkdir -p $out
-    cp -r * $out
+    mkdir -p "$out"
+    cp -r * "$out"
+
+    mkdir -p "$out/lib/systemd/system"
+    echo > "$out/lib/systemd/system/pqe.service" "
+    [Unit]
+    After=network.target
+    After=postgresql.service
+    Description=Prequalified Entrants
+
+    [Service]
+    ExecStart=${nodejs}/bin/node $out/index.js
+    Restart=always
+    RestartSec=10
+    WorkingDirectory=$out
+    "
   ''

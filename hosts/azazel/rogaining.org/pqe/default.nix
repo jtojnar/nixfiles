@@ -42,19 +42,15 @@ in {
     }
   ];
 
+  systemd.packages = [
+    pqe
+  ];
+
   systemd.services = {
     pqe = {
-      description = "Prequalified Entrants";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" "postgresql.service" ];
-
       serviceConfig = {
         User = "pqe";
         Group = "pqe";
-        ExecStart = "${pkgs.nodejs_latest}/bin/node ${pqe}/index.js";
-        WorkingDirectory = pqe;
-        Restart = "always";
-        RestartSec = "10";
       };
 
       environment = {
