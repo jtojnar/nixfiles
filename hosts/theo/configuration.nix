@@ -251,6 +251,7 @@ in {
     tdesktop
     tldr
     transmission-gtk
+    treesheets
     unrar
     valgrind
     vlc
