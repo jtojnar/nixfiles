@@ -499,8 +499,8 @@ in {
       };
 
       "org/gnome/desktop/wm/keybindings" = {
-        switch-input-source-backward = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [];
-        switch-input-source = [];
+        switch-input-source = [ "<Super>i" ];
+        switch-input-source-backward = [ "<Shift><Super>i" ];
       };
 
       "org/gnome/settings-daemon/plugins/media-keys" = {
