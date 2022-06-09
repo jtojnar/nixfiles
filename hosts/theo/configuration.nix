@@ -201,6 +201,7 @@ in {
     gnome.gnome-disk-utility
     gnome.gnome-tweaks
     gnome.nautilus-python
+    gnome.pomodoro
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.hot-edge
@@ -530,6 +531,7 @@ in {
           "appindicatorsupport@rgcjonas.gmail.com"
           "dash-to-dock@micxgx.gmail.com"
           "GPaste@gnome-shell-extensions.gnome.org"
+          "pomodoro@arun.codito.in"
         ];
       };
 
