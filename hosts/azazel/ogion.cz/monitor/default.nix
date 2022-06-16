@@ -54,38 +54,6 @@ let
     };
 in
 {
-  imports = [
-    # Add support for uid option for provisioned data sources.
-    # Based on https://discourse.nixos.org/t/override-submodule-options/12165/3
-    # TODO: remove once https://github.com/NixOS/nixpkgs/pull/175330/files
-    (
-      { lib, ...}:
-      let
-        inherit (lib) mkOption types;
-
-        grafanaTypes.datasourceConfig =
-          { name, config, ... }:
-
-          {
-            options = {
-              uid = mkOption {
-                type = types.nullOr types.str;
-                default = null;
-                description = "Custom UID which can be used to reference this datasource in other parts of the configuration, if not specified will be generated automatically.";
-              };
-            };
-          };
-      in
-      {
-        options = {
-          services.grafana.provision.datasources = mkOption {
-            type = types.listOf (types.submodule grafanaTypes.datasourceConfig);
-          };
-        };
-      }
-    )
-  ];
-
   # Dashboard
   services.grafana = {
     enable = true;
