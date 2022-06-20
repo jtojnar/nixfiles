@@ -100,6 +100,8 @@
           ])
 
           (final: prev: {
+            gotags = null;
+
             home-manager = prev.callPackage "${home-manager}/home-manager" { };
 
             naerskUnstable =
