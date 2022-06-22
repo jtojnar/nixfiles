@@ -588,6 +588,8 @@ in {
     };
 
     programs.nix-index.enable = true;
+
+    home.stateVersion = "18.09";
   };
 
   # For agenix.
