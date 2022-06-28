@@ -100,17 +100,6 @@
           ])
 
           (final: prev: {
-            fail2ban = prev.fail2ban.overrideAttrs (attrs: {
-              patches = attrs.patches or [ ] ++ [
-                # fix use of MutableMapping with Python >= 3.10
-                # https://github.com/fail2ban/fail2ban/issues/3142
-                (prev.fetchpatch {
-                  url = "https://github.com/fail2ban/fail2ban/commit/294ec73f629d0e29cece3a1eb5dd60b6fccea41f.patch";
-                  sha256 = "Eimm4xjBDYNn5QdTyMqGgT5EXsZdd/txxcWJojXlsFE=";
-                })
-              ];
-            });
-
             home-manager = prev.callPackage "${home-manager}/home-manager" { };
 
             naerskUnstable =
@@ -128,31 +117,6 @@
                 };
 
             nixgl = import nixgl { pkgs = prev; };
-
-            python3 = prev.python3.override (prevArgs: {
-              packageOverrides =
-                let
-                  ourOverrides = finalPp: prevPp: {
-                    # Remove boto Python package since it breaks duplicity eval.
-                    # https://github.com/NixOS/nixpkgs/pull/178658
-                    boto = null;
-
-                    systemd = prevPp.systemd.overrideAttrs (attrs: {
-                      patches = attrs.patches or [ ] ++ [
-                        # Fix runtime issues on Python 3.10 breaking fail2ban.
-                        # https://github.com/systemd/python-systemd/issues/107
-                        (prev.fetchpatch {
-                          url = "https://github.com/systemd/python-systemd/commit/c71bbac357f0ac722e1bcb2edfa925b68cca23c9.patch";
-                          sha256 = "22s72Wa/BCwNNvwbxEUh58jhHlbA00SNwNVchVDovcc=";
-                        })
-                      ];
-                    });
-                  };
-                in
-                lib.composeExtensions
-                  prevArgs.packageOverrides or (finalPp: prevPp: {})
-                  ourOverrides;
-            });
           })
         ];
         config = {
