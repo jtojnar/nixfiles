@@ -16,13 +16,13 @@
 
 python3.pkgs.buildPythonApplication rec {
   pname = "sunflower";
-  version = "unstable-2021-09-08";
+  version = "unstable-2022-04-26";
 
   src = fetchFromGitHub {
     owner = "MeanEYE";
     repo = "Sunflower";
-    rev = "b91481b83353e830078291c10b1d7e99d6161da2";
-    sha256 = "0bx2RtZyn8BaJsymKYNAHbo3f0PG/EmLyyKkL2hj4d8=";
+    rev = "7062a640ffbb016ce317c5c9b4cc39e9ad8a71b4";
+    sha256 = "yhXsM6tWbXyGD+7ANiHLMLvwe8Wax6uFytE0QsB8fkk=";
   };
 
   nativeBuildInputs = [
@@ -67,7 +67,7 @@ python3.pkgs.buildPythonApplication rec {
   meta = with lib; {
     description = "Small and highly customizable twin-panel file manager for Linux with support for plugins";
     homepage = "https://sunflower-fm.org/";
-    license = licenses.gpl3;
+    license = licenses.gpl3Plus;
     maintainers = [ ];
     platforms = platforms.linux;
   };
