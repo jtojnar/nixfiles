@@ -85,6 +85,10 @@ in
       ; Set up $_ENV superglobal.
       ; http://php.net/request-order
       variables_order = "EGPCS"
+      post_max_size = "20M"
+      upload_max_filesize = "20M"
+      memory_limit = "512M"
+      max_execution_time = "1800"
     '';
     extraConfig = ''
       DirectoryIndex index.php index.html
