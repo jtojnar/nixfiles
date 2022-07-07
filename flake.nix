@@ -161,12 +161,19 @@
             }:
 
             home-manager.lib.homeManagerConfiguration {
-              configuration = ./hosts + "/${hostName}/home.nix";
-              system = platform;
-              homeDirectory = "/home/${user}";
-              username = "${user}";
               pkgs = pkgss.${platform};
-              stateVersion = "20.09";
+
+              modules = [
+                (./hosts + "/${hostName}/home.nix")
+
+                {
+                  home = {
+                    homeDirectory = "/home/${user}";
+                    username = "${user}";
+                    stateVersion = "20.09";
+                  };
+                }
+              ];
               extraSpecialArgs = {
                 inherit inputs;
               };
