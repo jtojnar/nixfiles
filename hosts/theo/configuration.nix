@@ -557,6 +557,11 @@ in {
       };
     };
 
+    home.file.".config/npm/npmrc".text = ''
+      prefix=''${XDG_DATA_HOME}/npm
+      cache=''${XDG_CACHE_HOME}/npm
+    '';
+
     home.file.".config/mozc/ibus_config.textproto".text = ''
       # `ibus write-cache; ibus restart` might be necessary to apply changes.
       engines {
