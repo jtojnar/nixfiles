@@ -95,7 +95,7 @@
           # Take only napalm attribute from napalm overlay and
           # pass it the latest nodejs.
           (lib.pipe napalm.overlay [
-            (locallyOverrideFinal (final: { nodejs = final.nodejs_latest; }))
+            (locallyOverrideFinal (final: { nodejs = final.nodejs; }))
             (filterOverlayAttrs [ "napalm" ])
           ])
 

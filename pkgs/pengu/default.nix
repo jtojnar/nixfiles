@@ -2,7 +2,7 @@
   runCommand,
   fetchFromGitHub,
   napalm,
-  nodejs_latest,
+  nodejs,
   python3,
   unstableGitUpdater,
 }:
@@ -16,8 +16,6 @@ let
     # Same for security auditing, it does not make sense in the sandbox.
     npm config set audit false
   '';
-
-  nodejs = nodejs_latest;
 
   src = fetchFromGitHub {
     owner = "jtojnar";
