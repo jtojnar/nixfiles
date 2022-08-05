@@ -23,10 +23,6 @@ final: prev: {
 
   sunflower = prev.callPackage ./sunflower {};
 
-  vikunja-api = prev.callPackage ./vikunja/vikunja-api {};
-
-  vikunja-frontend = prev.callPackage ./vikunja/vikunja-frontend {};
-
   wrcq = prev.callPackage ./wrcq {};
 
   inherit (prev.callPackages ./utils {})
