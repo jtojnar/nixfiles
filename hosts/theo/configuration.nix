@@ -144,6 +144,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     abiword
+    alejandra
     almanah
     anki-bin
     apg
@@ -199,6 +200,7 @@ in {
     gnome.gnome-chess
     gnome.gnome-dictionary
     gnome.gnome-disk-utility
+    gnome.gnome-sound-recorder
     gnome.gnome-tweaks
     gnome.nautilus-python
     gnome.pomodoro
@@ -210,10 +212,12 @@ in {
     gnumeric
     gnupg
     gsmartcontrol
+    libadwaita # for demo
     gtk3.dev # for gtk-builder-tool etc
     graphviz
     python3.pkgs.xdot
     htop
+    icon-library
     imagemagick
     indent
     inkscape
