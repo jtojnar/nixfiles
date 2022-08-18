@@ -12,8 +12,6 @@ in
       domain = domain;
       rootUrl = "https://${domain}/";
       httpPort = port;
-      cookieSecure = true;
-      disableRegistration = true;
 
       database = {
         type = "postgres";
@@ -51,6 +49,12 @@ in
         };
         server = {
           LANDING_PAGE = "explore";
+        };
+        service = {
+          DISABLE_REGISTRATION = true;
+        };
+        session = {
+          COOKIE_SECURE = true;
         };
       };
     };
