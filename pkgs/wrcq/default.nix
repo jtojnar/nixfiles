@@ -21,8 +21,8 @@ let
   src = fetchFromGitHub {
     owner = "jtojnar";
     repo = "wrcq";
-    rev = "4f5208c31ac3e38fe6c6c5d06c7a04c5af3654c2";
-    sha256 = "dgbr/Lp92P54UkjiMzv2tF1q6ajLgZdPF2wOyAzwf34=";
+    rev = "e0f59a513644a2f9dd4937b9a06a36c8d6cdb45f";
+    sha256 = "s1jS9xWZ58CrMaM1KAxfUKHmQJDP2VJrB2tzCsD5QGw=";
   };
 
   wrcq-deps = napalm.buildPackage src {
@@ -30,7 +30,7 @@ let
   };
 in
   runCommand "wrcq" {
-    version = "unstable-2021-12-11";
+    version = "unstable-2022-09-01";
 
     nativeBuildInputs = [
       nodejs
