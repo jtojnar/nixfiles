@@ -173,7 +173,7 @@ in {
   };
 
   # We use agenix so we need to create the config at activation time.
-  system.activationScripts."bag.ogion.cz-secret" = lib.stringAfter [ "etc" "agenix" "agenixRoot" ] ''
+  system.activationScripts."bag.ogion.cz-secret" = lib.stringAfter [ "etc" "agenix" ] ''
     secret=$(cat "${config.age.secrets."bag.ogion.cz-secret".path}")
     configDir=/etc/wallabag
     mkdir -p "$configDir"

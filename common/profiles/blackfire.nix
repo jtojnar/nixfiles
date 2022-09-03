@@ -15,7 +15,7 @@
   };
 
   # We use agenix so we need to create the config at activation time.
-  system.activationScripts."blackfire-secret-secret" = lib.stringAfter [ "etc" "agenix" "agenixRoot" ] ''
+  system.activationScripts."blackfire-secret-secret" = lib.stringAfter [ "etc" "agenix" ] ''
     serverId=$(cat "${config.age.secrets."blackfire-agent-server-id".path}")
     serverToken=$(cat "${config.age.secrets."blackfire-agent-server-token".path}")
     ${pkgs.gnused}/bin/sed -i "s#@serverId@#$serverId#;s#@serverToken@#$serverToken#" "/etc/blackfire/agent"
