@@ -31,6 +31,9 @@ let
 
           // Always use XDG portals for stuff
           lockPref("widget.use-xdg-desktop-portal.file-picker", 1);
+
+          // Enable userChrome.css
+          lockPref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
         '';
       });
 
@@ -578,6 +581,16 @@ in {
       }
       # Ensure hiragana input mode is default.
       active_on_launch: True
+    '';
+
+    home.file.".mozilla/firefox/9shb6xj3.default/chrome/userChrome.css".text = ''
+      @-moz-document url(chrome://browser/content/browser.xul),
+      url(chrome://browser/content/browser.xhtml) {
+          #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar,
+          #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+              visibility: collapse !important;
+          }
+      }
     '';
 
     programs.direnv = {
