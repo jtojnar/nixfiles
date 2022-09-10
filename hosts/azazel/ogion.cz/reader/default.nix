@@ -17,6 +17,7 @@ let
     base_url = "https://reader.ogion.cz/";
     items_lifetime = "9999";
     # selfoss_scroll_to_article_header = "0";
+    open_in_background_tab = "1";
   };
 
   settingsEnv = lib.mapAttrs' (name: value: lib.nameValuePair "selfoss_${name}" value) settings;
