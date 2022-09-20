@@ -201,6 +201,7 @@ in {
     }))
     gimp
     diff-so-fancy
+    evolution
     git-crypt
     gitFull
     gitg
