@@ -6,6 +6,7 @@ in {
     ./agenda
     ./bloudeni
     ./entries
+    ./entries.hrob-2022
     ./hrob-2020
     ./hrob-2022
     ./lob-2019
@@ -24,15 +25,18 @@ in {
 
       ensureDatabases = [
         "entries"
+        "entries-hrob-2022"
         "rogaining-2019"
       ];
       ensureUsers = [
         { name = "entries"; ensurePermissions = { "entries.*" = "ALL PRIVILEGES"; }; }
+        { name = "entries-hrob-2022"; ensurePermissions = { "\\`entries-hrob-2022\\`.*" = "ALL PRIVILEGES"; }; }
         { name = "rogaining-2019"; ensurePermissions = { "\\`rogaining-2019\\`.*" = "ALL PRIVILEGES"; }; }
         {
           name = "tojnar";
           ensurePermissions = {
             "entries.*" = "DELETE, INSERT, SELECT, UPDATE";
+            "\\`entries-hrob-2022\\`.*" = "DELETE, INSERT, SELECT, UPDATE";
           };
         }
       ];
@@ -42,6 +46,11 @@ in {
       pools = {
         entries = mkPhpPool {
           user = "entries";
+          debug = true;
+        };
+        entries-hrob-2022 = mkPhpPool {
+          user = "entries.hrob-2022";
+          phpPackage = pkgs.php80;
           debug = true;
         };
         rogaining-2019 = mkPhpPool {
@@ -62,6 +71,7 @@ in {
         extraGroups = [
           "bloudeni"
           "entries"
+          "entries.hrob-2022"
           "hrob-2022"
           "rogaining-2019"
           "skirogaining"
@@ -72,6 +82,7 @@ in {
         extraGroups = [
           "bloudeni"
           "entries"
+          "entries.hrob-2022"
           "hrob-2022"
           "krk"
           "skirogaining"
@@ -82,6 +93,7 @@ in {
         extraGroups = [
           "bloudeni"
           "entries"
+          "entries.hrob-2022"
           "hrob-2022"
           "krk"
           "rogaining-2019"
@@ -91,6 +103,7 @@ in {
 
       bloudeni = { uid = 513; group = "bloudeni"; isSystemUser = true; };
       entries = { uid = 504; group = "entries"; isSystemUser = true; };
+      "entries.hrob-2022" = { uid = 521; group = "entries.hrob-2022"; isSystemUser = true; };
       hrob-2022 = { uid = 520; group = "hrob-2022"; isSystemUser = true; };
       krk = { uid = 505; group = "krk"; isSystemUser = true; };
       rogaining-2019 = { uid = 507; group = "rogaining-2019"; isSystemUser = true; };
@@ -100,6 +113,7 @@ in {
     groups = {
       bloudeni = { gid = 513; };
       entries = { gid = 504; };
+      "entries.hrob-2022" = { gid = 521; };
       hrob-2022 = { gid = 520; };
       krk = { gid = 505; };
       rogaining-2019 = { gid = 507; };
