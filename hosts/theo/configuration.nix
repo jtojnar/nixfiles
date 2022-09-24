@@ -409,6 +409,8 @@ in {
     ];
   };
 
+  systemd.user.services."org.gnome.GPaste".serviceConfig.TimeoutSec = 900;
+
   environment.etc = {
     "gitconfig".text = ''
       [user]
