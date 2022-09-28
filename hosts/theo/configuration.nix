@@ -266,6 +266,7 @@ in {
     sequeler
     signal-desktop
     sman
+    solo2-cli
     sublime4-dev
     sublime-merge
     spotify
