@@ -237,7 +237,11 @@ in {
     icon-library
     imagemagick
     indent
-    inkscape
+    (inkscape-with-extensions.override {
+      inkscapeExtensions = [
+        inkscape-extensions.applytransforms
+      ];
+    })
     jq
     libxml2 # for xmllint
     lorri
