@@ -25,6 +25,18 @@ let
   php = pkgs.php81.withExtensions ({ enabled, all }: enabled ++ (with all; [
     blackfire
   ]));
+
+  # Modify the upstream nginx config to point to our mutable datadir.
+  nginxConf =
+    pkgs.runCommand
+      "selfoss.nginx.conf"
+      {
+        src = "${pkgs.selfoss}/.nginx.conf";
+      }
+      ''
+        substitute "$src" "$out" \
+          --replace 'try_files $uri /data/$uri;' 'root ${settings.datadir};'
+      '';
 in {
   imports = [
     inputs.self.nixosModules.profiles.blackfire
@@ -39,19 +51,8 @@ in {
           acme = "ogion.cz";
           root = pkgs.selfoss;
           config = ''
-            location ~* \ (gif|jpg|png) {
-              expires 30d;
-            }
-            location ~ ^/(favicons|thumbnails)/.*$ {
-              root ${settings.datadir};
-            }
-            location ~* ^/(data\/logs|data\/sqlite|config\.ini|\.ht) {
-              deny all;
-            }
-            location / {
-              index index.php;
-              try_files $uri /public/$uri /index.php$is_args$args;
-            }
+            include ${nginxConf};
+
             location ~ \.php$ {
               ${enablePHP "reader"}
             }
