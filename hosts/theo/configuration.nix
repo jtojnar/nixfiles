@@ -184,7 +184,6 @@ in {
     fd
     file
     firefox
-    font-manager
     fractal
     fzf
     gcolor3
