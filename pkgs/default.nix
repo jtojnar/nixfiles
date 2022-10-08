@@ -3,6 +3,7 @@ final: prev: {
 
   inherit (prev.callPackages ./activitywatch { })
     aw-core
+    aw-client
     aw-server-rust
     aw-qt
     aw-watcher-afk

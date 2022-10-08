@@ -106,9 +106,9 @@
               let
                 nmo = import nixpkgs-mozilla final prev;
                 rust = (nmo.rustChannelOf {
-                  date = "2021-06-30";
+                  date = "2022-08-08";
                   channel = "nightly";
-                  sha256 = "d02mYpeoCuv+tf2oFUOGybJ23GzcA9pSyJT8z/7RuSg=";
+                  sha256 = "sha256-r/8YBFuFa4hpwgE3FnME7nQA2Uc1uqj0eCE1NWmI1u0=";
                 }).rust;
               in
                 naersk.lib.${platform}.override {

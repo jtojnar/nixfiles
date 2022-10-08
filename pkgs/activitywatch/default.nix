@@ -6,21 +6,19 @@
 , perl
 , openssl
 , python3
-, runCommand
 , napalm
 , nodejs_latest
-, libsForQt5
-, xdg-utils
+, qt6
+, substituteAll
 }:
 
 let
-  version = "unstable-2021-06-21";
-
+  version = "0.12.1";
   sources = fetchFromGitHub {
     owner = "ActivityWatch";
     repo = "activitywatch";
-    rev = "9ac2e2fab448cd83edf76bed2fd371089250f338";
-    sha256 = "HWVy9FjxFFDoDmVJdslji5ckSlA76Ut+NUYFouQ9ckI=";
+    rev = "v${version}";
+    sha256 = "sha256-pK+upMSpJlg7J8WTmImLm8TW8pMHrCihMeiT+1/nbPM=";
     fetchSubmodules = true;
   };
 
@@ -46,18 +44,15 @@ rec {
       peewee
       appdirs
       iso8601
-      python-json-logger
+      rfc3339-validator
       TakeTheTime
-      pymongo
       strict-rfc3339
       tomlkit
       deprecation
       timeslot
+      pymongo
+      python-json-logger
     ];
-
-    postPatch = ''
-      sed -E 's#python-json-logger = "\^0.1.11"#python-json-logger = "^2.0"#g' -i pyproject.toml
-    '';
 
     meta = with lib; {
       description = "Core library for ActivityWatch";
@@ -84,11 +79,8 @@ rec {
       requests
       persist-queue
       click
+      tabulate
     ];
-
-    postPatch = ''
-      sed -E 's#click = "\^7.1.1"#click = "^8.0"#g' -i pyproject.toml
-    '';
 
     meta = with lib; {
       description = "Client library for ActivityWatch";
@@ -99,12 +91,12 @@ rec {
   };
 
   persist-queue = python3.pkgs.buildPythonPackage rec {
-    version = "0.6.0";
+    version = "0.8.0";
     pname = "persist-queue";
 
     src = python3.pkgs.fetchPypi {
       inherit pname version;
-      sha256 = "5z3WJUXTflGSR9ljaL+lxRD95mmZozjW0tRHkNwQ+Js=";
+      sha256 = "sha256-vapNz8SyCpzh9cttoxFrbLj+N1J9mR/SQoVu8szNIY4=";
     };
 
     checkInputs = with python3.pkgs; [
@@ -115,6 +107,8 @@ rec {
     checkPhase = ''
       runHook preCheck
 
+      # Don't run mysql tests, as they don't seem to work in nix sandbox?
+      rm persistqueue/tests/test_mysqlqueue.py
       nose2
 
       runHook postCheck
@@ -185,14 +179,14 @@ rec {
 
     nativeBuildInputs = [
       python3.pkgs.poetry
-      python3.pkgs.pyqt5 # for pyrcc5
-      libsForQt5.wrapQtAppsHook
-      xdg-utils
+      qt6.wrapQtAppsHook
     ];
 
     propagatedBuildInputs = with python3.pkgs; [
       aw-core
-      pyqt5
+      qt6.qtbase # Needed for qt6.wrapQtAppsHook
+      qt6.qtsvg # Rendering icons in the trayicon menu
+      pyqt6
       click
     ];
 
@@ -200,18 +194,21 @@ rec {
     dontWrapQtApps = true;
 
     postPatch = ''
-      sed -E 's#click = "\^7.1.2"#click = "^8.0"#g' -i pyproject.toml
-      sed -E 's#PyQt5 = "5.15.2"#PyQt5 = "^5.15.2"#g' -i pyproject.toml
-    '';
-
-    preBuild = ''
-      HOME=$TMPDIR make aw_qt/resources.py
+      sed -E 's#PyQt6 = "6.3.1"#PyQt6 = "^6.4.0"#g' -i pyproject.toml
     '';
 
     postInstall = ''
-      install -Dt $out/etc/xdg/autostart resources/aw-qt.desktop
-      xdg-icon-resource install --novendor --size 32 media/logo/logo.png activitywatch
-      xdg-icon-resource install --novendor --size 512 media/logo/logo.png activitywatch
+      install -D resources/aw-qt.desktop $out/share/applications/aw-qt.desktop
+      install -D resources/aw-qt.desktop $out/etc/xdg/autostart/aw-qt.desktop
+
+      # For the actual tray icon, see
+      # https://github.com/ActivityWatch/aw-qt/blob/8ec5db941ede0923bfe26631acf241a4a5353108/aw_qt/trayicon.py#L211-L218
+      install -D media/logo/logo.png $out/lib/python3.10/site-packages/media/logo/logo.png
+
+      # For .desktop file and your desktop environment
+      install -D media/logo/logo.svg $out/share/icons/hicolor/scalable/apps/activitywatch.svg
+      install -D media/logo/logo.png $out/share/icons/hicolor/512x512/apps/activitywatch.png
+      install -D media/logo/logo-128.png $out/share/icons/hicolor/128x128/apps/activitywatch.png
     '';
 
     preFixup = ''
@@ -261,6 +258,7 @@ rec {
       description = "Cross-platform, extensible, privacy-focused, free and open-source automated time tracker";
       homepage = "https://github.com/ActivityWatch/aw-server-rust";
       maintainers = with maintainers; [ jtojnar ];
+      mainProgram = "aw-server";
       platforms = platforms.linux;
       license = licenses.mpl20;
     };
@@ -283,10 +281,6 @@ rec {
       xlib
       pynput
     ];
-
-    postPatch = ''
-      sed -E 's#python-xlib = \{ version = "\^0.28"#python-xlib = \{ version = "^0.29"#g' -i pyproject.toml
-    '';
 
     meta = with lib; {
       description = "Watches keyboard and mouse activity to determine if you are AFK or not (for use with ActivityWatch)";
@@ -313,10 +307,6 @@ rec {
       xlib
     ];
 
-    postPatch = ''
-      sed -E 's#python-xlib = \{version = "\^0.28"#python-xlib = \{ version = "^0.29"#g' -i pyproject.toml
-    '';
-
     meta = with lib; {
       description = "Cross-platform window watcher (for use with ActivityWatch)";
       homepage = "https://github.com/ActivityWatch/aw-watcher-window";
@@ -339,6 +329,14 @@ rec {
       '';
     in
       napalm.buildPackage "${sources}/aw-server-rust/aw-webui" {
+        patches = [
+          # Hardcode version to avoid the need to have the Git repo available at build time.
+          (substituteAll {
+            src = ./commit-hash.patch;
+            commit_hash = sources.rev;
+          })
+        ];
+
         nativeBuildInputs = [
           # deasync uses node-gyp
           python3
@@ -346,7 +344,7 @@ rec {
 
         npmCommands = [
           # Let’s install again, this time running scripts.
-          "npm install --loglevel verbose --nodedir=${nodejs}/include/node"
+          "npm ci --loglevel verbose --nodedir=${nodejs}/include/node"
 
           # Build the front-end.
           "npm run build"
