@@ -1,6 +1,6 @@
 { config, lib, myLib, ... }:
 let
-  inherit (myLib) mkVirtualHost;
+  inherit (myLib) mkVirtualHost enablePHP;
 in {
   services = {
     nginx = {
@@ -12,12 +12,11 @@ in {
           path = "fan-club-penguin.cz/upload";
           config = ''
             location / {
-              if (!-e $request_filename){
-                rewrite ^(.+)$ /files/$1;
-              }
-              if (!-e $request_filename){
-                rewrite ^(.*)$ /index.php break;
-              }
+              try_files "$uri" "/files/$uri" /index.php;
+            }
+
+            location ~ \.php$ {
+              ${enablePHP "fcp"}
             }
           '';
         };
