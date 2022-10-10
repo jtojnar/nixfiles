@@ -22,6 +22,10 @@ in {
               fancyindex_exact_size off; # Use human-readable file sizes.
             }
 
+            location /library {
+              try_files $uri $uri /library/index.php;
+            }
+
             location ~ \.php$ {
               ${enablePHP "fcp"}
             }
