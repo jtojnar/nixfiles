@@ -13,10 +13,6 @@ in {
           config = ''
             index index.php;
 
-            location / {
-              try_files $uri $uri/;
-            }
-
             location /comic {
               try_files $uri $uri/ /comic/index.php;
             }
