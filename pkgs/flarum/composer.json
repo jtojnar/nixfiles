@@ -21,10 +21,10 @@
         "docs": "https://docs.flarum.org/"
     },
     "require": {
-        "flarum/akismet": "^1.4",
+        "flarum/akismet": "^1.5",
         "flarum/approval": "*",
         "flarum/bbcode": "*",
-        "flarum/core": "^1.4",
+        "flarum/core": "^1.5",
         "flarum/emoji": "*",
         "flarum/flags": "*",
         "flarum/lang-english": "*",
