@@ -75,7 +75,21 @@ in
       };
     };
     enablePHP = true;
-    phpPackage = pkgs.php80.withExtensions ({ enabled, all }: enabled ++ (with all; [
+    phpPackage = let
+      libxml2 = pkgs.libxml2.overrideAttrs (attrs: {
+        src = pkgs.fetchurl {
+          url = "mirror://gnome/sources/libxml2/2.10/libxml2-2.10.2.tar.xz";
+          sha256 = "0kCr5tqcZcsZAN2b86NQHM+Is8Khy5gxfQPyct2lsmU=";
+        };
+        patches = [];
+      });
+      replaceLibxml2 = prevArgs: {
+        inherit libxml2;
+      };
+    in (pkgs.php80.override {
+      inherit libxml2;
+      callPackage = path: args: pkgs.callPackage path (args // { inherit libxml2; });
+    }).withExtensions ({ enabled, all }: enabled ++ (with all; [
       blackfire
     ]));
     phpOptions = ''
