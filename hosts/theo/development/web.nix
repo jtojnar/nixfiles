@@ -75,7 +75,7 @@ in
       };
     };
     enablePHP = true;
-    phpPackage = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
+    phpPackage = pkgs.php80.withExtensions ({ enabled, all }: enabled ++ (with all; [
       blackfire
     ]));
     phpOptions = ''
