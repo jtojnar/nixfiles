@@ -76,6 +76,7 @@ in {
 
   boot.kernelModules = [
     "v4l2loopback"
+    "snd_aloop"
   ];
   boot.extraModulePackages = [
     config.boot.kernelPackages.v4l2loopback.out
