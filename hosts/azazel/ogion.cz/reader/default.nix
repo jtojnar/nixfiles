@@ -23,7 +23,6 @@ let
   settingsEnv = lib.mapAttrs' (name: value: lib.nameValuePair "selfoss_${name}" value) settings;
 
   php = pkgs.php81.withExtensions ({ enabled, all }: enabled ++ (with all; [
-    blackfire
   ]));
 
   # Modify the upstream nginx config to point to our mutable datadir.
@@ -39,7 +38,6 @@ let
       '';
 in {
   imports = [
-    inputs.self.nixosModules.profiles.blackfire
   ];
 
   services = {
@@ -94,7 +92,4 @@ in {
     startAt = "hourly";
     wantedBy = [ "multi-user.target" ];
   };
-
-  # WantedBy= from the upstream unit not respected: https://github.com/NixOS/nixpkgs/issues/81138
-  systemd.services.blackfire-agent.wantedBy = [ "phpfpm-reader.service" ];
 }

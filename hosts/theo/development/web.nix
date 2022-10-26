@@ -6,7 +6,6 @@ in
 
 {
   imports = [
-    inputs.self.nixosModules.profiles.blackfire
   ];
 
   networking.extraHosts = ''
@@ -90,7 +89,6 @@ in
       inherit libxml2;
       callPackage = path: args: pkgs.callPackage path (args // { inherit libxml2; });
     }).withExtensions ({ enabled, all }: enabled ++ (with all; [
-      blackfire
     ]));
     phpOptions = ''
       display_errors = 1

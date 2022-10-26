@@ -6,18 +6,6 @@ in
     keys.azazel
     keys.jtojnar
   ];
-  "blackfire-agent-server-id.age".publicKeys = builtins.concatLists [
-    keys.azazel
-    keys.theo
-
-    keys.jtojnar
-  ];
-  "blackfire-agent-server-token.age".publicKeys = builtins.concatLists [
-    keys.azazel
-    keys.theo
-
-    keys.jtojnar
-  ];
   "ostrov-tucnaku.cz-telegram-api-key.age".publicKeys = builtins.concatLists [
     keys.azazel
 
