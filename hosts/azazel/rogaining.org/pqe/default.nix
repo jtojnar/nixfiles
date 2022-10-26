@@ -48,6 +48,7 @@ in {
 
   systemd.services = {
     pqe = {
+      wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         User = "pqe";
         Group = "pqe";
