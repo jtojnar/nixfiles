@@ -167,6 +167,11 @@ in {
           settings = {
             "env[WALLABAG_DATA]" = datadir;
           };
+          phpOptions = ''
+            # Wallabag will crash on start-up.
+            # https://github.com/wallabag/wallabag/issues/6042
+            error_reporting = E_ALL & ~E_USER_DEPRECATED & ~E_DEPRECATED
+          '';
         };
       };
     };
