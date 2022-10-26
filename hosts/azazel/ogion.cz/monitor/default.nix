@@ -57,7 +57,12 @@ in
   # Dashboard
   services.grafana = {
     enable = true;
-    domain = "monitor.ogion.cz";
+
+    settings = {
+      server = {
+        domain = "monitor.ogion.cz";
+      };
+    };
 
     # TODO: try to make it run without a database. Or at least make it on tmpfs.
     # database.path = "/dev/null";
@@ -65,22 +70,30 @@ in
 
     provision = {
       enable = true;
-      datasources = [
-        {
-          name = "Prometheus";
-          type = "prometheus";
-          url = "http://localhost:${builtins.toString config.services.prometheus.port}";
-          isDefault = true;
-          uid = "prometheus";
-        }
-      ];
+      datasources = {
+        settings = {
+          datasources = [
+            {
+              name = "Prometheus";
+              type = "prometheus";
+              url = "http://localhost:${builtins.toString config.services.prometheus.port}";
+              isDefault = true;
+              uid = "prometheus";
+            }
+          ];
+        };
+      };
 
-      dashboards = [
-        {
-          name = "HTTP status";
-          options.path = blackboxDashbord;
-        }
-      ];
+      dashboards = {
+        settings = {
+          providers = [
+            {
+              name = "HTTP status";
+              options.path = blackboxDashbord;
+            }
+          ];
+        };
+      };
     };
   };
 
@@ -88,11 +101,11 @@ in
     enable = true;
 
     virtualHosts = {
-      "${config.services.grafana.domain}" = mkVirtualHost {
+      "${config.services.grafana.settings.server.domain}" = mkVirtualHost {
         acme = "ogion.cz";
         locations = {
           "/" = {
-            proxyPass = "http://127.0.0.1:${builtins.toString config.services.grafana.port}";
+            proxyPass = "http://127.0.0.1:${builtins.toString config.services.grafana.settings.server.http_port}";
             proxyWebsockets = true;
             extraConfig = ''
               # https://github.com/grafana/grafana/issues/45117
