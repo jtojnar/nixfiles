@@ -38,6 +38,7 @@ in {
 
   systemd.services = {
     pengu = {
+      wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         User = "pengu";
         Group = "pengu";
