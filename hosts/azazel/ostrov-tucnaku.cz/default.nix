@@ -35,6 +35,9 @@ in {
             ; Set up $_ENV superglobal.
             ; http://php.net/request-order
             variables_order = "EGPCS"
+
+            # Flarum will crash on start-up.
+            error_reporting = E_ALL & ~E_USER_DEPRECATED & ~E_DEPRECATED
           '';
           settings = {
             # Accept settings from the systemd service.
