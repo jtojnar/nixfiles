@@ -42,7 +42,7 @@ in
   config = lib.mkIf (cfg.databases != []) {
     services.postgresql = {
       enable = true;
-      package = pkgs.postgresql_11;
+      package = pkgs.postgresql_14;
       extraPlugins = lib.filter (x: x != null) (lib.concatMap ({extensions, ...}: map (ext: config.services.postgresql.package.pkgs.${ext} or null) extensions) cfg.databases);
       authentication = lib.mkForce ''
         local all postgres peer
