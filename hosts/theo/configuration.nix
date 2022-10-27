@@ -158,7 +158,6 @@ in {
     bat
     bind
     binutils # readelf, xstrings
-    bpb
     bustle
     cachix
     cawbird
@@ -433,7 +432,6 @@ in {
       [user]
         name = ${userData.jtojnar.name}
         email = ${userData.jtojnar.email}
-        signingkey = ${userData.jtojnar.gpg}
 
       [push]
         default = current
@@ -448,12 +446,6 @@ in {
         pager = diff-so-fancy | less --tabs=4 -RFX
         # allow using markdown headings in commit messages
         commentChar = ";"
-
-      [commit]
-        gpgsign = true
-
-      [gpg]
-        program = bpb
 
       # colour scheme for diff-so-fancy & co.
       # https://github.com/so-fancy/diff-so-fancy#improved-colors-for-the-highlighted-bits
