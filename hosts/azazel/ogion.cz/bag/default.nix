@@ -4,17 +4,7 @@ let
 
   datadir = "/var/www/ogion.cz/bag";
 
-  package = pkgs.wallabag.overrideAttrs (attrs: {
-    patches = attrs.patches or [] ++ [
-      # Use sendmail from php.ini
-      (pkgs.fetchpatch {
-        url = "https://github.com/symfony/swiftmailer-bundle/commit/31a4fed8f621f141ba70cb42ffb8f73184995f4c.patch";
-        stripLen = 1;
-        extraPrefix = "vendor/symfony/swiftmailer-bundle/";
-        sha256 = "rxHiGhKFd/ZWnIfTt6omFLLoNFlyxOYNCHIv/UtxCho=";
-      })
-    ];
-  });
+  inherit (pkgs) wallabag;
 
   # Based on https://github.com/wallabag/wallabag/blob/c018d41f908343cb79bfc09f4ed5955c46f65b15/app/config/parameters.yml.dist
   settings = {
@@ -97,7 +87,7 @@ let
     checkCollisionContents = false;
     paths = [
       configFileLink
-      "${package}/app"
+      "${wallabag}/app"
     ];
   };
 
@@ -123,7 +113,7 @@ in {
       virtualHosts = {
         "bag.ogion.cz" = mkVirtualHost {
           acme = "ogion.cz";
-          root = "${package}/web";
+          root = "${wallabag}/web";
 
           extraConfig = ''
             add_header X-Frame-Options SAMEORIGIN;
@@ -137,13 +127,13 @@ in {
             '';
           };
 
-          locations."/assets".root = "${package}/app/web";
+          locations."/assets".root = "${wallabag}/app/web";
 
           locations."~ ^/app\\.php(/|$)" = {
             extraConfig = ''
               ${enablePHP "bag"}
-              fastcgi_param SCRIPT_FILENAME ${package}/web/$fastcgi_script_name;
-              fastcgi_param DOCUMENT_ROOT ${package}/web;
+              fastcgi_param SCRIPT_FILENAME ${wallabag}/web/$fastcgi_script_name;
+              fastcgi_param DOCUMENT_ROOT ${wallabag}/web;
               fastcgi_read_timeout 120;
               internal;
             '';
@@ -214,16 +204,16 @@ in {
       rm -rf var/cache/*
       rm -f app
       ln -sf "${appDir}" app
-      ln -sf ${package}/composer.{json,lock} .
+      ln -sf ${wallabag}/composer.{json,lock} .
       export WALLABAG_DATA="${datadir}"
       if [ ! -f installed ]; then
         mkdir -p data
-        php ${package}/bin/console --env=prod wallabag:install
+        php ${wallabag}/bin/console --env=prod wallabag:install
         touch installed
       else
-        php ${package}/bin/console --env=prod doctrine:migrations:migrate --no-interaction
+        php ${wallabag}/bin/console --env=prod doctrine:migrations:migrate --no-interaction
       fi
-      php ${package}/bin/console --env=prod cache:clear
+      php ${wallabag}/bin/console --env=prod cache:clear
     '';
   };
 }
