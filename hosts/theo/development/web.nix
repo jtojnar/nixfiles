@@ -85,7 +85,7 @@ in
       replaceLibxml2 = prevArgs: {
         inherit libxml2;
       };
-    in (pkgs.php80.override {
+    in (pkgs.php.override {
       inherit libxml2;
       callPackage = path: args: pkgs.callPackage path (args // { inherit libxml2; });
     }).withExtensions ({ enabled, all }: enabled ++ (with all; [
