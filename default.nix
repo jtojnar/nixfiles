@@ -1,18 +1,20 @@
-# So that this can be imported like nixpkgs by various update scripts.
-{ ... }:
+# A function so that this can be imported like nixpkgs by various update scripts.
+{
+  ...
+}:
+
 let
-  self = import (
-    let
-      lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-    in
-      fetchTarball {
-        url = "https://github.com/edolstra/flake-compat/archive/${lock.nodes.flake-compat.locked.rev}.tar.gz";
-        sha256 = lock.nodes.flake-compat.locked.narHash;
-      }
-  ) {
+  lock = builtins.fromJSON (builtins.readFile ./flake.lock);
+  flake-compat = fetchTarball {
+    url = "https://github.com/edolstra/flake-compat/archive/${lock.nodes.flake-compat.locked.rev}.tar.gz";
+    sha256 = lock.nodes.flake-compat.locked.narHash;
+  };
+  self = import flake-compat {
     src =  ./.;
   };
+
+  packages = self.defaultNix.outputs.legacyPackages.${builtins.currentSystem};
 in
-  # So that various update scripts can find the packages.
-  self.defaultNix.outputs.legacyPackages.${builtins.currentSystem}
-  // self.defaultNix
+# Prepend all packages for current system so that various update scripts can find the packages without having to recurse into outputs.
+packages
+// self.defaultNix
