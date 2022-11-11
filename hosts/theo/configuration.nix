@@ -649,6 +649,27 @@ in {
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "21.05";
 
+  # Fix chrominance in videos in Firefox.
+  # https://github.com/NixOS/nixpkgs/issues/200592
+  system.replaceRuntimeDependencies =
+    let
+      nixpkgsWithMesa_22_2_3 = builtins.fetchTarball {
+        url = "https://github.com/NixOS/nixpkgs/archive/1462b5397b2c3b8d9891b41de131d0776fd4a63f.tar.gz";
+        sha256 = "11x2kymc9dv2jlf735b3804nq13b0l800p95sgzpzh388g19sl61";
+      };
+      mesa = pkgs.callPackage (nixpkgsWithMesa_22_2_3 + "/pkgs/development/libraries/mesa") {
+        inherit (pkgs.darwin.apple_sdk.frameworks) OpenGL;
+        inherit (pkgs.darwin.apple_sdk.libs) Xplugin;
+      };
+    in
+    builtins.map
+      (output: {
+        original = pkgs.mesa.${output};
+        replacement = mesa.${output};
+      })
+      # Needs to be toposorted so that the original package is not reintroduced into the closure.
+      pkgs.mesa.outputs;
+
   nix = {
     distributedBuilds = true;
     buildMachines = [
