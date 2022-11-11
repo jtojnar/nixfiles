@@ -14,5 +14,5 @@ let
   };
 in
   # So that various update scripts can find the packages.
-  self.defaultNix.outputs.packages.${builtins.currentSystem}
+  self.defaultNix.outputs.legacyPackages.${builtins.currentSystem}
   // self.defaultNix

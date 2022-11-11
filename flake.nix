@@ -191,7 +191,7 @@
         in pathsToImportedAttrs overlayPaths;
 
       # Nixpkgs packages with our overlays and packages.
-      packages = pkgss;
+      legacyPackages = pkgss;
 
       # All our modules and profiles that can be imported.
       # A module in /common/modules/baz/qux.nix can be accessed as ‘${flakeRef}.nixosModules.qux’
