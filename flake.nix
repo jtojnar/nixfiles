@@ -180,10 +180,8 @@
             }
           ) envs;
 
-      # Overlay containing our packages defined in this repository.
-      overlay = import ./pkgs;
-
       # All our overlays.
+      # The packages defined in this repository are defined in ‘./pkgs’ and linked to the ‘default’ overlay.
       # We will apply them to all hosts.
       overlays =
         let
@@ -208,8 +206,8 @@
         in modulesAttrs // profilesAttrs;
 
       # Development shell containing our maintenance utils
-      devShell = forAllPlatforms (platform:
-        pkgss.${platform}.mkShell {
+      devShells = forAllPlatforms (platform: {
+        default = pkgss.${platform}.mkShell {
           nativeBuildInputs = with pkgss.${platform}; [
             agenix.defaultPackage.${platform}
             deploy
@@ -233,7 +231,7 @@
               experimental-features = nix-command flakes
             '';
           in "${nixConf}/opt";
-        }
-      );
+        };
+      });
     };
 }
