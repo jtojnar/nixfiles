@@ -17,17 +17,21 @@ let
     dontUnpack = true;
 
     installPhase = ''
-      mkdir -p $out/bin
-    '' + (if builtins.length path > 0 then ''
-      makeWrapper \
-        ${./. + "/${script}"} \
-        $out/bin/${name} \
-        --prefix PATH : ${lib.makeBinPath path}
-    '' else ''
+      mkdir -p "$out/bin"
       cp \
-        ${./. + "/${script}"} \
-        $out/bin/${name}
-    '');
+        "${./. + "/${script}"}" \
+        "$out/bin/${name}"
+    '' + lib.optionalString (builtins.length path > 0) ''
+      # Move to a subdirectory to preserve argv[0]
+      mkdir "$out/bin/.wrapped"
+      mv \
+        "$out/bin/${name}" \
+        "$out/bin/.wrapped/${name}"
+      makeWrapper \
+        "$out/bin/.wrapped/${name}" \
+        "$out/bin/${name}" \
+        --prefix PATH : "${lib.makeBinPath path}"
+    '';
   };
 in {
   deploy = mkUtil "deploy" {
