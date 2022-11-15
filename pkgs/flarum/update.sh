@@ -16,9 +16,10 @@ fi
 update-source-version flarum.flarum "$latestVersion"
 
 repoSelf="$(nix eval -f . --json 'outPath' | jq --raw-output '.')"
-# Flakes might place the file into store so we need to switch it back to source tree.
-# Assuming PWD is repository root.
-dirname="$(realpath --relative-to="$repoSelf" "$(dirname "$0")")"
+scriptSelf="$(nix eval -f . --json 'flarum.flarum.passthru.updateScript' | jq --raw-output '.')"
+# Flakes might place the file into Nix store so we need to switch it back to the source tree.
+# This script will be run from the repository root so we need to make it relative to that.
+dirname="$(realpath --relative-to="$repoSelf" "$(dirname "$scriptSelf")")"
 sourceDir="$(nix-build -A flarum.flarum.src --no-out-link)"
 tempDir="$(mktemp -d)"
 
@@ -44,5 +45,5 @@ composer require xelson/flarum-ext-chat
 
 popd
 
-cp -r "$tempDir/composer.json" "$dirname"
-cp -r "$tempDir/composer.lock" "$dirname"
+cp "$tempDir/composer.json" "$dirname"
+cp "$tempDir/composer.lock" "$dirname"
