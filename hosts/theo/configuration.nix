@@ -22,9 +22,6 @@ let
           enableGnomeExtensions = true;
         };
 
-        # Needs to match remoting name.
-        wmClass = "firefox-default";
-
         extraPrefs = ''
           // Downloading random PDFs from http website is super annoing with this.
           lockPref("dom.block_download_insecure", false);
