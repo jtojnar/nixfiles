@@ -15,7 +15,7 @@ let
         nixpkgs = builtins.removeAttrs originalModule.nixpkgs [ "overlays" ];
       };
 
-      firefox = pkgs.firefox-wayland.override (args: args // {
+      firefox = pkgs.firefox.override (args: args // {
         cfg = args.cfg or {} // {
           # nixpkgs.config NixOS option not actually passed to Nixpkgs
           # so we need to replicate this part of chrome-gnome-shell module.
