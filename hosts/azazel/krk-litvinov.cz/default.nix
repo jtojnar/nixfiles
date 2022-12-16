@@ -46,7 +46,6 @@ in {
       pools = {
         entries = mkPhpPool {
           user = "entries";
-          phpPackage = pkgs.php80;
           debug = true;
         };
         entries-hrob-2022 = mkPhpPool {
