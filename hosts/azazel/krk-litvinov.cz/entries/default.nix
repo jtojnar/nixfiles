@@ -10,7 +10,7 @@ in {
         "entries.krk-litvinov.cz" = mkVirtualHost {
           acme = true;
           # acme = "krk-litvinov.cz";
-          path = "krk-litvinov.cz/entries/www";
+          path = "krk-litvinov.cz/entries/current/www";
           config = ''
             index index.php;
 
