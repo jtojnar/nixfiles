@@ -22,7 +22,7 @@ let
 
   settingsEnv = lib.mapAttrs' (name: value: lib.nameValuePair "selfoss_${name}" value) settings;
 
-  php = pkgs.php81.withExtensions ({ enabled, all }: enabled ++ (with all; [
+  php = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
   ]));
 
   # Modify the upstream nginx config to point to our mutable datadir.
