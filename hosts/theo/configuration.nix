@@ -10,7 +10,10 @@ let
     let
       originalModule = inputs.dwarffs.nixosModules.dwarffs args;
     in
-      originalModule // {
+      lib.mergeAttrs originalModule {
+        # Prefer system debug info over dwarffs since it will be faster.
+        environment.variables.NIX_DEBUG_INFO_DIRS = lib.mkAfter originalModule.environment.variables.NIX_DEBUG_INFO_DIRS;
+
         # Overlay is already added when creating our pkgs (and with the correct Nix).
         nixpkgs = builtins.removeAttrs originalModule.nixpkgs [ "overlays" ];
       };
