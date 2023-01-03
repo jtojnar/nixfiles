@@ -14,6 +14,7 @@ in {
     ./todo
     ./tools
     ./www
+    ./simplepie
   ];
 
   security.acme.certs."ogion.cz".extraDomainNames = [
@@ -70,9 +71,21 @@ in {
         ];
       };
 
+      vsftpd = {
+        extraGroups = [
+          "adminer"
+        ];
+      };
+
       bag = { uid = 514; group = "bag"; isSystemUser = true; };
       reader = { uid = 501; group = "reader"; isSystemUser = true; };
-      adminer = { uid = 502; group = "adminer"; isSystemUser = true; };
+      adminer = {
+        uid = 502;
+        group = "adminer";
+        isSystemUser = true;
+        hashedPassword = "$2b$05$mvzh44ooNQM8H9J5vUd5xOxXPFrYsAmc6ljk9662wjS0I6E9MSEzm";
+        home = "/var/www/ogion.cz/simplepie";
+      };
       mechmice = { uid = 503; group = "mechmice"; isSystemUser = true; };
       tools = { uid = 519; group = "tools"; isSystemUser = true; };
     };
