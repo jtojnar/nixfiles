@@ -342,6 +342,11 @@ in {
   services.flatpak.enable = true;
 
   security.rtkit.enable = true;
+
+  networking.firewall.allowedTCPPortRanges = [
+    { from = 42000; to = 42001; }
+  ];
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
