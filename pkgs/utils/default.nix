@@ -6,6 +6,7 @@
 , python3
 , nix
 , nixos
+, substitute
 }:
 let
   mkUtil = name: { path ? [], buildInputs ? [], script ? name }: stdenv.mkDerivation {
@@ -41,7 +42,16 @@ in {
     ];
     path = [
       nix
-      (nixos {}).nixos-rebuild
+      ((nixos {}).nixos-rebuild.overrideAttrs (attrs: {
+        # Allow local builds for non-local deploys.
+        # https://github.com/NixOS/nixpkgs/pull/148921#issuecomment-1371595241
+        src = substitute {
+          inherit (attrs) src;
+          replacements = [
+            "--replace" "buildHost=\"$targetHost\"" "buildHost="
+          ];
+        };
+      }))
     ];
   };
   git-part-pick = mkUtil "git-part-pick" { path = [ fzf ]; };

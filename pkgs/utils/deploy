@@ -38,7 +38,7 @@ def main(args):
             print(f'No connection string defined in hosts/list.nix for host {args.hostname}', file=sys.stderr)
             sys.exit(1)
 
-        nix_args += ['--target-host', connection_string, '--build-host', 'localhost']
+        nix_args += ['--target-host', connection_string, '--build-host', '']
 
     path = os.getcwd()
     attr = f'{path}#{args.hostname}'
