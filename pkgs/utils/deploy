@@ -16,8 +16,12 @@ def main(args):
     if same_host:
         priv_run = ['sudo']
 
-    # Print build logs
-    nix_args = ['-L']
+    nix_args = [
+        # Print build logs
+        '-L',
+        # Do not rebuild nixos-rebuild or Nix, we are already taking them from shell.
+        '--fast',
+    ]
     if args.nixpkgs:
         nix_args += ['--override-input', 'nixpkgs', args.nixpkgs, '--no-write-lock-file']
     if args.impure:

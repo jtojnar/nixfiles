@@ -4,6 +4,7 @@
 , makeWrapper
 , fzf
 , python3
+, nix
 , nixos
 }:
 let
@@ -39,6 +40,7 @@ in {
       python3
     ];
     path = [
+      nix
       (nixos {}).nixos-rebuild
     ];
   };
