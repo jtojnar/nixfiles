@@ -1,15 +1,6 @@
 final: prev: {
   adminer-with-plugins = prev.callPackage ./adminer {};
 
-  inherit (prev.callPackages ./activitywatch { })
-    aw-core
-    aw-client
-    aw-server-rust
-    aw-qt
-    aw-watcher-afk
-    aw-watcher-window
-    aw-webui;
-
   flarum = prev.callPackage ./flarum {};
 
   flarum-webhooks-telegram-bridge = prev.callPackage ./flarum-webhooks-telegram-bridge {};
