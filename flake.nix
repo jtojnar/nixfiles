@@ -142,44 +142,6 @@
           configs = import ./hosts { inherit inputs pkgss; };
         in configs;
 
-      # Environments for nix-env.
-      # These are used by nix-deploy-profile tool defined below.
-      homeConfigurations =
-        let
-          envs = {
-            brian = {
-              platform = "x86_64-linux";
-              user = "jtojnar";
-            };
-          };
-        in
-          builtins.mapAttrs (
-            hostName:
-            {
-              platform,
-              user,
-            }:
-
-            home-manager.lib.homeManagerConfiguration {
-              pkgs = pkgss.${platform};
-
-              modules = [
-                (./hosts + "/${hostName}/home.nix")
-
-                {
-                  home = {
-                    homeDirectory = "/home/${user}";
-                    username = "${user}";
-                    stateVersion = "20.09";
-                  };
-                }
-              ];
-              extraSpecialArgs = {
-                inherit inputs;
-              };
-            }
-          ) envs;
-
       # All our overlays.
       # The packages defined in this repository are defined in ‘./pkgs’ and linked to the ‘default’ overlay.
       # We will apply them to all hosts.
@@ -216,9 +178,6 @@
             nix
             nopt
             update
-            (writeShellScriptBin "deploy-home" ''
-              nix run .#home-manager -- switch --flake ".#$(hostname)" "$@"
-            '')
           ];
 
           # Enable flakes even though they are optional
