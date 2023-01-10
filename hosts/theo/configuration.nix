@@ -538,6 +538,11 @@ in {
       "org/gnome/desktop/wm/keybindings" = {
         switch-input-source = [ "<Super>i" ];
         switch-input-source-backward = [ "<Shift><Super>i" ];
+
+        switch-applications = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [];
+        switch-applications-backward = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [];
+        switch-windows = [ "<Super>Tab" ];
+        switch-windows-backward = [ "<Shift><Super>Tab" ];
       };
 
       "org/gnome/settings-daemon/plugins/media-keys" = {
