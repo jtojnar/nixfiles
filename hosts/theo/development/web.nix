@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   postgres = pkgs.postgresql_14;
@@ -35,9 +35,46 @@ in
     enable = true;
   };
 
+  services.phpfpm.pools.dev = {
+    inherit (config.services.httpd) user group;
+    settings = {
+      "listen.owner" = config.services.httpd.user;
+      "listen.group" = config.services.httpd.group;
+      "pm" = "dynamic";
+      "pm.max_children" = 5;
+      "pm.start_servers" = 2;
+      "pm.min_spare_servers" = 1;
+      "pm.max_spare_servers" = 4;
+      "pm.max_requests" = 500;
+    };
+
+    phpPackage = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
+    ]));
+
+    phpOptions = ''
+      display_errors = 1
+      display_startup_errors = 1
+      error_reporting = E_ALL;
+      ; Set up $_ENV superglobal.
+      ; http://php.net/request-order
+      variables_order = "EGPCS"
+      post_max_size = "20M"
+      upload_max_filesize = "20M"
+      memory_limit = "512M"
+      max_execution_time = "1800"
+    '';
+  };
+  systemd.services."phpfpm-dev".serviceConfig = {
+    # Allow accessing ~/Projects.
+    ProtectHome = lib.mkForce false;
+  };
+
   services.httpd = {
     enable = true;
     adminAddr = "admin@localhost";
+    extraModules = [
+      "proxy_fcgi"
+    ];
     virtualHosts = {
       localhost = {
         documentRoot = "/home/jtojnar/Projects";
@@ -73,23 +110,12 @@ in
         '';
       };
     };
-    enablePHP = true;
-    phpPackage = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
-    ]));
-    phpOptions = ''
-      display_errors = 1
-      display_startup_errors = 1
-      error_reporting = E_ALL;
-      ; Set up $_ENV superglobal.
-      ; http://php.net/request-order
-      variables_order = "EGPCS"
-      post_max_size = "20M"
-      upload_max_filesize = "20M"
-      memory_limit = "512M"
-      max_execution_time = "1800"
-    '';
     extraConfig = ''
       DirectoryIndex index.php index.html
+
+      <FilesMatch "\.php$">
+        SetHandler "proxy:unix:${config.services.phpfpm.pools.dev.socket}|fcgi://localhost/"
+      </FilesMatch>
     '';
   };
 }
