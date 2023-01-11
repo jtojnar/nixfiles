@@ -281,6 +281,7 @@ in {
     unrar
     valgrind
     vlc
+    warp
     wget
     wirelesstools # for iwlist
     xdot
