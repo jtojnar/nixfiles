@@ -116,29 +116,6 @@
       };
     };
 
-
-    home.file.".config/xkb/rules/evdev".text = ''
-      ! option = symbols
-        custom:swap_caps_shift = +custom(swap_caps_shift)
-
-      ! include %S/evdev
-    '';
-
-    home.file.".config/xkb/symbols/custom".text = ''
-      // Swap Caps Lock and Left Shift
-      hidden partial modifier_keys
-      xkb_symbols "swap_caps_shift" {
-        replace key <CAPS> {
-            type[Group1] = "ONE_LEVEL",
-            symbols[Group1] = [ Caps_Lock ],
-            actions[Group1] = [ SetMods(modifiers=Shift) ]
-        };
-        modifier_map Shift { <CAPS> };
-
-        key <LFSH> { [ Caps_Lock ] };
-      };
-    '';
-
     home.stateVersion = "22.11";
   };
 
@@ -152,7 +129,6 @@
   services.xserver = {
     layout = "cz";
     xkbVariant = "qwerty";
-    xkbOptions = "custom:swap_caps_shift";
   };
 
   console = {
