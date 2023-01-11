@@ -488,6 +488,7 @@ in {
     jtojnar = {
       isNormalUser = true;
       uid = 1000;
+      homeMode = "755"; # allow Apache to access ~/Projects
       extraGroups = [
         "wheel"
         "dialout" # for serial
