@@ -184,11 +184,6 @@ in {
     fd
     file
     firefox
-    (fishPlugins.pure.overrideAttrs (attrs: {
-      postInstall = attrs.postInstall or "" + ''
-        rm "$out/share/fish/vendor_functions.d/fish_title.fish"
-      '';
-    }))
     fractal
     fzf
     gcolor3

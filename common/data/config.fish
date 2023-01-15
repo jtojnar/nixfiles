@@ -27,12 +27,3 @@ set PATH $PATH $CARGO_HOME/bin $HOME/.local/bin
 alias clip "xsel --clipboard"
 alias reset "tput reset"
 alias diff-cleaner "filterdiff --strip=0 --clean"
-
-set pure_enable_single_line_prompt true
-# Backspace to remove extra space inserted by the indicator.
-set pure_symbol_git_stash \b
-set pure_symbol_git_dirty "∿"
-set pure_color_primary green
-set pure_color_success normal
-set pure_color_git_dirty normal
-set pure_color_git_branch magenta
