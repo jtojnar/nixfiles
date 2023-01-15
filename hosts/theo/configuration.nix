@@ -275,6 +275,7 @@ in {
     spotify
     syncthing
     tdesktop
+    textpieces
     tldr
     transmission-gtk
     treesheets
