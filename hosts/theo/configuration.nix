@@ -223,8 +223,6 @@ in {
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.hot-edge
-    gnomeExtensions.sound-output-device-chooser
-    gnomeExtensions.system-monitor
     gnumeric
     gnupg
     gsmartcontrol
