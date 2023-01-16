@@ -223,6 +223,7 @@ in {
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.hot-edge
+    gnomeExtensions.pano
     gnumeric
     gnupg
     gsmartcontrol
@@ -390,7 +391,6 @@ in {
   services.fwupd.enable = true;
 
   programs.gnome-terminal.enable = true;
-  programs.gpaste.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -429,8 +429,6 @@ in {
       "%t/gnupg/${builtins.readFile socketDir}/S.gpg-agent"
     ];
   };
-
-  systemd.user.services."org.gnome.GPaste".serviceConfig.TimeoutSec = 900;
 
   environment.etc = {
     "gitconfig".text = ''
@@ -573,7 +571,7 @@ in {
         "enabled-extensions" = [
           "appindicatorsupport@rgcjonas.gmail.com"
           "dash-to-dock@micxgx.gmail.com"
-          "GPaste@gnome-shell-extensions.gnome.org"
+          "pano@elhan.io"
           "pomodoro@arun.codito.in"
         ];
       };
@@ -597,6 +595,11 @@ in {
         xkb-options = [
           config.services.xserver.xkbOptions
         ];
+      };
+
+      "org/gnome/shell/extensions/pano" = {
+        global-shortcut = ["<Control><Alt>h"];
+        history-length = 500;
       };
     };
 
