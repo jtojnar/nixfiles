@@ -639,12 +639,15 @@ in {
       <Multi_key> <s> <u> <m> : "∑"
       <Multi_key> <p> <r> <o> <d> : "∏"
       <Multi_key> <s> <q> <r> <t> : "√"
+      <Multi_key> <s> <e> <q> : "⊆"
+      <Multi_key> <S> <e> <q> : "⊇"
       <Multi_key> <n> <o> <t> : "¬"
       <Multi_key> <c> <o> <n> : "∧"
       <Multi_key> <d> <i> <s> : "∨"
       <Multi_key> <c> <a> <p> : "∩"
       <Multi_key> <c> <u> <p> : "∪"
       <Multi_key> <i> <f> <f> : "⇔"
+      <Multi_key> <b> <o> <t> : "⊥"
     '';
 
     programs.direnv = {
