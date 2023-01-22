@@ -35,6 +35,9 @@ let
           // Enable userChrome.css
           lockPref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 
+          // Disable “Unified Extensions Button”
+          lockPref("extensions.unifiedExtensions.enabled", false);
+
           // Avoid cluttering ~/Downloads for the “Open” action on a file to download.
           lockPref("browser.download.start_downloads_in_tmp_dir", true);
         '';
