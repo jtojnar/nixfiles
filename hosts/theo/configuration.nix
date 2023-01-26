@@ -653,6 +653,8 @@ in {
       <Multi_key> <c> <u> <p> : "∪"
       <Multi_key> <i> <f> <f> : "⇔"
       <Multi_key> <b> <o> <t> : "⊥"
+      <Multi_key> <u> <p> : "↑"
+      <Multi_key> <d> <n> : "↓"
     '';
 
     programs.direnv = {
