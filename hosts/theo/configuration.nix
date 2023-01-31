@@ -371,7 +371,7 @@ in {
     control = "sufficient";
     cue = true;
     authFile = pkgs.writeText "u2f-mappings" ''
-      jtojnar:owBYsgXKva3kv+fOi1VomGNdMQZi/jyAzpCj3MvVBErtYHt8nJ7MPZ4oyCBWo8HbZ8wXX6I1YpidPtzsz1/304JM8S9NHLP5XRe1lZwZEVf+rQT6GiKW0o8pB6HMp7U1O1/BhBe2PNT7uphhTAVn0Omxw+guWmLuqGX4WCHp+EJ41ejUevjhgMoN2GPFsWUubqTRR73QGH6TPS9lYLbidkhFvtigvcg8eXOLGZdTmi5x27uc/pYBTBlSBsCtsAAqEn3M1wJQnC1cVZ9wIegmM33kkui9FA==,Uq8Kf2q+b1HD2ZIbCHs4CzN3nEk3uHmB4kF59pUFV6XTzCgr7ViHPX+wepBp5gYw21ullPwBDI9J7zz7tGAUFw==,es256,+presence
+      jtojnar:owBYsYvxunFYr+6pRDPfJg44RVGGLk/CiPUQh1cUrp4dQBlbriL3Ale6Hn4FzNNcVbCz7WcETohnc3bx2gABpwQoX2ZGpFOW/eZelo/wmEOfgJPb7yP1c+mzK6CcFgza70LgStWyyYi4D17lSQTyH8hDb5c3+cGO8tPJ1qM1QcNeQhXt6IrZ5BGnZSRvHfJ0v/naqf3gV2HJXqUrIxRywVnDAgggvo2xYbARR/m3wU4MkxrvjAFMhObc5FgOdbh4x+PmAlDM8bGtII09IFQVT8AT6EST,QxF7jFLgz7FsuwcHXxUq2mQwIPdYfZXqhy1TYhsGnvmRrUMxRI+xdOyleIp1tWqTiWrDCFcu2/uCc3j21h4gfw==,es256,+presence
     '';
   };
 
