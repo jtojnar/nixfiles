@@ -274,7 +274,6 @@ in {
     solo2-cli
     sublime4-dev
     sublime-merge
-    spotify
     syncthing
     tdesktop
     textpieces
@@ -674,6 +673,21 @@ in {
     };
 
     programs.nix-index.enable = true;
+
+    programs.spicetify = {
+      enable = true;
+      theme = pkgs.spicePkgs.themes.Default;
+
+      enabledCustomApps = with pkgs.spicePkgs.apps; [
+        lyrics-plus
+        marketplace
+      ];
+
+      enabledExtensions = with pkgs.spicePkgs.extensions; [
+        playNext
+        hidePodcasts
+      ];
+    };
 
     home.stateVersion = "18.09";
   };
