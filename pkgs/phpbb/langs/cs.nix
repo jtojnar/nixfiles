@@ -4,14 +4,14 @@
 }:
 
 let
-  version = "2021.12.17.2225";
+  version = "2023.01.01.20.05";
   self = fetchFromGitHub {
     name = "phpbb-lang-cs-${version}";
 
     owner = "R3gi";
     repo = "phpbb-cz";
     rev = version;
-    sha256 = "05uasSbIxS5BJ3naTil2LroRB4nHMiBIJYlsUf+ajm8=";
+    sha256 = "kZZjneCW13sWA2z/B/7uQe2WSIflCtHUG1b7dcSKna4=";
 
     postFetch = ''
       # We do not want VigLink extension.
