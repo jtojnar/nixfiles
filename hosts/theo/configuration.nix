@@ -23,6 +23,8 @@ let
           # nixpkgs.config NixOS option not actually passed to Nixpkgs
           # so we need to replicate this part of chrome-gnome-shell module.
           enableGnomeExtensions = true;
+
+          speechSynthesisSupport = true;
         };
 
         extraPrefs = ''
