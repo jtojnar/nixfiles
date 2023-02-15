@@ -325,9 +325,20 @@ in {
 
   security.rtkit.enable = true;
 
-  networking.firewall.allowedTCPPortRanges = [
-    { from = 42000; to = 42001; }
-  ];
+  networking.firewall = {
+    allowedTCPPortRanges = [
+      # Warpinator
+      { from = 42000; to = 42001; }
+    ];
+    allowedTCPPorts = [
+      # Transmission GTK
+      config.services.transmission.settings.peer-port
+    ];
+    allowedUDPPorts = [
+      # Transmission GTK
+      config.services.transmission.settings.peer-port
+    ];
+  };
 
   services.pipewire = {
     enable = true;
