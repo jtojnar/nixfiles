@@ -180,7 +180,7 @@
       devShells = forAllPlatforms (platform: {
         default = pkgss.${platform}.mkShell {
           nativeBuildInputs = with pkgss.${platform}; [
-            agenix.defaultPackage.${platform}
+            agenix.packages.${platform}.default
             deploy
             git
             git-crypt
