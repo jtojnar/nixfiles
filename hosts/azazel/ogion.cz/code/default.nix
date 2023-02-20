@@ -50,6 +50,9 @@ in
         server = {
           LANDING_PAGE = "explore";
         };
+        security = {
+          DISABLE_GIT_HOOKS = false;
+        };
         service = {
           DISABLE_REGISTRATION = true;
         };

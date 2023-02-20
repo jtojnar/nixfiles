@@ -1,0 +1,220 @@
+#!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2023 Jan Tojnar <jtojnar@gmail.com>
+# SPDX-License-Identifier: MIT
+
+import argparse
+from datetime import datetime, timezone
+import humanize
+from pathlib import Path
+import requests
+import subprocess
+from typing import Literal
+
+
+STATUS_CONTEXT = "deploy-pages"
+
+
+# https://docs.gitea.io/en-us/api-usage/
+class GiteaRepo:
+    def __init__(self, owner: str, repo: str, token: str):
+        self.owner = owner
+        self.repo = repo
+        self.token = token
+
+    def set_commit_status(
+        self,
+        commit_sha: str,
+        description: str,
+        state: Literal["pending", "success", "error", "failure", "warning"],
+        target_url: str,
+    ) -> None:
+        url = f"https://code.ogion.cz/api/v1/repos/{self.owner}/{self.repo}/statuses/{commit_sha}"
+        headers = {
+            "Authorization": f"token {self.token}",
+        }
+        payload = {
+            "context": STATUS_CONTEXT,
+            "description": description,
+            "state": state,
+            "target_url": target_url,
+        }
+        requests.post(
+            url,
+            json=payload,
+            headers=headers,
+        )
+
+
+def make_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--token-path",
+        dest="token_path",
+        help="Path to the file containing Gitea API token",
+        type=Path,
+        required=True,
+    )
+
+    parser.add_argument(
+        "--owner",
+        dest="owner",
+        help="Owner of the Gitea repository",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--repo",
+        dest="repo",
+        help="Name of the Gitea repository",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--commit-sha",
+        dest="commit_sha",
+        help="Hash of the deployed commit",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--build-command",
+        dest="build_command",
+        help="Command to run to build the site",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--site-url",
+        dest="site_url",
+        help="URL of the site",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--log-url",
+        dest="log_url",
+        help="URL of the build log",
+        required=True,
+    )
+
+    return parser
+
+
+def isoformat(dt: datetime) -> str:
+    """
+    ISO-8601 format without timezone or milliseconds.
+    """
+    return dt.strftime("%Y-%m-%dT%H:%M:%S")
+
+
+def main() -> None:
+    args = make_parser().parse_args()
+    start_time = datetime.now(timezone.utc)
+
+    repo = GiteaRepo(
+        owner=args.owner,
+        repo=args.repo,
+        token=args.token_path.read_text(),
+    )
+
+    commit_sha = args.commit_sha
+    site_url = args.site_url
+    log_url = args.log_url
+    build_command = args.build_command
+
+    repo.set_commit_status(
+        commit_sha=commit_sha,
+        description="Build started",
+        state="pending",
+        target_url=log_url,
+    )
+
+    repos_root = Path(".")
+    current_source_link = repos_root / "current"
+    new_source = repos_root / isoformat(start_time)
+
+    deploy_succeeded = False
+
+    try:
+        subprocess.run(
+            ["cp", "-r", current_source_link.resolve(), new_source],
+            check=True,
+        )
+
+        repo.set_commit_status(
+            commit_sha=commit_sha,
+            description="Pulling latest changes",
+            state="pending",
+            target_url=log_url,
+        )
+        subprocess.run(
+            ["git", "fetch", "origin"],
+            cwd=new_source,
+            check=True,
+        )
+        subprocess.run(
+            ["git", "reset", "--hard", commit_sha],
+            cwd=new_source,
+            check=True,
+        )
+
+        repo.set_commit_status(
+            commit_sha=commit_sha,
+            description="Building site",
+            state="pending",
+            target_url=log_url,
+        )
+        # Update site.
+        subprocess.run(
+            build_command,
+            cwd=new_source,
+            shell=True,
+            check=True,
+        )
+
+        # Try to reduce the chance of race condition.
+        current_source = current_source_link.resolve()
+        current_source_dt = datetime.fromisoformat(current_source.stem + "+00:00")
+        if current_source_dt < start_time:
+            # Atomically switch the current source to the new directory.
+            subprocess.run(
+                ["ln", "-sfn", new_source, current_source_link],
+                check=True,
+            )
+            deploy_succeeded = True
+
+            end_time = datetime.now(timezone.utc)
+            duration = humanize.naturaldelta(end_time - start_time)
+
+            repo.set_commit_status(
+                commit_sha=commit_sha,
+                description=f"Deployed in {duration}",
+                state="success",
+                target_url=site_url,
+            )
+        else:
+            repo.set_commit_status(
+                commit_sha=commit_sha,
+                description="Not deployed, a newer version is already present.",
+                state="warning",
+                target_url=site_url,
+            )
+    except:
+        repo.set_commit_status(
+            commit_sha=commit_sha,
+            description="Failed to deploy",
+            state="failure",
+            target_url=log_url,
+        )
+        raise
+    finally:
+        # Clean up the unused directory.
+        subprocess.run(
+            ["rm", "-rf", current_source if deploy_succeeded else new_source],
+        )
+
+
+if __name__ == "__main__":
+    main()

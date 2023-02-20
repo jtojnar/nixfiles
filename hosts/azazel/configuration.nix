@@ -19,6 +19,7 @@ in {
     # sites
     ./fan-club-penguin.cz
     ./krk-litvinov.cz
+    ./mala-zahradka-pro-radost.cz
     ./ogion.cz
     ./ostrov-tucnaku.cz
     ./rogaining.org
@@ -101,6 +102,8 @@ in {
     defaults.email = "acme@ogion.cz";
     acceptTerms = true;
   };
+
+  security.polkit.enable = true;
 
   users = {
     users = {

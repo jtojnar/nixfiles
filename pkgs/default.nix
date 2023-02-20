@@ -19,6 +19,7 @@ final: prev: {
 
   inherit (prev.callPackages ./utils {})
     deploy
+    deploy-pages
     git-part-pick
     git-auto-fixup
     git-auto-squash

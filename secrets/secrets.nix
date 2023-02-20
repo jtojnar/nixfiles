@@ -16,4 +16,9 @@ in
 
     keys.jtojnar
   ];
+  "gitea-token-jtojnar.age".publicKeys = builtins.concatLists [
+    keys.azazel
+
+    keys.jtojnar
+  ];
 }

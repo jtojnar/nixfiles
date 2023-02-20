@@ -2,6 +2,7 @@
 , callPackage
 , lib
 , makeWrapper
+, git
 , fzf
 , python3
 , nix
@@ -54,6 +55,20 @@ in {
       }))
     ];
   };
+
+  deploy-pages = mkUtil "deploy-pages" {
+    buildInputs = [
+      (python3.withPackages (pp: [
+        pp.humanize
+        pp.requests
+      ]))
+    ];
+    path = [
+      nix
+      git
+    ];
+  };
+
   git-part-pick = mkUtil "git-part-pick" { path = [ fzf ]; };
   git-auto-fixup = mkUtil "git-auto-fixup" { };
   git-auto-squash = mkUtil "git-auto-squash" { script = "git-auto-fixup"; };
