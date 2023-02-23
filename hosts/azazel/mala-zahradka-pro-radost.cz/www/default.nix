@@ -27,7 +27,7 @@ in {
         };
 
         "www.mala-zahradka-pro-radost.cz" = mkVirtualHost {
-          redirect = "www.mala-zahradka-pro-radost.cz";
+          redirect = "mala-zahradka-pro-radost.cz";
           acme = "mala-zahradka-pro-radost.cz";
         };
       };
