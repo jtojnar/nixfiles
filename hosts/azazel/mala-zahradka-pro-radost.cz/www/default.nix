@@ -52,6 +52,9 @@ in {
         "--log-url=https://mala-zahradka-pro-radost.cz/$logName" \
         "--build-command=nix shell .#{default,vips} -c site build" \
           2>&1 | tee "$logName"
+
+      # Create Nix GC roots.
+      nix build ./current#{default,roots}
     '';
     # Pass the instance argument.
     scriptArgs = "%i";
