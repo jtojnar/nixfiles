@@ -19,7 +19,13 @@
 
   programs = {
     # Console interface
-    fish.enable = true;
+    fish = {
+      enable = true;
+      interactiveShellInit =
+        ''
+          eval (${pkgs.direnv}/bin/direnv hook fish)
+        '';
+      };
 
     # Mobile phone integration
     kdeconnect = {
@@ -113,6 +119,13 @@
         xkb-options = [
           config.services.xserver.xkbOptions
         ];
+      };
+    };
+
+    programs = {
+      direnv = {
+        enable = true;
+        nix-direnv.enable = true;
       };
     };
 
