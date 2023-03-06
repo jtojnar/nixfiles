@@ -4,7 +4,18 @@ let
 
   datadir = "/var/www/ogion.cz/bag";
 
-  inherit (pkgs) wallabag;
+  wallabag = pkgs.wallabag.overrideAttrs (attrs: {
+    patches = attrs.patches or [] ++ [
+      # Fix pocket import
+      # https://github.com/wallabag/wallabag/issues/5108
+      (pkgs.fetchpatch2 {
+        url = "https://github.com/j0k3r/graby/pull/307.patch";
+        stripLen = 1;
+        extraPrefix = "vendor/j0k3r/graby/";
+        hash = "sha256-xUc1l1TyRPJtJa+0YwmhMvqcFtV+IahyDoVHziwl4WA=";
+      })
+    ];
+  });
 
   # Based on https://github.com/wallabag/wallabag/blob/c018d41f908343cb79bfc09f4ed5955c46f65b15/app/config/parameters.yml.dist
   settings = {
