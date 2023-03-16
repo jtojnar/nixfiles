@@ -192,17 +192,7 @@ in {
     fractal
     fzf
     gcolor3
-    (gdb.overrideAttrs (attrs: {
-      patches = attrs.patches ++ [
-        # Fix assertion when viewing a backtrace.
-        # https://sourceware.org/bugzilla/show_bug.cgi?id=29374
-        (fetchpatch {
-          name = "backtrace-assertion.patch";
-          url = "https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=bde195b84a862f31ac111c0881ad13b89ee89492";
-          sha256 = "irhd6i8/63eftJqbYbqY7Vg5hSlVQxOm56qTOTa0yVU=";
-        })
-      ];
-    }))
+    gdb
     gimp
     diff-so-fancy
     evolution
