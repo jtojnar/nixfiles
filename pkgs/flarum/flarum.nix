@@ -7,13 +7,13 @@
 
 stdenv.mkDerivation rec {
   pname = "flarum";
-  version = "1.6.0";
+  version = "1.7.0";
 
   src = fetchFromGitHub {
     owner = "flarum";
     repo = "flarum";
     rev = "v${version}";
-    sha256 = "WJoPnd8XejeHZqo9WlBFltFdlAVbIEE8o8dHo9cWj2Y=";
+    sha256 = "YNcWByFx7rMuFymS7+Mw31trpjUFx2Zqry9iWQBR1zw=";
   };
 
   composerDeps = c4.fetchComposerDeps {
