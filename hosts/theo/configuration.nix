@@ -165,7 +165,6 @@ in {
     binutils # readelf, xstrings
     bustle
     cachix
-    cawbird
     chromium
     common-updater-scripts
     config.boot.kernelPackages.v4l2loopback
