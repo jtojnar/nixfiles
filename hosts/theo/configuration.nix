@@ -188,6 +188,7 @@ in {
     fd
     file
     firefox
+    foliate
     fractal
     fzf
     gcolor3
