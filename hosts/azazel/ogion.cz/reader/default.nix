@@ -15,7 +15,7 @@ let
     logger_destination = "file:php://stderr";
     logger_level = "DEBUG";
     base_url = "https://reader.ogion.cz/";
-    items_lifetime = "9999";
+    items_lifetime = "0";
     # selfoss_scroll_to_article_header = "0";
     open_in_background_tab = "1";
   };
