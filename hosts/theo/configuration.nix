@@ -189,7 +189,6 @@ in {
     file
     firefox
     foliate
-    fractal
     fzf
     gcolor3
     gdb
