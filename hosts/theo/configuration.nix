@@ -492,6 +492,7 @@ in {
   home-manager.users.jtojnar = { lib, ... }: {
     imports = [
       ../../common/configs/keepassxc
+      ../../common/configs/sublime
     ];
 
     dconf.settings = {
