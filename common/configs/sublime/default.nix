@@ -17,6 +17,12 @@
           { "key": "num_selections", "operator": "not_equal", "operand": 1 }
         ]
       },
+
+      // Use Ctrl-Tab for switching tabs as they appear in the tab bar rather than LIFO.
+      { "keys": ["ctrl+tab"], "command": "next_view" },
+      { "keys": ["ctrl+shift+tab"], "command": "prev_view" },
+      { "keys": ["ctrl+pagedown"], "command": "next_view_in_stack" },
+      { "keys": ["ctrl+pageup"], "command": "prev_view_in_stack" },
     ]
   '';
 }
