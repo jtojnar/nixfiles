@@ -694,6 +694,12 @@ in {
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "21.05";
 
+  programs.ssh = {
+    knownHosts = {
+      "aarch64.nixos.community".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
+    };
+  };
+
   nix = {
     distributedBuilds = true;
     buildMachines = [
