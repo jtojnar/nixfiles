@@ -14,7 +14,7 @@
     gnomeExtensions.dash-to-dock
     gnome.gnome-tweaks
     warp
-    tdesktop
+    telegram-desktop
   ];
 
   programs = {

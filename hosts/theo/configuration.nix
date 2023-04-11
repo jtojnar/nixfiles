@@ -266,7 +266,7 @@ in {
     sublime4-dev
     sublime-merge
     syncthing
-    tdesktop
+    telegram-desktop
     textpieces
     tldr
     transmission-gtk
