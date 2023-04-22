@@ -16,6 +16,11 @@ in {
             location ~ \.php$ {
               ${enablePHP "fcp"}
             }
+
+            location /app {
+              fancyindex on; # Enable directory listing.
+              fancyindex_exact_size off; # Use human-readable file sizes.
+            }
           '';
         };
       };
