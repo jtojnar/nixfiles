@@ -701,18 +701,6 @@ in {
   };
 
   nix = {
-    distributedBuilds = true;
-    buildMachines = [
-      {
-        hostName = "aarch64.nixos.community";
-        maxJobs = 64;
-        sshKey = "/root/id_aarch64box";
-        sshUser = "jtojnar";
-        system = "aarch64-linux";
-        supportedFeatures = [ "big-parallel" ];
-      }
-    ];
-
     # nix options for derivations to persist garbage collection
     settings = {
       keep-outputs = true;
