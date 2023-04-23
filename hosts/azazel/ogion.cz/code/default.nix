@@ -9,9 +9,6 @@ in
     gitea = {
       enable = true;
       appName = "ogion code forge";
-      domain = domain;
-      rootUrl = "https://${domain}/";
-      httpPort = port;
 
       database = {
         type = "postgres";
@@ -48,7 +45,10 @@ in
           DEFAULT_REPO_UNITS = "repo.code,repo.issues,repo.pulls";
         };
         server = {
+          DOMAIN = domain;
           LANDING_PAGE = "explore";
+          HTTP_PORT = port;
+          ROOT_URL = "https://${domain}/";
         };
         security = {
           DISABLE_GIT_HOOKS = false;
@@ -71,7 +71,7 @@ in
           forceSSL = true;
           locations = {
             "/" = {
-              proxyPass = "http://${config.services.gitea.httpAddress}:${toString port}";
+              proxyPass = "http://${config.services.gitea.settings.server.HTTP_ADDR}:${toString port}";
               extraConfig = ''
                 # Git LFS fails with HTTP 413 sometimes.
                 client_max_body_size 256M;
