@@ -117,7 +117,7 @@ in {
     "w /sys/power/image_size - - - - ${toString (12*1024*1024*1024)}"
   ];
 
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
 
   # Select internationalisation properties.
   console = {
