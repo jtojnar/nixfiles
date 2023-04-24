@@ -11,6 +11,7 @@ in {
   environment.systemPackages = with pkgs; [
     firefox
     gitFull
+    gnome.dconf-editor
     gnome.gnome-tweaks
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
@@ -54,6 +55,10 @@ in {
     ];
 
     dconf.settings = {
+      "org/gnome/desktop/interface" = {
+        enable-hot-corners = false;
+      };
+
       "org/gnome/desktop/screensaver" = {
         lock-delay = lib.hm.gvariant.mkUint32 3600;
         lock-enabled = true;
@@ -61,11 +66,30 @@ in {
 
       "org/gnome/desktop/peripherals/touchpad" = {
         click-method = "default";
+        natural-scroll = false;
+        speed = lib.hm.gvariant.mkDouble 1.0;
         tap-to-click = true;
       };
 
       "org/gnome/desktop/session" = {
         idle-delay = lib.hm.gvariant.mkUint32 900;
+      };
+
+      "org/gnome/desktop/wm/keybindings" = {
+        switch-windows = [ "<Alt>Tab" ];
+        switch-windows-backward = [ "<Shift><Alt>Tab" ];
+      };
+
+      "org/gnome/shell/extensions/dash-to-dock" = {
+        show-trash = false;
+      };
+
+      "org/gnome/mutter" = {
+        dynamic-workspaces = true;
+      };
+
+      "org/gnome/nautilus/icon-view" = {
+        default-zoom-level = "small";
       };
 
       "org/gnome/settings-daemon/plugins/power" = {
