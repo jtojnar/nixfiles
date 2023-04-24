@@ -141,6 +141,17 @@ in {
   documentation.enable = true;
   documentation.nixos.enable = true;
 
+  nix = {
+    settings = {
+      substituters = [
+        "https://cache.iog.io"
+      ];
+      trusted-public-keys = [
+        "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+      ];
+    };
+  };
+
   system.stateVersion = "21.05";
 
   # The rest of the file is taken from:
