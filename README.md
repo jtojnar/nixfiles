@@ -5,12 +5,7 @@
     * `modules` – NixOS modules that will be auto-loaded by all configurations
     * `overlays` – Nixpkgs overlays that will be applied to package set
     * `profiles` – configuration profiles that can be imported
-* `hosts`
-    * `azazel` – VPS
-    * `brian` – personal Ubuntu desktop (home-manager config)
-    * `evan` – my brother’s desktop
-    * `noelle` – laptop of my mother
-    * `theo` – personal laptop
+* `hosts` – configurations for individual machines
 * `pkgs` – utilities and software not suitable/ready to be in Nixpkgs
 
 ## Commands

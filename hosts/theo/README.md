@@ -1,6 +1,6 @@
 # theo
 
-This is configuration for my personal laptop (Sony VAIO Fit 15E). Running GNOME Shell and trying to configure as much as possible declaratively using NixOS modules.
+This is configuration for my personal desktop computer. I sometimes transfer the primary drive to my laptop (Sony VAIO Fit 15E). Running GNOME Shell and trying to configure as much as possible declaratively using NixOS modules.
 
 ## Installation
 
