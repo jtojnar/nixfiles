@@ -12,4 +12,66 @@
   { "keys": ["ctrl+shift+tab"], "command": "prev_view" },
   { "keys": ["ctrl+pagedown"], "command": "next_view_in_stack" },
   { "keys": ["ctrl+pageup"], "command": "prev_view_in_stack" },
+
+  // Special characters
+  {
+    "keys": ["ctrl+space"],
+    "command": "insert",
+    // Non-breaking space
+    "args": {"characters": " "},
+  },
+  {
+    "keys": ["ctrl+;"],
+    "command": "insert",
+    // Apostrophe
+    "args": {"characters": "’"},
+  },
+  {
+    "keys": ["ctrl+q"],
+    "command": "insert_snippet",
+    // Czech double quotes
+    "args": {"contents": "„${0:$SELECTION}“"},
+  },
+  {
+    "keys": ["ctrl+shift+q"],
+    "command": "insert_snippet",
+    // English double quotes
+    "args": {"contents": "“${0:$SELECTION}”"},
+  },
+  {
+    "keys": ["ctrl+b"],
+    "command": "insert_snippet",
+    // Markdown bold
+    "args": {"contents": "**${0:$SELECTION}**"},
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "text.html.markdown" },
+    ],
+  },
+  {
+    "keys": ["ctrl+i"],
+    "command": "insert_snippet",
+    // Markdown italic
+    "args": {"contents": "*${0:$SELECTION}*"},
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "text.html.markdown"},
+    ],
+  },
+  {
+    "keys": ["ctrl+m"],
+    "command": "insert_snippet",
+    // Markdown highlight
+    "args": {"contents": "<mark>${0:$SELECTION}</mark>"},
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "text.html.markdown" },
+    ],
+  },
+  {
+    "keys": ["$"],
+    "command": "insert_snippet",
+    // Markdown math
+    "args": {"contents": "\\$${0:$SELECTION}\\$"},
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "text.html.markdown" },
+    ],
+  },
 ]
