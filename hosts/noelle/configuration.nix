@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
-{
+let
+  keys = import ../../common/data/keys.nix;
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -145,6 +147,15 @@
     pulse.enable = true;
   };
 
+  services = {
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+      };
+    };
+  };
+
   nix = {
     settings = {
       substituters = [
@@ -163,6 +174,7 @@
       # Disable direct admin login.
       root = {
         hashedPassword = "*";
+        openssh.authorizedKeys.keys = keys.jtojnar;
       };
 
       dtojnaro = {
