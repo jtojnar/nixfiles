@@ -8,6 +8,7 @@
 * `hosts`
     * `azazel` – VPS
     * `brian` – personal Ubuntu desktop (home-manager config)
+    * `evan` – my brother’s desktop
     * `noelle` – laptop of my mother
     * `theo` – personal laptop
 * `pkgs` – utilities and software not suitable/ready to be in Nixpkgs
