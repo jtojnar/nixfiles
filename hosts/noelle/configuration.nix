@@ -47,6 +47,10 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   home-manager.users.dtojnaro = { lib, ... }: {
+    imports = [
+      ../../common/configs/sublime
+    ];
+
     dconf.settings = {
       "org/gnome/desktop/screensaver" = {
         lock-delay = lib.hm.gvariant.mkUint32 3600;
