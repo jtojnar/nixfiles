@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 
+let
+  keys = import ../../common/data/keys.nix;
+in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -169,6 +172,15 @@
     pulse.enable = true;
   };
 
+  services = {
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+      };
+    };
+  };
+
   users = {
     mutableUsers = false;
     defaultUserShell = pkgs.fish;
@@ -176,6 +188,7 @@
       # Disable direct admin login.
       root = {
         hashedPassword = "*";
+        openssh.authorizedKeys.keys = keys.jtojnar;
       };
 
       michal = {
