@@ -47,7 +47,7 @@
         "fof/user-directory": "^1.2",
         "fof/webhooks": "^1.1",
         "ianm/syndication": "^1.3",
-        "ianm/synopsis": "^1.2",
+        "ianm/synopsis": "^1.3",
         "madnest/flarum-lang-czech": "^1.0",
         "xelson/flarum-ext-chat": "^1.1"
     },
