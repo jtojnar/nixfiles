@@ -1,6 +1,14 @@
 { config, lib, pkgs, myLib, ... }:
 let
   inherit (myLib) enablePHP mkVirtualHost;
+
+  passwordFile =
+    pkgs.writeText
+      "simplepie.htpasswd"
+      ''
+        # generated with `htpasswd -c /dev/stdout test`
+        test:$apr1$NIPEds8j$19uLqdh7eW8.dX96MPYdY1
+      '';
 in {
   services = {
     nginx = {
@@ -11,6 +19,9 @@ in {
           path = "ogion.cz/simplepie";
           config = ''
             index index.php index.html;
+
+            auth_basic "SimplePie test page, use test:test to log in";
+            auth_basic_user_file ${passwordFile};
 
             location ~ \.php$ {
               ${enablePHP "adminer"}
