@@ -7,6 +7,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       # HACK: Prevent adding a nix-darwin copy.
       inputs.darwin.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
 
     c4 = {
