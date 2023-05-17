@@ -9,10 +9,10 @@ let
       # Fix pocket import
       # https://github.com/wallabag/wallabag/issues/5108
       (pkgs.fetchpatch2 {
-        url = "https://github.com/j0k3r/graby/pull/307.patch";
+        url = "https://github.com/j0k3r/graby/commit/ac2b69ac91c75195ebe1a81cdc979c2f386bb465.patch";
         stripLen = 1;
         extraPrefix = "vendor/j0k3r/graby/";
-        hash = "sha256-xUc1l1TyRPJtJa+0YwmhMvqcFtV+IahyDoVHziwl4WA=";
+        hash = "sha256-TiEbCdPudv5uJTgFuAGHa+ww27KUwiTjfD+jnVqvtNA=";
       })
     ];
   });
