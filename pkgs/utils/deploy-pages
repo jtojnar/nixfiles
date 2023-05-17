@@ -138,6 +138,30 @@ def main() -> None:
     deploy_succeeded = False
 
     try:
+        if not current_source_link.exists():
+            repo.set_commit_status(
+                commit_sha=commit_sha,
+                description="Initializing repository",
+                state="pending",
+                target_url=log_url,
+            )
+            start_repo = repos_root / "0001-01-01T00:00:00"
+            start_repo.mkdir()
+            subprocess.run(
+                ["git", "init"],
+                cwd=start_repo,
+                check=True,
+            )
+            subprocess.run(
+                ["git", "remote", "add", "origin", f"https://code.ogion.cz/{args.owner}/{args.repo}.git"],
+                cwd=start_repo,
+                check=True,
+            )
+            subprocess.run(
+                ["ln", "-s", start_repo, current_source_link],
+                check=True,
+            )
+
         subprocess.run(
             ["cp", "-r", current_source_link.resolve(), new_source],
             check=True,
