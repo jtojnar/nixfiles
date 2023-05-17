@@ -3,6 +3,8 @@ let
   inherit (myLib) mkVirtualHost;
 
   vhost = config.services.nginx.virtualHosts."mala-zahradka-pro-radost.cz";
+  user = config.users.users.mzpr.name;
+  group = config.users.groups.mzpr.name;
 in {
   age.secrets = {
     "gitea-token-jtojnar-mzpr".file = ../../../../secrets/gitea-token-jtojnar.age;
@@ -60,7 +62,7 @@ in {
       LoadCredential = [
         "token:${config.age.secrets."gitea-token-jtojnar-mzpr".path}"
       ];
-      User = config.users.users.mzpr.name;
+      User = user;
       WorkingDirectory = vhost.root;
     };
   };
@@ -68,7 +70,7 @@ in {
   nix = {
     settings = {
       # Allow building the site binary.
-      allowed-users = [ config.users.users.mzpr.name ];
+      allowed-users = [ user ];
     };
   };
 
@@ -101,5 +103,7 @@ in {
     in
     [
       "L+ ${config.services.gitea.repositoryRoot}/tojnar.cz/zahradka.git/hooks/post-receive.d/deploy-pages - - - - ${postReceiveHook}"
+      "d ${vhost.root} 0755 ${user} ${group} -"
+      "D ${vhost.root}/logs 0755 ${user} ${group} -"
     ];
 }
