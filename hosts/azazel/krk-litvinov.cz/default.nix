@@ -11,6 +11,7 @@ in {
     ./lob-2019
     ./rogaining-2019
     ./skirogaining
+    ./strom-roku-2023
   ];
 
   # security.acme.certs."krk-litvinov.cz".extraDomainNames = [
@@ -65,6 +66,7 @@ in {
           "hrob-2022"
           "rogaining-2019"
           "skirogaining"
+          "strom-roku-2023"
         ];
       };
 
@@ -75,6 +77,7 @@ in {
           "hrob-2022"
           "krk"
           "skirogaining"
+          "strom-roku-2023"
         ];
       };
 
@@ -86,6 +89,7 @@ in {
           "krk"
           "rogaining-2019"
           "skirogaining"
+          "strom-roku-2023"
         ];
       };
 
@@ -95,6 +99,7 @@ in {
       krk = { uid = 505; group = "krk"; isSystemUser = true; };
       rogaining-2019 = { uid = 507; group = "rogaining-2019"; isSystemUser = true; };
       skirogaining = { uid = 517; group = "skirogaining"; isSystemUser = true; };
+      strom-roku-2023 = { uid = 522; group = "strom-roku-2023"; isSystemUser = true; };
     };
 
     groups = {
@@ -104,6 +109,7 @@ in {
       krk = { gid = 505; };
       rogaining-2019 = { gid = 507; };
       skirogaining = { gid = 517; };
+      strom-roku-2023 = { gid = 522; };
     };
   };
 }
