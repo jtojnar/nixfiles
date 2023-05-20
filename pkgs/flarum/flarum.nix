@@ -18,7 +18,6 @@ stdenv.mkDerivation rec {
 
   composerDeps = c4.fetchComposerDeps {
     lockFile = ./composer.lock;
-    includeDev = false;
   };
 
   nativeBuildInputs = [
@@ -45,6 +44,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     runHook preInstall
 
+    composer --no-ansi install --no-dev
     cp -r . "$out"
 
     # Remove directories Flarum wants to write to,

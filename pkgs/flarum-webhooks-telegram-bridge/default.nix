@@ -20,7 +20,6 @@ stdenv.mkDerivation rec {
 
   composerDeps = c4.fetchComposerDeps {
     inherit src;
-    includeDev = false;
   };
 
   nativeBuildInputs = [
@@ -31,6 +30,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     runHook preInstall
 
+    composer --no-ansi install --no-dev
     cp -r . "$out"
 
     runHook postInstall
