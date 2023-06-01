@@ -72,6 +72,10 @@ in {
       enable = true;
       settings = {
         PasswordAuthentication = false;
+
+        # Try to reduce the chance of DOS from unauthenticated connections.
+        LoginGraceTime = 20;
+        MaxAuthTries = 3;
       };
     };
 
