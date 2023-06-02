@@ -134,7 +134,7 @@
           allowAliases = false;
           permittedInsecurePackages = [
             # Will not be available for the whole lifetime of NixOS 23.05.
-            "openssl-1.1.1t"
+            "openssl-1.1.1u"
           ];
         };
       };
