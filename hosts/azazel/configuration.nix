@@ -41,6 +41,7 @@ in {
     ncdu
     ripgrep
     sd
+    sqlite-interactive
     tldr
   ];
 
