@@ -15,6 +15,7 @@ in {
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
     "${inputs.nixpkgs}/nixos/modules/virtualisation/container-config.nix"
     ./vpsadminos.nix
+    ./security/fail2ban.nix
 
     # sites
     ./fan-club-penguin.cz
@@ -137,8 +138,6 @@ in {
     80
     443
   ];
-
-  services.fail2ban.enable = true;
 
   time.timeZone = "Europe/Prague";
 
