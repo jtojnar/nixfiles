@@ -258,7 +258,6 @@ in {
     python3Full
     ripgrep
     sd
-    sequeler
     signal-desktop
     sman
     solo2-cli
