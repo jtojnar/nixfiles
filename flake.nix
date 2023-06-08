@@ -47,11 +47,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixgl = {
-      url = "github:guibou/nixGL";
-      flake = false;
-    };
-
     nixpkgs-mozilla = {
       url = "github:mozilla/nixpkgs-mozilla";
       flake = false;
@@ -63,7 +58,7 @@
     };
   };
 
-  outputs = { self, agenix, c4, dwarffs, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, nixgl, spicetify-nix }@inputs:
+  outputs = { self, agenix, c4, dwarffs, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, spicetify-nix }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -123,8 +118,6 @@
                   cargo = rust;
                   rustc = rust;
                 };
-
-            nixgl = import nixgl { pkgs = prev; };
 
             spicePkgs = spicetify-nix.packages.${platform}.default;
           })
