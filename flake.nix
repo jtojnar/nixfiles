@@ -35,21 +35,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    naersk = {
-      url = "github:nmattia/naersk";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     napalm = {
       url = "github:nix-community/napalm";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixpkgs-mozilla = {
-      url = "github:mozilla/nixpkgs-mozilla";
-      flake = false;
     };
 
     spicetify-nix = {
@@ -58,7 +48,7 @@
     };
   };
 
-  outputs = { self, agenix, c4, dwarffs, flake-compat, home-manager, naersk, napalm, nixpkgs, nixpkgs-mozilla, spicetify-nix }@inputs:
+  outputs = { self, agenix, c4, dwarffs, flake-compat, home-manager, napalm, nixpkgs, spicetify-nix }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -104,20 +94,6 @@
 
           (final: prev: {
             home-manager = prev.callPackage "${home-manager}/home-manager" { };
-
-            naerskUnstable =
-              let
-                nmo = import nixpkgs-mozilla final prev;
-                rust = (nmo.rustChannelOf {
-                  date = "2022-08-08";
-                  channel = "nightly";
-                  sha256 = "sha256-r/8YBFuFa4hpwgE3FnME7nQA2Uc1uqj0eCE1NWmI1u0=";
-                }).rust;
-              in
-                naersk.lib.${platform}.override {
-                  cargo = rust;
-                  rustc = rust;
-                };
 
             spicePkgs = spicetify-nix.packages.${platform}.default;
           })
