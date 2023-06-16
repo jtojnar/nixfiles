@@ -263,7 +263,6 @@ in {
     solo2-cli
     sublime4-dev
     sublime-merge
-    syncthing
     telegram-desktop
     textpieces
     tldr
