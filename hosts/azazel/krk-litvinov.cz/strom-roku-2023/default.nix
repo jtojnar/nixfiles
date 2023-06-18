@@ -27,11 +27,6 @@ in {
             }
           '';
         };
-
-        "www.strom-roku-2023.krk-litvinov.cz" = mkVirtualHost {
-          redirect = "strom-roku-2023.krk-litvinov.cz";
-          acme = "strom-roku-2023.krk-litvinov.cz";
-        };
       };
     };
   };
