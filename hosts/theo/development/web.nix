@@ -28,7 +28,7 @@ in
 
   services.mysql = {
     enable = true;
-    package = pkgs.mariadb;
+    package = pkgs.mariadb_1011;
   };
 
   services.postfix = {

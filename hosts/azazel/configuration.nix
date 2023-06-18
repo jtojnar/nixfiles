@@ -54,7 +54,7 @@ in {
 
   services = {
     mysql = {
-      package = pkgs.mariadb;
+      package = pkgs.mariadb_1011;
     };
 
     nginx = {
