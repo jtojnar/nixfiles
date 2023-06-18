@@ -6,6 +6,7 @@ in
 {
   imports = [
     ./services/blackbox.nix
+    ./services/node.nix
   ];
 
   # Dashboard
