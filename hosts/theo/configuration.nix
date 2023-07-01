@@ -264,7 +264,6 @@ in {
     sublime4-dev
     sublime-merge
     telegram-desktop
-    textpieces
     tldr
     transmission-gtk
     treesheets
