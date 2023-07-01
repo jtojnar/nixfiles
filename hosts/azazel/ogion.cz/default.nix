@@ -3,6 +3,7 @@ let
   inherit (myLib) mkPhpPool;
 in {
   imports = [
+    ./auth
     ./bag
     ./develop
     ./code
@@ -18,6 +19,7 @@ in {
 
   security.acme.certs."ogion.cz".extraDomainNames = [
     "www.ogion.cz"
+    "auth.ogion.cz"
     "bag.ogion.cz"
     "code.ogion.cz"
     "mechmice.ogion.cz"

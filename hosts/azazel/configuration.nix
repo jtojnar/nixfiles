@@ -122,6 +122,7 @@ in {
         uid = 1000;
         extraGroups = [ "wheel" ];
         openssh.authorizedKeys.keys = keys.jtojnar;
+        authelia.hashedPassword = "$argon2id$v=19$m=2097152,t=1,p=4$iOpm/qebAoaWn/HPsLOlsw$Zqk8LiHzqobnDEx2k8wK+K1vcu/l7X51LIJv5xhloiA";
         hashedPassword = "$6$yqXBTritxLsTNhy.$baY8JEagVyeBmpV6WCLY7nH4YH6YAjWiBPAvgF0zcVjYr7yagBmpZtmX/EFMedgxbCnU7l97SdG7EV6yfT.In/";
       };
 
