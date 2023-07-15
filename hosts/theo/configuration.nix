@@ -377,6 +377,8 @@ in {
     Defaults timestamp_timeout=25
   '';
 
+  services.tailscale.enable = true;
+
   boot.plymouth.enable = true;
   services.sysprof.enable = true;
   services.fwupd.enable = true;

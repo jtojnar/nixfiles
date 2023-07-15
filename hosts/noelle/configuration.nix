@@ -180,6 +180,8 @@ in {
     };
   };
 
+  services.tailscale.enable = true;
+
   nix = {
     settings = {
       substituters = [

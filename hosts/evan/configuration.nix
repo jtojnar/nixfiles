@@ -181,6 +181,8 @@ in
     };
   };
 
+  services.tailscale.enable = true;
+
   users = {
     mutableUsers = false;
     defaultUserShell = pkgs.fish;
