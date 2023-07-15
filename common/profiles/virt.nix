@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     gnome.gnome-boxes
     spice-gtk
+    virt-manager
   ];
 
   virtualisation.spiceUSBRedirection.enable = true;
