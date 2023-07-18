@@ -18,6 +18,12 @@
     managedHome = true;
   };
 
+  sy = {
+    platform = "x86_64-linux";
+    description = "My work laptop";
+    managedHome = true;
+  };
+
   theo = {
     platform = "x86_64-linux";
     description = "My personal desktop/laptop";

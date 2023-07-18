@@ -138,8 +138,8 @@ in {
     }
   ];
 
-  # Configure sound.
   hardware = {
+    # Configure sound.
     pulseaudio.enable = false; # Using PipeWire
     bluetooth = {
       enable = true;
