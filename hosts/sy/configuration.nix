@@ -331,7 +331,6 @@ in
     sman
     sublime4-dev
     sublime-merge
-    teams
     thunderbird
     tldr
     unrar
