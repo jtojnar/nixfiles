@@ -15,6 +15,7 @@ in {
     gnome.gnome-tweaks
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
+    htop
     libreoffice-fresh
     sublime-merge
     sublime4
