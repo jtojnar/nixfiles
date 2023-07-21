@@ -135,6 +135,7 @@ in
         extraGroups = [
           "networkmanager"
           "wheel"
+          "wireshark"
         ];
         useDefaultShell = true;
         passwordFile = "/etc/password-jtojnar";
@@ -356,6 +357,11 @@ in
 
     gnome-terminal.enable = true;
     gpaste.enable = true;
+
+    wireshark = {
+      enable = true;
+      package = pkgs.wireshark;
+    };
   };
 
   documentation = {
