@@ -218,6 +218,7 @@ in
           "dash-to-dock@micxgx.gmail.com"
           "GPaste@gnome-shell-extensions.gnome.org"
           "pomodoro@arun.codito.in"
+          "tiling-assistant@leleat-on-github"
         ];
       };
 
@@ -297,6 +298,7 @@ in
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.hot-edge
+    gnomeExtensions.tiling-assistant
     gnumeric
     graphviz
     htop
