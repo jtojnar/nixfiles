@@ -320,6 +320,7 @@ in
     nix-explore-closure-size
     nix-index
     nix-top
+    pandoc
     paprefs
     pavucontrol
     patchelf
