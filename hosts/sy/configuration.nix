@@ -49,6 +49,13 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  boot.kernelParams = [
+    # https://wiki.archlinux.org/index.php/Power_management/Suspend_and_hibernate#Hibernation
+    "resume_offset=111390720" # physical offset of the first ext in `filefrag -v /var/swap`
+  ];
+
+  boot.resumeDevice = "/dev/mapper/luks-190bb404-7db5-48fc-b903-c403a6e073ec";
+
   boot.kernel.sysctl = {
     # Note that inotify watches consume 1kB on 64-bit machines.
     "fs.inotify.max_user_watches" = 1048576; # default: 8192
@@ -117,6 +124,13 @@ in
 
     cpu.intel.updateMicrocode = true;
   };
+
+  swapDevices = [
+    {
+      device = "/var/swap";
+      size = 1024 * 16 * 2; # twice the RAM should leave enough space for hibernation
+    }
+  ];
 
   services.fwupd.enable = true;
 
