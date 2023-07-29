@@ -2,7 +2,7 @@
 
 {
   fonts = {
-    fonts = with pkgs; [
+    packages = with pkgs; [
       cantarell-fonts
       caladea # Cambria replacement
       carlito # Calibri replacement
