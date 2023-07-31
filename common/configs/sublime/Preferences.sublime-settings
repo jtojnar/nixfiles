@@ -1,0 +1,7 @@
+{
+  "word_wrap": true,
+  "draw_white_space": ["all"],
+  "ensure_newline_at_eof_on_save": true,
+  "hide_tab_scrolling_buttons": true,
+  "mde.list_indent_auto_switch_bullet": false,
+}

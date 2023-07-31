@@ -9,4 +9,6 @@
   };
 
   home.file.".config/sublime-text/Packages/User/Default.sublime-keymap".source = ./Default.sublime-keymap;
+
+  home.file.".config/sublime-text/Packages/Declarative/Preferences.sublime-settings".source = ./Preferences.sublime-settings;
 }
