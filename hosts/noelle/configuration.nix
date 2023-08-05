@@ -223,6 +223,13 @@ in {
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  swapDevices = [
+    {
+      device = "/var/swap";
+      size = 1024 * 4 * 2; # twice the RAM should leave enough space for hibernation
+    }
+  ];
+
   # Enable networking
   networking.networkmanager.enable = true;
 
