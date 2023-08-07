@@ -90,6 +90,7 @@ in
   services.xserver = {
     # Enable the GNOME Desktop Environment.
     displayManager.gdm.enable = true;
+    displayManager.defaultSession = "gnome-xorg";
     desktopManager.gnome.enable = true;
 
     # Configure keymap in X11
