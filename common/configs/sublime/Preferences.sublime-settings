@@ -1,7 +1,9 @@
 {
   "word_wrap": true,
+  "always_show_minimap_viewport": true,
   "draw_white_space": ["all"],
   "ensure_newline_at_eof_on_save": true,
-  "hide_tab_scrolling_buttons": true,
+  "enable_tab_scrolling": false,
   "mde.list_indent_auto_switch_bullet": false,
+  "update_check": false,
 }

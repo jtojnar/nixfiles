@@ -1,0 +1,15 @@
+[
+	{
+		"args":
+		{
+			"by": "subwords",
+			"extend": true,
+			"forward": false
+		},
+		"command": "move"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	}
+]

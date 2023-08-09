@@ -11,4 +11,7 @@
   home.file.".config/sublime-text/Packages/User/Default.sublime-keymap".source = ./Default.sublime-keymap;
 
   home.file.".config/sublime-text/Packages/Declarative/Preferences.sublime-settings".source = ./Preferences.sublime-settings;
+
+  home.file.".config/sublime-text/Packages/Declarative/delete_subword_forward.sublime-macro".source = ./delete_subword_forward.sublime-macro;
+  home.file.".config/sublime-text/Packages/Declarative/delete_subword.sublime-macro".source = ./delete_subword.sublime-macro;
 }

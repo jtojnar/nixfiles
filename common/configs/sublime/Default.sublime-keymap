@@ -1,11 +1,38 @@
 [
   {
+    // Insert contents of primary selection.
+    "keys": ["shift+insert"],
+    "command": "paste",
+    "args": {"clipboard": "selection"},
+  },
+  {
+    "keys": ["ctrl+v"],
+    "command": "paste_and_indent",
+  },
+  {
+    "keys": ["ctrl+shift+v"],
+    "command": "paste",
+  },
+
+  {
     "keys": ["shift+escape"],
     "command": "single_last_selection",
     "context": [
       { "key": "num_selections", "operator": "not_equal", "operand": 1 },
     ],
   },
+
+  {
+    "keys": ["alt+backspace"],
+    "command": "run_macro_file",
+    "args": {"file": "Packages/Declarative/delete_subword.sublime-macro"},
+  },
+  {
+    "keys": ["alt+delete"],
+    "command": "run_macro_file",
+    "args": {"file": "Packages/Declarative/delete_subword_forward.sublime-macro"},
+  },
+
 
   // Use Ctrl-Tab for switching tabs as they appear in the tab bar rather than LIFO.
   { "keys": ["ctrl+tab"], "command": "next_view" },
