@@ -54,6 +54,9 @@ in
   boot.kernelParams = [
     # https://wiki.archlinux.org/index.php/Power_management/Suspend_and_hibernate#Hibernation
     "resume_offset=111390720" # physical offset of the first ext in `filefrag -v /var/swap`
+
+    "drm.debug=0x1e"
+    "log_buf_len=4M"
   ];
 
   boot.resumeDevice = "/dev/mapper/luks-190bb404-7db5-48fc-b903-c403a6e073ec";
