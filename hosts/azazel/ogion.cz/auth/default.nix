@@ -17,7 +17,7 @@ let
     options = {
       authelia = {
         hashedPassword = lib.mkOption {
-          type = lib.types.nullOr lib.types.string;
+          type = lib.types.nullOr lib.types.str;
           default = null;
           description = lib.mdDoc ''
             Password hash generated with `nix run nixpkgs#authelia -- crypto hash generate argon2 --profile recommended`.
