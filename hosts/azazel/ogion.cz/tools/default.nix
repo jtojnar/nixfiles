@@ -16,7 +16,7 @@ in {
                 tool =
                   pkgs.substituteAll {
                     src = ./pdf/password-remover.php;
-                    qpdf = "${pkgs.qpdf}/bin/qpdf";
+                    qpdf = "${lib.getBin pkgs.qpdf}/bin/qpdf";
                   };
               in
               {

@@ -33,8 +33,7 @@ if (isset($_POST['password'])) {
         $tempFile = tempnam(sys_get_temp_dir(), $originalName);
 
         $args = [
-            '/nix/store/gjkjwsdq50f6n9b8v1xbh9rp5c21qv9n-qpdf-10.6.2/bin/qpdf',
-            // '@qpdf@',
+            '@qpdf@',
             '--decrypt',
             '--password=' . escapeshellarg($_POST['password']),
             escapeshellarg($_FILES['file']['tmp_name']),
