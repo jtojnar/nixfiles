@@ -180,6 +180,11 @@ in
         picture-uri-dark = "file://${pkgs.reflection_by_yuumei}";
       };
 
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        gtk-theme = "Adwaita-dark";
+      };
+
       "org/gnome/desktop/screensaver" = {
         lock-delay = lib.hm.gvariant.mkUint32 3600;
         lock-enabled = true;
@@ -239,7 +244,19 @@ in
         ];
       };
 
+      "org/gnome/shell/extensions/dash-to-dock" = {
+        apply-custom-theme = true;
+        isolate-workspaces = true;
+        show-mounts = false;
+        show-trash = false;
+      };
+
       "org/gtk/settings/file-chooser" = {
+        sort-directories-first = true;
+        location-mode = "path-bar";
+      };
+
+      "org/gtk/gtk4/settings/file-chooser" = {
         sort-directories-first = true;
         location-mode = "path-bar";
       };
