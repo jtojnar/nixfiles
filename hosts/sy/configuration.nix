@@ -135,6 +135,8 @@ in
     }
   ];
 
+  virtualisation.docker.enable = true;
+
   services.fwupd.enable = true;
 
   users = {
@@ -150,6 +152,7 @@ in
         uid = 1000;
         description = userData.jtojnarWork.name;
         extraGroups = [
+          "docker"
           "networkmanager"
           "wheel"
           "wireshark"
@@ -309,6 +312,7 @@ in
     binutils # readelf, xstrings
     chromium
     curlFull
+    docker-compose
     dos2unix
     exa
     fd
