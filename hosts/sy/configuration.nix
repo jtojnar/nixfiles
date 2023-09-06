@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   pkgs,
   ...
 }:
@@ -36,6 +37,8 @@ in
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+
+    inputs.self.nixosModules.profiles.virt
   ];
 
   # Bootloader.
@@ -153,6 +156,7 @@ in
         description = userData.jtojnarWork.name;
         extraGroups = [
           "docker"
+          "kvm"
           "networkmanager"
           "wheel"
           "wireshark"
