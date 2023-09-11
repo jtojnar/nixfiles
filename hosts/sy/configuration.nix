@@ -200,8 +200,15 @@ in
         secondary-color = "#000000";
       };
 
+      "org/gnome/desktop/peripherals/mouse" = {
+        accel-profile = "flat";
+        speed = 1.0;
+      };
+
       "org/gnome/desktop/peripherals/touchpad" = {
         click-method = "default";
+        natural-scroll = false;
+        speed = 1.0;
       };
 
       "org/gnome/desktop/session" = {
