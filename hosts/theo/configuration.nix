@@ -183,7 +183,7 @@ in {
     dos2unix
     easyeffects
     easytag
-    exa
+    eza
     exiftool
     fd
     file

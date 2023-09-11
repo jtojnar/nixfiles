@@ -318,7 +318,7 @@ in
     curlFull
     docker-compose
     dos2unix
-    exa
+    eza
     fd
     file
     firefox

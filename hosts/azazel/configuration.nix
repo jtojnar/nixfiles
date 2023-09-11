@@ -29,7 +29,7 @@ in {
 
   environment.systemPackages = with pkgs; [
     bat
-    exa
+    eza
     fd
     file
     htop
