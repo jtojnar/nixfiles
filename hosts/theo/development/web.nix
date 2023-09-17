@@ -17,7 +17,10 @@ in
     enable = true;
     package = postgres;
     enableTCPIP = true;
-    extraPlugins = [ postgres.pkgs.plv8 ];
+    extraPlugins = [
+      postgres.pkgs.plv8
+      postgres.pkgs.postgis
+    ];
     authentication = ''
       local all all trust
       host all all 10.0.0.28/0 trust
