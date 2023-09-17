@@ -19,7 +19,7 @@
       ipaexfont
       league-of-moveable-type
       libertine
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       (joypixels.override { acceptLicense = true; })
       liberation_ttf_v2 # Arial, Times New Roman & Courier New replacement
       # libre-baskerville
