@@ -162,7 +162,7 @@ in
           "wireshark"
         ];
         useDefaultShell = true;
-        passwordFile = "/etc/password-jtojnar";
+        hashedPasswordFile = "/etc/password-jtojnar";
       };
     };
   };
