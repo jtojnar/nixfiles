@@ -2,22 +2,27 @@
 let
   inherit (myLib) enablePHP mkPhpPool mkVirtualHost;
 
-  datadir = "/var/www/ogion.cz/bag";
-
   wallabag = pkgs.wallabag.overrideAttrs (attrs: {
-    patches = attrs.patches or [] ++ [
-      # Fix pocket import
-      # https://github.com/wallabag/wallabag/issues/5108
+    patches = builtins.filter (patch: builtins.baseNameOf patch != "wallabag-data.patch") attrs.patches ++ [
+      # Out of the box, Wallabag wants to write to various subdirectories of the project directory.
+      # Let’s replace references to such paths with designated systemd locations
+      # so that the project source can remain immutable.
+      ./wallabag-data.patch
+
+      # Allow passing command flag to sendmail transport.
       (pkgs.fetchpatch2 {
-        url = "https://github.com/j0k3r/graby/commit/ac2b69ac91c75195ebe1a81cdc979c2f386bb465.patch";
-        stripLen = 1;
-        extraPrefix = "vendor/j0k3r/graby/";
-        hash = "sha256-TiEbCdPudv5uJTgFuAGHa+ww27KUwiTjfD+jnVqvtNA=";
+        url = "https://github.com/symfony/symfony/commit/665d1cd3fa9638b655f032a8b8658bc6c3b4e305.patch";
+        hash = "sha256-vxNZ4h7vRA1KvoZJAXOjt/npbBEYdcIDFE/qwBRbSW4=";
+        stripLen = 5;
+        extraPrefix = "vendor/symfony/mailer/";
+        includes = [
+          "vendor/symfony/mailer/Transport/SendmailTransportFactory.php"
+        ];
       })
     ];
   });
 
-  # Based on https://github.com/wallabag/wallabag/blob/c018d41f908343cb79bfc09f4ed5955c46f65b15/app/config/parameters.yml.dist
+  # Based on https://github.com/wallabag/wallabag/blob/2.6.6/app/config/parameters.yml.dist
   settings = {
     database_driver = "pdo_pgsql";
     database_host = null;
@@ -33,19 +38,16 @@ let
     domain_name = "https://bag.ogion.cz";
     server_name = "Wallabag";
 
-    mailer_transport = "sendmail";
-    mailer_user = null;
-    mailer_password = null;
-    mailer_host = null;
-    mailer_port = null;
-    mailer_encryption = null;
-    mailer_auth_mode = null;
+    # Needs an explicit command since Symfony version used by Wallabag does not yet support the `native` transport
+    # and the `sendmail` transport does not respect `sendmail_path` configured in `php.ini`.
+    mailer_dsn = "sendmail://default?command=/run/wrappers/bin/sendmail%20-t%20-i";
 
     locale = "en";
 
-    # A secret key that's used to generate certain security-related tokens
-    # We use agenix so we need to substitute it at activation time.
-    secret = "@secret@";
+    # A secret key that's used to generate certain security-related tokens.
+    # Accessing it through systemd credentials.
+    "env(SECRET_FILE)" = "%env(string:CREDENTIALS_DIRECTORY)%/secret";
+    secret = "%env(file:resolve:SECRET_FILE)%";
 
     # two factor stuff
     twofactor_auth = true;
@@ -80,32 +82,24 @@ let
     sentry_dsn = null;
   };
 
-  configFileTemplate = pkgs.writeTextFile {
-    name = "wallabag-config";
-    text = builtins.toJSON {
-      parameters = settings;
-    };
-  };
-
-  configFileLink = pkgs.runCommandLocal "wallabag-config-link" { } ''
-    mkdir -p "$out/config"
-    ln -s "/etc/wallabag/parameters.yml" "$out/config/parameters.yml"
-  '';
-
-  appDir = pkgs.buildEnv {
-    name = "wallabag-app-dir";
-    ignoreCollisions = true;
-    checkCollisionContents = false;
-    paths = [
-      configFileLink
-      "${wallabag}/app"
-    ];
-  };
-
   php = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
     imagick
     tidy
   ]));
+
+  commonServiceConfig = {
+    CacheDirectory = "wallabag";
+    # Stores sessions.
+    CacheDirectoryMode = "700";
+    ConfigurationDirectory = "wallabag";
+    LogsDirectory = "wallabag";
+    StateDirectory = "wallabag";
+    # Stores site-credentials-secret-key.txt.
+    StateDirectoryMode = "700";
+    LoadCredential = [
+      "secret:${config.age.secrets."bag.ogion.cz-secret".path}"
+    ];
+  };
 in {
   custom.postgresql.databases = [
     {
@@ -114,7 +108,19 @@ in {
   ];
 
   age.secrets = {
-    "bag.ogion.cz-secret".file = ../../../../secrets/bag.ogion.cz-secret.age;
+    "bag.ogion.cz-secret" = {
+      owner = config.users.users.bag.name;
+      file = ../../../../secrets/bag.ogion.cz-secret.age;
+    };
+  };
+
+  environment.etc."wallabag/parameters.yml" = {
+    source = pkgs.writeTextFile {
+      name = "wallabag-config";
+      text = builtins.toJSON {
+        parameters = settings;
+      };
+    };
   };
 
   services = {
@@ -162,33 +168,28 @@ in {
     phpfpm = rec {
       pools = {
         bag = mkPhpPool {
-          user = "bag";
+          user = config.users.users.bag.name;
           debug = true;
           phpPackage = php;
-          settings = {
-            "env[WALLABAG_DATA]" = datadir;
-          };
           phpOptions = ''
+            ; Set up $_ENV superglobal.
+            ; http://php.net/request-order
+            variables_order = "EGPCS"
             # Wallabag will crash on start-up.
             # https://github.com/wallabag/wallabag/issues/6042
             error_reporting = E_ALL & ~E_USER_DEPRECATED & ~E_DEPRECATED
           '';
+          settings = {
+            # Accept settings from the systemd service.
+            clear_env = false;
+          };
         };
       };
     };
   };
 
-  # We use agenix so we need to create the config at activation time.
-  system.activationScripts."bag.ogion.cz-secret" = lib.stringAfter [ "etc" "agenix" ] ''
-    secret=$(cat "${config.age.secrets."bag.ogion.cz-secret".path}")
-    configDir=/etc/wallabag
-    mkdir -p "$configDir"
-    configFile=$configDir/parameters.yml
-    ${pkgs.gnused}/bin/sed "s#@secret@#$secret#" "${configFileTemplate}" > "$configFile"
-    chown -R bag:nginx "$configDir"
-    chmod 700 "$configDir"
-    chmod 600 "$configFile"
-  '';
+  # Needs to be emulated since phpfpm drops euid.
+  systemd.services.phpfpm-bag.serviceConfig = myLib.emulateCredentials commonServiceConfig;
 
   systemd.services.wallabag-install = {
     description = "Wallabag install service";
@@ -202,25 +203,12 @@ in {
       Type = "oneshot";
       RemainAfterExit = "yes";
       PermissionsStartOnly = true;
-    };
-
-    preStart = ''
-      mkdir -p "${datadir}"
-      chown bag:nginx "${datadir}"
-    '';
+    } // commonServiceConfig;
 
     script = ''
-      echo "Setting up wallabag files in ${datadir} ..."
-      cd "${datadir}"
-      rm -rf var/cache/*
-      rm -f app
-      ln -sf "${appDir}" app
-      ln -sf ${wallabag}/composer.{json,lock} .
-      export WALLABAG_DATA="${datadir}"
-      if [ ! -f installed ]; then
-        mkdir -p data
+      if [ ! -f "$STATE_DIRECTORY/installed" ]; then
         php ${wallabag}/bin/console --env=prod wallabag:install
-        touch installed
+        touch "$STATE_DIRECTORY/installed"
       else
         php ${wallabag}/bin/console --env=prod doctrine:migrations:migrate --no-interaction
       fi
