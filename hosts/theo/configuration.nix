@@ -67,6 +67,20 @@ in {
 
   boot.supportedFilesystems = [ "ntfs" ];
 
+  boot.kernelPatches = [
+    # Fix spammy ata14
+    # https://lore.kernel.org/regressions/dacb34e4-ce58-bc0e-8206-672d743a3e34@gmail.com/
+    # https://bugzilla.kernel.org/show_bug.cgi?id=217920
+    # https://bugzilla.kernel.org/show_bug.cgi?id=217902
+    {
+      name = "fix-ata-spam";
+      patch = pkgs.fetchpatch2 {
+        url = "https://lore.kernel.org/linux-scsi/20230915022034.678121-1-dlemoal@kernel.org/raw";
+        hash = "sha256-ZsFjR+ZRlJ/KLPs4hGsCGVPaTkq0P/QltWOhzWBFrdA=";
+      };
+    }
+  ];
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
