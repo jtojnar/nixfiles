@@ -209,20 +209,17 @@ in {
     gimp
     diff-so-fancy
     evolution
-    git-crypt
     gitFull
     gitg
     git-auto-fixup
     git-auto-squash
     git-part-pick
     glade
-    gnome.cheese
     gnome.dconf-editor
     gnome.devhelp
     gnome.geary
     gnome.ghex
     gnome.gnome-chess
-    gnome.gnome-dictionary
     gnome.gnome-disk-utility
     gnome.gnome-sound-recorder
     gnome.gnome-tweaks
@@ -230,7 +227,6 @@ in {
     gnome.pomodoro
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
-    gnomeExtensions.hot-edge
     gnumeric
     gnupg
     gsmartcontrol
