@@ -40,7 +40,7 @@ let
 
     # Needs an explicit command since Symfony version used by Wallabag does not yet support the `native` transport
     # and the `sendmail` transport does not respect `sendmail_path` configured in `php.ini`.
-    mailer_dsn = "sendmail://default?command=/run/wrappers/bin/sendmail%20-t%20-i";
+    mailer_dsn = "sendmail://default?command=/run/wrappers/bin/sendmail%%20-t%%20-i";
 
     locale = "en";
 
