@@ -201,8 +201,6 @@ in {
     serviceConfig = {
       User = "bag";
       Type = "oneshot";
-      RemainAfterExit = "yes";
-      PermissionsStartOnly = true;
     } // commonServiceConfig;
 
     script = ''
