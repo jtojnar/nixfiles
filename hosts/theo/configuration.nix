@@ -59,6 +59,7 @@ in {
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     dwarffsModule
+    inputs.self.nixosModules.profiles.environment
     inputs.self.nixosModules.profiles.virt
     inputs.self.nixosModules.profiles.fonts
     ./development/web.nix
@@ -432,6 +433,11 @@ in {
       "" # unset
       "%t/gnupg/${builtins.readFile socketDir}/S.gpg-agent"
     ];
+  };
+
+  environment.sessionVariables = {
+    # Needs the hack above.
+    GNUPGHOME = "$HOME/.local/share/gnupg";
   };
 
   systemd.user.services."org.gnome.GPaste".serviceConfig.TimeoutSec = 900;

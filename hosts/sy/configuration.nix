@@ -38,6 +38,7 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
+    inputs.self.nixosModules.profiles.environment
     inputs.self.nixosModules.profiles.virt
   ];
 
