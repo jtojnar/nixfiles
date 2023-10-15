@@ -45,8 +45,7 @@ let
     locale = "en";
 
     # A secret key that's used to generate certain security-related tokens.
-    # Accessing it through systemd credentials.
-    "env(SECRET_FILE)" = "%env(string:CREDENTIALS_DIRECTORY)%/secret";
+    "env(SECRET_FILE)" = config.age.secrets."bag.ogion.cz-secret".path;
     secret = "%env(file:resolve:SECRET_FILE)%";
 
     # two factor stuff
@@ -96,9 +95,6 @@ let
     StateDirectory = "wallabag";
     # Stores site-credentials-secret-key.txt.
     StateDirectoryMode = "700";
-    LoadCredential = [
-      "secret:${config.age.secrets."bag.ogion.cz-secret".path}"
-    ];
   };
 in {
   custom.postgresql.databases = [
@@ -188,8 +184,7 @@ in {
     };
   };
 
-  # Needs to be emulated since phpfpm drops euid.
-  systemd.services.phpfpm-bag.serviceConfig = myLib.emulateCredentials commonServiceConfig;
+  systemd.services.phpfpm-bag.serviceConfig = commonServiceConfig;
 
   systemd.services.wallabag-install = {
     description = "Wallabag install service";

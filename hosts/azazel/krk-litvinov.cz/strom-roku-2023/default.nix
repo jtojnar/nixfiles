@@ -7,7 +7,10 @@ let
   group = config.users.groups.strom-roku-2023.name;
 in {
   age.secrets = {
-    "gitea-token-jtojnar-strom-roku-2023".file = ../../../../secrets/gitea-token-jtojnar.age;
+    "gitea-token-jtojnar-strom-roku-2023" = {
+      owner = user;
+      file = ../../../../secrets/gitea-token-jtojnar.age;
+    };
   };
 
   services = {
@@ -42,7 +45,7 @@ in {
 
       ${pkgs.deploy-pages}/bin/deploy-pages \
         "--site-url=https://strom-roku-2023.krk-litvinov.cz/" \
-        "--token-path=$CREDENTIALS_DIRECTORY/token" \
+        "--token-path=${config.age.secrets."gitea-token-jtojnar-strom-roku-2023".path}" \
         "--owner=tojnar.cz" \
         "--repo=strom-roku-2023.krk-litvinov.cz" \
         "--commit-sha=$1" \
@@ -54,9 +57,6 @@ in {
     scriptArgs = "%i";
     serviceConfig = {
       Type = "oneshot";
-      LoadCredential = [
-        "token:${config.age.secrets."gitea-token-jtojnar-strom-roku-2023".path}"
-      ];
       User = user;
       WorkingDirectory = vhost.root;
     };

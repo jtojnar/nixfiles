@@ -7,7 +7,10 @@ let
   group = config.users.groups.mzpr.name;
 in {
   age.secrets = {
-    "gitea-token-jtojnar-mzpr".file = ../../../../secrets/gitea-token-jtojnar.age;
+    "gitea-token-jtojnar-mzpr" = {
+      owner = user;
+      file = ../../../../secrets/gitea-token-jtojnar.age;
+    };
   };
 
   services = {
@@ -47,7 +50,7 @@ in {
 
       ${pkgs.deploy-pages}/bin/deploy-pages \
         "--site-url=https://mala-zahradka-pro-radost.cz/" \
-        "--token-path=$CREDENTIALS_DIRECTORY/token" \
+        "--token-path=${config.age.secrets."gitea-token-jtojnar-mzpr".path}" \
         "--owner=tojnar.cz" \
         "--repo=zahradka" \
         "--commit-sha=$1" \
@@ -59,9 +62,6 @@ in {
     scriptArgs = "%i";
     serviceConfig = {
       Type = "oneshot";
-      LoadCredential = [
-        "token:${config.age.secrets."gitea-token-jtojnar-mzpr".path}"
-      ];
       User = user;
       WorkingDirectory = vhost.root;
     };
