@@ -60,6 +60,11 @@ in
     "resume_offset=111390720" # physical offset of the first ext in `filefrag -v /var/swap`
   ];
 
+  boot.kernelModules = [
+    # For DDC control.
+    "i2c_dev"
+  ];
+
   boot.resumeDevice = "/dev/mapper/luks-190bb404-7db5-48fc-b903-c403a6e073ec";
 
   boot.kernel.sysctl = {
@@ -157,6 +162,7 @@ in
         description = userData.jtojnarWork.name;
         extraGroups = [
           "docker"
+          "i2c" # For DDC
           "kvm"
           "networkmanager"
           "wheel"
@@ -324,6 +330,7 @@ in
     binutils # readelf, xstrings
     chromium
     curlFull
+    ddcutil
     docker-compose
     dos2unix
     eza
@@ -346,6 +353,7 @@ in
     gnome.gnome-tweaks
     gnome.nautilus-python
     gnomeExtensions.appindicator
+    gnomeExtensions.brightness-control-using-ddcutil
     gnomeExtensions.dash-to-dock
     gnomeExtensions.hot-edge
     gnomeExtensions.tiling-assistant
