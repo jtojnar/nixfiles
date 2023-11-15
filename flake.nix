@@ -96,15 +96,6 @@
             home-manager = prev.callPackage "${home-manager}/home-manager" { };
 
             spicePkgs = spicetify-nix.packages.${platform}.default;
-
-            python3 = prev.python3.override ({
-              packageOverrides = psuper: pprev: {
-                # Some tests fail. Needed for inkscapeExtensions.applyTransforms.
-                inkex = pprev.inkex.overrideAttrs {
-                  doInstallCheck = false;
-                };
-              };
-            });
           })
         ];
         config = {
