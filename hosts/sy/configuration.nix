@@ -138,6 +138,10 @@ in
     cpu.intel.updateMicrocode = true;
   };
 
+  services.udev.packages = with pkgs; [
+    ddcutil
+  ];
+
   swapDevices = [
     {
       device = "/var/swap";
