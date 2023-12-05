@@ -10,7 +10,6 @@ in
   ];
 
   environment.systemPackages = with pkgs; [
-    firefox
     gitFull
     vlc
     gnomeExtensions.appindicator
@@ -29,6 +28,10 @@ in
           eval (${pkgs.direnv}/bin/direnv hook fish)
         '';
       };
+
+    firefox = {
+      enable = true;
+    };
 
     # Mobile phone integration
     kdeconnect = {

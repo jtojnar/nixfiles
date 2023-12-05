@@ -9,7 +9,6 @@ in {
   ];
 
   environment.systemPackages = with pkgs; [
-    firefox
     gitFull
     gnome.dconf-editor
     gnome.gnome-tweaks
@@ -31,6 +30,10 @@ in {
       interactiveShellInit = ''
         eval (${pkgs.direnv}/bin/direnv hook fish)
       '';
+    };
+
+    firefox = {
+      enable = true;
     };
 
     # Clipboard manager
