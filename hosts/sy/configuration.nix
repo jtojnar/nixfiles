@@ -7,32 +7,6 @@
 
 let
   userData = import ../../common/data/users.nix;
-
-  firefox = pkgs.firefox.override (args: args // {
-    cfg = args.cfg or {} // {
-      # nixpkgs.config NixOS option not actually passed to Nixpkgs
-      # so we need to replicate this part of chrome-gnome-shell module.
-      nativeMessagingHosts = [
-        pkgs.gnome-browser-connector
-      ];
-
-      speechSynthesisSupport = true;
-    };
-
-    extraPrefs = ''
-      // Downloading random PDFs from http website is super annoing with this.
-      lockPref("dom.block_download_insecure", false);
-
-      // Always use XDG portals for stuff
-      lockPref("widget.use-xdg-desktop-portal.file-picker", 1);
-
-      // Enable userChrome.css
-      lockPref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
-
-      // Avoid cluttering ~/Downloads for the “Open” action on a file to download.
-      lockPref("browser.download.start_downloads_in_tmp_dir", true);
-    '';
-  });
 in
 
 {
@@ -41,6 +15,7 @@ in
     ./hardware-configuration.nix
 
     inputs.self.nixosModules.profiles.environment
+    inputs.self.nixosModules.profiles.jtojnar-firefox
     inputs.self.nixosModules.profiles.virt
   ];
 
@@ -300,17 +275,6 @@ in
       };
     };
 
-
-    home.file.".mozilla/firefox/f6a1brtw.default/chrome/userChrome.css".text = ''
-      @-moz-document url(chrome://browser/content/browser.xul),
-      url(chrome://browser/content/browser.xhtml) {
-          #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar,
-          #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
-              visibility: collapse !important;
-          }
-      }
-    '';
-
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
@@ -341,7 +305,6 @@ in
     eza
     fd
     file
-    firefox
     fzf
     gdb
     gimp

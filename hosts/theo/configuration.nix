@@ -18,35 +18,6 @@ let
         nixpkgs = builtins.removeAttrs originalModule.nixpkgs [ "overlays" ];
       };
 
-      firefox = pkgs.firefox.override (args: args // {
-        cfg = args.cfg or {} // {
-          # nixpkgs.config NixOS option not actually passed to Nixpkgs
-          # so we need to replicate this part of chrome-gnome-shell module.
-          nativeMessagingHosts = [
-            pkgs.gnome-browser-connector
-          ];
-
-          speechSynthesisSupport = true;
-        };
-
-        extraPrefs = ''
-          // Downloading random PDFs from http website is super annoing with this.
-          lockPref("dom.block_download_insecure", false);
-
-          // Always use XDG portals for stuff
-          lockPref("widget.use-xdg-desktop-portal.file-picker", 1);
-
-          // Enable userChrome.css
-          lockPref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
-
-          // Disable “Unified Extensions Button”
-          lockPref("extensions.unifiedExtensions.enabled", false);
-
-          // Avoid cluttering ~/Downloads for the “Open” action on a file to download.
-          lockPref("browser.download.start_downloads_in_tmp_dir", true);
-        '';
-      });
-
       openLocalhostAsHttp = pkgs.makeDesktopItem {
         name = "localhost-proto-handler";
         desktopName = "Open localhost protocol as http";
@@ -62,6 +33,7 @@ in {
     ./hardware-configuration.nix
     dwarffsModule
     inputs.self.nixosModules.profiles.environment
+    inputs.self.nixosModules.profiles.jtojnar-firefox
     inputs.self.nixosModules.profiles.virt
     inputs.self.nixosModules.profiles.fonts
     ./development/web.nix
@@ -190,7 +162,6 @@ in {
     exiftool
     fd
     file
-    firefox
     foliate
     fzf
     gcolor3
@@ -616,16 +587,6 @@ in {
       }
       # Ensure hiragana input mode is default.
       active_on_launch: True
-    '';
-
-    home.file.".mozilla/firefox/9shb6xj3.default/chrome/userChrome.css".text = ''
-      @-moz-document url(chrome://browser/content/browser.xul),
-      url(chrome://browser/content/browser.xhtml) {
-          #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar,
-          #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
-              visibility: collapse !important;
-          }
-      }
     '';
 
     home.file.".XCompose".text = ''
