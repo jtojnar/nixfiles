@@ -24,6 +24,10 @@
 
       # Avoid cluttering ~/Downloads for the “Open” action on a file to download.
       "browser.download.start_downloads_in_tmp_dir" = true;
+
+      # Use dark background on about:blank.
+      "browser.display.background_color" = "#1C1B22";
+      "browser.display.foreground_color" = "#FBFBFE";
     };
   };
 
