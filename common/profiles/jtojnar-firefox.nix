@@ -12,6 +12,23 @@
       };
     });
 
+    policies = {
+      "3rdparty" = {
+        Extensions = {
+          "uBlock0@raymondhill.net" = {
+            adminSettings = {
+              selectedFilterLists = [
+                "ublock-privacy"
+                "ublock-badware"
+                "ublock-filters"
+                "user-filters"
+              ];
+            };
+          };
+        };
+      };
+    };
+
     preferences = {
       # Downloading random PDFs from http website is super annoing with this.
       "dom.block_download_insecure" = false;
