@@ -20,17 +20,19 @@ let
   src = fetchFromGitHub {
     owner = "jtojnar";
     repo = "pengu";
-    rev = "ad24f1faa1b2501ec097fd134d3769f214b40466";
-    sha256 = "sha256-TDUCnl6bK6Mnp/5oQx/c59LjSXOTRVCrbqzxILVEytU=";
+    rev = "29dcc190c0250b6f5268000449cddc54ca65f597";
+    sha256 = "sha256-Osc9/tDsONdCm8U9HSgSxJr74WYeH8t72Ql//CzIb+M=";
   };
 in
 napalm.buildPackage src rec {
   pname = "pengu";
-  version = "unstable-2022-05-20";
+  version = "unstable-2023-12-20";
 
   customPatchPackages = {
     # Patch shebangs.
     "node-gyp-build" = pkgs: prev: {
+    };
+    "node-gyp-build-optional-packages" = pkgs: prev: {
     };
   };
 
