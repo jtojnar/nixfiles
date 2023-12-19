@@ -32,7 +32,7 @@
   };
 
   home-manager.users.jtojnar = { lib, ... }: {
-    home.file.".mozilla/firefox/f6a1brtw.default/chrome/userChrome.css".text = ''
+    home.file.".mozilla/firefox/default/chrome/userChrome.css".text = ''
       @-moz-document url(chrome://browser/content/browser.xul),
       url(chrome://browser/content/browser.xhtml) {
           #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar,
