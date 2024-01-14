@@ -176,7 +176,6 @@ in
 
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";
-        gtk-theme = "Adwaita-dark";
       };
 
       "org/gnome/desktop/screensaver" = {
@@ -272,6 +271,15 @@ in
         xkb-options = [
           config.services.xserver.xkbOptions
         ];
+      };
+    };
+
+    gtk = {
+      enable = true;
+      gtk3 = {
+        extraConfig = {
+          gtk-application-prefer-dark-theme = true;
+        };
       };
     };
 

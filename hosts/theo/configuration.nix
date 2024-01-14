@@ -570,6 +570,15 @@ in {
       };
     };
 
+    gtk = {
+      enable = true;
+      gtk3 = {
+        extraConfig = {
+          gtk-application-prefer-dark-theme = true;
+        };
+      };
+    };
+
     home.file.".config/npm/npmrc".text = ''
       prefix=''${XDG_DATA_HOME}/npm
       cache=''${XDG_CACHE_HOME}/npm
