@@ -82,6 +82,7 @@
           # Take only dwarffs attribute from dwarffs overlay and
           # pass it unstable Nix.
           (lib.pipe dwarffs.overlay [
+            (locallyOverrideFinal (final: { nix = final.nixVersions.nix_2_19; }))
             (filterOverlayAttrs [ "dwarffs" ])
           ])
 
