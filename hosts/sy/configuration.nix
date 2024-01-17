@@ -347,6 +347,7 @@ in
       ];
     })
     jq
+    libreoffice-fresh
     libxml2 # for xmllint
     ltrace
     meld
@@ -376,6 +377,7 @@ in
     tldr
     unrar
     valgrind
+    vlc
     wget
     wirelesstools # for iwlist
     xdot
