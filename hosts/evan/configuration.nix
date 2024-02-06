@@ -119,11 +119,11 @@ in
         sources = [
           (lib.hm.gvariant.mkTuple [
             "xkb"
-            "${config.services.xserver.layout}${lib.optionalString (config.services.xserver.xkbVariant != "") "+" + config.services.xserver.xkbVariant}"
+            "${config.services.xserver.xkb.layout}${lib.optionalString (config.services.xserver.xkb.variant != "") "+" + config.services.xserver.xkb.variant}"
           ])
         ];
         xkb-options = [
-          config.services.xserver.xkbOptions
+          config.services.xserver.xkb.options
         ];
       };
     };
@@ -144,10 +144,12 @@ in
     ];
   };
 
-  # Configure keymap in X11
   services.xserver = {
-    layout = "cz";
-    xkbVariant = "qwerty";
+    # Configure keymap in X11
+    xkb = {
+      layout = "cz";
+      variant = "qwerty";
+    };
   };
 
   console = {

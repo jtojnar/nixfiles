@@ -1,5 +1,5 @@
 final: prev: {
-  gnome = prev.gnome.overrideScope' (gfinal: gprev: {
+  gnome = prev.gnome.overrideScope (gfinal: gprev: {
     gnome-terminal = gprev.gnome-terminal.override {
       vte = prev.vte.overrideAttrs (attrs: {
         patches = attrs.patches or [] ++ [

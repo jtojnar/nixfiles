@@ -81,9 +81,11 @@ in
     desktopManager.gnome.enable = true;
 
     # Configure keymap in X11
-    layout = "cz";
-    xkbVariant = "qwerty";
-    xkbOptions = "compose:caps";
+    xkb = {
+      layout = "cz";
+      variant = "qwerty";
+      options = "compose:caps";
+    };
   };
 
   # Enable CUPS to print documents.
@@ -265,11 +267,11 @@ in
         sources = [
           (lib.hm.gvariant.mkTuple [
             "xkb"
-            "${config.services.xserver.layout}${lib.optionalString (config.services.xserver.xkbVariant != "") "+" + config.services.xserver.xkbVariant}"
+            "${config.services.xserver.xkb.layout}${lib.optionalString (config.services.xserver.xkb.variant != "") "+" + config.services.xserver.xkb.variant}"
           ])
         ];
         xkb-options = [
-          config.services.xserver.xkbOptions
+          config.services.xserver.xkb.options
         ];
       };
     };

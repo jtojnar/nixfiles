@@ -356,11 +356,13 @@ in {
   programs.gnome-terminal.enable = true;
   programs.gpaste.enable = true;
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "cz";
-  services.xserver.xkbVariant = "qwerty";
-  services.xserver.xkbOptions = "compose:caps";
+  services.xserver = {
+    xkb = {
+      layout = "cz";
+      variant = "qwerty";
+      options = "compose:caps";
+    };
+  };
 
   # Enable the Desktop Environment.
   services.xserver.displayManager.gdm = {
@@ -559,7 +561,7 @@ in {
         sources = [
           (lib.hm.gvariant.mkTuple [
             "xkb"
-            "${config.services.xserver.layout}${lib.optionalString (config.services.xserver.xkbVariant != "") "+" + config.services.xserver.xkbVariant}"
+            "${config.services.xserver.xkb.layout}${lib.optionalString (config.services.xserver.xkb.variant != "") "+" + config.services.xserver.xkb.variant}"
           ])
           (lib.hm.gvariant.mkTuple [
             "ibus"
@@ -567,7 +569,7 @@ in {
           ])
         ];
         xkb-options = [
-          config.services.xserver.xkbOptions
+          config.services.xserver.xkb.options
         ];
       };
     };
