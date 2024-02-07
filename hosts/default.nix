@@ -36,7 +36,7 @@ let
           };
 
           # The host-specific configuration.
-          local = import "${toString ./.}/${hostName}/configuration.nix";
+          local = ./${hostName}/configuration.nix;
 
           # Import every module listed in ‘/common/modules/list.nix’ so that we can use their options without importing them manually.
           # Though avoid importing profiles since those set config values.
