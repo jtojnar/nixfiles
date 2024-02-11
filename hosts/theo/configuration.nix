@@ -384,7 +384,7 @@ in {
 
   i18n.inputMethod.enabled = "ibus";
   i18n.inputMethod.ibus.engines = with pkgs.ibus-engines; [
-    # mozc
+    mozc
   ];
 
   # Ugly hack for GPG choosing socket directory based on GNUPGHOME.
