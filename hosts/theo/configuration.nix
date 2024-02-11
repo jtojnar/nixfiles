@@ -356,25 +356,30 @@ in {
   programs.gnome-terminal.enable = true;
   programs.gpaste.enable = true;
 
+
+  # Enable the Desktop Environment.
   services.xserver = {
     enable = true;
+    displayManager = {
+      gdm = {
+        enable = true;
+        debug = true;
+      };
+      defaultSession = "gnome-xorg";
+    };
+
+    desktopManager.gnome = {
+      enable = true;
+    };
+  };
+
+  # Set up input methods.
+  services.xserver = {
     xkb = {
       layout = "cz";
       variant = "qwerty";
       options = "compose:caps";
     };
-  };
-
-  # Enable the Desktop Environment.
-  services.xserver.displayManager.gdm = {
-    enable = true;
-    debug = true;
-  };
-  services.xserver.displayManager.defaultSession = "gnome-xorg";
-
-
-  services.xserver.desktopManager.gnome = {
-    enable = true;
   };
 
   i18n.inputMethod.enabled = "ibus";
