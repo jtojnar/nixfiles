@@ -357,6 +357,7 @@ in {
   programs.gpaste.enable = true;
 
   services.xserver = {
+    enable = true;
     xkb = {
       layout = "cz";
       variant = "qwerty";
