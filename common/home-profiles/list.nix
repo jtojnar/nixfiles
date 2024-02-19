@@ -1,0 +1,3 @@
+[
+  ./ripgrep.nix
+]

@@ -12,6 +12,5 @@
     CABAL_CONFIG = "${XDG_DATA_HOME}/cabal/config";
     CARGO_HOME = "${XDG_DATA_HOME}/cargo";
     NPM_CONFIG_USERCONFIG = "${XDG_CONFIG_HOME}/npm/npmrc";
-    RIPGREP_CONFIG_PATH = "${XDG_CONFIG_HOME}/ripgrep/config";
   };
 }

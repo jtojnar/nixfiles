@@ -151,6 +151,18 @@
           };
         in modulesAttrs // profilesAttrs;
 
+      # All our home-manager modules and profiles that can be imported.
+      # A profile in /common/home-profiles/foo.nix can be accessed as ‘${flakeRef}.homeModules.profiles.foo’
+      # The key name from https://github.com/nix-community/home-manager/issues/1783#issuecomment-1461178166
+      homeModules =
+        let
+          modulesAttrs = { };
+
+          profilesAttrs = {
+            profiles = pathsToImportedAttrs (import ./common/home-profiles/list.nix);
+          };
+        in modulesAttrs // profilesAttrs;
+
       # Development shell containing our maintenance utils
       devShells = forAllPlatforms (platform: {
         default = pkgss.${platform}.mkShell {

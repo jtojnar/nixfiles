@@ -226,7 +226,6 @@ in {
     playerctl
     man-pages-posix
     python3Full
-    ripgrep
     sd
     signal-desktop
     sman
@@ -490,6 +489,7 @@ in {
     imports = [
       ../../common/configs/keepassxc
       ../../common/configs/sublime
+      inputs.self.homeModules.profiles.ripgrep
     ];
 
     dconf.settings = {

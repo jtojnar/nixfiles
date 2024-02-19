@@ -166,6 +166,7 @@ in
   home-manager.users.jtojnar = { lib, ... }: {
     imports = [
       ../../common/configs/sublime
+      inputs.self.homeModules.profiles.ripgrep
     ];
 
     dconf.settings = {
@@ -370,7 +371,6 @@ in
     playerctl
     man-pages-posix
     python3Full
-    ripgrep
     sd
     sman
     sublime4-dev
