@@ -55,7 +55,7 @@ in {
 
   home-manager.users.dtojnaro = { lib, ... }: {
     imports = [
-      ../../common/configs/sublime
+      inputs.self.homeModules.profiles.sublime
     ];
 
     dconf.settings = {

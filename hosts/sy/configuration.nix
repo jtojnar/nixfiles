@@ -165,8 +165,8 @@ in
 
   home-manager.users.jtojnar = { lib, ... }: {
     imports = [
-      ../../common/configs/sublime
       inputs.self.homeModules.profiles.ripgrep
+      inputs.self.homeModules.profiles.sublime
     ];
 
     dconf.settings = {

@@ -69,7 +69,7 @@
       # and imported content of the file as value.
       pathsToImportedAttrs = paths:
         genAttrs' paths (path: {
-          name = lib.removeSuffix ".nix" (builtins.baseNameOf path);
+          name = lib.removeSuffix ".nix" (builtins.baseNameOf (lib.removeSuffix "/default.nix" (builtins.toString path)));
           value = import path;
         });
 

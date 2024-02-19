@@ -488,8 +488,8 @@ in {
   home-manager.users.jtojnar = { lib, ... }: {
     imports = [
       ../../common/configs/keepassxc
-      ../../common/configs/sublime
       inputs.self.homeModules.profiles.ripgrep
+      inputs.self.homeModules.profiles.sublime
     ];
 
     dconf.settings = {
