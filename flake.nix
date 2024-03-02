@@ -97,6 +97,19 @@
             home-manager = prev.callPackage "${home-manager}/home-manager" { };
 
             spicePkgs = spicetify-nix.packages.${platform}.default;
+
+            python3 = prev.python3.override ({
+              packageOverrides = psuper: pprev: {
+                inkex = pprev.inkex.overrideAttrs (attrs: {
+                  postPatch = attrs.postPatch + ''
+                    # Loosen lxml bounds.
+                    # https://github.com/NixOS/nixpkgs/pull/292770
+                    substituteInPlace pyproject.toml \
+                      --replace-fail 'lxml = "^4.5.0"' 'lxml = "^4.5.0 || ^5.0.0"'
+                  '';
+                });
+              };
+            });
           })
         ];
         config = {
