@@ -662,14 +662,6 @@ in {
 
     programs.spicetify = {
       enable = true;
-      theme = pkgs.spicePkgs.themes.Default // {
-        additionalCss = pkgs.spicePkgs.themes.Default.additionalCss or "" + ''
-          /* Remove extra space at the top of the window. */
-          .spotify__container--is-desktop .nav-ylx .Root__top-container {
-            padding-top: 0;
-          }
-        '';
-      };
 
       enabledCustomApps = with pkgs.spicePkgs.apps; [
         lyrics-plus
