@@ -48,7 +48,7 @@
     };
   };
 
-  outputs = { self, agenix, c4, dwarffs, flake-compat, home-manager, napalm, nixpkgs, spicetify-nix }@inputs:
+  outputs = { self, agenix, c4, dwarffs, home-manager, napalm, nixpkgs, spicetify-nix, ... }@inputs:
     let
       inherit (nixpkgs) lib;
 
