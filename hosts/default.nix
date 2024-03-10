@@ -1,7 +1,7 @@
 # Let’s build a configuration for each host listed in ./list.nix.
 { inputs, pkgss }:
 let
-  inherit (inputs) self agenix nixpkgs home-manager spicetify-nix;
+  inherit (inputs) self agenix disko nixpkgs home-manager spicetify-nix;
   inherit (nixpkgs) lib;
 
   mkConfig = { hostName, platform, managedHome ? false, ... }:
@@ -58,6 +58,7 @@ let
         in
           flakeModules ++ [ core global local ] ++ hmModules ++ [
             agenix.nixosModules.age
+            disko.nixosModules.disko
           ];
     };
 

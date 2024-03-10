@@ -31,6 +31,7 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./disko-config.nix
     dwarffsModule
     inputs.self.nixosModules.profiles.environment
     inputs.self.nixosModules.profiles.jtojnar-firefox

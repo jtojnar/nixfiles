@@ -13,17 +13,5 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/53263cc4-667a-418b-af92-6b644a05544f";
-      fsType = "ext4";
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/3F6B-E5D4";
-      fsType = "vfat";
-    };
-
-  swapDevices = [ ];
-
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 }

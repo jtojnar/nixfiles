@@ -14,6 +14,11 @@
       url = "github:fossar/composition-c4";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dwarffs = {
       url = "github:edolstra/dwarffs";
       inputs.nixpkgs.follows = "nixpkgs";
