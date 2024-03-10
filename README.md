@@ -16,10 +16,6 @@ This repo contains some commands to be available in `nix-shell` to make deployme
 
 Wrapper around `nixos-rebuild` to avoid the need for specifying the full hostname and pass some default arguments.
 
-### `deploy-home`
-
-Wrapper around `home-manager` to avoid the need for specifying the full hostname and pass some default arguments.
-
 ### `update <attr-path>`
 
 Run update script for a package on given attribute path.
