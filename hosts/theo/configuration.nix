@@ -138,7 +138,6 @@ in {
     bat
     bind
     binutils # readelf, xstrings
-    bustle
     cachix
     chromium
     common-updater-scripts
@@ -152,7 +151,6 @@ in {
       ];
     })
     deja-dup
-    dfeet
     d-spy
     droidcam
     dos2unix
