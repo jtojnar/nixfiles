@@ -373,6 +373,7 @@ in
     python3Full
     sd
     sman
+    spotify
     sublime4-dev
     sublime-merge
     thunderbird
