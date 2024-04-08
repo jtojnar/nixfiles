@@ -166,6 +166,7 @@ in {
     gdb
     gimp
     diff-so-fancy
+    difftastic
     evolution
     gitFull
     gitg
