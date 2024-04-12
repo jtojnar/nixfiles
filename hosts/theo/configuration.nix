@@ -354,6 +354,9 @@ in {
   programs.gnome-terminal.enable = true;
   programs.gpaste.enable = true;
 
+  services.displayManager = {
+    defaultSession = "gnome-xorg";
+  };
 
   # Enable the Desktop Environment.
   services.xserver = {
@@ -363,7 +366,6 @@ in {
         enable = true;
         debug = true;
       };
-      defaultSession = "gnome-xorg";
     };
 
     desktopManager.gnome = {
