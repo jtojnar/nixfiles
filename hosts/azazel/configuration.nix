@@ -123,7 +123,7 @@ in {
         extraGroups = [ "wheel" ];
         openssh.authorizedKeys.keys = keys.jtojnar;
         authelia.hashedPassword = "$argon2id$v=19$m=2097152,t=1,p=4$iOpm/qebAoaWn/HPsLOlsw$Zqk8LiHzqobnDEx2k8wK+K1vcu/l7X51LIJv5xhloiA";
-        hashedPassword = "$6$yqXBTritxLsTNhy.$baY8JEagVyeBmpV6WCLY7nH4YH6YAjWiBPAvgF0zcVjYr7yagBmpZtmX/EFMedgxbCnU7l97SdG7EV6yfT.In/";
+        hashedPassword = "$6$ix1CRwqg9ZHsG1qx$T4O/ZaPjO5lycwdP3pzmraaMrIG9Cbqb2ny9a.CiKubse20CNjXbux/tBw58Al4g/W9VuGqJUH211UTwoyR4n0";
       };
 
       tojnar = {
