@@ -112,6 +112,12 @@ in
       };
     };
 
+    opengl = {
+      extraPackages = [
+        pkgs.intel-media-driver
+      ];
+    };
+
     cpu.intel.updateMicrocode = true;
   };
 
