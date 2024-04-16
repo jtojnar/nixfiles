@@ -16,9 +16,9 @@ let
   };
   # https://grafana.com/grafana/dashboards/1860
   nodeDashbordFull = pkgs.fetchurl {
-    name = "node-dashboard";
-    url = "https://grafana.com/api/dashboards/1860/revisions/31/download";
-    hash = "sha256-xuFX0QTFt6Xjdv412bk5+hiGvCTH5NXFUftuazb+M0Q=";
+    name = "node-dashboard-full";
+    url = "https://grafana.com/api/dashboards/1860/revisions/36/download";
+    hash = "sha256-/eAVThAVHVONFD2Ug+/FAK5zrPeQsofnH3DiVKwYefY=";
     recursiveHash = true;
     postFetch = ''
       mv "$out" temp
