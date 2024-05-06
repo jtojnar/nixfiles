@@ -382,7 +382,6 @@ in
     spotify
     sublime4-dev
     sublime-merge
-    thunderbird
     tldr
     unrar
     valgrind
