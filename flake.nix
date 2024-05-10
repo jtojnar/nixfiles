@@ -90,6 +90,9 @@
       # Create combined package set from nixpkgs and our overlays.
       mkPkgs =
         platform:
+        let
+          libVersionInfoOverlay = import "${nixpkgs}/lib/flake-version-info.nix" nixpkgs;
+        in
         import nixpkgs {
           system = platform;
           overlays = builtins.attrValues self.overlays ++ [
@@ -117,6 +120,9 @@
               home-manager = prev.callPackage "${home-manager}/home-manager" { };
 
               spicePkgs = spicetify-nix.packages.${platform}.default;
+
+              # Ensure version info is properly populated.
+              lib = prev.lib.extend libVersionInfoOverlay;
             })
           ];
           config = {
