@@ -5,6 +5,9 @@ let
   inherit (nixpkgs) lib;
 
   mkConfig = { hostName, platform, managedHome ? false, ... }:
+    let
+      pkgs = pkgss.${platform};
+    in
     lib.nixosSystem {
       # Platform the host will be running on.
       system = platform;
@@ -13,6 +16,9 @@ let
       specialArgs = {
         inherit inputs;
       };
+
+      # Use our own lib, potentially with overlays.
+      inherit (pkgs) lib;
 
       # Entry modules that will be imported to make the system.
       modules =
@@ -31,7 +37,7 @@ let
             system.configurationRevision = self.rev or "dirty-${self.lastModifiedDate}";
 
             nixpkgs = {
-              pkgs = pkgss.${platform};
+              inherit pkgs;
             };
           };
 
