@@ -43,12 +43,23 @@
     };
 
     spicetify-nix = {
-      url = github:the-argus/spicetify-nix;
+      url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, agenix, c4, dwarffs, home-manager, napalm, nixpkgs, spicetify-nix, ... }@inputs:
+  outputs =
+    {
+      self,
+      agenix,
+      c4,
+      dwarffs,
+      home-manager,
+      napalm,
+      nixpkgs,
+      spicetify-nix,
+      ...
+    }@inputs:
     let
       inherit (nixpkgs) lib;
 
@@ -67,64 +78,79 @@
       # Convert a list to file paths to attribute set
       # that has the filenames stripped of nix extension as keys
       # and imported content of the file as value.
-      pathsToImportedAttrs = paths:
+      pathsToImportedAttrs =
+        paths:
         genAttrs' paths (path: {
-          name = lib.removeSuffix ".nix" (builtins.baseNameOf (lib.removeSuffix "/default.nix" (builtins.toString path)));
+          name = lib.removeSuffix ".nix" (
+            builtins.baseNameOf (lib.removeSuffix "/default.nix" (builtins.toString path))
+          );
           value = import path;
         });
 
       # Create combined package set from nixpkgs and our overlays.
-      mkPkgs = platform: import nixpkgs {
-        system = platform;
-        overlays = builtins.attrValues self.overlays ++ [
-          c4.overlays.default
+      mkPkgs =
+        platform:
+        import nixpkgs {
+          system = platform;
+          overlays = builtins.attrValues self.overlays ++ [
+            c4.overlays.default
 
-          # Take only dwarffs attribute from dwarffs overlay and
-          # pass it unstable Nix.
-          (lib.pipe dwarffs.overlay [
-            (locallyOverrideFinal (final: { nix = final.nixVersions.nix_2_19; }))
-            (filterOverlayAttrs [ "dwarffs" ])
-          ])
+            # Take only dwarffs attribute from dwarffs overlay and
+            # pass it unstable Nix.
+            (lib.pipe dwarffs.overlay [
+              (locallyOverrideFinal (final: {
+                nix = final.nixVersions.nix_2_19;
+              }))
+              (filterOverlayAttrs [ "dwarffs" ])
+            ])
 
-          # Take only napalm attribute from napalm overlay and
-          # pass it the latest nodejs.
-          (lib.pipe napalm.overlays.default [
-            (locallyOverrideFinal (final: { nodejs = final.nodejs; }))
-            (filterOverlayAttrs [ "napalm" ])
-          ])
+            # Take only napalm attribute from napalm overlay and
+            # pass it the latest nodejs.
+            (lib.pipe napalm.overlays.default [
+              (locallyOverrideFinal (final: {
+                nodejs = final.nodejs;
+              }))
+              (filterOverlayAttrs [ "napalm" ])
+            ])
 
-          (final: prev: {
-            home-manager = prev.callPackage "${home-manager}/home-manager" { };
+            (final: prev: {
+              home-manager = prev.callPackage "${home-manager}/home-manager" { };
 
-            spicePkgs = spicetify-nix.packages.${platform}.default;
-          })
-        ];
-        config = {
-          allowUnfree = true;
-          allowAliases = false;
-          permittedInsecurePackages = [
-            # Will not be available for the whole lifetime of NixOS 23.05.
-            "openssl-1.1.1w"
+              spicePkgs = spicetify-nix.packages.${platform}.default;
+            })
           ];
+          config = {
+            allowUnfree = true;
+            allowAliases = false;
+            permittedInsecurePackages = [
+              # Will not be available for the whole lifetime of NixOS 23.05.
+              "openssl-1.1.1w"
+            ];
+          };
         };
-      };
 
       # We should not trust overlays to override arbitrary attribute paths.
       # Let’s keep only those whitlelisted in the first attribute.
-      filterOverlayAttrs = attrs: overlay: final: prev: builtins.intersectAttrs (lib.genAttrs attrs (attr: null)) (overlay final prev);
+      filterOverlayAttrs =
+        attrs: overlay: final: prev:
+        builtins.intersectAttrs (lib.genAttrs attrs (attr: null)) (overlay final prev);
 
       # If a package from overlay depends on some final package, let’s change it into a different one.
-      locallyOverrideFinal = mkAttrs: overlay: final: prev: overlay (final // mkAttrs final) prev;
+      locallyOverrideFinal =
+        mkAttrs: overlay: final: prev:
+        overlay (final // mkAttrs final) prev;
 
       # Package sets for each platform.
       pkgss = forAllPlatforms mkPkgs;
-    in {
+    in
+    {
       # Configurations for our hosts.
       # These are used by tools like nixos-rebuild.
       nixosConfigurations =
         let
           configs = import ./hosts { inherit inputs pkgss; };
-        in configs;
+        in
+        configs;
 
       # All our overlays.
       # The packages defined in this repository are defined in ‘./pkgs’ and linked to the ‘default’ overlay.
@@ -134,7 +160,8 @@
           overlayDir = ./common/overlays;
           fullPath = name: overlayDir + "/${name}";
           overlayPaths = map fullPath (builtins.attrNames (builtins.readDir overlayDir));
-        in pathsToImportedAttrs overlayPaths;
+        in
+        pathsToImportedAttrs overlayPaths;
 
       # Nixpkgs packages with our overlays and packages.
       legacyPackages = pkgss;
@@ -149,7 +176,8 @@
           profilesAttrs = {
             profiles = pathsToImportedAttrs (import ./common/profiles/list.nix);
           };
-        in modulesAttrs // profilesAttrs;
+        in
+        modulesAttrs // profilesAttrs;
 
       # All our home-manager modules and profiles that can be imported.
       # A profile in /common/home-profiles/foo.nix can be accessed as ‘${flakeRef}.homeModules.profiles.foo’
@@ -161,7 +189,8 @@
           profilesAttrs = {
             profiles = pathsToImportedAttrs (import ./common/home-profiles/list.nix);
           };
-        in modulesAttrs // profilesAttrs;
+        in
+        modulesAttrs // profilesAttrs;
 
       # Development shell containing our maintenance utils
       devShells = forAllPlatforms (platform: {
@@ -176,16 +205,21 @@
             update
           ];
 
-          # Enable flakes even though they are optional
-          NIX_CONF_DIR = let
-            current = pkgss.${platform}.lib.optionalString (builtins.pathExists /etc/nix/nix.conf)
-              (builtins.readFile /etc/nix/nix.conf);
+          env = {
+            # Enable flakes even though they are optional
+            NIX_CONF_DIR =
+              let
+                current = pkgss.${platform}.lib.optionalString (builtins.pathExists /etc/nix/nix.conf) (
+                  builtins.readFile /etc/nix/nix.conf
+                );
 
-            nixConf = pkgss.${platform}.writeTextDir "opt/nix.conf" ''
-              ${current}
-              experimental-features = nix-command flakes
-            '';
-          in "${nixConf}/opt";
+                nixConf = pkgss.${platform}.writeTextDir "opt/nix.conf" ''
+                  ${current}
+                  experimental-features = nix-command flakes
+                '';
+              in
+              "${nixConf}/opt";
+          };
         };
       });
     };
