@@ -121,17 +121,6 @@
 
               spicePkgs = spicetify-nix.packages.${platform}.default;
 
-              pam_u2f = prev.pam_u2f.override (args: {
-                libfido2 = prev.libfido2.override (args: {
-                  pcsclite = args.pcsclite.overrideAttrs (attrs: {
-                    postPatch = attrs.postPatch + ''
-                      substituteInPlace src/libredirect.c src/spy/libpcscspy.c \
-                        --replace-fail "libpcsclite_real.so.1" "$lib/lib/libpcsclite_real.so.1"
-                    '';
-                  });
-                });
-              });
-
               # Ensure version info is properly populated.
               lib = prev.lib.extend libVersionInfoOverlay;
             })
