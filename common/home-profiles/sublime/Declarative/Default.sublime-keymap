@@ -25,12 +25,12 @@
   {
     "keys": ["alt+backspace"],
     "command": "run_macro_file",
-    "args": {"file": "Packages/Declarative/delete_subword.sublime-macro"},
+    "args": {"file": "Packages/Declaratives/delete_subword.sublime-macro"},
   },
   {
     "keys": ["alt+delete"],
     "command": "run_macro_file",
-    "args": {"file": "Packages/Declarative/delete_subword_forward.sublime-macro"},
+    "args": {"file": "Packages/Declaratives/delete_subword_forward.sublime-macro"},
   },
 
 
