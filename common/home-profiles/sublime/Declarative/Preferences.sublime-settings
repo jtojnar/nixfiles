@@ -1,4 +1,6 @@
 {
+  "theme": "Adaptive.sublime-theme",
+  "color_scheme": "Mariana.sublime-color-scheme",
   "word_wrap": true,
   "always_show_minimap_viewport": true,
   "draw_white_space": ["all"],
