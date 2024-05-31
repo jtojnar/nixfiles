@@ -1,0 +1,7 @@
+// Settings in here override those in "LSP-rust-analyzer/LSP-rust-analyzer.sublime-settings"
+{
+	"command": ["rust-analyzer"],
+	"settings": {
+		"rust-analyzer.terminusUsePanel": true,
+	},
+}
