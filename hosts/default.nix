@@ -34,7 +34,7 @@ let
             nix.nixPath = [ ];
 
             # For nixos-version.
-            system.configurationRevision = self.rev or "${self.dirtyRev}-${self.lastModifiedDate}";
+            system.configurationRevision = self.rev or (if self ? "dirtyRev" then "${self.dirtyRev}-${self.lastModifiedDate}" else "dirty-${self.lastModifiedDate}");
 
             nixpkgs = {
               inherit pkgs;
