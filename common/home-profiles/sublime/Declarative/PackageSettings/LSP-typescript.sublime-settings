@@ -1,0 +1,9 @@
+// Settings in here override those in "LSP-typescript/LSP-typescript.sublime-settings"
+
+{
+	"disabled_capabilities": {
+		// We use Prettier for formatting.
+		"documentFormattingProvider": true,
+		"documentRangeFormattingProvider": true,
+	},
+}
