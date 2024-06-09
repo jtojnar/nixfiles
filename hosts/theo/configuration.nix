@@ -675,7 +675,7 @@ in {
       ];
     };
 
-    home.stateVersion = "18.09";
+    home.stateVersion = "24.05";
   };
 
   # For agenix.
@@ -686,7 +686,7 @@ in {
   users.defaultUserShell = pkgs.fish;
 
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "21.05";
+  system.stateVersion = "24.05";
 
   programs.ssh = {
     knownHosts = {

@@ -157,7 +157,7 @@ in {
     };
   };
 
-  system.stateVersion = "21.05";
+  system.stateVersion = "24.05";
 
   # The rest of the file is taken from:
   # https://github.com/vpsfreecz/vpsadminos/blob/bb71d18ef104796cbb559a8bda399b39eb24daec/os/lib/nixos-container/configuration.nix
