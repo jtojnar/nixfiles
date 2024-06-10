@@ -377,6 +377,7 @@ in
     playerctl
     man-pages-posix
     python3Full
+    ripgrep-all
     sd
     sman
     spotify
