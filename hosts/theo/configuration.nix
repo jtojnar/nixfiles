@@ -215,7 +215,6 @@ in {
     nix-diff
     nix-explore-closure-size
     nix-index
-    nix-top
     onboard
     openLocalhostAsHttp
     paprefs

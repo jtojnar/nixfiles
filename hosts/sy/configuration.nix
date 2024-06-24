@@ -368,7 +368,6 @@ in
     nix-diff
     nix-explore-closure-size
     nix-index
-    nix-top
     pandoc
     paprefs
     pavucontrol
