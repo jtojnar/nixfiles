@@ -173,6 +173,7 @@ in
     imports = [
       inputs.self.homeModules.profiles.ripgrep
       inputs.self.homeModules.profiles.sublime
+      inputs.self.homeModules.profiles.xcompose
     ];
 
     dconf.settings = {
