@@ -112,7 +112,7 @@ in
       };
     };
 
-    opengl = {
+    graphics = {
       extraPackages = [
         pkgs.intel-media-driver
       ];
