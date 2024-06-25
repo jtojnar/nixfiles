@@ -490,6 +490,7 @@ in {
       ../../common/configs/keepassxc
       inputs.self.homeModules.profiles.ripgrep
       inputs.self.homeModules.profiles.sublime
+      inputs.self.homeModules.profiles.xcompose
     ];
 
     dconf.settings = {
@@ -606,37 +607,6 @@ in {
       }
       # Ensure hiragana input mode is default.
       active_on_launch: True
-    '';
-
-    home.file.".XCompose".text = ''
-      # The extra slash needed to convince GTK to load the file instead of an internal table.
-      # https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/5150
-      # Though it is only relevant for gtk-im-context-simple, which will not be used
-      # while we use ibus as an input method.
-      include "/%L"
-
-      # https://unicode-table.com/en/blocks/mathematical-operators/
-      <Multi_key> <A> <A> : "∀"
-      <Multi_key> <E> <E> : "∃"
-      <Multi_key> <N> <E> : "∄"
-      <Multi_key> <i> <n> : "∈"
-      <Multi_key> <n> <i> <n> : "∉"
-      <Multi_key> <n> <i> : "∋"
-      <Multi_key> <n> <n> <i> : "∌"
-      <Multi_key> <s> <u> <m> : "∑"
-      <Multi_key> <p> <r> <o> <d> : "∏"
-      <Multi_key> <s> <q> <r> <t> : "√"
-      <Multi_key> <s> <e> <q> : "⊆"
-      <Multi_key> <S> <e> <q> : "⊇"
-      <Multi_key> <n> <o> <t> : "¬"
-      <Multi_key> <c> <o> <n> : "∧"
-      <Multi_key> <d> <i> <s> : "∨"
-      <Multi_key> <c> <a> <p> : "∩"
-      <Multi_key> <c> <u> <p> : "∪"
-      <Multi_key> <i> <f> <f> : "⇔"
-      <Multi_key> <b> <o> <t> : "⊥"
-      <Multi_key> <u> <p> : "↑"
-      <Multi_key> <d> <n> : "↓"
     '';
 
     programs.direnv = {
