@@ -232,7 +232,7 @@ in {
     sublime-merge
     telegram-desktop
     tldr
-    transmission-gtk
+    transmission_3-gtk
     treesheets
     unrar
     valgrind
