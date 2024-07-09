@@ -334,13 +334,13 @@ in
     git-auto-fixup
     git-auto-squash
     git-part-pick
-    gnome.dconf-editor
-    gnome.devhelp
-    gnome.ghex
-    gnome.gnome-disk-utility
+    dconf-editor
+    devhelp
+    ghex
+    gnome-disk-utility
     gnome.gnome-sound-recorder
-    gnome.gnome-tweaks
-    gnome.nautilus-python
+    gnome-tweaks
+    nautilus-python
     gnomeExtensions.appindicator
     gnomeExtensions.brightness-control-using-ddcutil
     gnomeExtensions.dash-to-dock

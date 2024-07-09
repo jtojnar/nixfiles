@@ -174,16 +174,16 @@ in {
     git-auto-squash
     git-part-pick
     glade
-    gnome.dconf-editor
-    gnome.devhelp
-    gnome.geary
-    gnome.ghex
+    dconf-editor
+    devhelp
+    geary
+    ghex
     gnome.gnome-chess
-    gnome.gnome-disk-utility
+    gnome-disk-utility
     gnome.gnome-sound-recorder
-    gnome.gnome-tweaks
-    gnome.nautilus-python
-    gnome.pomodoro
+    gnome-tweaks
+    nautilus-python
+    gnome-pomodoro
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnumeric
@@ -333,10 +333,12 @@ in {
   security.pam.u2f = {
     enable = true;
     control = "sufficient";
-    cue = true;
-    authFile = pkgs.writeText "u2f-mappings" ''
-      jtojnar:owBYsYvxunFYr+6pRDPfJg44RVGGLk/CiPUQh1cUrp4dQBlbriL3Ale6Hn4FzNNcVbCz7WcETohnc3bx2gABpwQoX2ZGpFOW/eZelo/wmEOfgJPb7yP1c+mzK6CcFgza70LgStWyyYi4D17lSQTyH8hDb5c3+cGO8tPJ1qM1QcNeQhXt6IrZ5BGnZSRvHfJ0v/naqf3gV2HJXqUrIxRywVnDAgggvo2xYbARR/m3wU4MkxrvjAFMhObc5FgOdbh4x+PmAlDM8bGtII09IFQVT8AT6EST,QxF7jFLgz7FsuwcHXxUq2mQwIPdYfZXqhy1TYhsGnvmRrUMxRI+xdOyleIp1tWqTiWrDCFcu2/uCc3j21h4gfw==,es256,+presence
-    '';
+    settings = {
+      cue = true;
+      authfile = pkgs.writeText "u2f-mappings" ''
+        jtojnar:owBYsYvxunFYr+6pRDPfJg44RVGGLk/CiPUQh1cUrp4dQBlbriL3Ale6Hn4FzNNcVbCz7WcETohnc3bx2gABpwQoX2ZGpFOW/eZelo/wmEOfgJPb7yP1c+mzK6CcFgza70LgStWyyYi4D17lSQTyH8hDb5c3+cGO8tPJ1qM1QcNeQhXt6IrZ5BGnZSRvHfJ0v/naqf3gV2HJXqUrIxRywVnDAgggvo2xYbARR/m3wU4MkxrvjAFMhObc5FgOdbh4x+PmAlDM8bGtII09IFQVT8AT6EST,QxF7jFLgz7FsuwcHXxUq2mQwIPdYfZXqhy1TYhsGnvmRrUMxRI+xdOyleIp1tWqTiWrDCFcu2/uCc3j21h4gfw==,es256,+presence
+      '';
+    };
   };
 
   security.sudo.extraConfig = ''

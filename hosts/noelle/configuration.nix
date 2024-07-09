@@ -10,8 +10,8 @@ in {
 
   environment.systemPackages = with pkgs; [
     gitFull
-    gnome.dconf-editor
-    gnome.gnome-tweaks
+    dconf-editor
+    gnome-tweaks
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     htop

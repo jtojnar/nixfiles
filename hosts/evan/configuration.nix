@@ -14,7 +14,7 @@ in
     vlc
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
-    gnome.gnome-tweaks
+    gnome-tweaks
     warp
     telegram-desktop
   ];
