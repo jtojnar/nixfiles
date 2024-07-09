@@ -199,7 +199,7 @@ in {
     indent
     (inkscape-with-extensions.override {
       inkscapeExtensions = [
-        inkscape-extensions.applytransforms
+        # inkscape-extensions.applytransforms
       ];
     })
     jq
@@ -243,7 +243,7 @@ in {
     xdot
     xsel
     xsv # handling CSV files
-    youtube-dl
+    yt-dlp
     zotero
   ];
 
