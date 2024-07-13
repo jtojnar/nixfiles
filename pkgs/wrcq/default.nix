@@ -1,64 +1,36 @@
 {
-  runCommand,
+  lib,
   fetchFromGitHub,
-  nodejs_latest,
-  napalm,
+  buildNpmPackage,
+  nodejs,
   unstableGitUpdater,
+  _experimental-update-script-combinators,
+  common-updater-scripts,
 }:
 
-let
-  nodejs = nodejs_latest;
-
-  stopNpmCallingHome = ''
-    # Do not try to find npm in napalm-registry –
-    # it is not there and checking will slow down the build.
-    npm config set update-notifier false
-
-    # Same for security auditing, it does not make sense in the sandbox.
-    npm config set audit false
-  '';
+buildNpmPackage {
+  pname = "wrcq";
+  version = "0-unstable-2022-09-01";
 
   src = fetchFromGitHub {
     owner = "jtojnar";
     repo = "wrcq";
     rev = "e0f59a513644a2f9dd4937b9a06a36c8d6cdb45f";
-    sha256 = "s1jS9xWZ58CrMaM1KAxfUKHmQJDP2VJrB2tzCsD5QGw=";
+    hash = "sha256-s1jS9xWZ58CrMaM1KAxfUKHmQJDP2VJrB2tzCsD5QGw=";
   };
 
-  wrcq-deps = napalm.buildPackage src {
-    postConfigure = stopNpmCallingHome;
-  };
-in
-  runCommand "wrcq" {
-    version = "unstable-2022-09-01";
+  npmDepsHash = "sha256-OnEaWyPP+kXaRu4eEeNFJFjsWmCk6Buh8GPafmHxOpg=";
 
-    nativeBuildInputs = [
-      nodejs
-    ];
+  # No `build` script.
+  dontNpmBuild = true;
 
-    passthru = {
-      inherit src;
-      updateScript = unstableGitUpdater {
-        # The updater tries src.url by default, which does not exist for fetchFromGitHub (fetchurl).
-        url = "${src.meta.homepage}.git";
-      };
-    };
-  } ''
-    # Required for npm config.
-    export HOME=$(mktemp -d)
+  postInstall = ''
+    # Move stuff back to root directory for ease of use.
+    mv "$out/lib/node_modules/wrcQ/"* "$out"
+    rm "$out/lib/node_modules/wrcQ/.envrc"
+    rmdir "$out/lib/node_modules/"{wrcQ,}
 
-    cp -r ${wrcq-deps}/* .
-    chmod +w -R _napalm-install
-    cd _napalm-install
-
-    ${stopNpmCallingHome}
-
-    # Clean up node_modules.
-    npm install --production  --loglevel verbose
-
-    mkdir -p "$out"
-    cp -r * "$out"
-
+    # Install systemd service.
     mkdir -p "$out/lib/systemd/system"
     echo > "$out/lib/systemd/system/pqe.service" "
     [Unit]
@@ -72,4 +44,20 @@ in
     RestartSec=10
     WorkingDirectory=$out
     "
-  ''
+  '';
+
+  passthru.updateScript =
+    let
+      updateSource = unstableGitUpdater { };
+      updateDeps = [
+        (lib.getExe' common-updater-scripts "update-source-version")
+        "wrcq"
+        "--ignore-same-version"
+        "--source-key=npmDeps"
+      ];
+    in
+    _experimental-update-script-combinators.sequence [
+      updateSource
+      updateDeps
+    ];
+}
