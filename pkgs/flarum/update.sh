@@ -25,11 +25,15 @@ tempDir="$(mktemp -d)"
 
 pushd "$tempDir"
 
+# These steps are equivalent to `composer create-project flarum/flarum .`
+# used in the official CLI installation instructions:
+# https://docs.flarum.org/install/#installing-using-the-command-line-interface
 cp -r "$sourceDir"/* "$tempDir"
 chmod -R +w "$tempDir"
-
 composer install
 
+# Install select extensions.
+# Kept in the same package so that Composer manages the dependency hell.
 composer require flarum/akismet
 composer require fof/formatting
 composer require fof/links
@@ -45,5 +49,9 @@ composer require xelson/flarum-ext-chat
 
 popd
 
+# Persist the “source of truth” for the currently installed version.
 cp "$tempDir/composer.json" "$dirname"
 cp "$tempDir/composer.lock" "$dirname"
+
+# Update FOD in the package.
+update-source-version flarum.flarum "$latestVersion" --ignore-same-version --source-key=composerRepository
