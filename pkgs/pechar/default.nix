@@ -1,60 +1,52 @@
 {
   fetchFromGitHub,
   lib,
-  napalm,
+  buildNpmPackage,
   unstableGitUpdater,
+  _experimental-update-script-combinators,
+  common-updater-scripts,
 }:
 
-let
-  stopNpmCallingHome = ''
-    # Do not try to find npm in napalm-registry –
-    # it is not there and checking will slow down the build.
-    npm config set update-notifier false
-    # Same for security auditing, it does not make sense in the sandbox.
-    npm config set audit false
-  '';
+buildNpmPackage {
+  pname = "pechar";
+  version = "0-unstable-2024-07-13";
 
   src = fetchFromGitHub {
     owner = "ogioncz";
     repo = "pechar";
-    rev = "a4baddf4d59499612c927a2b0f457ebb37c3ee3c";
-    sha256 = "RB1kBkcLXu5+zqBoIzTMYSCwsNgEt+TF9GHgHQUvQbs=";
+    rev = "1760e5be614be0614d432089e5bb283109898084";
+    hash = "sha256-0mMxzFgA6jmpi+2NV5daA5VphvWeCT+91AlZwTpZlEM=";
   };
-in
-napalm.buildPackage src rec {
-  # Napalm will default to value from package.json otherwise.
-  pname = "pechar";
-  version = "unstable-2021-06-09";
 
-  MEDIA_SERVER_URI = "https://mediacache.fan-club-penguin.cz";
+  npmDepsHash = "sha256-ta1LWOXZauxyQHk/pCna/RaVQ1dA7XFi+62bd26Sbdg=";
 
-  npmCommands = [
-    # Just download and unpack all the npm packages,
-    # we need napalm to patch shebangs before we can run install scripts.
-    "npm install --loglevel verbose --ignore-scripts"
-    # Let’s install again, this time running scripts.
-    "npm install --loglevel verbose"
-
-    # napalm only patches shebangs for scripts in bin directories
-    "patchShebangs node_modules/parcel/lib/bin.js"
-
-    # Build the front-end.
-    "npm run build"
-  ];
-
-  postConfigure = stopNpmCallingHome;
+  env = {
+    MEDIA_SERVER_URI = "https://mediacache.fan-club-penguin.cz";
+  };
 
   installPhase = ''
     runHook preInstall
-    mv dist $out
-    mv data $out/
+
+    mkdir -p "$out"
+    cp -r data/ dist/* "$out"
+
     runHook postInstall
   '';
 
-  passthru.updateScript = unstableGitUpdater {
-    # The updater tries src.url by default, which does not exist for fetchFromGitHub (fetchurl).
-    url = "${src.meta.homepage}.git";
-  };
+  passthru.updateScript =
+    let
+      updateSource = unstableGitUpdater { };
+      updateDeps = [
+        (lib.getExe' common-updater-scripts "update-source-version")
+        "pechar"
+        "--ignore-same-version"
+        "--source-key=npmDeps"
+      ];
+    in
+    _experimental-update-script-combinators.sequence [
+      updateSource
+      updateDeps
+    ];
 
   meta = {
     description = "Outfit editor for Club Penguin";
