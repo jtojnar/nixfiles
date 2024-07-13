@@ -1,46 +1,48 @@
 {
-  stdenv,
   lib,
   fetchFromGitHub,
-  c4,
   php,
   unstableGitUpdater,
+  writeShellScript,
+  common-updater-scripts,
+  _experimental-update-script-combinators
 }:
 
-stdenv.mkDerivation rec {
+php.buildComposerProject {
   pname = "flarum-webhooks-telegram-bridge";
-  version = "unstable-2022-05-28";
+  version = "0+unstable-2024-07-13";
 
   src = fetchFromGitHub {
     owner = "ogioncz";
     repo = "flarum-webhooks-telegram-bridge";
-    rev = "ad47c3d19c69a1f2f8c6fb01f1d9d149aee74a5c";
-    sha256 = "Wzf9sYujjksDwcQ1Ax/IBjw8wJeg0JBh5A1rCyvRIAs=";
+    rev = "9705cbd5f1f05b5d8810458d6fa4551786d327f0";
+    hash = "sha256-x8JXVD5LFM3mNuz7snUhleCfKeXGEiqoodtDgTVsREc=";
   };
 
-  composerDeps = c4.fetchComposerDeps {
-    inherit src;
-  };
+  vendorHash = "sha256-qlPA4rTpdOQ8bnRIb5YfoZreI3iJrMl8WHLkvRaF5Ew=";
 
-  nativeBuildInputs = [
-    php.packages.composer
-    c4.composerSetupHook
-  ];
-
-  installPhase = ''
-    runHook preInstall
-
-    composer --no-ansi install --no-dev
-    cp -r . "$out"
-
-    runHook postInstall
-  '';
-
-  passthru = {
-    updateScript = unstableGitUpdater {
-      url = "${meta.homepage}.git";
-    };
-  };
+  passthru.updateScript =
+    let
+      update-source-version = lib.getExe' common-updater-scripts "update-source-version";
+      updateSource = unstableGitUpdater { };
+      resetVersion = writeShellScript "prefix-version" ''
+        # Change `0-` version prefix to `0+` since `mkComposerRepository` did not like the former.
+        # https://github.com/NixOS/nixpkgs/issues/326835
+        version=$(nix-instantiate --eval --json -A flarum-webhooks-telegram-bridge.version | sed 's/"//g; s/^0-/0+/')
+        ${update-source-version} flarum-webhooks-telegram-bridge "$version" --ignore-same-hash
+      '';
+      updateDeps = [
+        update-source-version
+        "flarum-webhooks-telegram-bridge"
+        "--ignore-same-version"
+        "--source-key=composerRepository"
+      ];
+    in
+    _experimental-update-script-combinators.sequence [
+      updateSource
+      resetVersion
+      updateDeps
+    ];
 
   meta = {
     description = "Bridge between Flarum Webhooks extension and Telegram";

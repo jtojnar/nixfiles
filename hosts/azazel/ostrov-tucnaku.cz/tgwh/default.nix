@@ -30,7 +30,7 @@ in {
 
       virtualHosts = {
         "tgwh.ostrov-tucnaku.cz" = mkVirtualHost {
-          root = pkgs.flarum-webhooks-telegram-bridge;
+          root = "${pkgs.flarum-webhooks-telegram-bridge}/share/php/flarum-webhooks-telegram-bridge";
           acme = "ostrov-tucnaku.cz";
           config = ''
             index index.php;
