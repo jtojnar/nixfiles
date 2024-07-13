@@ -10,10 +10,6 @@
       inputs.home-manager.follows = "home-manager";
     };
 
-    c4 = {
-      url = "github:fossar/composition-c4";
-    };
-
     dwarffs = {
       url = "github:edolstra/dwarffs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,7 +43,6 @@
     {
       self,
       agenix,
-      c4,
       dwarffs,
       home-manager,
       nixpkgs,
@@ -90,8 +85,6 @@
         import nixpkgs {
           system = platform;
           overlays = builtins.attrValues self.overlays ++ [
-            c4.overlays.default
-
             # Take only dwarffs attribute from dwarffs overlay and
             # pass it unstable Nix.
             (lib.pipe dwarffs.overlay [
