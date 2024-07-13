@@ -37,11 +37,6 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    napalm = {
-      url = "github:nix-community/napalm";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     spicetify-nix = {
       url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -55,7 +50,6 @@
       c4,
       dwarffs,
       home-manager,
-      napalm,
       nixpkgs,
       spicetify-nix,
       ...
@@ -105,15 +99,6 @@
                 nix = final.nixVersions.nix_2_19;
               }))
               (filterOverlayAttrs [ "dwarffs" ])
-            ])
-
-            # Take only napalm attribute from napalm overlay and
-            # pass it the latest nodejs.
-            (lib.pipe napalm.overlays.default [
-              (locallyOverrideFinal (final: {
-                nodejs = final.nodejs;
-              }))
-              (filterOverlayAttrs [ "napalm" ])
             ])
 
             (final: prev: {
