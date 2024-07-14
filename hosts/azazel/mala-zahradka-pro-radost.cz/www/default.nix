@@ -1,4 +1,4 @@
-{ config, myLib, pkgs, ... }:
+{ config, myLib, lib, pkgs, ... }:
 let
   inherit (myLib) mkVirtualHost;
 
@@ -55,7 +55,7 @@ in {
         "--repo=zahradka" \
         "--commit-sha=$1" \
         "--log-url=https://mala-zahradka-pro-radost.cz/$logName" \
-        "--build-command=nix build --accept-flake-config .#{default,roots,vips} --out-link ../result && nix shell --accept-flake-config .#{default,vips} -c site build" \
+        "--build-command=nix-build shell.nix --out-link ../result && NIX_BUILD_SHELL=${lib.getExe pkgs.bashInteractive} nix-shell --run 'site build'" \
           2>&1 | tee "$logName"
     '';
     # Pass the instance argument.
