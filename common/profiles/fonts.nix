@@ -30,7 +30,7 @@
       source-code-pro
       # source-sans-pro
       # source-serif-pro
-      ubuntu_font_family
+      ubuntu-classic
     ];
   };
 }

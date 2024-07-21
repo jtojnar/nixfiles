@@ -12,6 +12,7 @@ let
   userData = import ../../../../common/data/users.nix;
 
   instanceCfg = config.services.authelia.instances.default;
+  autheliaPort = builtins.elemAt (builtins.match "tcp://:([0-9]+)/" instanceCfg.settings.server.address) 0;
 
   userOptions = {
     options = {
@@ -68,7 +69,7 @@ in
           acme = "ogion.cz";
           locations = {
             "/" = {
-              proxyPass = "http://localhost:${builtins.toString instanceCfg.settings.server.port}";
+              proxyPass = "http://localhost:${autheliaPort}";
             };
           };
         };
@@ -181,7 +182,7 @@ in
       # max 3 failures in the last day
       "authelia" = ''
         enabled = true
-        port = http,https,${builtins.toString instanceCfg.settings.server.port}
+        port = http,https,${autheliaPort}
         filter = authelia
         maxretry = 3
         bantime = 1d
