@@ -32,11 +32,6 @@
     };
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    spicetify-nix = {
-      url = "github:the-argus/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -46,7 +41,6 @@
       dwarffs,
       home-manager,
       nixpkgs,
-      spicetify-nix,
       ...
     }@inputs:
     let
@@ -96,8 +90,6 @@
 
             (final: prev: {
               home-manager = prev.callPackage "${home-manager}/home-manager" { };
-
-              spicePkgs = spicetify-nix.packages.${platform}.default;
 
               # Ensure version info is properly populated.
               lib = prev.lib.extend libVersionInfoOverlay;

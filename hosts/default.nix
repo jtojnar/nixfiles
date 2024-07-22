@@ -1,7 +1,7 @@
 # Let’s build a configuration for each host listed in ./list.nix.
 { inputs, pkgss }:
 let
-  inherit (inputs) self agenix nixpkgs home-manager spicetify-nix;
+  inherit (inputs) self agenix nixpkgs home-manager;
   inherit (nixpkgs) lib;
 
   mkConfig = { hostName, platform, managedHome ? false, ... }:
@@ -55,10 +55,6 @@ let
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-
-                home-manager.sharedModules = [
-                  spicetify-nix.homeManagerModules.default
-                ];
               }
             ];
         in

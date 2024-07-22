@@ -228,6 +228,7 @@ in {
     signal-desktop
     sman
     solo2-cli
+    spotify
     sublime4-dev
     sublime-merge
     telegram-desktop
@@ -632,20 +633,6 @@ in {
     };
 
     programs.nix-index.enable = true;
-
-    programs.spicetify = {
-      enable = true;
-
-      enabledCustomApps = with pkgs.spicePkgs.apps; [
-        lyrics-plus
-        marketplace
-      ];
-
-      enabledExtensions = with pkgs.spicePkgs.extensions; [
-        playNext
-        hidePodcasts
-      ];
-    };
 
     home.stateVersion = "24.05";
   };
