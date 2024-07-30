@@ -60,15 +60,22 @@
 
       # Convert a list to file paths to attribute set
       # that has the filenames stripped of nix extension as keys
-      # and imported content of the file as value.
-      pathsToImportedAttrs =
+      # and original path as value.
+      pathsToAttrs =
         paths:
         genAttrs' paths (path: {
           name = lib.removeSuffix ".nix" (
             builtins.baseNameOf (lib.removeSuffix "/default.nix" (builtins.toString path))
           );
-          value = import path;
+          value = path;
         });
+
+      # Convert a list to file paths to attribute set
+      # that has the filenames stripped of nix extension as keys
+      # and imported content of the file as value.
+      pathsToImportedAttrs =
+        paths:
+        lib.mapAttrs (_k: path: import path) (pathsToAttrs paths);
 
       # Create combined package set from nixpkgs and our overlays.
       mkPkgs =
@@ -147,10 +154,10 @@
       # A profile in /common/profiles/foo.nix can be accessed as ‘${flakeRef}.nixosModules.profiles.foo’
       nixosModules =
         let
-          modulesAttrs = pathsToImportedAttrs (import ./common/modules/list.nix);
+          modulesAttrs = pathsToAttrs (import ./common/modules/list.nix);
 
           profilesAttrs = {
-            profiles = pathsToImportedAttrs (import ./common/profiles/list.nix);
+            profiles = pathsToAttrs (import ./common/profiles/list.nix);
           };
         in
         modulesAttrs // profilesAttrs;
@@ -163,7 +170,7 @@
           modulesAttrs = { };
 
           profilesAttrs = {
-            profiles = pathsToImportedAttrs (import ./common/home-profiles/list.nix);
+            profiles = pathsToAttrs (import ./common/home-profiles/list.nix);
           };
         in
         modulesAttrs // profilesAttrs;
