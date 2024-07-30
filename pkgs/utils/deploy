@@ -32,7 +32,7 @@ def main(args):
         nix_args += ['--show-trace']
 
     if args.target_host is not None:
-        nix_args += ['--target-host', args.target_host, '--build-host', '']
+        nix_args += ['--target-host', args.target_host]
     elif not same_host:
         connection_string = json.loads(subprocess.check_output(['nix', 'eval', '--json', '--impure', '--expr', f'(import ./hosts/list.nix).{args.hostname}.connectionString or null']))
 
@@ -40,7 +40,7 @@ def main(args):
             print(f'No connection string defined in hosts/list.nix for host {args.hostname}', file=sys.stderr)
             sys.exit(1)
 
-        nix_args += ['--target-host', connection_string, '--build-host', '']
+        nix_args += ['--target-host', connection_string]
 
     path = os.getcwd()
     attr = f'{path}#{args.hostname}'
