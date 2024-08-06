@@ -330,6 +330,7 @@ in
     gdb
     gimp
     diff-so-fancy
+    difftastic
     gitFull
     git-auto-fixup
     git-auto-squash
