@@ -43,6 +43,7 @@ in {
     sd
     sqlite-interactive
     tldr
+    unison
   ];
 
   # Prefer using cached builds over saving space.
