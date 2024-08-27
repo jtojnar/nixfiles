@@ -8,7 +8,7 @@
 , vte
 , gvfs
 , gsettings-desktop-schemas
-, gnome
+, libgnome-keyring
 , gobject-introspection
 , wrapGAppsHook
 , unstableGitUpdater
@@ -37,7 +37,7 @@ python3.pkgs.buildPythonApplication rec {
     vte
     gvfs
     gsettings-desktop-schemas # for font settings
-    gnome.libgnome-keyring
+    libgnome-keyring
   ];
 
   propagatedBuildInputs = [

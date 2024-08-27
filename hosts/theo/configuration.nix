@@ -178,9 +178,9 @@ in {
     devhelp
     geary
     ghex
-    gnome.gnome-chess
+    gnome-chess
     gnome-disk-utility
-    gnome.gnome-sound-recorder
+    gnome-sound-recorder
     gnome-tweaks
     nautilus-python
     gnome-pomodoro

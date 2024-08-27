@@ -339,7 +339,7 @@ in
     devhelp
     ghex
     gnome-disk-utility
-    gnome.gnome-sound-recorder
+    gnome-sound-recorder
     gnome-tweaks
     nautilus-python
     gnomeExtensions.appindicator
