@@ -53,14 +53,10 @@ in {
         group = "tojnar-cz";
         isSystemUser = true;
         openssh.authorizedKeys.keys =
-          let
-            keys =
-              builtins.concatMap (user: config.users.users.${user}.openssh.authorizedKeys.keys) [
-                "jtojnar"
-                "tojnar"
-              ];
-          in
-          map (restrictToRsync config.services.nginx.virtualHosts."www.tojnar.cz".root) keys;
+          builtins.concatMap (user: config.users.users.${user}.openssh.authorizedKeys.keys) [
+            "jtojnar"
+            "tojnar"
+          ];
         shell = "/bin/sh";
       };
     };
