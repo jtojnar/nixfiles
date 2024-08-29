@@ -15,6 +15,7 @@ in
     ./hardware-configuration.nix
 
     inputs.self.nixosModules.profiles.environment
+    inputs.self.nixosModules.profiles.fonts
     inputs.self.nixosModules.profiles.jtojnar-firefox
     inputs.self.nixosModules.profiles.virt
   ];
