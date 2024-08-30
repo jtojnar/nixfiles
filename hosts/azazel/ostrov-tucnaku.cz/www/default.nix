@@ -64,7 +64,7 @@ in {
           # The service starts under “root” user and the phpfpm daemon then lowers the euid to “ostrov-tucnaku”.
           # But because systemd is not aware of that, the cache directory it creates does not have correct ownership.
           "${pkgs.coreutils}/bin/chown -R ostrov-tucnaku:ostrov-tucnaku %C/ostrov-tucnaku"
-          "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u ostrov-tucnaku ${pkgs.coreutils}/bin/mkdir -p ${lib.concatMapStringsSep " " (path: "%C/ostrov-tucnaku/${path}") flarum.cacheDirectories}"
+          "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u ostrov-tucnaku ${pkgs.coreutils}/bin/mkdir -p $(find ${flarum}/storage -mindepth 1 -maxdepth 1 -type d -printf  '%C/ostrov-tucnaku/%%P')"
           "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u ostrov-tucnaku ${flarum}/flarum migrate"
           "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u ostrov-tucnaku ${flarum}/flarum cache:clear"
         ]}'"

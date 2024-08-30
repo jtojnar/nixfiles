@@ -94,13 +94,6 @@ let
 
       passthru = {
         withConfig = newArgs: buildTree (args // newArgs);
-
-        cacheDirectories =
-          let
-            storageContents = builtins.readDir "${flarum}/storage";
-          in
-          builtins.filter (path: storageContents.${path} == "directory") (builtins.attrNames storageContents);
-
         inherit flarum;
         inherit stateDir;
       };
