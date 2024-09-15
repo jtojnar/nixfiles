@@ -1,0 +1,8 @@
+[
+  {
+    // Insert contents of primary selection.
+    "keys": ["shift+insert"],
+    "command": "paste",
+    "args": {"clipboard": "selection"},
+  },
+]

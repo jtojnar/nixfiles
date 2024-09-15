@@ -9,4 +9,6 @@
   };
 
   home.file.".config/sublime-text/Packages/Declaratives".source = ./Declarative;
+
+  home.file.".config/sublime-merge/Packages/Declarative".source = ./MergeDeclarative;
 }
