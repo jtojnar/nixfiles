@@ -10,7 +10,7 @@
 , gsettings-desktop-schemas
 , libgnome-keyring
 , gobject-introspection
-, wrapGAppsHook
+, wrapGAppsHook3
 , unstableGitUpdater
 }:
 
@@ -27,7 +27,7 @@ python3.pkgs.buildPythonApplication rec {
 
   nativeBuildInputs = [
     gobject-introspection
-    wrapGAppsHook
+    wrapGAppsHook3
   ];
 
   buildInputs = [
