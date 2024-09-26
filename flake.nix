@@ -88,9 +88,9 @@
           overlays = builtins.attrValues self.overlays ++ [
             # Take only dwarffs attribute from dwarffs overlay and
             # pass it unstable Nix.
-            (lib.pipe dwarffs.overlay [
+            (lib.pipe dwarffs.overlays.default [
               (locallyOverrideFinal (final: {
-                nix = final.nixVersions.nix_2_19;
+                nix = final.nixVersions.nix_2_24;
               }))
               (filterOverlayAttrs [ "dwarffs" ])
             ])

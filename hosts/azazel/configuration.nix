@@ -46,9 +46,6 @@ in {
     unison
   ];
 
-  # Prefer using cached builds over saving space.
-  environment.noXlibs = false;
-
   programs = {
     fish.enable = true;
   };
