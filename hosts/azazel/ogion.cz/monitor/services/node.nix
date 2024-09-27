@@ -1,6 +1,27 @@
 { config, pkgs, ... }:
 
 let
+  updateTemplateDefaults =
+    {
+      src,
+      prefs,
+    }:
+    pkgs.runCommand
+      "${src.name}-params"
+      {
+        nativeBuildInputs = [
+          pkgs.jq
+        ];
+      }
+      ''
+        mkdir -p "$out"
+        jq \
+          --argjson prefs '${builtins.toJSON prefs}' \
+          --from-file ${./update-templating-defaults.jq} \
+          ${src}/${src.name}.json \
+          > "$out/${src.name}.json"
+      '';
+
   # Grafana dashboard with overview of node_exporter.
   # https://grafana.com/grafana/dashboards/13978
   nodeDashbord = pkgs.fetchurl {
@@ -14,17 +35,35 @@ let
       mv temp "$out/node-dashboard.json";
     '';
   };
+
   # https://grafana.com/grafana/dashboards/1860
-  nodeDashbordFull = pkgs.fetchurl {
-    name = "node-dashboard-full";
-    url = "https://grafana.com/api/dashboards/1860/revisions/36/download";
-    hash = "sha256-/eAVThAVHVONFD2Ug+/FAK5zrPeQsofnH3DiVKwYefY=";
-    recursiveHash = true;
-    postFetch = ''
-      mv "$out" temp
-      mkdir -p "$out"
-      mv temp "$out/node-dashboard-full.json";
-    '';
+  nodeDashbordFull = updateTemplateDefaults {
+    src = pkgs.fetchurl {
+      name = "node-dashboard-full";
+      url = "https://grafana.com/api/dashboards/1860/revisions/36/download";
+      hash = "sha256-/eAVThAVHVONFD2Ug+/FAK5zrPeQsofnH3DiVKwYefY=";
+      recursiveHash = true;
+      postFetch = ''
+        mv "$out" temp
+        mkdir -p "$out"
+        mv temp "$out/node-dashboard-full.json";
+      '';
+    };
+
+    prefs = {
+      datasource = {
+        text = "Prometheus";
+        value = "prometheus";
+      };
+      job = {
+        text = "> localhost:9100";
+        value = "localhost:9100";
+      };
+      node = {
+        text = "> node";
+        value = "node";
+      };
+    };
   };
 in
 {
