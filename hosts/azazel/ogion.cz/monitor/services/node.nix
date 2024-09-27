@@ -17,8 +17,8 @@ let
   # https://grafana.com/grafana/dashboards/1860
   nodeDashbordFull = pkgs.fetchurl {
     name = "node-dashboard-full";
-    url = "https://grafana.com/api/dashboards/1860/revisions/36/download";
-    hash = "sha256-/eAVThAVHVONFD2Ug+/FAK5zrPeQsofnH3DiVKwYefY=";
+    url = "https://grafana.com/api/dashboards/1860/revisions/37/download";
+    hash = "sha256-RNQQgB4aKwH0UE8DovC39WVL71ucixQB9siYk9llDNI=";
     recursiveHash = true;
     postFetch = ''
       mv "$out" temp
