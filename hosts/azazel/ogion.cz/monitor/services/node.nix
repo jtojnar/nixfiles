@@ -58,7 +58,9 @@ in
           "filesystem"
           "meminfo"
           "netdev"
+          "processes"
           "systemd"
+          "uname"
         ];
       };
     };
