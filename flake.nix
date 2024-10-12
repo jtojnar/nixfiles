@@ -10,16 +10,6 @@
       inputs.home-manager.follows = "home-manager";
     };
 
-    dwarffs = {
-      url = "github:edolstra/dwarffs";
-      inputs.nixpkgs.follows = "nixpkgs";
-      # HACK: Prevent adding a second nixpkgs copy.
-      # `inputs.nix.inputs.nixpkgs.follows = "nixpkgs";` does not seem to help
-      # so let’s just replace the nix input with a dummy input.
-      # Fortunately, we only use overlays, which do not depend on any inputs.
-      inputs.nix.follows = "nixpkgs";
-    };
-
     # Shim to make flake.nix work with stable Nix.
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -38,7 +28,6 @@
     {
       self,
       agenix,
-      dwarffs,
       home-manager,
       nixpkgs,
       ...
@@ -86,15 +75,6 @@
         import nixpkgs {
           system = platform;
           overlays = builtins.attrValues self.overlays ++ [
-            # Take only dwarffs attribute from dwarffs overlay and
-            # pass it unstable Nix.
-            (lib.pipe dwarffs.overlays.default [
-              (locallyOverrideFinal (final: {
-                nix = final.nixVersions.nix_2_24;
-              }))
-              (filterOverlayAttrs [ "dwarffs" ])
-            ])
-
             (final: prev: {
               home-manager = prev.callPackage "${home-manager}/home-manager" { };
 
@@ -111,17 +91,6 @@
             ];
           };
         };
-
-      # We should not trust overlays to override arbitrary attribute paths.
-      # Let’s keep only those whitlelisted in the first attribute.
-      filterOverlayAttrs =
-        attrs: overlay: final: prev:
-        builtins.intersectAttrs (lib.genAttrs attrs (attr: null)) (overlay final prev);
-
-      # If a package from overlay depends on some final package, let’s change it into a different one.
-      locallyOverrideFinal =
-        mkAttrs: overlay: final: prev:
-        overlay (final // mkAttrs final) prev;
 
       # Package sets for each platform.
       pkgss = forAllPlatforms mkPkgs;

@@ -5,19 +5,6 @@ let
 
   userData = import ../../common/data/users.nix;
 
-  dwarffsModule =
-    { pkgs, ... }@args:
-    let
-      originalModule = inputs.dwarffs.nixosModules.dwarffs args;
-    in
-      lib.mergeAttrs originalModule {
-        # Prefer system debug info over dwarffs since it will be faster.
-        environment.variables.NIX_DEBUG_INFO_DIRS = lib.mkAfter originalModule.environment.variables.NIX_DEBUG_INFO_DIRS;
-
-        # Overlay is already added when creating our pkgs (and with the correct Nix).
-        nixpkgs = builtins.removeAttrs originalModule.nixpkgs [ "overlays" ];
-      };
-
       openLocalhostAsHttp = pkgs.makeDesktopItem {
         name = "localhost-proto-handler";
         desktopName = "Open localhost protocol as http";
@@ -31,7 +18,6 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    dwarffsModule
     inputs.self.nixosModules.profiles.environment
     inputs.self.nixosModules.profiles.jtojnar-firefox
     inputs.self.nixosModules.profiles.virt
@@ -253,6 +239,7 @@ in {
   ];
 
   environment.enableDebugInfo = true;
+  services.nixseparatedebuginfod.enable = true;
 
   fonts.fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
 
