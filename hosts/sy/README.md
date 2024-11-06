@@ -1,4 +1,4 @@
-# noelle
+# sy
 
 This is configuration for my work laptop. Running GNOME Shell and trying to configure as much as possible declaratively using NixOS modules.
 
