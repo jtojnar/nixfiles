@@ -114,6 +114,14 @@ in
           Type = "oneshot";
         };
       };
+
+      postgresql.serviceConfig = {
+        # Required by PLV8.
+        MemoryDenyWriteExecute = false;
+        SystemCallFilter = [
+          "@pkey"
+        ];
+      };
     };
 
     # https://nixos.org/manual/nixos/unstable/#module-services-postgres-upgrading
