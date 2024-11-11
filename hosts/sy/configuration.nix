@@ -322,7 +322,6 @@ in
     chromium
     curlFull
     ddcutil
-    docker-compose
     dos2unix
     eza
     fd
