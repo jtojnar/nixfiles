@@ -10,16 +10,16 @@
 
 buildNpmPackage {
   pname = "wrcq";
-  version = "0-unstable-2024-10-22";
+  version = "0-unstable-2024-11-16";
 
   src = fetchFromGitHub {
     owner = "jtojnar";
     repo = "wrcq";
-    rev = "3ac679cab073f18e8f1851ee70b672509fe9ce39";
-    hash = "sha256-OBYxzBMXk9tbasme8XSLmE62WOBgwEfRv1zrwXNONlU=";
+    rev = "5008f8205f3246f58a6e56d18ce71a3fc262f119";
+    hash = "sha256-JIk3qLYxuaEq8MsRZVVm7djw3P5PKRbOB0Vo2m9/Gf4=";
   };
 
-  npmDepsHash = "sha256-QWQFKjBhrood3ovDGsMD7AyxEiPs88vbhJVfYGeyUaM=";
+  npmDepsHash = "sha256-uooo15YOXRQtCjA7IFd7CUxoUkPSGNRd0DxYZ029PKE=";
 
   # No `build` script.
   dontNpmBuild = true;
