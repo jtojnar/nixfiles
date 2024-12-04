@@ -49,7 +49,7 @@ in
     services.postgresql = {
       enable = true;
       package = pkgs.postgresql_14;
-      extraPlugins = lib.filter (x: x != null) (lib.concatMap ({extensions, ...}: map (ext: config.services.postgresql.package.pkgs.${ext} or null) extensions) cfg.databases);
+      extensions = lib.filter (x: x != null) (lib.concatMap ({extensions, ...}: map (ext: config.services.postgresql.package.pkgs.${ext} or null) extensions) cfg.databases);
       authentication = lib.mkForce ''
         local all postgres peer
         local sameuser all peer

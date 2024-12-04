@@ -17,7 +17,7 @@ in
     enable = true;
     package = postgres;
     enableTCPIP = true;
-    extraPlugins = [
+    extensions = [
       postgres.pkgs.plv8
       postgres.pkgs.postgis
     ];
