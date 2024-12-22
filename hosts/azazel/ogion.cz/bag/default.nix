@@ -10,9 +10,9 @@ let
       ./wallabag-data.patch
 
       # Allow passing command flag to sendmail transport.
-      (pkgs.fetchpatch2 {
+      (pkgs.fetchpatch {
         url = "https://github.com/symfony/symfony/commit/665d1cd3fa9638b655f032a8b8658bc6c3b4e305.patch";
-        hash = "sha256-vxNZ4h7vRA1KvoZJAXOjt/npbBEYdcIDFE/qwBRbSW4=";
+        hash = "sha256-hBJJOqVSQzI6g7Zkuw8zzHUky40XZU5iAFYe6oqER3Y=";
         stripLen = 5;
         extraPrefix = "vendor/symfony/mailer/";
         includes = [
