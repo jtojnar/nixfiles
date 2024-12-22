@@ -117,7 +117,6 @@ in {
 
   environment.systemPackages = with pkgs; [
     abiword
-    alejandra
     almanah
     anki-bin
     apg
@@ -196,7 +195,7 @@ in {
     mkpasswd
     moreutils # isutf8
     ncdu
-    nixpkgs-fmt
+    nixfmt-rfc-style
     nix-bisect
     nix-diff
     nix-explore-closure-size
