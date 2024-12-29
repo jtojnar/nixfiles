@@ -153,4 +153,17 @@
       { "key": "following_text", "operator": "regex_contains", "operand": "^>", "match_all": true },
     ]
   },
+
+  {
+    "keys": ["ctrl+alt+f"],
+    // Depends on https://packagecontrol.io/packages/FilterPipes
+    "command": "filter_pipes_process",
+    "args": {
+      "command": ["nixfmt"],
+      "shell": false,
+    },
+    "context": [
+      { "key": "selector", "operator": "equal", "operand": "source.nix" },
+    ],
+  },
 ]
