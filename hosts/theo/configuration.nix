@@ -136,7 +136,6 @@ in
     (deadbeef-with-plugins.override {
       plugins = with deadbeefPlugins; [
         headerbar-gtk3
-        lyricbar
         mpris2
       ];
     })
