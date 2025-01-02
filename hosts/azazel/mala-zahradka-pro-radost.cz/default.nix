@@ -1,7 +1,15 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) mkPhpPool;
-in {
+in
+{
   imports = [
     ./www
   ];
@@ -32,7 +40,9 @@ in {
     };
 
     groups = {
-      mzpr = { gid = 521; };
+      mzpr = {
+        gid = 521;
+      };
     };
   };
 }

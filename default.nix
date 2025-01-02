@@ -12,7 +12,7 @@ let
     sha256 = lock.nodes.flake-compat.locked.narHash;
   };
   self = import flake-compat {
-    src =  ./.;
+    src = ./.;
   };
 
   packages = self.defaultNix.outputs.legacyPackages.${builtins.currentSystem};
@@ -22,5 +22,4 @@ let
   packagesWithExtraOverlays = packages.appendOverlays overlays;
 in
 # Prepend all packages for current system so that various update scripts and nixpkgs-hammering can find the packages without having to recurse into outputs.
-packagesWithExtraOverlays
-// self.defaultNix
+packagesWithExtraOverlays // self.defaultNix

@@ -1,7 +1,15 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) enablePHP mkVirtualHost;
-in {
+in
+{
   age.secrets = {
     "ostrov-tucnaku.cz-telegram-api-key" = {
       owner = config.users.users.ostrov-tucnaku.name;

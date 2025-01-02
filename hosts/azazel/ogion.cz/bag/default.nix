@@ -1,25 +1,34 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) enablePHP mkPhpPool mkVirtualHost;
 
   wallabag = pkgs.wallabag.overrideAttrs (attrs: {
-    patches = builtins.filter (patch: builtins.baseNameOf patch != "wallabag-data.patch") attrs.patches ++ [
-      # Out of the box, Wallabag wants to write to various subdirectories of the project directory.
-      # Let’s replace references to such paths with designated systemd locations
-      # so that the project source can remain immutable.
-      ./wallabag-data.patch
+    patches =
+      builtins.filter (patch: builtins.baseNameOf patch != "wallabag-data.patch") attrs.patches
+      ++ [
+        # Out of the box, Wallabag wants to write to various subdirectories of the project directory.
+        # Let’s replace references to such paths with designated systemd locations
+        # so that the project source can remain immutable.
+        ./wallabag-data.patch
 
-      # Allow passing command flag to sendmail transport.
-      (pkgs.fetchpatch {
-        url = "https://github.com/symfony/symfony/commit/665d1cd3fa9638b655f032a8b8658bc6c3b4e305.patch";
-        hash = "sha256-hBJJOqVSQzI6g7Zkuw8zzHUky40XZU5iAFYe6oqER3Y=";
-        stripLen = 5;
-        extraPrefix = "vendor/symfony/mailer/";
-        includes = [
-          "vendor/symfony/mailer/Transport/SendmailTransportFactory.php"
-        ];
-      })
-    ];
+        # Allow passing command flag to sendmail transport.
+        (pkgs.fetchpatch {
+          url = "https://github.com/symfony/symfony/commit/665d1cd3fa9638b655f032a8b8658bc6c3b4e305.patch";
+          hash = "sha256-hBJJOqVSQzI6g7Zkuw8zzHUky40XZU5iAFYe6oqER3Y=";
+          stripLen = 5;
+          extraPrefix = "vendor/symfony/mailer/";
+          includes = [
+            "vendor/symfony/mailer/Transport/SendmailTransportFactory.php"
+          ];
+        })
+      ];
   });
 
   # Based on https://github.com/wallabag/wallabag/blob/2.6.6/app/config/parameters.yml.dist
@@ -81,10 +90,14 @@ let
     sentry_dsn = null;
   };
 
-  php = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
-    imagick
-    tidy
-  ]));
+  php = pkgs.php.withExtensions (
+    { enabled, all }:
+    enabled
+    ++ (with all; [
+      imagick
+      tidy
+    ])
+  );
 
   commonServiceConfig = {
     CacheDirectory = "wallabag";
@@ -96,7 +109,8 @@ let
     # Stores site-credentials-secret-key.txt.
     StateDirectoryMode = "700";
   };
-in {
+in
+{
   custom.postgresql.databases = [
     {
       database = "bag";
@@ -191,7 +205,11 @@ in {
     wantedBy = [ "multi-user.target" ];
     before = [ "phpfpm-bag.service" ];
     after = [ "postgresql.service" ];
-    path = with pkgs; [ coreutils php phpPackages.composer ];
+    path = with pkgs; [
+      coreutils
+      php
+      phpPackages.composer
+    ];
 
     serviceConfig = {
       User = "bag";

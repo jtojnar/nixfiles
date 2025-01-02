@@ -1,4 +1,12 @@
-{ config, inputs, lib, pkgs, myLib, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) enablePHP mkPhpPool mkVirtualHost;
 
@@ -22,13 +30,16 @@ let
 
   settingsEnv = lib.mapAttrs' (name: value: lib.nameValuePair "selfoss_${name}" value) settings;
 
-  php = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
-  ]));
+  php = pkgs.php.withExtensions (
+    { enabled, all }:
+    enabled
+    ++ (with all; [
+    ])
+  );
 
   # Modify the upstream nginx config to point to our mutable datadir.
   nginxConf =
-    pkgs.runCommand
-      "selfoss.nginx.conf"
+    pkgs.runCommand "selfoss.nginx.conf"
       {
         src = "${pkgs.selfoss}/.nginx.conf";
       }
@@ -36,7 +47,8 @@ let
         substitute "$src" "$out" \
           --replace 'try_files $uri /data/$uri;' 'root ${settings.datadir};'
       '';
-in {
+in
+{
   imports = [
   ];
 

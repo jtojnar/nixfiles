@@ -1,14 +1,20 @@
-{ config, inputs, lib, pkgs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   keys = import ../../common/data/keys.nix;
-in {
+in
+{
   # Pass extra arguments to all modules.
   _module.args = {
-    myLib =
-      import ./lib.nix {
-        inherit lib config pkgs;
-      };
+    myLib = import ./lib.nix {
+      inherit lib config pkgs;
+    };
   };
 
   imports = [
@@ -182,12 +188,14 @@ in {
     compressionExtension = ".gz";
     extraInputs = [ pkgs.gzip ];
 
-    contents = [];
+    contents = [ ];
     storeContents = [
-      { object = config.system.build.toplevel + "/init";
+      {
+        object = config.system.build.toplevel + "/init";
         symlink = "/sbin/init";
       }
-      { object = config.system.build.toplevel;
+      {
+        object = config.system.build.toplevel;
         symlink = "/run/current-system";
       }
     ];

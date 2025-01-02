@@ -18,7 +18,12 @@ php.buildComposerProject (finalAttrs: {
   # Cannot just use `vendorHash` since we need to pass `postPatch`
   # to `composerRepository` so that it can see the modified `composer.json`.
   composerRepository = php.mkComposerRepository {
-    inherit (finalAttrs) pname version src postPatch;
+    inherit (finalAttrs)
+      pname
+      version
+      src
+      postPatch
+      ;
     composerNoDev = true;
     composerNoPlugins = true;
     composerNoScripts = true;

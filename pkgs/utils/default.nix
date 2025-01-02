@@ -1,49 +1,61 @@
-{ stdenv
-, callPackage
-, lib
-, makeWrapper
-, git
-, fzf
-, python3
-, nix
-, nixos
-, substitute
+{
+  stdenv,
+  callPackage,
+  lib,
+  makeWrapper,
+  git,
+  fzf,
+  python3,
+  nix,
+  nixos,
+  substitute,
 }:
+
 let
-  mkUtil = name: { path ? [], buildInputs ? [], script ? name }: stdenv.mkDerivation {
-    inherit name;
+  mkUtil =
+    name:
+    {
+      path ? [ ],
+      buildInputs ? [ ],
+      script ? name,
+    }:
+    stdenv.mkDerivation {
+      inherit name;
 
-    buildInputs = [
-      makeWrapper
-    ] ++ buildInputs;
+      buildInputs = [
+        makeWrapper
+      ] ++ buildInputs;
 
-    dontUnpack = true;
+      dontUnpack = true;
 
-    installPhase = ''
-      mkdir -p "$out/bin"
-      cp \
-        "${./. + "/${script}"}" \
-        "$out/bin/${name}"
-    '' + lib.optionalString (builtins.length path > 0) ''
-      # Move to a subdirectory to preserve argv[0]
-      mkdir "$out/bin/.wrapped"
-      mv \
-        "$out/bin/${name}" \
-        "$out/bin/.wrapped/${name}"
-      makeWrapper \
-        "$out/bin/.wrapped/${name}" \
-        "$out/bin/${name}" \
-        --prefix PATH : "${lib.makeBinPath path}"
-    '';
-  };
-in {
+      installPhase =
+        ''
+          mkdir -p "$out/bin"
+          cp \
+            "${./. + "/${script}"}" \
+            "$out/bin/${name}"
+        ''
+        + lib.optionalString (builtins.length path > 0) ''
+          # Move to a subdirectory to preserve argv[0]
+          mkdir "$out/bin/.wrapped"
+          mv \
+            "$out/bin/${name}" \
+            "$out/bin/.wrapped/${name}"
+          makeWrapper \
+            "$out/bin/.wrapped/${name}" \
+            "$out/bin/${name}" \
+            --prefix PATH : "${lib.makeBinPath path}"
+        '';
+    };
+in
+{
   deploy = mkUtil "deploy" {
     buildInputs = [
       python3
     ];
     path = [
       nix
-      ((nixos {}).nixos-rebuild)
+      ((nixos { }).nixos-rebuild)
     ];
   };
 

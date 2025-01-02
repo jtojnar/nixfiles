@@ -1,6 +1,7 @@
-{ fetchFromGitHub
-, lib
-, gitUpdater
+{
+  fetchFromGitHub,
+  lib,
+  gitUpdater,
 }:
 
 let

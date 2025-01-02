@@ -9,9 +9,14 @@
 let
   flarum = callPackage ./flarum.nix { };
 
-  /* Translate a simple Nix expression to PHP notation.
-  */
-  toPhp = { indent ? "", indentStyle ? "  ", indentFirst ? true }@args: v:
+  # Translate a simple Nix expression to PHP notation.
+  toPhp =
+    {
+      indent ? "",
+      indentStyle ? "  ",
+      indentFirst ? true,
+    }@args:
+    v:
     let
       concatItems = lib.concatMapStrings (item: item + ",\n");
     in
@@ -19,16 +24,33 @@ let
     + (
       if builtins.isAttrs v then
         "[\n"
-        + concatItems
-            (lib.mapAttrsToList
-              (key: value: "${indent + indentStyle}${builtins.toJSON key} => ${toPhp (args // { indent = indent + indentStyle; indentFirst = false; }) value}")
-              v
-            )
+        + concatItems (
+          lib.mapAttrsToList (
+            key: value:
+            "${indent + indentStyle}${builtins.toJSON key} => ${
+              toPhp (
+                args
+                // {
+                  indent = indent + indentStyle;
+                  indentFirst = false;
+                }
+              ) value
+            }"
+          ) v
+        )
         + indent
         + "]"
       else if builtins.isList v then
         "[\n"
-        + concatItems (map (toPhp (args // { indent = indent + indentStyle; indentFirst = true; })) v)
+        + concatItems (
+          map (toPhp (
+            args
+            // {
+              indent = indent + indentStyle;
+              indentFirst = true;
+            }
+          )) v
+        )
         + indent
         + "]"
       else if builtins.isInt v then
@@ -53,7 +75,7 @@ let
     let
       configFile = writeText "config.php" ''
         <?php
-        return ${toPhp {} config};
+        return ${toPhp { } config};
       '';
     in
 

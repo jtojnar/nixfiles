@@ -1,10 +1,22 @@
 # Let’s build a configuration for each host listed in ./list.nix.
 { inputs, pkgss }:
+
 let
-  inherit (inputs) self agenix nixpkgs home-manager;
+  inherit (inputs)
+    self
+    agenix
+    nixpkgs
+    home-manager
+    ;
   inherit (nixpkgs) lib;
 
-  mkConfig = { hostName, platform, managedHome ? false, ... }:
+  mkConfig =
+    {
+      hostName,
+      platform,
+      managedHome ? false,
+      ...
+    }:
     let
       pkgs = pkgss.${platform};
     in
@@ -34,7 +46,13 @@ let
             nix.nixPath = [ ];
 
             # For nixos-version.
-            system.configurationRevision = self.rev or (if self ? "dirtyRev" then "${self.dirtyRev}-${self.lastModifiedDate}" else "dirty-${self.lastModifiedDate}");
+            system.configurationRevision =
+              self.rev or (
+                if self ? "dirtyRev" then
+                  "${self.dirtyRev}-${self.lastModifiedDate}"
+                else
+                  "dirty-${self.lastModifiedDate}"
+              );
 
             nixpkgs = {
               inherit pkgs;
@@ -46,26 +64,30 @@ let
 
           # Import every module listed in ‘/common/modules/list.nix’ so that we can use their options without importing them manually.
           # Though avoid importing profiles since those set config values.
-          flakeModules =
-            builtins.attrValues (builtins.removeAttrs self.nixosModules [ "profiles" ]);
+          flakeModules = builtins.attrValues (builtins.removeAttrs self.nixosModules [ "profiles" ]);
 
-          hmModules =
-            lib.optionals managedHome [
-              home-manager.nixosModules.home-manager
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-              }
-            ];
-        in
-          flakeModules ++ [ core global local ] ++ hmModules ++ [
-            agenix.nixosModules.age
+          hmModules = lib.optionals managedHome [
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+            }
           ];
+        in
+        flakeModules
+        ++ [
+          core
+          global
+          local
+        ]
+        ++ hmModules
+        ++ [
+          agenix.nixosModules.age
+        ];
     };
 
-  hosts =
-    builtins.mapAttrs
-      (hostName: props: mkConfig ({ inherit hostName; } // props) )
-      (import ./list.nix);
+  hosts = builtins.mapAttrs (
+    hostName: props: mkConfig ({ inherit hostName; } // props)
+  ) (import ./list.nix);
 in
-  hosts
+hosts

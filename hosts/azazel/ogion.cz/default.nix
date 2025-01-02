@@ -1,7 +1,15 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) mkPhpPool;
-in {
+in
+{
   imports = [
     ./auth
     ./bag
@@ -38,7 +46,12 @@ in {
         "mechmice"
       ];
       ensureUsers = [
-        { name = "mechmice"; ensurePermissions = { "mechmice.*" = "ALL PRIVILEGES"; }; }
+        {
+          name = "mechmice";
+          ensurePermissions = {
+            "mechmice.*" = "ALL PRIVILEGES";
+          };
+        }
       ];
     };
 
@@ -72,19 +85,49 @@ in {
         ];
       };
 
-      bag = { uid = 514; group = "bag"; isSystemUser = true; };
-      reader = { uid = 501; group = "reader"; isSystemUser = true; };
-      adminer = { uid = 502; group = "adminer"; isSystemUser = true; };
-      mechmice = { uid = 503; group = "mechmice"; isSystemUser = true; };
-      tools = { uid = 519; group = "tools"; isSystemUser = true; };
+      bag = {
+        uid = 514;
+        group = "bag";
+        isSystemUser = true;
+      };
+      reader = {
+        uid = 501;
+        group = "reader";
+        isSystemUser = true;
+      };
+      adminer = {
+        uid = 502;
+        group = "adminer";
+        isSystemUser = true;
+      };
+      mechmice = {
+        uid = 503;
+        group = "mechmice";
+        isSystemUser = true;
+      };
+      tools = {
+        uid = 519;
+        group = "tools";
+        isSystemUser = true;
+      };
     };
 
     groups = {
-      bag = { gid = 514; };
-      reader = { gid = 501; };
-      adminer = { gid = 502; };
-      mechmice = { gid = 503; };
-      tools = { gid = 519; };
+      bag = {
+        gid = 514;
+      };
+      reader = {
+        gid = 501;
+      };
+      adminer = {
+        gid = 502;
+      };
+      mechmice = {
+        gid = 503;
+      };
+      tools = {
+        gid = 519;
+      };
     };
   };
 }

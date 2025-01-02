@@ -1,7 +1,15 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) mkPhpPool;
-in {
+in
+{
   imports = [
     ./archiv
     ./beta
@@ -49,8 +57,18 @@ in {
         "fcp"
       ];
       ensureUsers = [
-        { name = "cpforum"; ensurePermissions = { "cpforum.*" = "ALL PRIVILEGES"; }; }
-        { name = "fcp"; ensurePermissions = { "fcp.*" = "ALL PRIVILEGES"; }; }
+        {
+          name = "cpforum";
+          ensurePermissions = {
+            "cpforum.*" = "ALL PRIVILEGES";
+          };
+        }
+        {
+          name = "fcp";
+          ensurePermissions = {
+            "fcp.*" = "ALL PRIVILEGES";
+          };
+        }
       ];
     };
 
@@ -88,17 +106,41 @@ in {
         ];
       };
 
-      fcp = { uid = 500; group = "fcp"; isSystemUser = true; };
-      cpforum = { uid = 511; group = "cpforum"; isSystemUser = true; };
-      pengu = { uid = 512; group = "pengu"; isSystemUser = true; };
-      pechar = { uid = 515; group = "pechar"; isSystemUser = true; };
+      fcp = {
+        uid = 500;
+        group = "fcp";
+        isSystemUser = true;
+      };
+      cpforum = {
+        uid = 511;
+        group = "cpforum";
+        isSystemUser = true;
+      };
+      pengu = {
+        uid = 512;
+        group = "pengu";
+        isSystemUser = true;
+      };
+      pechar = {
+        uid = 515;
+        group = "pechar";
+        isSystemUser = true;
+      };
     };
 
     groups = {
-      fcp = { gid = 500; };
-      cpforum = { gid = 511; };
-      pengu = { gid = 512; };
-      pechar = { gid = 515; };
+      fcp = {
+        gid = 500;
+      };
+      cpforum = {
+        gid = 511;
+      };
+      pengu = {
+        gid = 512;
+      };
+      pechar = {
+        gid = 515;
+      };
     };
   };
 }

@@ -1,7 +1,14 @@
-{ config, lib, myLib, ... }:
+{
+  config,
+  lib,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) mkVirtualHost enablePHP;
-in {
+in
+{
   services = {
     nginx = {
       enable = true;

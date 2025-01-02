@@ -1,7 +1,15 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) mkPhpPool;
-in {
+in
+{
   imports = [
     ./obrazky
     ./tgwh
@@ -22,7 +30,12 @@ in {
         "ostrov-tucnaku"
       ];
       ensureUsers = [
-        { name = "ostrov-tucnaku"; ensurePermissions = { "\\`ostrov-tucnaku\\`.*" = "ALL PRIVILEGES"; }; }
+        {
+          name = "ostrov-tucnaku";
+          ensurePermissions = {
+            "\\`ostrov-tucnaku\\`.*" = "ALL PRIVILEGES";
+          };
+        }
       ];
     };
 
@@ -62,11 +75,17 @@ in {
         ];
       };
 
-      ostrov-tucnaku = { uid = 506; group = "ostrov-tucnaku"; isSystemUser = true; };
+      ostrov-tucnaku = {
+        uid = 506;
+        group = "ostrov-tucnaku";
+        isSystemUser = true;
+      };
     };
 
     groups = {
-      ostrov-tucnaku = { gid = 506; };
+      ostrov-tucnaku = {
+        gid = 506;
+      };
     };
   };
 }

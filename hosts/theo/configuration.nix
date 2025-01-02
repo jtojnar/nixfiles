@@ -1,20 +1,27 @@
-{ config, inputs, pkgs, lib, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   keys = import ../../common/data/keys.nix;
 
   userData = import ../../common/data/users.nix;
 
-      openLocalhostAsHttp = pkgs.makeDesktopItem {
-        name = "localhost-proto-handler";
-        desktopName = "Open localhost protocol as http";
-        noDisplay = true;
-        exec = "${lib.getBin pkgs.glib}/bin/gio open http://%u";
-        mimeTypes = [
-          "x-scheme-handler/localhost"
-        ];
-      };
-in {
+  openLocalhostAsHttp = pkgs.makeDesktopItem {
+    name = "localhost-proto-handler";
+    desktopName = "Open localhost protocol as http";
+    noDisplay = true;
+    exec = "${lib.getBin pkgs.glib}/bin/gio open http://%u";
+    mimeTypes = [
+      "x-scheme-handler/localhost"
+    ];
+  };
+in
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -75,7 +82,7 @@ in {
   systemd.tmpfiles.rules = [
     # 12G (RAM size) for hibernation image size
     # https://bbs.archlinux.org/viewtopic.php?pid=1731292#p1731292
-    "w /sys/power/image_size - - - - ${toString (12*1024*1024*1024)}"
+    "w /sys/power/image_size - - - - ${toString (12 * 1024 * 1024 * 1024)}"
   ];
 
   boot.tmp.cleanOnBoot = true;
@@ -279,7 +286,10 @@ in {
   networking.firewall = {
     allowedTCPPortRanges = [
       # Warpinator
-      { from = 42000; to = 42001; }
+      {
+        from = 42000;
+        to = 42001;
+      }
     ];
     allowedTCPPorts = [
       # Transmission GTK
@@ -380,17 +390,22 @@ in {
   # If any other user wants to use gpg-agent they are out of luck,
   # unless they modify the socket in their profile (e.g. using home-manager).
   systemd.user.sockets.gpg-agent = {
-    listenStreams = let
-      user = "jtojnar";
-      socketDir = pkgs.runCommand "gnupg-socketdir" {
-        nativeBuildInputs = [ pkgs.python3 ];
-      } ''
-        python3 ${../../common/gnupgdir.py} '/home/${user}/.local/share/gnupg' > $out
-      '';
-    in [
-      "" # unset
-      "%t/gnupg/${builtins.readFile socketDir}/S.gpg-agent"
-    ];
+    listenStreams =
+      let
+        user = "jtojnar";
+        socketDir =
+          pkgs.runCommand "gnupg-socketdir"
+            {
+              nativeBuildInputs = [ pkgs.python3 ];
+            }
+            ''
+              python3 ${../../common/gnupgdir.py} '/home/${user}/.local/share/gnupg' > $out
+            '';
+      in
+      [
+        "" # unset
+        "%t/gnupg/${builtins.readFile socketDir}/S.gpg-agent"
+      ];
   };
 
   environment.sessionVariables = {
@@ -475,153 +490,160 @@ in {
     };
   };
 
-  home-manager.users.jtojnar = { lib, ... }: {
-    imports = [
-      ../../common/configs/keepassxc
-      inputs.self.homeModules.profiles.ripgrep
-      inputs.self.homeModules.profiles.sublime
-      inputs.self.homeModules.profiles.xcompose
-    ];
+  home-manager.users.jtojnar =
+    { lib, ... }:
+    {
+      imports = [
+        ../../common/configs/keepassxc
+        inputs.self.homeModules.profiles.ripgrep
+        inputs.self.homeModules.profiles.sublime
+        inputs.self.homeModules.profiles.xcompose
+      ];
 
-    dconf.settings = {
-      "org/gnome/desktop/background" = {
-        primary-color = "#000000";
-        secondary-color = "#000000";
-        picture-uri = "file://${pkgs.reflection_by_yuumei}";
-        picture-uri-dark = "file://${pkgs.reflection_by_yuumei}";
-      };
+      dconf.settings = {
+        "org/gnome/desktop/background" = {
+          primary-color = "#000000";
+          secondary-color = "#000000";
+          picture-uri = "file://${pkgs.reflection_by_yuumei}";
+          picture-uri-dark = "file://${pkgs.reflection_by_yuumei}";
+        };
 
-      "org/gnome/desktop/screensaver" = {
-        lock-delay = lib.hm.gvariant.mkUint32 3600;
-        lock-enabled = true;
-        picture-uri = "file://${pkgs.undersea_city_by_mrainbowwj}";
-        primary-color = "#000000";
-        secondary-color = "#000000";
-      };
+        "org/gnome/desktop/screensaver" = {
+          lock-delay = lib.hm.gvariant.mkUint32 3600;
+          lock-enabled = true;
+          picture-uri = "file://${pkgs.undersea_city_by_mrainbowwj}";
+          primary-color = "#000000";
+          secondary-color = "#000000";
+        };
 
-      "org/gnome/desktop/peripherals/touchpad" = {
-        click-method = "default";
-      };
+        "org/gnome/desktop/peripherals/touchpad" = {
+          click-method = "default";
+        };
 
-      "org/gnome/desktop/session" = {
-        idle-delay = lib.hm.gvariant.mkUint32 900;
-      };
+        "org/gnome/desktop/session" = {
+          idle-delay = lib.hm.gvariant.mkUint32 900;
+        };
 
-      "org/gnome/desktop/wm/keybindings" = {
-        switch-input-source = [ "<Super>i" ];
-        switch-input-source-backward = [ "<Shift><Super>i" ];
+        "org/gnome/desktop/wm/keybindings" = {
+          switch-input-source = [ "<Super>i" ];
+          switch-input-source-backward = [ "<Shift><Super>i" ];
 
-        switch-applications = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [];
-        switch-applications-backward = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [];
-        switch-windows = [ "<Super>Tab" ];
-        switch-windows-backward = [ "<Shift><Super>Tab" ];
-      };
+          switch-applications = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [ ];
+          switch-applications-backward = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [ ];
+          switch-windows = [ "<Super>Tab" ];
+          switch-windows-backward = [ "<Shift><Super>Tab" ];
+        };
 
-      "org/gnome/settings-daemon/plugins/media-keys" = {
-        previous = ["<Super>b"];
-        custom-keybindings = ["/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"];
-        next = ["<Super>n"];
-        home = ["<Super>e"];
-        play = ["<Super>space"];
-      };
+        "org/gnome/settings-daemon/plugins/media-keys" = {
+          previous = [ "<Super>b" ];
+          custom-keybindings = [
+            "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+          ];
+          next = [ "<Super>n" ];
+          home = [ "<Super>e" ];
+          play = [ "<Super>space" ];
+        };
 
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-        binding = "<Super>t";
-        command = "gnome-terminal";
-        name = "Open terminal";
-      };
+        "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+          binding = "<Super>t";
+          command = "gnome-terminal";
+          name = "Open terminal";
+        };
 
-      "org/gnome/settings-daemon/plugins/power" = {
-        power-button-action = "nothing";
-        idle-dim = true;
-        sleep-inactive-battery-type = "nothing";
-        sleep-inactive-ac-timeout = 3600;
-        sleep-inactive-ac-type = "nothing";
-        sleep-inactive-battery-timeout = 1800;
-      };
+        "org/gnome/settings-daemon/plugins/power" = {
+          power-button-action = "nothing";
+          idle-dim = true;
+          sleep-inactive-battery-type = "nothing";
+          sleep-inactive-ac-timeout = 3600;
+          sleep-inactive-ac-type = "nothing";
+          sleep-inactive-battery-timeout = 1800;
+        };
 
-      "org/gnome/shell" = {
-        "enabled-extensions" = [
-          "appindicatorsupport@rgcjonas.gmail.com"
-          "dash-to-dock@micxgx.gmail.com"
-          "GPaste@gnome-shell-extensions.gnome.org"
-          "pomodoro@arun.codito.in"
-        ];
-      };
+        "org/gnome/shell" = {
+          "enabled-extensions" = [
+            "appindicatorsupport@rgcjonas.gmail.com"
+            "dash-to-dock@micxgx.gmail.com"
+            "GPaste@gnome-shell-extensions.gnome.org"
+            "pomodoro@arun.codito.in"
+          ];
+        };
 
-      "org/gtk/settings/file-chooser" = {
-        sort-directories-first = true;
-        location-mode = "path-bar";
-      };
+        "org/gtk/settings/file-chooser" = {
+          sort-directories-first = true;
+          location-mode = "path-bar";
+        };
 
-      "org/gnome/desktop/input-sources" = {
-        sources = [
-          (lib.hm.gvariant.mkTuple [
-            "xkb"
-            "${config.services.xserver.xkb.layout}${lib.optionalString (config.services.xserver.xkb.variant != "") "+" + config.services.xserver.xkb.variant}"
-          ])
-          (lib.hm.gvariant.mkTuple [
-            "ibus"
-            "mozc-jp"
-          ])
-        ];
-        xkb-options = [
-          config.services.xserver.xkb.options
-        ];
-      };
-    };
-
-    gtk = {
-      enable = true;
-      gtk3 = {
-        extraConfig = {
-          gtk-application-prefer-dark-theme = true;
+        "org/gnome/desktop/input-sources" = {
+          sources = [
+            (lib.hm.gvariant.mkTuple [
+              "xkb"
+              "${config.services.xserver.xkb.layout}${
+                lib.optionalString (config.services.xserver.xkb.variant != "") "+"
+                + config.services.xserver.xkb.variant
+              }"
+            ])
+            (lib.hm.gvariant.mkTuple [
+              "ibus"
+              "mozc-jp"
+            ])
+          ];
+          xkb-options = [
+            config.services.xserver.xkb.options
+          ];
         };
       };
-    };
 
-    home.file.".config/npm/npmrc".text = ''
-      prefix=''${XDG_DATA_HOME}/npm
-      cache=''${XDG_CACHE_HOME}/npm
-    '';
-
-    home.file.".config/mozc/ibus_config.textproto".text = ''
-      # `ibus write-cache; ibus restart` might be necessary to apply changes.
-      engines {
-        name : "mozc-jp"
-        longname : "Mozc"
-        layout : "default"
-        layout_variant : ""
-        layout_option : ""
-        rank : 80
-      }
-      # Ensure hiragana input mode is default.
-      active_on_launch: True
-    '';
-
-    programs.direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
-
-    programs.gh = {
-      enable = true;
-      settings = {
-        # Workaround for https://github.com/nix-community/home-manager/issues/4744
-        version = 1;
-
-        git_protocol = "ssh";
-        editor = "subl -w";
-        aliases = {
-          "co" = "pr checkout";
+      gtk = {
+        enable = true;
+        gtk3 = {
+          extraConfig = {
+            gtk-application-prefer-dark-theme = true;
+          };
         };
       };
+
+      home.file.".config/npm/npmrc".text = ''
+        prefix=''${XDG_DATA_HOME}/npm
+        cache=''${XDG_CACHE_HOME}/npm
+      '';
+
+      home.file.".config/mozc/ibus_config.textproto".text = ''
+        # `ibus write-cache; ibus restart` might be necessary to apply changes.
+        engines {
+          name : "mozc-jp"
+          longname : "Mozc"
+          layout : "default"
+          layout_variant : ""
+          layout_option : ""
+          rank : 80
+        }
+        # Ensure hiragana input mode is default.
+        active_on_launch: True
+      '';
+
+      programs.direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+      };
+
+      programs.gh = {
+        enable = true;
+        settings = {
+          # Workaround for https://github.com/nix-community/home-manager/issues/4744
+          version = 1;
+
+          git_protocol = "ssh";
+          editor = "subl -w";
+          aliases = {
+            "co" = "pr checkout";
+          };
+        };
+      };
+
+      programs.nix-index.enable = true;
+
+      home.stateVersion = "24.05";
     };
-
-    programs.nix-index.enable = true;
-
-    home.stateVersion = "24.05";
-  };
 
   # For agenix.
   age.identityPaths = [
@@ -635,7 +657,8 @@ in {
 
   programs.ssh = {
     knownHosts = {
-      "aarch64.nixos.community".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
+      "aarch64.nixos.community".publicKey =
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
     };
   };
 

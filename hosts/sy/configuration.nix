@@ -170,151 +170,158 @@ in
     Defaults timestamp_timeout=25
   '';
 
-  home-manager.users.jtojnar = { lib, ... }: {
-    imports = [
-      inputs.self.homeModules.profiles.ripgrep
-      inputs.self.homeModules.profiles.sublime
-      inputs.self.homeModules.profiles.xcompose
-    ];
+  home-manager.users.jtojnar =
+    { lib, ... }:
+    {
+      imports = [
+        inputs.self.homeModules.profiles.ripgrep
+        inputs.self.homeModules.profiles.sublime
+        inputs.self.homeModules.profiles.xcompose
+      ];
 
-    dconf.settings = {
-      "org/gnome/desktop/background" = {
-        primary-color = "#000000";
-        secondary-color = "#000000";
-        picture-uri = "file://${pkgs.reflection_by_yuumei}";
-        picture-uri-dark = "file://${pkgs.reflection_by_yuumei}";
-      };
+      dconf.settings = {
+        "org/gnome/desktop/background" = {
+          primary-color = "#000000";
+          secondary-color = "#000000";
+          picture-uri = "file://${pkgs.reflection_by_yuumei}";
+          picture-uri-dark = "file://${pkgs.reflection_by_yuumei}";
+        };
 
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-      };
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-dark";
+        };
 
-      "org/gnome/desktop/screensaver" = {
-        lock-delay = lib.hm.gvariant.mkUint32 3600;
-        lock-enabled = true;
-        picture-uri = "file://${pkgs.undersea_city_by_mrainbowwj}";
-        primary-color = "#000000";
-        secondary-color = "#000000";
-      };
+        "org/gnome/desktop/screensaver" = {
+          lock-delay = lib.hm.gvariant.mkUint32 3600;
+          lock-enabled = true;
+          picture-uri = "file://${pkgs.undersea_city_by_mrainbowwj}";
+          primary-color = "#000000";
+          secondary-color = "#000000";
+        };
 
-      "org/gnome/desktop/peripherals/mouse" = {
-        accel-profile = "flat";
-        speed = 1.0;
-      };
+        "org/gnome/desktop/peripherals/mouse" = {
+          accel-profile = "flat";
+          speed = 1.0;
+        };
 
-      "org/gnome/desktop/peripherals/touchpad" = {
-        click-method = "default";
-        natural-scroll = false;
-        speed = 1.0;
-      };
+        "org/gnome/desktop/peripherals/touchpad" = {
+          click-method = "default";
+          natural-scroll = false;
+          speed = 1.0;
+        };
 
-      "org/gnome/desktop/session" = {
-        idle-delay = lib.hm.gvariant.mkUint32 900;
-      };
+        "org/gnome/desktop/session" = {
+          idle-delay = lib.hm.gvariant.mkUint32 900;
+        };
 
-      "org/gnome/desktop/wm/keybindings" = {
-        switch-input-source = [ "<Super>i" ];
-        switch-input-source-backward = [ "<Shift><Super>i" ];
+        "org/gnome/desktop/wm/keybindings" = {
+          switch-input-source = [ "<Super>i" ];
+          switch-input-source-backward = [ "<Shift><Super>i" ];
 
-        switch-applications = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [];
-        switch-applications-backward = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [];
-        switch-windows = [ "<Super>Tab" ];
-        switch-windows-backward = [ "<Shift><Super>Tab" ];
-      };
+          switch-applications = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [ ];
+          switch-applications-backward = lib.hm.gvariant.mkArray lib.hm.gvariant.type.string [ ];
+          switch-windows = [ "<Super>Tab" ];
+          switch-windows-backward = [ "<Shift><Super>Tab" ];
+        };
 
-      "org/gnome/settings-daemon/plugins/media-keys" = {
-        previous = ["<Super>b"];
-        custom-keybindings = ["/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"];
-        next = ["<Super>n"];
-        home = ["<Super>e"];
-        play = ["<Super>space"];
-      };
+        "org/gnome/settings-daemon/plugins/media-keys" = {
+          previous = [ "<Super>b" ];
+          custom-keybindings = [
+            "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+          ];
+          next = [ "<Super>n" ];
+          home = [ "<Super>e" ];
+          play = [ "<Super>space" ];
+        };
 
-      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-        binding = "<Super>t";
-        command = "gnome-terminal";
-        name = "Open terminal";
-      };
+        "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+          binding = "<Super>t";
+          command = "gnome-terminal";
+          name = "Open terminal";
+        };
 
-      "org/gnome/settings-daemon/plugins/power" = {
-        power-button-action = "nothing";
-        idle-dim = true;
-        sleep-inactive-battery-type = "nothing";
-        sleep-inactive-ac-timeout = 3600;
-        sleep-inactive-ac-type = "nothing";
-        sleep-inactive-battery-timeout = 1800;
-      };
+        "org/gnome/settings-daemon/plugins/power" = {
+          power-button-action = "nothing";
+          idle-dim = true;
+          sleep-inactive-battery-type = "nothing";
+          sleep-inactive-ac-timeout = 3600;
+          sleep-inactive-ac-type = "nothing";
+          sleep-inactive-battery-timeout = 1800;
+        };
 
-      "org/gnome/shell" = {
-        "enabled-extensions" = [
-          "appindicatorsupport@rgcjonas.gmail.com"
-          "dash-to-dock@micxgx.gmail.com"
-          "GPaste@gnome-shell-extensions.gnome.org"
-          "pomodoro@arun.codito.in"
-          "tiling-assistant@leleat-on-github"
-        ];
-      };
+        "org/gnome/shell" = {
+          "enabled-extensions" = [
+            "appindicatorsupport@rgcjonas.gmail.com"
+            "dash-to-dock@micxgx.gmail.com"
+            "GPaste@gnome-shell-extensions.gnome.org"
+            "pomodoro@arun.codito.in"
+            "tiling-assistant@leleat-on-github"
+          ];
+        };
 
-      "org/gnome/shell/extensions/dash-to-dock" = {
-        apply-custom-theme = true;
-        isolate-workspaces = true;
-        show-mounts = false;
-        show-trash = false;
-      };
+        "org/gnome/shell/extensions/dash-to-dock" = {
+          apply-custom-theme = true;
+          isolate-workspaces = true;
+          show-mounts = false;
+          show-trash = false;
+        };
 
-      "org/gtk/settings/file-chooser" = {
-        sort-directories-first = true;
-        location-mode = "path-bar";
-      };
+        "org/gtk/settings/file-chooser" = {
+          sort-directories-first = true;
+          location-mode = "path-bar";
+        };
 
-      "org/gtk/gtk4/settings/file-chooser" = {
-        sort-directories-first = true;
-        location-mode = "path-bar";
-      };
+        "org/gtk/gtk4/settings/file-chooser" = {
+          sort-directories-first = true;
+          location-mode = "path-bar";
+        };
 
-      "org/gnome/desktop/input-sources" = {
-        sources = [
-          (lib.hm.gvariant.mkTuple [
-            "xkb"
-            "${config.services.xserver.xkb.layout}${lib.optionalString (config.services.xserver.xkb.variant != "") "+" + config.services.xserver.xkb.variant}"
-          ])
-        ];
-        xkb-options = [
-          config.services.xserver.xkb.options
-        ];
-      };
-    };
-
-    gtk = {
-      enable = true;
-      gtk3 = {
-        extraConfig = {
-          gtk-application-prefer-dark-theme = true;
+        "org/gnome/desktop/input-sources" = {
+          sources = [
+            (lib.hm.gvariant.mkTuple [
+              "xkb"
+              "${config.services.xserver.xkb.layout}${
+                lib.optionalString (config.services.xserver.xkb.variant != "") "+"
+                + config.services.xserver.xkb.variant
+              }"
+            ])
+          ];
+          xkb-options = [
+            config.services.xserver.xkb.options
+          ];
         };
       };
-    };
 
-    programs.direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
-
-    programs.gh = {
-      enable = true;
-      settings = {
-        # Workaround for https://github.com/nix-community/home-manager/issues/4744
-        version = 1;
-
-        git_protocol = "ssh";
-        editor = "subl -w";
-        aliases = {
-          "co" = "pr checkout";
+      gtk = {
+        enable = true;
+        gtk3 = {
+          extraConfig = {
+            gtk-application-prefer-dark-theme = true;
+          };
         };
       };
-    };
 
-    home.stateVersion = "24.05";
-  };
+      programs.direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+      };
+
+      programs.gh = {
+        enable = true;
+        settings = {
+          # Workaround for https://github.com/nix-community/home-manager/issues/4744
+          version = 1;
+
+          git_protocol = "ssh";
+          editor = "subl -w";
+          aliases = {
+            "co" = "pr checkout";
+          };
+        };
+      };
+
+      home.stateVersion = "24.05";
+    };
 
   environment.systemPackages = with pkgs; [
     bat
@@ -419,7 +426,6 @@ in
   documentation = {
     dev.enable = true;
   };
-
 
   environment.etc = {
     "gitconfig".text = ''

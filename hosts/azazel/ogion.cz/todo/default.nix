@@ -11,7 +11,7 @@
       };
 
       settings = {
-          service.enableregistration = false;
+        service.enableregistration = false;
       };
 
       frontendScheme = "https";

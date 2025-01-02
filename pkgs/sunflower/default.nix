@@ -1,17 +1,18 @@
-{ python3
-, lib
-, fetchFromGitHub
-, fetchpatch
-, gtk3
-, glib
-, libnotify
-, vte
-, gvfs
-, gsettings-desktop-schemas
-, libgnome-keyring
-, gobject-introspection
-, wrapGAppsHook3
-, unstableGitUpdater
+{
+  python3,
+  lib,
+  fetchFromGitHub,
+  fetchpatch,
+  gtk3,
+  glib,
+  libnotify,
+  vte,
+  gvfs,
+  gsettings-desktop-schemas,
+  libgnome-keyring,
+  gobject-introspection,
+  wrapGAppsHook3,
+  unstableGitUpdater,
 }:
 
 python3.pkgs.buildPythonApplication rec {

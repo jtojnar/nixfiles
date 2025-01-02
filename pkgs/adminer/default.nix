@@ -1,13 +1,14 @@
-{ lib
-, adminer
-, runCommand
-, writeTextFile
+{
+  lib,
+  adminer,
+  runCommand,
+  writeTextFile,
 
-, plugins ? [ ]
-, theme ? null
-, pluginConfigs ? ""
-, customStyle ? null
-, customCommands ? null
+  plugins ? [ ],
+  theme ? null,
+  pluginConfigs ? "",
+  customStyle ? null,
+  customCommands ? null,
 }:
 
 let
@@ -71,18 +72,26 @@ let
 in
 
 # If we want to use otp plug-in, we cannot have adminer.php accessible since that does not load plug-ins and would allow bypassing the otp plug-in.
-runCommand "adminer-with-plugins" {
-  adminer = package;
-} (
-  ''
-    mkdir -p "$out"
-    ln -s "${if plugins != [ ] then entrypoint else "${package}/adminer.php"}" "$out/index.php"
-  ''
-  + lib.optionalString (theme != null) ''
-    ln -s "${package}/${theme}.css" "$out/${if customStyle != null then theme else "adminer"}.css"
-  ''
-  + lib.optionalString (assert customStyle != null -> theme != null; customStyle != null) ''
-    ln -s "${style}" "$out/adminer.css"
-  ''
-  + lib.optionalString (customCommands != null) customCommands
-)
+runCommand "adminer-with-plugins"
+  {
+    adminer = package;
+  }
+  (
+    ''
+      mkdir -p "$out"
+      ln -s "${if plugins != [ ] then entrypoint else "${package}/adminer.php"}" "$out/index.php"
+    ''
+    + lib.optionalString (theme != null) ''
+      ln -s "${package}/${theme}.css" "$out/${if customStyle != null then theme else "adminer"}.css"
+    ''
+    +
+      lib.optionalString
+        (
+          assert customStyle != null -> theme != null;
+          customStyle != null
+        )
+        ''
+          ln -s "${style}" "$out/adminer.css"
+        ''
+    + lib.optionalString (customCommands != null) customCommands
+  )

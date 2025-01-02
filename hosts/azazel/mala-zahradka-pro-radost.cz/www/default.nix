@@ -1,11 +1,19 @@
-{ config, myLib, lib, pkgs, ... }:
+{
+  config,
+  myLib,
+  lib,
+  pkgs,
+  ...
+}:
+
 let
   inherit (myLib) mkVirtualHost;
 
   vhost = config.services.nginx.virtualHosts."mala-zahradka-pro-radost.cz";
   user = config.users.users.mzpr.name;
   group = config.users.groups.mzpr.name;
-in {
+in
+{
   age.secrets = {
     "gitea-token-jtojnar-mzpr" = {
       owner = user;

@@ -1,7 +1,15 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) enablePHP mkVirtualHost mkPhpPool;
-in {
+in
+{
   services = {
     nginx = {
       enable = true;
@@ -54,7 +62,7 @@ in {
   systemd.services.phpfpm-pechar = {
     serviceConfig = {
       CacheDirectory = "pechar";
-      ExecStartPost= [
+      ExecStartPost = [
         # The service starts under “root” user and the phpfpm daemon then lowers the euid to “pechar”.
         # But because systemd is not aware of that, the cache directory it creates does not have correct ownership.
         "${pkgs.coreutils}/bin/chmod -R 700 %C/pechar"

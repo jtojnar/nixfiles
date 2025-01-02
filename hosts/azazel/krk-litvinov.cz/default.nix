@@ -1,7 +1,15 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) mkPhpPool;
-in {
+in
+{
   imports = [
     ./agenda
     ./bloudeni
@@ -28,8 +36,18 @@ in {
         "rogaining-2019"
       ];
       ensureUsers = [
-        { name = "entries"; ensurePermissions = { "entries.*" = "ALL PRIVILEGES"; }; }
-        { name = "rogaining-2019"; ensurePermissions = { "\\`rogaining-2019\\`.*" = "ALL PRIVILEGES"; }; }
+        {
+          name = "entries";
+          ensurePermissions = {
+            "entries.*" = "ALL PRIVILEGES";
+          };
+        }
+        {
+          name = "rogaining-2019";
+          ensurePermissions = {
+            "\\`rogaining-2019\\`.*" = "ALL PRIVILEGES";
+          };
+        }
         {
           name = "tojnar";
           ensurePermissions = {
@@ -93,23 +111,65 @@ in {
         ];
       };
 
-      bloudeni = { uid = 513; group = "bloudeni"; isSystemUser = true; };
-      entries = { uid = 504; group = "entries"; isSystemUser = true; };
-      hrob-2022 = { uid = 520; group = "hrob-2022"; isSystemUser = true; };
-      krk = { uid = 505; group = "krk"; isSystemUser = true; };
-      rogaining-2019 = { uid = 507; group = "rogaining-2019"; isSystemUser = true; };
-      skirogaining = { uid = 517; group = "skirogaining"; isSystemUser = true; };
-      strom-roku-2023 = { uid = 522; group = "strom-roku-2023"; isSystemUser = true; };
+      bloudeni = {
+        uid = 513;
+        group = "bloudeni";
+        isSystemUser = true;
+      };
+      entries = {
+        uid = 504;
+        group = "entries";
+        isSystemUser = true;
+      };
+      hrob-2022 = {
+        uid = 520;
+        group = "hrob-2022";
+        isSystemUser = true;
+      };
+      krk = {
+        uid = 505;
+        group = "krk";
+        isSystemUser = true;
+      };
+      rogaining-2019 = {
+        uid = 507;
+        group = "rogaining-2019";
+        isSystemUser = true;
+      };
+      skirogaining = {
+        uid = 517;
+        group = "skirogaining";
+        isSystemUser = true;
+      };
+      strom-roku-2023 = {
+        uid = 522;
+        group = "strom-roku-2023";
+        isSystemUser = true;
+      };
     };
 
     groups = {
-      bloudeni = { gid = 513; };
-      entries = { gid = 504; };
-      hrob-2022 = { gid = 520; };
-      krk = { gid = 505; };
-      rogaining-2019 = { gid = 507; };
-      skirogaining = { gid = 517; };
-      strom-roku-2023 = { gid = 522; };
+      bloudeni = {
+        gid = 513;
+      };
+      entries = {
+        gid = 504;
+      };
+      hrob-2022 = {
+        gid = 520;
+      };
+      krk = {
+        gid = 505;
+      };
+      rogaining-2019 = {
+        gid = 507;
+      };
+      skirogaining = {
+        gid = 517;
+      };
+      strom-roku-2023 = {
+        gid = 522;
+      };
     };
   };
 }

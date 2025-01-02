@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   postgres = pkgs.postgresql_14;
@@ -51,8 +56,12 @@ in
       "pm.max_requests" = 500;
     };
 
-    phpPackage = pkgs.php.withExtensions ({ enabled, all }: enabled ++ (with all; [
-    ]));
+    phpPackage = pkgs.php.withExtensions (
+      { enabled, all }:
+      enabled
+      ++ (with all; [
+      ])
+    );
 
     phpOptions = ''
       display_errors = 1

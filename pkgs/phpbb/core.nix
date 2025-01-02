@@ -1,19 +1,23 @@
-{ stdenv
-, fetchurl
-, lib
-, unzip
-, php
-, common-updater-scripts
-, curl
-, jq
-, writeShellScript
+{
+  stdenv,
+  fetchurl,
+  lib,
+  unzip,
+  php,
+  common-updater-scripts,
+  curl,
+  jq,
+  writeShellScript,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "phpbb";
   version = "3.3.14";
 
-  outputs = [ "out" "installer" ];
+  outputs = [
+    "out"
+    "installer"
+  ];
 
   src = fetchurl {
     url = "https://download.phpbb.com/pub/release/${lib.versions.majorMinor finalAttrs.version}/${finalAttrs.version}/phpBB-${finalAttrs.version}.zip";
@@ -50,7 +54,13 @@ stdenv.mkDerivation (finalAttrs: {
   passthru = {
     updateScript = writeShellScript "phpbb-core-updater" ''
       set -e
-      export PATH="${lib.makeBinPath [ common-updater-scripts curl jq ]}"
+      export PATH="${
+        lib.makeBinPath [
+          common-updater-scripts
+          curl
+          jq
+        ]
+      }"
       version="$(curl 'https://version.phpbb.com/phpbb/versions.json' | jq '.stable[.stable | keys | last].current' --raw-output)"
       update-source-version phpbb.core "$version"
     '';

@@ -1,33 +1,93 @@
-{ config, lib, pkgs, ... }: {
-  mkVirtualHost = { path ? null, config ? "", acme ? null, redirect ? null, ... }@args:
-  (if lib.isString acme then {
-    useACMEHost = acme;
-    forceSSL = true;
-  } else {}) // (if lib.isBool acme then {
-    enableACME = acme;
-    forceSSL = true;
-  } else {}) // (if redirect != null then {
-    globalRedirect = redirect;
-  } else {}) // (if path != null then {
-    root = "/var/www/" + path;
-  } else {}) // {
-    extraConfig = config;
-  } // builtins.removeAttrs args [ "path" "config" "acme" "redirect" ];
-  mkPhpPool = { user, debug ? false, settings ? {}, ... }@args: {
-    inherit user;
-    settings = {
-      "listen.owner" = "nginx";
-      "listen.group" = "root";
-      "pm" = "dynamic";
-      "pm.max_children" = 5;
-      "pm.start_servers" = 2;
-      "pm.min_spare_servers" = 1;
-      "pm.max_spare_servers" = 3;
-    } // (lib.optionalAttrs debug {
-      # log worker's stdout, but this has a performance hit
-      "catch_workers_output" = true;
-    } // settings);
-  } // builtins.removeAttrs args [ "user" "debug" "settings" ];
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  mkVirtualHost =
+    {
+      path ? null,
+      config ? "",
+      acme ? null,
+      redirect ? null,
+      ...
+    }@args:
+    (
+      if lib.isString acme then
+        {
+          useACMEHost = acme;
+          forceSSL = true;
+        }
+      else
+        { }
+    )
+    // (
+      if lib.isBool acme then
+        {
+          enableACME = acme;
+          forceSSL = true;
+        }
+      else
+        { }
+    )
+    // (
+      if redirect != null then
+        {
+          globalRedirect = redirect;
+        }
+      else
+        { }
+    )
+    // (
+      if path != null then
+        {
+          root = "/var/www/" + path;
+        }
+      else
+        { }
+    )
+    // {
+      extraConfig = config;
+    }
+    // builtins.removeAttrs args [
+      "path"
+      "config"
+      "acme"
+      "redirect"
+    ];
+  mkPhpPool =
+    {
+      user,
+      debug ? false,
+      settings ? { },
+      ...
+    }@args:
+    {
+      inherit user;
+      settings =
+        {
+          "listen.owner" = "nginx";
+          "listen.group" = "root";
+          "pm" = "dynamic";
+          "pm.max_children" = 5;
+          "pm.start_servers" = 2;
+          "pm.min_spare_servers" = 1;
+          "pm.max_spare_servers" = 3;
+        }
+        // (
+          lib.optionalAttrs debug {
+            # log worker's stdout, but this has a performance hit
+            "catch_workers_output" = true;
+          }
+          // settings
+        );
+    }
+    // builtins.removeAttrs args [
+      "user"
+      "debug"
+      "settings"
+    ];
   enablePHP = sockName: ''
     fastcgi_pass unix:${config.services.phpfpm.pools.${sockName}.socket};
     include ${config.services.nginx.package}/conf/fastcgi.conf;
@@ -36,19 +96,17 @@
   '';
 
   /*
-  Adds extra options to ssh key that will only allow it to be used for rsync.
-  See sshd(8) manual page for details.
+    Adds extra options to ssh key that will only allow it to be used for rsync.
+    See sshd(8) manual page for details.
   */
   restrictToRsync =
-    directory:
-    key:
-    ''command="${pkgs.rrsync}/bin/rrsync -wo ${directory}",restrict ${key}'';
+    directory: key: ''command="${pkgs.rrsync}/bin/rrsync -wo ${directory}",restrict ${key}'';
 
   /*
-  Emulate systemd credentials.
-  Those will only be available to the user the service is running under,
-  not being aware of dropped euid.
-  http://systemd.io/CREDENTIALS/
+    Emulate systemd credentials.
+    Those will only be available to the user the service is running under,
+    not being aware of dropped euid.
+    http://systemd.io/CREDENTIALS/
   */
   emulateCredentials =
     let
@@ -66,25 +124,27 @@
       parseCredentials =
         credentials:
         builtins.map parseCredential (
-          if builtins.isList credentials
-          then credentials
-          else lib.splitString "," credentials
+          if builtins.isList credentials then credentials else lib.splitString "," credentials
         );
     in
     serviceConfig:
     lib.mkMerge [
-      (builtins.removeAttrs serviceConfig [ "SetCredential" "LoadCredential" ])
+      (builtins.removeAttrs serviceConfig [
+        "SetCredential"
+        "LoadCredential"
+      ])
       {
         Environment = [
           "CREDENTIALS_DIRECTORY=${
-            pkgs.runCommand
-              "credentials"
-              { }
-              ''
-                mkdir "$out"
-                ${lib.concatMapStringsSep "\n" ({ id, value }: ''ln -s "${value}" "$out/${id}"'') (parseCredentials serviceConfig.LoadCredential or [ ])}
-                ${lib.concatMapStringsSep "\n" ({ id, value }: ''echo -n "${value}" > "$out/${id}"'') (parseCredentials serviceConfig.SetCredential or [ ])}
-              ''
+            pkgs.runCommand "credentials" { } ''
+              mkdir "$out"
+              ${lib.concatMapStringsSep "\n" ({ id, value }: ''ln -s "${value}" "$out/${id}"'') (
+                parseCredentials serviceConfig.LoadCredential or [ ]
+              )}
+              ${lib.concatMapStringsSep "\n" ({ id, value }: ''echo -n "${value}" > "$out/${id}"'') (
+                parseCredentials serviceConfig.SetCredential or [ ]
+              )}
+            ''
           }"
         ];
       }

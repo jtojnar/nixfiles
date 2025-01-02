@@ -1,9 +1,16 @@
-{ config, lib, myLib, ... }:
+{
+  config,
+  lib,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) enablePHP mkVirtualHost;
 
   self = config.services.nginx.virtualHosts."www.tojnar.cz";
-in {
+in
+{
   services = {
     nginx = {
       enable = true;

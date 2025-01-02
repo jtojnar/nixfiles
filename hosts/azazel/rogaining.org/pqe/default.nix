@@ -1,10 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   pqe = pkgs.wrcq;
 
   port = 5000;
-in {
+in
+{
   services = {
     nginx = {
       enable = true;

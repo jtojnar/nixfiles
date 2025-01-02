@@ -1,7 +1,9 @@
 { config, myLib, ... }:
+
 let
   inherit (myLib) mkVirtualHost;
-in {
+in
+{
   systemd.tmpfiles.rules = [
     "d ${config.services.nginx.virtualHosts."hrob-2022.krk-litvinov.cz".root} 0770 hrob-2022 hrob-2022"
   ];

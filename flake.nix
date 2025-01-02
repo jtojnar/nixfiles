@@ -62,9 +62,7 @@
       # Convert a list to file paths to attribute set
       # that has the filenames stripped of nix extension as keys
       # and imported content of the file as value.
-      pathsToImportedAttrs =
-        paths:
-        lib.mapAttrs (_k: path: import path) (pathsToAttrs paths);
+      pathsToImportedAttrs = paths: lib.mapAttrs (_k: path: import path) (pathsToAttrs paths);
 
       # Create combined package set from nixpkgs and our overlays.
       mkPkgs =

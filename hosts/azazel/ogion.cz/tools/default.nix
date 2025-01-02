@@ -1,7 +1,15 @@
-{ config, lib, myLib, pkgs, ... }:
+{
+  config,
+  lib,
+  myLib,
+  pkgs,
+  ...
+}:
+
 let
   inherit (myLib) enablePHP mkPhpPool mkVirtualHost;
-in {
+in
+{
   services = {
     nginx = {
       enable = true;
@@ -13,11 +21,10 @@ in {
           locations = {
             "/pdf/password-remover" =
               let
-                tool =
-                  pkgs.substituteAll {
-                    src = ./pdf/password-remover.php;
-                    qpdf = "${lib.getBin pkgs.qpdf}/bin/qpdf";
-                  };
+                tool = pkgs.substituteAll {
+                  src = ./pdf/password-remover.php;
+                  qpdf = "${lib.getBin pkgs.qpdf}/bin/qpdf";
+                };
               in
               {
                 extraConfig = ''

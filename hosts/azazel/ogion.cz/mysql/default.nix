@@ -1,4 +1,11 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) enablePHP mkVirtualHost;
 
@@ -21,7 +28,8 @@ let
     '';
     customStyle = ./adminer.css;
   };
-in {
+in
+{
   services = {
     nginx = {
       enable = true;

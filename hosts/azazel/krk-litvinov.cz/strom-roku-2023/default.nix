@@ -1,11 +1,19 @@
-{ config, myLib, lib, pkgs, ... }:
+{
+  config,
+  myLib,
+  lib,
+  pkgs,
+  ...
+}:
+
 let
   inherit (myLib) mkVirtualHost;
 
   vhost = config.services.nginx.virtualHosts."strom-roku-2023.krk-litvinov.cz";
   user = config.users.users.strom-roku-2023.name;
   group = config.users.groups.strom-roku-2023.name;
-in {
+in
+{
   age.secrets = {
     "gitea-token-jtojnar-strom-roku-2023" = {
       owner = user;

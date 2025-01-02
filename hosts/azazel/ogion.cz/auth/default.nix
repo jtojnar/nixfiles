@@ -106,7 +106,9 @@ in
                   text = lib.generators.toYAML { } {
                     users =
                       let
-                        usersWithPassword = lib.filterAttrs (_name: user: user.authelia.hashedPassword != null) config.users.users;
+                        usersWithPassword = lib.filterAttrs (
+                          _name: user: user.authelia.hashedPassword != null
+                        ) config.users.users;
 
                         mkUser =
                           name:

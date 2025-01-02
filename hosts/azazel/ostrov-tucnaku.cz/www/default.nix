@@ -1,4 +1,11 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) enablePHP mkVirtualHost;
 
@@ -24,7 +31,8 @@ let
       };
     };
   };
-in {
+in
+{
   services = {
     nginx = {
       enable = true;
@@ -60,15 +68,16 @@ in {
         CacheDirectory = "ostrov-tucnaku";
         CacheDirectoryMode = "700";
         # Needs to be a single command since systemd resets CacheDirectory owner before each command invocation.
-        ExecStartPost = "/bin/sh -c '${lib.concatStringsSep ";" [
-          # The service starts under “root” user and the phpfpm daemon then lowers the euid to “ostrov-tucnaku”.
-          # But because systemd is not aware of that, the cache directory it creates does not have correct ownership.
-          "${pkgs.coreutils}/bin/chown -R ostrov-tucnaku:ostrov-tucnaku %C/ostrov-tucnaku"
-          "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u ostrov-tucnaku ${pkgs.coreutils}/bin/mkdir -p $(find ${flarum}/storage -mindepth 1 -maxdepth 1 -type d -printf  '%C/ostrov-tucnaku/%%P')"
-          "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u ostrov-tucnaku ${flarum}/flarum migrate"
-          "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u ostrov-tucnaku ${flarum}/flarum cache:clear"
-        ]}'"
-        ;
+        ExecStartPost = "/bin/sh -c '${
+          lib.concatStringsSep ";" [
+            # The service starts under “root” user and the phpfpm daemon then lowers the euid to “ostrov-tucnaku”.
+            # But because systemd is not aware of that, the cache directory it creates does not have correct ownership.
+            "${pkgs.coreutils}/bin/chown -R ostrov-tucnaku:ostrov-tucnaku %C/ostrov-tucnaku"
+            "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u ostrov-tucnaku ${pkgs.coreutils}/bin/mkdir -p $(find ${flarum}/storage -mindepth 1 -maxdepth 1 -type d -printf  '%C/ostrov-tucnaku/%%P')"
+            "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u ostrov-tucnaku ${flarum}/flarum migrate"
+            "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u ostrov-tucnaku ${flarum}/flarum cache:clear"
+          ]
+        }'";
       };
     };
   };

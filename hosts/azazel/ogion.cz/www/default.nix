@@ -1,4 +1,11 @@
-{ config, lib, myLib, pkgs, ... }:
+{
+  config,
+  lib,
+  myLib,
+  pkgs,
+  ...
+}:
+
 let
   inherit (myLib) mkVirtualHost;
 
@@ -30,9 +37,12 @@ let
 
   webfingerRoot = pkgs.symlinkJoin {
     name = "ogion.cz-webfinger";
-    paths = builtins.attrValues (lib.mapAttrs mkWebfingerAccount (lib.filterAttrs (name: user: user.isNormalUser) config.users.users));
+    paths = builtins.attrValues (
+      lib.mapAttrs mkWebfingerAccount (lib.filterAttrs (name: user: user.isNormalUser) config.users.users)
+    );
   };
-in {
+in
+{
   services = {
     nginx = {
       enable = true;

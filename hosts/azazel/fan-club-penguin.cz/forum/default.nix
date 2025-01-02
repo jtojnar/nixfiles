@@ -1,4 +1,11 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
 
   inherit (myLib) enablePHP mkVirtualHost;
@@ -11,7 +18,8 @@ let
       langs.cs
     ];
   };
-in {
+in
+{
   services = {
     nginx = {
       enable = true;
@@ -83,13 +91,15 @@ in {
         CacheDirectory = "cpforum";
         CacheDirectoryMode = "700";
         # Needs to be a single command since systemd resets CacheDirectory owner before each command invocation.
-        ExecStartPost = "/bin/sh -c '${lib.concatStringsSep ";" [
-          # The service starts under “root” user and the phpfpm daemon then lowers the euid to “cpforum”.
-          # But because systemd is not aware of that, the cache directory it creates does not have correct ownership.
-          "${pkgs.coreutils}/bin/chown -R cpforum:cpforum %C/cpforum"
-          "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u cpforum ${phpbb}/bin/phpbbcli.php db:migrate"
-          "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u cpforum ${phpbb}/bin/phpbbcli.php cache:purge"
-        ]}'";
+        ExecStartPost = "/bin/sh -c '${
+          lib.concatStringsSep ";" [
+            # The service starts under “root” user and the phpfpm daemon then lowers the euid to “cpforum”.
+            # But because systemd is not aware of that, the cache directory it creates does not have correct ownership.
+            "${pkgs.coreutils}/bin/chown -R cpforum:cpforum %C/cpforum"
+            "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u cpforum ${phpbb}/bin/phpbbcli.php db:migrate"
+            "${config.security.wrapperDir}/sudo --preserve-env=CACHE_DIRECTORY -u cpforum ${phpbb}/bin/phpbbcli.php cache:purge"
+          ]
+        }'";
       };
     };
   };

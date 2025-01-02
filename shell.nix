@@ -5,7 +5,7 @@ let
     sha256 = lock.nodes.flake-compat.locked.narHash;
   };
   self = import flake-compat {
-    src =  ./.;
+    src = ./.;
   };
 in
 self.shellNix

@@ -5,9 +5,9 @@
     EDITOR = "nano";
     TERMINAL = "gnome-terminal";
 
-    XDG_CACHE_HOME  = "$HOME/.cache";
+    XDG_CACHE_HOME = "$HOME/.cache";
     XDG_CONFIG_HOME = "$HOME/.config";
-    XDG_DATA_HOME   = "$HOME/.local/share";
+    XDG_DATA_HOME = "$HOME/.local/share";
 
     CABAL_CONFIG = "${XDG_DATA_HOME}/cabal/config";
     CARGO_HOME = "${XDG_DATA_HOME}/cargo";

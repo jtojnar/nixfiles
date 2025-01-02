@@ -7,7 +7,7 @@
   programs.firefox = {
     enable = true;
     package = pkgs.firefox.override (args: {
-      cfg = args.cfg or {} // {
+      cfg = args.cfg or { } // {
         speechSynthesisSupport = true;
       };
     });
@@ -31,15 +31,17 @@
     };
   };
 
-  home-manager.users.jtojnar = { lib, ... }: {
-    home.file.".mozilla/firefox/default/chrome/userChrome.css".text = ''
-      @-moz-document url(chrome://browser/content/browser.xul),
-      url(chrome://browser/content/browser.xhtml) {
-          #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar,
-          #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
-              visibility: collapse !important;
-          }
-      }
-    '';
-  };
+  home-manager.users.jtojnar =
+    { lib, ... }:
+    {
+      home.file.".mozilla/firefox/default/chrome/userChrome.css".text = ''
+        @-moz-document url(chrome://browser/content/browser.xul),
+        url(chrome://browser/content/browser.xhtml) {
+            #main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar,
+            #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+                visibility: collapse !important;
+            }
+        }
+      '';
+    };
 }

@@ -5,7 +5,7 @@
   unstableGitUpdater,
   writeShellScript,
   common-updater-scripts,
-  _experimental-update-script-combinators
+  _experimental-update-script-combinators,
 }:
 
 php.buildComposerProject {

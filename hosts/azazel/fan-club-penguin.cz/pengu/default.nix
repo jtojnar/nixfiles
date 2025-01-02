@@ -1,4 +1,10 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
 
 let
 
@@ -7,7 +13,8 @@ let
   pengu = pkgs.pengu;
 
   port = 5002;
-in {
+in
+{
   services = {
     nginx = {
       enable = true;

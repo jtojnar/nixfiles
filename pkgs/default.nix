@@ -1,23 +1,23 @@
 final: prev: {
-  adminer-with-plugins = prev.callPackage ./adminer {};
+  adminer-with-plugins = prev.callPackage ./adminer { };
 
-  flarum = prev.callPackage ./flarum {};
+  flarum = prev.callPackage ./flarum { };
 
-  flarum-webhooks-telegram-bridge = prev.callPackage ./flarum-webhooks-telegram-bridge {};
+  flarum-webhooks-telegram-bridge = prev.callPackage ./flarum-webhooks-telegram-bridge { };
 
-  pechar = prev.callPackage ./pechar {};
+  pechar = prev.callPackage ./pechar { };
 
-  pengu = prev.callPackage ./pengu {};
+  pengu = prev.callPackage ./pengu { };
 
-  phpbb = prev.callPackage ./phpbb {};
+  phpbb = prev.callPackage ./phpbb { };
 
-  selfoss = prev.callPackage ./selfoss {};
+  selfoss = prev.callPackage ./selfoss { };
 
-  sunflower = prev.callPackage ./sunflower {};
+  sunflower = prev.callPackage ./sunflower { };
 
-  wrcq = prev.callPackage ./wrcq {};
+  wrcq = prev.callPackage ./wrcq { };
 
-  inherit (prev.callPackages ./utils {})
+  inherit (prev.callPackages ./utils { })
     deploy
     deploy-pages
     git-part-pick
@@ -27,5 +27,6 @@ final: prev: {
     nopt
     update
     sman
-    strip-clip-path-transforms;
+    strip-clip-path-transforms
+    ;
 }

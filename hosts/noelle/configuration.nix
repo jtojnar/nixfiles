@@ -1,8 +1,14 @@
-{ config, inputs, pkgs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 
 let
   keys = import ../../common/data/keys.nix;
-in {
+in
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -53,97 +59,102 @@ in {
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  home-manager.users.dtojnaro = { lib, ... }: {
-    imports = [
-      inputs.self.homeModules.profiles.sublime
-    ];
+  home-manager.users.dtojnaro =
+    { lib, ... }:
+    {
+      imports = [
+        inputs.self.homeModules.profiles.sublime
+      ];
 
-    dconf.settings = {
-      "org/gnome/desktop/interface" = {
-        enable-hot-corners = false;
+      dconf.settings = {
+        "org/gnome/desktop/interface" = {
+          enable-hot-corners = false;
+        };
+
+        "org/gnome/desktop/screensaver" = {
+          lock-delay = lib.hm.gvariant.mkUint32 3600;
+          lock-enabled = true;
+        };
+
+        "org/gnome/desktop/peripherals/touchpad" = {
+          click-method = "default";
+          natural-scroll = false;
+          speed = lib.hm.gvariant.mkDouble 1.0;
+          tap-to-click = true;
+        };
+
+        "org/gnome/desktop/session" = {
+          idle-delay = lib.hm.gvariant.mkUint32 900;
+        };
+
+        "org/gnome/desktop/wm/keybindings" = {
+          switch-windows = [ "<Alt>Tab" ];
+          switch-windows-backward = [ "<Shift><Alt>Tab" ];
+        };
+
+        "org/gnome/shell/extensions/dash-to-dock" = {
+          show-trash = false;
+        };
+
+        "org/gnome/mutter" = {
+          dynamic-workspaces = true;
+        };
+
+        "org/gnome/nautilus/icon-view" = {
+          default-zoom-level = "small";
+        };
+
+        "org/gnome/settings-daemon/plugins/power" = {
+          power-button-action = "nothing";
+          idle-dim = true;
+          sleep-inactive-battery-type = "nothing";
+          sleep-inactive-ac-timeout = 3600;
+          sleep-inactive-ac-type = "nothing";
+          sleep-inactive-battery-timeout = 1800;
+        };
+
+        "org/gnome/shell" = {
+          "enabled-extensions" = [
+            "appindicatorsupport@rgcjonas.gmail.com"
+            "dash-to-dock@micxgx.gmail.com"
+            "GPaste@gnome-shell-extensions.gnome.org"
+          ];
+        };
+
+        "org/gtk/settings/file-chooser" = {
+          sort-directories-first = true;
+          location-mode = "path-bar";
+        };
+
+        "org/gtk/gtk4/settings/file-chooser" = {
+          sort-directories-first = true;
+        };
+
+        "org/gnome/desktop/input-sources" = {
+          sources = [
+            (lib.hm.gvariant.mkTuple [
+              "xkb"
+              "${config.services.xserver.xkb.layout}${
+                lib.optionalString (config.services.xserver.xkb.variant != "") "+"
+                + config.services.xserver.xkb.variant
+              }"
+            ])
+          ];
+          xkb-options = [
+            config.services.xserver.xkb.options
+          ];
+        };
       };
 
-      "org/gnome/desktop/screensaver" = {
-        lock-delay = lib.hm.gvariant.mkUint32 3600;
-        lock-enabled = true;
+      programs = {
+        direnv = {
+          enable = true;
+          nix-direnv.enable = true;
+        };
       };
 
-      "org/gnome/desktop/peripherals/touchpad" = {
-        click-method = "default";
-        natural-scroll = false;
-        speed = lib.hm.gvariant.mkDouble 1.0;
-        tap-to-click = true;
-      };
-
-      "org/gnome/desktop/session" = {
-        idle-delay = lib.hm.gvariant.mkUint32 900;
-      };
-
-      "org/gnome/desktop/wm/keybindings" = {
-        switch-windows = [ "<Alt>Tab" ];
-        switch-windows-backward = [ "<Shift><Alt>Tab" ];
-      };
-
-      "org/gnome/shell/extensions/dash-to-dock" = {
-        show-trash = false;
-      };
-
-      "org/gnome/mutter" = {
-        dynamic-workspaces = true;
-      };
-
-      "org/gnome/nautilus/icon-view" = {
-        default-zoom-level = "small";
-      };
-
-      "org/gnome/settings-daemon/plugins/power" = {
-        power-button-action = "nothing";
-        idle-dim = true;
-        sleep-inactive-battery-type = "nothing";
-        sleep-inactive-ac-timeout = 3600;
-        sleep-inactive-ac-type = "nothing";
-        sleep-inactive-battery-timeout = 1800;
-      };
-
-      "org/gnome/shell" = {
-        "enabled-extensions" = [
-          "appindicatorsupport@rgcjonas.gmail.com"
-          "dash-to-dock@micxgx.gmail.com"
-          "GPaste@gnome-shell-extensions.gnome.org"
-        ];
-      };
-
-      "org/gtk/settings/file-chooser" = {
-        sort-directories-first = true;
-        location-mode = "path-bar";
-      };
-
-      "org/gtk/gtk4/settings/file-chooser" = {
-        sort-directories-first = true;
-      };
-
-      "org/gnome/desktop/input-sources" = {
-        sources = [
-          (lib.hm.gvariant.mkTuple [
-            "xkb"
-            "${config.services.xserver.xkb.layout}${lib.optionalString (config.services.xserver.xkb.variant != "") "+" + config.services.xserver.xkb.variant}"
-          ])
-        ];
-        xkb-options = [
-          config.services.xserver.xkb.options
-        ];
-      };
+      home.stateVersion = "24.05";
     };
-
-    programs = {
-      direnv = {
-        enable = true;
-        nix-direnv.enable = true;
-      };
-    };
-
-    home.stateVersion = "24.05";
-  };
 
   services.xserver = {
     # Configure keymap in X11

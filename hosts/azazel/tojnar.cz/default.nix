@@ -1,7 +1,15 @@
-{ config, lib, pkgs, myLib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  myLib,
+  ...
+}:
+
 let
   inherit (myLib) mkPhpPool restrictToRsync;
-in {
+in
+{
   imports = [
     ./cyklogaining
     ./krk
@@ -47,23 +55,32 @@ in {
         ];
       };
 
-      cyklogaining = { uid = 516; group = "cyklogaining"; isSystemUser = true; };
+      cyklogaining = {
+        uid = 516;
+        group = "cyklogaining";
+        isSystemUser = true;
+      };
       tojnar-cz = {
         uid = 518;
         group = "tojnar-cz";
         isSystemUser = true;
         openssh.authorizedKeys.keys =
-          builtins.concatMap (user: config.users.users.${user}.openssh.authorizedKeys.keys) [
-            "jtojnar"
-            "tojnar"
-          ];
+          builtins.concatMap (user: config.users.users.${user}.openssh.authorizedKeys.keys)
+            [
+              "jtojnar"
+              "tojnar"
+            ];
         shell = "/bin/sh";
       };
     };
 
     groups = {
-      cyklogaining = { gid = 516; };
-      tojnar-cz = { gid = 518; };
+      cyklogaining = {
+        gid = 516;
+      };
+      tojnar-cz = {
+        gid = 518;
+      };
     };
   };
 }
