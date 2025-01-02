@@ -6,7 +6,7 @@
 }:
 
 let
-  postgres = pkgs.postgresql_14;
+  postgres = pkgs.postgresql_17;
 in
 
 {
@@ -24,7 +24,6 @@ in
     enableTCPIP = true;
     extensions = [
       postgres.pkgs.plv8
-      postgres.pkgs.postgis
     ];
     authentication = ''
       local all all trust
