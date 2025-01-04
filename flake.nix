@@ -149,7 +149,6 @@
             agenix.packages.${platform}.default
             deploy
             git
-            git-crypt
             nix
             nopt
             update
