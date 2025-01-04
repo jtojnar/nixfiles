@@ -21,8 +21,7 @@ in
           locations = {
             "/pdf/password-remover" =
               let
-                tool = pkgs.substituteAll {
-                  src = ./pdf/password-remover.php;
+                tool = pkgs.replaceVars ./pdf/password-remover.php {
                   qpdf = "${lib.getBin pkgs.qpdf}/bin/qpdf";
                 };
               in

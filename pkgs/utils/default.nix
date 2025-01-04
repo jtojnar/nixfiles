@@ -8,7 +8,6 @@
   python3,
   nix,
   nixos,
-  substitute,
 }:
 
 let

@@ -15,7 +15,7 @@ let
     recursiveHash = true;
     postFetch = ''
       # Needs to match the Prometheus datasource uid.
-      substituteInPlace "$out" --replace ''\'''${DS_PROMETHEUS}' 'prometheus'
+      substituteInPlace "$out" --replace-fail ''\'''${DS_PROMETHEUS}' 'prometheus'
       mv "$out" temp
       mkdir -p "$out"
       mv temp "$out/blackbox-dashboard.json";

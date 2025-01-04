@@ -7,9 +7,8 @@
 
   home.file.".config/keepassxc/keepassxc.ini".source = ./keepassxc.ini;
   home.file.".mozilla/native-messaging-hosts/org.keepassxc.keepassxc_browser.json".source =
-    pkgs.substituteAll
+    pkgs.replaceVars ./nmh.json
       {
-        src = ./nmh.json;
         inherit (pkgs) keepassxc;
       };
 }

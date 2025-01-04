@@ -45,7 +45,7 @@ let
       }
       ''
         substitute "$src" "$out" \
-          --replace 'try_files $uri /data/$uri;' 'root ${settings.datadir};'
+          --replace-fail 'try_files $uri /data/$uri;' 'root ${settings.datadir};'
       '';
 in
 {
