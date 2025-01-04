@@ -49,7 +49,7 @@ in
   config = lib.mkIf (cfg.databases != [ ]) {
     services.postgresql = {
       enable = true;
-      package = pkgs.postgresql_14;
+      package = pkgs.postgresql_17;
       extensions = lib.filter (x: x != null) (
         lib.concatMap (
           { extensions, ... }: map (ext: config.services.postgresql.package.pkgs.${ext} or null) extensions
