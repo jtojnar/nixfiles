@@ -107,8 +107,6 @@ in
   ];
 
   hardware = {
-    # Configure sound.
-    pulseaudio.enable = false; # Using PipeWire
     bluetooth = {
       enable = true;
       settings = {
@@ -299,12 +297,6 @@ in
       # Transmission GTK
       config.services.transmission.settings.peer-port
     ];
-  };
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
   };
 
   services.acpid = {

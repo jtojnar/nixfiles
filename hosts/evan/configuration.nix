@@ -164,8 +164,6 @@ in
     useXkbConfig = true;
   };
 
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   hardware.bluetooth = {
     enable = true;
     settings = {
@@ -176,12 +174,6 @@ in
     };
   };
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   services = {
     openssh = {
