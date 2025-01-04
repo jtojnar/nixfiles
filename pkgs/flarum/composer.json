@@ -43,7 +43,7 @@
         "fof/links": "^1.3",
         "fof/oauth": "^1.6",
         "fof/secure-https": "^1.1",
-        "fof/upload": "^1.5",
+        "fof/upload": "^1.7",
         "fof/user-directory": "^1.3",
         "fof/webhooks": "^1.3",
         "ianm/syndication": "^1.3",
