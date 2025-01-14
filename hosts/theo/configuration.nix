@@ -221,6 +221,7 @@ in
     sublime4-dev
     sublime-merge
     telegram-desktop
+    textpieces
     tldr
     transmission_3-gtk
     treesheets
@@ -233,6 +234,7 @@ in
     xdot
     xsel
     xsv # handling CSV files
+    unixtools.xxd
     yt-dlp
     zotero
   ];

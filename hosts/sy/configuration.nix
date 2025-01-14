@@ -383,6 +383,7 @@ in
     spotify
     sublime4-dev
     sublime-merge
+    textpieces
     tldr
     unrar
     valgrind
@@ -392,6 +393,7 @@ in
     xdot
     xsel
     xsv # handling CSV files
+    unixtools.xxd
   ];
 
   services.sysprof.enable = true;
