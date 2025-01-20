@@ -1,6 +1,6 @@
 {
   lib,
-  adminer,
+  adminerevo,
   runCommand,
   writeTextFile,
 
@@ -12,7 +12,7 @@
 }:
 
 let
-  package = adminer.overrideAttrs (attrs: {
+  package = adminerevo.overrideAttrs (attrs: {
     postInstall =
       attrs.postInstall or ""
       + lib.optionalString (plugins != [ ]) ''
