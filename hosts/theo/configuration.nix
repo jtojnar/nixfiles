@@ -233,7 +233,6 @@ in
     wirelesstools # for iwlist
     xdot
     xsel
-    xsv # handling CSV files
     unixtools.xxd
     yt-dlp
     zotero
