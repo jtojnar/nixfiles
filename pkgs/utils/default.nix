@@ -5,6 +5,7 @@
   makeWrapper,
   git,
   fzf,
+  gnused,
   python3,
   nix,
   nixos,
@@ -71,7 +72,12 @@ in
     ];
   };
 
-  git-part-pick = mkUtil "git-part-pick" { path = [ fzf ]; };
+  git-part-pick = mkUtil "git-part-pick" {
+    path = [
+      fzf
+      gnused
+    ];
+  };
   git-auto-fixup = mkUtil "git-auto-fixup" { };
   git-auto-squash = mkUtil "git-auto-squash" { script = "git-auto-fixup"; };
   nix-explore-closure-size = mkUtil "nix-explore-closure-size" { path = [ fzf ]; };

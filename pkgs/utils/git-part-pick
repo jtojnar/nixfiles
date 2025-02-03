@@ -7,6 +7,6 @@ fi
 
 rev=$1
 patch=$(mktemp)
-git format-patch --stdout -1 "$rev" -- $(git diff-tree --no-commit-id --name-only -r "$rev" | fzf -m) > "$patch"
+git format-patch --stdout -1 "$rev" -- $(git diff-tree --no-commit-id --name-only -r "$rev" | fzf -m | sed 's|^|:/|') > "$patch"
 git am --3way "$patch"
 rm "$patch"
