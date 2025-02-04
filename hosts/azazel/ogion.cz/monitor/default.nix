@@ -7,6 +7,7 @@ in
   imports = [
     ./services/blackbox.nix
     ./services/node.nix
+    ./services/pushgateway.nix
   ];
 
   # Dashboard
