@@ -26,6 +26,9 @@ buildNpmPackage {
     mv "$out/lib/node_modules/pengu/"* "$out"
     rmdir "$out/lib/node_modules"{/pengu,}
 
+    # Remove broken symlink.
+    rm "$out/node_modules/pengu-assets"
+
     # Install systemd service.
     mkdir -p "$out/lib/systemd/system"
     echo > "$out/lib/systemd/system/pengu.service" "
