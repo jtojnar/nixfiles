@@ -48,6 +48,8 @@ in
         repository = {
           DEFAULT_BRANCH = "main";
           DEFAULT_REPO_UNITS = "repo.code,repo.issues,repo.pulls";
+          # Currently not affecting API https://github.com/go-gitea/gitea/issues/32159
+          DISABLE_DOWNLOAD_SOURCE_ARCHIVES = true;
         };
         server = {
           DOMAIN = domain;
