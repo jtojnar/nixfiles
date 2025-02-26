@@ -9,4 +9,5 @@
   "enable_tab_scrolling": false,
   "mde.list_indent_auto_switch_bullet": false,
   "update_check": false,
+  "goto_anything_exclude_gitignore": true,
 }
