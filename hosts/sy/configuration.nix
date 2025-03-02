@@ -468,6 +468,15 @@ in
     '';
   };
 
+  environment.extraInit =
+    let
+      homeManagerSessionVars = "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh";
+    in
+    ''
+      # https://github.com/nix-community/home-manager/issues/1011
+      [[ -f "${homeManagerSessionVars}" ]] && source "${homeManagerSessionVars}"
+    '';
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

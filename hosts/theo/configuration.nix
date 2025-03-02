@@ -400,6 +400,15 @@ in
       ];
   };
 
+  environment.extraInit =
+    let
+      homeManagerSessionVars = "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh";
+    in
+    ''
+      # https://github.com/nix-community/home-manager/issues/1011
+      [[ -f "${homeManagerSessionVars}" ]] && source "${homeManagerSessionVars}"
+    '';
+
   environment.sessionVariables = {
     # Needs the hack above.
     GNUPGHOME = "$HOME/.local/share/gnupg";
