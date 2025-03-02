@@ -12,9 +12,11 @@ let
   wwwRoot = pkgs.adminer-with-plugins.override {
     theme = "brade";
     plugins = [
+      "enum-option"
       "login-servers"
     ];
     pluginConfigs = ''
+      new AdminerEnumOption,
       new AdminerLoginServers([
         'localhost' => [
           'server' => 'localhost',

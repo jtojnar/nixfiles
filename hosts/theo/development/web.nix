@@ -99,8 +99,10 @@ in
         documentRoot = pkgs.adminer-with-plugins.override {
           theme = "brade";
           plugins = [
+            "enum-option"
           ];
           pluginConfigs = ''
+            new AdminerEnumOption,
             new class {
                 // Allow empty passwords again.
                 public function login($login, $password) {
