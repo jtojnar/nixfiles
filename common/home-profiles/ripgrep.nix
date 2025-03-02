@@ -6,6 +6,8 @@
     enable = true;
     arguments = [
       "--hyperlink-format=rg-subl://{path}:{line}:{column}"
+      "--type-add=patch:*.{patch,diff}"
+      "--type-add=cocci:*.cocci"
     ];
   };
 
