@@ -166,4 +166,10 @@
       { "key": "selector", "operator": "equal", "operand": "source.nix" },
     ],
   },
+
+  {
+    "keys": ["ctrl+shift+)"],
+    // Depends on https://packagecontrol.io/packages/ParentalControl
+    "command": "remove_parentheses",
+  },
 ]
