@@ -319,6 +319,7 @@ in
     bat
     binutils # readelf, xstrings
     chromium
+    common-updater-scripts
     curlFull
     ddcutil
     dos2unix
