@@ -658,8 +658,12 @@ in
 
   programs.ssh = {
     knownHosts = {
-      "aarch64.nixos.community".publicKey =
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMUTz5i9u5H2FHNAmZJyoJfIGyUm/HfGhfwnc142L3ds";
+      "aarch64-build-box.nix-community.org".publicKey =
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG9uyfhyli+BRtk64y+niqtb+sKquRGGZ87f4YRc8EE1";
+      "build-box.nix-community.org".publicKey =
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIElIQ54qAy7Dh63rBudYKdbzJHrrbrrMXLYl7Pkmk88H";
+      "darwin-build-box.nix-community.org".publicKey =
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKMHhlcn7fUpUuiOFeIhDqBzBNFsbNqq+NpzuGX3e6zv";
     };
   };
 
