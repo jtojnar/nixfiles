@@ -172,4 +172,10 @@
     // Depends on https://packagecontrol.io/packages/ParentalControl
     "command": "remove_parentheses",
   },
+
+  {
+    "keys": ["ctrl+)"],
+    // Depends on https://packagecontrol.io/packages/SelectionTools
+    "command": "reverse_selection_direction",
+  },
 ]
