@@ -15,16 +15,8 @@ let
   package = adminer.overrideAttrs (attrs: {
     postInstall =
       attrs.postInstall or ""
-      + lib.optionalString (plugins != [ ]) ''
-        mkdir -p "$out/plugins"
-        cp "plugins/plugin.php" "$out/plugins"
-        ${lib.concatMapStringsSep "\n" (plugin: ''
-          if [[ ! -f "plugins/${plugin}.php" ]]; then
-              echo "Plug-in ${plugin} does not exist." > /dev/stderr
-              exit 1
-          fi
-          cp "plugins/${plugin}.php" "$out/plugins"
-        '') plugins}
+      + ''
+        cp -r plugins "$out"
       ''
       + lib.optionalString (theme != null) ''
         if [[ ! -f "designs/${theme}/adminer.css" ]]; then
@@ -35,30 +27,14 @@ let
       '';
   });
 
-  entrypoint = writeTextFile {
-    name = "index.php";
+  pluginConfigPhp = writeTextFile {
+    name = "adminer-plugins.php";
     text = ''
       <?php
 
-      function adminer_object() {
-        // required to run any plugin
-        require_once '${package}/plugins/plugin.php';
-
-        // autoloader
-        foreach (glob('${package}/plugins/*.php') as $filename) {
-          require_once $filename;
-        }
-
-        $plugins = [
-          // specify enabled plugins here
-          ${pluginConfigs}
-        ];
-
-        return new AdminerPlugin($plugins);
-      }
-
-      // include original Adminer or Adminer Editor
-      require '${package}/adminer.php';
+      return [
+        ${pluginConfigs}
+      ];
     '';
   };
 
@@ -71,7 +47,6 @@ let
   };
 in
 
-# If we want to use otp plug-in, we cannot have adminer.php accessible since that does not load plug-ins and would allow bypassing the otp plug-in.
 runCommand "adminer-with-plugins"
   {
     adminer = package;
@@ -79,7 +54,22 @@ runCommand "adminer-with-plugins"
   (
     ''
       mkdir -p "$out"
-      ln -s "${if plugins != [ ] then entrypoint else "${package}/adminer.php"}" "$out/index.php"
+      ln -s "${package}/adminer.php" "$out/index.php"
+
+      ${lib.optionalString (plugins != [ ]) ''
+        mkdir -p "$out/adminer-plugins"
+        ${lib.concatMapStringsSep "\n" (plugin: ''
+          if [[ ! -f "${package}/plugins/${plugin}.php" ]]; then
+              echo "Plug-in ${plugin} does not exist." > /dev/stderr
+              exit 1
+          fi
+          ln -s "${package}/plugins/${plugin}.php" "$out/adminer-plugins"
+        '') plugins}
+      ''}
+
+      ln -s "${
+        if pluginConfigs != "" then pluginConfigPhp else "${package}/adminer.php"
+      }" "$out/adminer-plugins.php"
     ''
     + lib.optionalString (theme != null) ''
       ln -s "${package}/${theme}.css" "$out/${if customStyle != null then theme else "adminer"}.css"
