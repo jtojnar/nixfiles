@@ -214,7 +214,7 @@ in
     man-pages-posix
     python3Full
     sd
-    signal-desktop
+    signal-desktop-bin
     sman
     solo2-cli
     spotify
