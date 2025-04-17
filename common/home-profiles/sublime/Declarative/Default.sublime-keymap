@@ -178,4 +178,10 @@
     // Depends on https://packagecontrol.io/packages/SelectionTools
     "command": "reverse_selection_direction",
   },
+
+  // https://lsp.sublimetext.io/keyboard_shortcuts/
+  {
+    "keys": ["f12"],
+    "command": "lsp_symbol_definition",
+  },
 ]
