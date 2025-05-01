@@ -85,7 +85,8 @@
         "agenix": "agenix",
         "flake-compat": "flake-compat",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "vpsadminos": "vpsadminos"
       }
     },
     "systems": {
@@ -100,6 +101,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "vpsadminos": {
+      "locked": {
+        "lastModified": 1746107253,
+        "narHash": "sha256-kCkxiTnWJ7q5nnSzqrFfdMuR283vGx9WQlvxAPMzQrs=",
+        "owner": "vpsfreecz",
+        "repo": "vpsadminos",
+        "rev": "f3b59dd3d6ff2313c584d2a1657b7360e355a58d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vpsfreecz",
+        "ref": "staging",
+        "repo": "vpsadminos",
         "type": "github"
       }
     }
