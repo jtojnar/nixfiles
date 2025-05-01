@@ -20,5 +20,6 @@
 
   otec = [
     "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA8gvnoe1XOcfe8m4/GjMxzlD/UnZxVP5kHELuOpu8RjA4jiL/S7zfUE1Va3oR6cTiJj3WzqbSVl21+bv5kj5gOKymlKTxzazAmT5FVwJNM2Sp3OKpPGW8yiiRVnhU5JxwRbLj76Gnh2GXZ28B+Ra9co37mO7YpqTjjV4VbVXrv08d7V39MnXrNqFpm/act+zUw5REgs9KiNFvxlnggUWlr6THR9iHel9icXLO3uWJuikmYKPhPr7bLEN9cYfAhKXIQySP8DxfEdB8+yX9GkBAuLie4YypzEOdXtzLOUcIU2wnknudfbdNvNoB4aaD0m/kNoFy64HasKQ5x/9vCCvIyQ== Otec@HP"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFw68VIc52JPJZinaQE04g2CgthRe7HJ7E8TGc8cJb8h tojnar+fotrbook@gmail.com"
   ];
 }
