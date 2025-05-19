@@ -164,7 +164,7 @@ in
   system.stateVersion = "24.05";
 
   # The rest of the file is taken from:
-  # https://github.com/vpsfreecz/vpsadminos/blob/bb71d18ef104796cbb559a8bda399b39eb24daec/os/lib/nixos-container/configuration.nix
+  # https://github.com/vpsfreecz/vpsadminos/blob/cc51709270dd3cfc50c0124f6e1055184320c552/os/lib/nixos-container/configuration.nix
   # Modulo the config copying as I will not be creating containers.
   systemd.extraConfig = ''
     DefaultTimeoutStartSec=900s
@@ -172,9 +172,9 @@ in
 
   boot.postBootCommands = ''
     # After booting, register the contents of the Nix store in the Nix database.
-    if [ -f /nix-path-registration ]; then
-      ${config.nix.package.out}/bin/nix-store --load-db < /nix-path-registration &&
-      rm /nix-path-registration
+    if [ -f /nix/nix-path-registration ]; then
+      ${config.nix.package.out}/bin/nix-store --load-db < /nix/nix-path-registration &&
+      rm /nix/nix-path-registration
     fi
     # nixos-rebuild also requires a "system" profile
     ${config.nix.package.out}/bin/nix-env -p /nix/var/nix/profiles/system --set /run/current-system
@@ -191,14 +191,13 @@ in
     contents = [ ];
     storeContents = [
       {
-        object = config.system.build.toplevel + "/init";
-        symlink = "/sbin/init";
-      }
-      {
         object = config.system.build.toplevel;
         symlink = "/run/current-system";
       }
     ];
-    extraCommands = "mkdir -p boot proc sys dev etc";
+    extraCommands = pkgs.writeScript "extra-commands.sh" ''
+      mkdir -p boot dev etc proc sbin sys
+      ln -s ${config.system.build.toplevel}/init sbin/init
+    '';
   };
 }
