@@ -15,7 +15,6 @@ in
     ./bag
     ./develop
     ./code
-    ./lego
     ./mechmice
     ./monitor
     ./mysql
