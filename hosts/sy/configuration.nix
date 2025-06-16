@@ -381,6 +381,7 @@ in
     nix-explore-closure-size
     nix-index
     pandoc
+    wineWowPackages.staging
     paprefs
     pavucontrol
     patchelf
