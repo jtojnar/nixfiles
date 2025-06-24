@@ -13,6 +13,7 @@ in
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./cleanups.nix
 
     inputs.self.nixosModules.profiles.environment
     inputs.self.nixosModules.profiles.fonts
