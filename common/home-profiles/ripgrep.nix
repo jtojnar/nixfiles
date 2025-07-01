@@ -20,7 +20,11 @@
           handler = pkgs.writeShellScript "rg-subl" ''
             declare -a a=()
             for f in "$@"; do
-                a+=(''${f#rg-subl://})
+                f=''${f#rg-subl://}
+                # Unescaping by Robin A. Meade
+                # https://stackoverflow.com/a/70560850
+                : "''${f//+/ }"; printf -v f '%b' "''${_//%/\\x}"
+                a+=("$f")
             done
             exec subl "''${a[@]}"
           '';
