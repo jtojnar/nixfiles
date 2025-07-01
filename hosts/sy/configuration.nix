@@ -332,6 +332,7 @@ in
     chromium
     common-updater-scripts
     curlFull
+    dig.dnsutils
     ddcutil
     dos2unix
     eza
@@ -353,6 +354,7 @@ in
     gnome-sound-recorder
     gnome-tweaks
     nautilus-python
+    netcat-gnu
     gnomeExtensions.appindicator
     gnomeExtensions.brightness-control-using-ddcutil
     gnomeExtensions.dash-to-dock
