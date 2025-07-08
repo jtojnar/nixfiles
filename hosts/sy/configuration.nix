@@ -60,7 +60,12 @@ in
   boot.plymouth.enable = true;
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    plugins = [
+      pkgs.networkmanager-openconnect
+    ];
+  };
 
   services.resolved.enable = true;
 
