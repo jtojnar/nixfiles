@@ -345,7 +345,7 @@ in
     file
     fzf
     gdb
-    gimp
+    gimp3
     diff-so-fancy
     difftastic
     gitFull

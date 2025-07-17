@@ -153,7 +153,7 @@ in
     fzf
     gcolor3
     gdb
-    gimp
+    gimp3
     diff-so-fancy
     difftastic
     evolution
