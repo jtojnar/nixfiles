@@ -199,7 +199,7 @@ in
     mkpasswd
     moreutils # isutf8
     ncdu
-    nixfmt-rfc-style
+    nixfmt
     nix-bisect
     nix-diff
     nix-explore-closure-size
