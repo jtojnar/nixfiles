@@ -166,9 +166,9 @@ in
   # The rest of the file is taken from:
   # https://github.com/vpsfreecz/vpsadminos/blob/cc51709270dd3cfc50c0124f6e1055184320c552/os/lib/nixos-container/configuration.nix
   # Modulo the config copying as I will not be creating containers.
-  systemd.extraConfig = ''
-    DefaultTimeoutStartSec=900s
-  '';
+  systemd.settings.Manager = {
+    DefaultTimeoutStartSec = "900s";
+  };
 
   boot.postBootCommands = ''
     # After booting, register the contents of the Nix store in the Nix database.
