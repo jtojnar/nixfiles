@@ -20,7 +20,7 @@ def main(args):
         # Print build logs
         '-L',
         # Do not rebuild nixos-rebuild or Nix, we are already taking them from shell.
-        '--fast',
+        '--no-reexec',
     ]
     if args.nixpkgs:
         nix_args += ['--override-input', 'nixpkgs', args.nixpkgs, '--no-write-lock-file']
