@@ -103,8 +103,12 @@ in
 
     postfix = {
       enable = true;
-      domain = "mxproxy.ogion.cz";
-      origin = "$mydomain";
+      settings = {
+        main = {
+          mydomain = "mxproxy.ogion.cz";
+          myorigin = "$mydomain";
+        };
+      };
     };
   };
 
