@@ -231,10 +231,12 @@ in
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  services.logind = {
-    # Laptop sends false events when used in bed.
-    lidSwitch = "ignore";
-    lidSwitchExternalPower = "ignore";
+  services.logind.settings = {
+    Login = {
+      # Laptop sends false events when used in bed.
+      HandleLidSwitch = "ignore";
+      HandleLidSwitchExternalPower = "ignore";
+    };
   };
 
   swapDevices = [
