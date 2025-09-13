@@ -396,7 +396,7 @@ in
     patchutils # for filterdiff
     playerctl
     man-pages-posix
-    python3Full
+    python3
     ripgrep-all
     sd
     sman
