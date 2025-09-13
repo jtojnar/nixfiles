@@ -5,11 +5,6 @@
 }:
 
 {
-  nix.gc = {
-    automatic = true;
-    options = "--delete-older-than 30d";
-  };
-
   systemd.user.timers."cargo-sweep" = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
