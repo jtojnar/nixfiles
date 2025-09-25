@@ -64,7 +64,7 @@ headers = {
 response = requests.get(url, headers=headers)
 
 # Check if the request was successful
-if response.status_code != 200:
+if not response.ok:
     print(f"Failed to fetch the page: {response.status_code}")
     exit()
 
