@@ -16,7 +16,7 @@ in
       virtualHosts = {
         "beta.fan-club-penguin.cz" = mkVirtualHost {
           acme = "fan-club-penguin.cz";
-          path = "fan-club-penguin.cz/@beta/www";
+          path = "fan-club-penguin.cz/@beta/current/www";
           config = ''
             index index.php;
 
