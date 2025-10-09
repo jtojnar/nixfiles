@@ -345,7 +345,7 @@ in
     file
     fzf
     gdb
-    gimp3
+    gimp
     diff-so-fancy
     difftastic
     gitFull
@@ -378,7 +378,6 @@ in
     jq
     libreoffice-fresh
     libxml2 # for xmllint
-    ltrace
     meld
     mkpasswd
     moreutils # isutf8

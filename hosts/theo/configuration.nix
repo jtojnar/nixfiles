@@ -153,7 +153,7 @@ in
     fzf
     gcolor3
     gdb
-    gimp3
+    gimp
     diff-so-fancy
     difftastic
     evolution
@@ -194,7 +194,6 @@ in
     jq
     libxml2 # for xmllint
     lorri
-    ltrace
     meld
     mkpasswd
     moreutils # isutf8
