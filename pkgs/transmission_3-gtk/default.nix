@@ -17,13 +17,9 @@
   dht,
   libnatpmp,
   libiconv,
-  # Build options
-  enableGTK3 ? true,
   gtk3,
   xorg,
   wrapGAppsHook3,
-  enableQt ? false,
-  qt5,
   nixosTests,
   enableSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd,
   enableDaemon ? true,
@@ -71,8 +67,8 @@ stdenv.mkDerivation (finalAttrs: {
     in
     [
       "-DENABLE_MAC=OFF" # requires xcodebuild
-      "-DENABLE_GTK=${mkFlag enableGTK3}"
-      "-DENABLE_QT=${mkFlag enableQt}"
+      "-DENABLE_GTK=ON"
+      "-DENABLE_QT=OFF"
       "-DENABLE_DAEMON=${mkFlag enableDaemon}"
       "-DENABLE_CLI=${mkFlag enableCli}"
       "-DINSTALL_LIB=${mkFlag installLib}"
@@ -81,9 +77,8 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     pkg-config
     cmake
-  ]
-  ++ lib.optionals enableGTK3 [ wrapGAppsHook3 ]
-  ++ lib.optionals enableQt [ qt5.wrapQtAppsHook ];
+    wrapGAppsHook3
+  ];
 
   buildInputs = [
     openssl
@@ -96,12 +91,6 @@ stdenv.mkDerivation (finalAttrs: {
     miniupnpc
     dht
     libnatpmp
-  ]
-  ++ lib.optionals enableQt [
-    qt5.qttools
-    qt5.qtbase
-  ]
-  ++ lib.optionals enableGTK3 [
     gtk3
     xorg.libpthreadstubs
   ]
@@ -150,20 +139,9 @@ stdenv.mkDerivation (finalAttrs: {
     NIX_CFLAGS_COMPILE = "-Wno-error=incompatible-pointer-types";
   };
 
-  passthru.tests = {
-    apparmor = nixosTests.transmission_3; # starts the service with apparmor enabled
-    smoke-test = nixosTests.bittorrent;
-  };
-
   meta = {
     description = "Fast, easy and free BitTorrent client (deprecated version 3)";
-    mainProgram =
-      if enableQt then
-        "transmission-qt"
-      else if enableGTK3 then
-        "transmission-gtk"
-      else
-        "transmission-cli";
+    mainProgram = "transmission-gtk";
     longDescription = ''
       Transmission is a BitTorrent client which features a simple interface
       on top of a cross-platform back-end.
