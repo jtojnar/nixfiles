@@ -90,7 +90,8 @@ let
     sentry_dsn = null;
   };
 
-  php = pkgs.php.withExtensions (
+  # Pin to fix “Implicitly marking parameter as nullable is deprecated” in PHP 8.4
+  php = pkgs.php83.withExtensions (
     { enabled, all }:
     enabled
     ++ (with all; [
