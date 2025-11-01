@@ -242,7 +242,7 @@ in
   ];
 
   environment.enableDebugInfo = true;
-  services.nixseparatedebuginfod.enable = true;
+  services.nixseparatedebuginfod2.enable = true;
 
   fonts.fontconfig.defaultFonts.emoji = [ "JoyPixels" ];
 

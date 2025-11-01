@@ -123,8 +123,7 @@ in
             lib.mapAttrsToList (
               hostName: vhost:
               let
-                onlySSL = vhost.onlySSL || vhost.enableSSL;
-                hasSSL = onlySSL || vhost.addSSL || vhost.forceSSL;
+                hasSSL = vhost.onlySSL || vhost.addSSL || vhost.forceSSL;
               in
               builtins.map (path: "http${lib.optionalString hasSSL "s"}://${hostName}${path}") (
                 pathsToMonitor.${hostName} or [ "/" ]
