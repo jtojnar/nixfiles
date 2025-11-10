@@ -53,7 +53,10 @@ in
   ];
 
   programs = {
-    fish.enable = true;
+    fish = {
+      enable = true;
+      interactiveShellInit = builtins.readFile ../../common/data/config.fish;
+    };
   };
 
   services = {
