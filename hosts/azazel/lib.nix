@@ -67,8 +67,8 @@
       inherit user;
       settings =
         {
-          "listen.owner" = "nginx";
-          "listen.group" = "root";
+          "listen.owner" = config.services.nginx.user;
+          "listen.group" = config.services.nginx.user;
           "pm" = "dynamic";
           "pm.max_children" = 5;
           "pm.start_servers" = 2;
