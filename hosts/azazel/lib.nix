@@ -74,6 +74,7 @@
           "pm.start_servers" = 2;
           "pm.min_spare_servers" = 1;
           "pm.max_spare_servers" = 3;
+          "pm.status_path" = "/status";
         }
         // (
           lib.optionalAttrs debug {
