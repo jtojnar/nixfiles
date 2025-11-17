@@ -15,40 +15,20 @@
       ...
     }@args:
 
-    (
-      if lib.isString acme then
-        {
-          useACMEHost = acme;
-          forceSSL = true;
-        }
-      else
-        { }
-    )
-    // (
-      if lib.isBool acme then
-        {
-          enableACME = acme;
-          forceSSL = true;
-        }
-      else
-        { }
-    )
-    // (
-      if redirect != null then
-        {
-          globalRedirect = redirect;
-        }
-      else
-        { }
-    )
-    // (
-      if path != null then
-        {
-          root = "/var/www/" + path;
-        }
-      else
-        { }
-    )
+    lib.optionalAttrs (lib.isString acme) {
+      useACMEHost = acme;
+      forceSSL = true;
+    }
+    // lib.optionalAttrs (lib.isBool acme) {
+      enableACME = acme;
+      forceSSL = true;
+    }
+    // lib.optionalAttrs (redirect != null) {
+      globalRedirect = redirect;
+    }
+    // lib.optionalAttrs (path != null) {
+      root = "/var/www/" + path;
+    }
     // {
       extraConfig = config;
     }
@@ -79,13 +59,11 @@
         "pm.max_spare_servers" = 3;
         "pm.status_path" = "/status";
       }
-      // (
-        lib.optionalAttrs debug {
-          # log worker's stdout, but this has a performance hit
-          "catch_workers_output" = true;
-        }
-        // settings
-      );
+      // lib.optionalAttrs debug {
+        # log worker's stdout, but this has a performance hit
+        "catch_workers_output" = true;
+      }
+      // settings;
     }
     // builtins.removeAttrs args [
       "user"
