@@ -10,6 +10,7 @@ in
   ];
 
   environment.systemPackages = with pkgs; [
+    file-roller
     gitFull
     vlc
     gnomeExtensions.appindicator

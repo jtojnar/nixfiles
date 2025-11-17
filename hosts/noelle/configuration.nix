@@ -17,6 +17,7 @@ in
   environment.systemPackages = with pkgs; [
     gitFull
     dconf-editor
+    file-roller
     gnome-tweaks
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock

@@ -149,6 +149,7 @@ in
     exiftool
     fd
     file
+    file-roller
     foliate
     fzf
     gcolor3

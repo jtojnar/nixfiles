@@ -354,6 +354,7 @@ in
     git-part-pick
     dconf-editor
     devhelp
+    file-roller
     ghex
     gnome-disk-utility
     gnome-sound-recorder
