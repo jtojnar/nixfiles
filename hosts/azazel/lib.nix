@@ -4,6 +4,7 @@
   pkgs,
   ...
 }:
+
 {
   mkVirtualHost =
     {
@@ -13,6 +14,7 @@
       redirect ? null,
       ...
     }@args:
+
     (
       if lib.isString acme then
         {
@@ -56,6 +58,7 @@
       "acme"
       "redirect"
     ];
+
   mkPhpPool =
     {
       user,
@@ -63,32 +66,33 @@
       settings ? { },
       ...
     }@args:
+
     {
       inherit user;
-      settings =
-        {
-          "listen.owner" = config.services.nginx.user;
-          "listen.group" = config.services.nginx.user;
-          "pm" = "dynamic";
-          "pm.max_children" = 5;
-          "pm.start_servers" = 2;
-          "pm.min_spare_servers" = 1;
-          "pm.max_spare_servers" = 3;
-          "pm.status_path" = "/status";
+      settings = {
+        "listen.owner" = config.services.nginx.user;
+        "listen.group" = config.services.nginx.user;
+        "pm" = "dynamic";
+        "pm.max_children" = 5;
+        "pm.start_servers" = 2;
+        "pm.min_spare_servers" = 1;
+        "pm.max_spare_servers" = 3;
+        "pm.status_path" = "/status";
+      }
+      // (
+        lib.optionalAttrs debug {
+          # log worker's stdout, but this has a performance hit
+          "catch_workers_output" = true;
         }
-        // (
-          lib.optionalAttrs debug {
-            # log worker's stdout, but this has a performance hit
-            "catch_workers_output" = true;
-          }
-          // settings
-        );
+        // settings
+      );
     }
     // builtins.removeAttrs args [
       "user"
       "debug"
       "settings"
     ];
+
   enablePHP = sockName: ''
     fastcgi_pass unix:${config.services.phpfpm.pools.${sockName}.socket};
     include ${config.services.nginx.package}/conf/fastcgi.conf;
