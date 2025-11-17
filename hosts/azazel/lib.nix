@@ -50,8 +50,10 @@
     {
       inherit user;
       settings = {
-        "listen.owner" = config.services.nginx.user;
-        "listen.group" = config.services.nginx.user;
+        "listen.acl_users" = lib.concatStringsSep "," [
+          config.services.nginx.user
+          config.services.prometheus.exporters.php-fpm.user
+        ];
         "pm" = "dynamic";
         "pm.max_children" = 5;
         "pm.start_servers" = 2;

@@ -49,8 +49,6 @@ in
     exporters = {
       php-fpm = {
         enable = true;
-        # TODO: replace with acl
-        group = config.services.nginx.group;
         environmentFile = pkgs.writeTextFile {
           name = "prometheus-php-fpm-exporter.env";
           text =
