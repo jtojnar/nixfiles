@@ -38,7 +38,7 @@ in
         };
         mailer = {
           ENABLED = true;
-          MAILER_TYPE = "sendmail";
+          PROTOCOL = "sendmail";
           FROM = "noreply+code@ogion.cz";
           SENDMAIL_PATH = "/run/wrappers/bin/sendmail";
         };
