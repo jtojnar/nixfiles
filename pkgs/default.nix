@@ -15,8 +15,6 @@ final: prev: {
 
   sunflower = prev.callPackage ./sunflower { };
 
-  transmission_3-gtk = prev.callPackage ./transmission_3-gtk { };
-
   wrcq = prev.callPackage ./wrcq { };
 
   inherit (prev.callPackages ./utils { })

@@ -217,7 +217,6 @@ in
     telegram-desktop
     textpieces
     tldr
-    transmission_3-gtk
     treesheets
     unrar
     valgrind
