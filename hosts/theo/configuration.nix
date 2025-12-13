@@ -133,12 +133,6 @@ in
     common-updater-scripts
     config.boot.kernelPackages.v4l2loopback
     curlFull
-    (deadbeef-with-plugins.override {
-      plugins = with deadbeefPlugins; [
-        headerbar-gtk3
-        mpris2
-      ];
-    })
     deja-dup
     d-spy
     droidcam
