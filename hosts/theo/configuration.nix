@@ -162,12 +162,10 @@ in
     devhelp
     geary
     ghex
-    gnome-chess
     gnome-disk-utility
     gnome-sound-recorder
     gnome-tweaks
     nautilus-python
-    gnome-pomodoro
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnumeric
@@ -176,7 +174,6 @@ in
     libadwaita # for demo
     gtk3.dev # for gtk-builder-tool etc
     graphviz
-    python3.pkgs.xdot
     htop
     icon-library
     imagemagick
@@ -188,7 +185,6 @@ in
     })
     jq
     libxml2 # for xmllint
-    lorri
     meld
     mkpasswd
     moreutils # isutf8
@@ -198,7 +194,6 @@ in
     nix-diff
     nix-explore-closure-size
     nix-index
-    onboard
     openLocalhostAsHttp
     paprefs
     pavucontrol
@@ -225,10 +220,8 @@ in
     wget
     wirelesstools # for iwlist
     xdot
-    xsel
     unixtools.xxd
     yt-dlp
-    zotero
   ];
 
   services.udev.packages = with pkgs; [
