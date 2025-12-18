@@ -21,6 +21,7 @@ in
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
     "${inputs.nixpkgs}/nixos/modules/virtualisation/container-config.nix"
     inputs.vpsadminos.nixosConfigurations.containerUnstable
+    ./security/anubis.nix
     ./security/fail2ban.nix
 
     # sites

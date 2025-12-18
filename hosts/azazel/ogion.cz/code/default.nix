@@ -78,10 +78,14 @@ in
           forceSSL = true;
           locations = {
             "/" = {
-              proxyPass = "http://${config.services.gitea.settings.server.HTTP_ADDR}:${toString port}";
+              proxyPass = "http://unix:${config.services.anubis.instances.gitea.settings.BIND}";
               extraConfig = ''
                 # Git LFS fails with HTTP 413 sometimes.
                 client_max_body_size 256M;
+
+                # For Anubis.
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
               '';
             };
           };
@@ -100,4 +104,13 @@ in
       database = "gitea";
     }
   ];
+
+  services.anubis.instances.gitea = {
+    settings = {
+      # TODO: Remove once we have more instances.
+      BIND = "/run/anubis/anubis-gitea/anubis.sock";
+      METRICS_BIND = "/run/anubis/anubis-gitea/anubis-metrics.sock";
+      TARGET = "http://${config.services.gitea.settings.server.HTTP_ADDR}:${toString port}";
+    };
+  };
 }
