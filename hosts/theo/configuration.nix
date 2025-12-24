@@ -219,6 +219,7 @@ in
     warp
     wget
     wirelesstools # for iwlist
+    wl-clipboard
     xdot
     unixtools.xxd
     yt-dlp
