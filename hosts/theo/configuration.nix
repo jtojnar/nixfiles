@@ -317,6 +317,9 @@ in
     };
   };
 
+  # Blocks typing a password in gdm and would not unlock keyring.
+  security.pam.services.login.rules.auth.u2f.enable = lib.mkForce false;
+
   security.sudo.extraConfig = ''
     Defaults pwfeedback
     Defaults timestamp_timeout=25
