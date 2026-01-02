@@ -175,6 +175,8 @@ in
     gtk3.dev # for gtk-builder-tool etc
     graphviz
     htop
+    hunspellDicts.cs-cz
+    hunspellDicts.en-gb-large
     icon-library
     imagemagick
     indent
