@@ -47,13 +47,6 @@ in
     };
   };
 
-  boot.kernelModules = [
-    "v4l2loopback"
-    "snd_aloop"
-  ];
-  boot.extraModulePackages = [
-    config.boot.kernelPackages.v4l2loopback.out
-  ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
     "boot.shell_on_fail"
@@ -131,11 +124,9 @@ in
     cachix
     chromium
     common-updater-scripts
-    config.boot.kernelPackages.v4l2loopback
     curlFull
     deja-dup
     d-spy
-    droidcam
     dos2unix
     easyeffects
     easytag
