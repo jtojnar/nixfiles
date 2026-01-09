@@ -116,6 +116,7 @@ in
   environment.systemPackages = with pkgs; [
     abiword
     almanah
+    android-tools
     anki-bin
     apg
     bat
@@ -229,7 +230,6 @@ in
 
   # List programs
   programs = {
-    adb.enable = true;
     fish = {
       enable = true;
       interactiveShellInit =
