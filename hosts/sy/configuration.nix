@@ -332,6 +332,7 @@ in
     };
 
   environment.systemPackages = with pkgs; [
+    android-tools
     bat
     binutils # readelf, xstrings
     chromium
