@@ -75,6 +75,8 @@ in
     Domains=~open-ims.test
   '';
 
+  services.tailscale.enable = true;
+
   # Set your time zone.
   time.timeZone = "Europe/Prague";
 
