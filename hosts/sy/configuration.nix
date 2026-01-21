@@ -69,12 +69,6 @@ in
 
   services.resolved.enable = true;
 
-  environment.etc."systemd/resolved.conf.d/open-ims-test.conf".text = ''
-    [Resolve]
-    DNS=192.168.222.50
-    Domains=~open-ims.test
-  '';
-
   services.tailscale.enable = true;
 
   # Set your time zone.
