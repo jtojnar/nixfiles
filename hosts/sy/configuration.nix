@@ -408,7 +408,7 @@ in
     wget
     wirelesstools # for iwlist
     xdot
-    xsel
+    wl-clipboard
     unixtools.xxd
   ];
 
