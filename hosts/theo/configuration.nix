@@ -237,6 +237,10 @@ in
           eval (${pkgs.direnv}/bin/direnv hook fish)
         ''
         + builtins.readFile ../../common/data/config.fish;
+
+      shellAliases = {
+        clip = lib.getExe' pkgs.wl-clipboard "wl-copy";
+      };
     };
     gnupg.agent.enable = true;
 

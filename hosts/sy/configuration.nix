@@ -1,6 +1,7 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }:
@@ -422,6 +423,10 @@ in
           eval (${pkgs.direnv}/bin/direnv hook fish)
         ''
         + builtins.readFile ../../common/data/config.fish;
+
+      shellAliases = {
+        clip = lib.getExe' pkgs.wl-clipboard "wl-copy";
+      };
     };
 
     gnome-terminal.enable = true;
