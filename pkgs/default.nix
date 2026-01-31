@@ -15,14 +15,6 @@ final: prev: {
 
   sunflower = prev.callPackage ./sunflower { };
 
-  wireplumber = prev.wireplumber.overrideAttrs (attrs: {
-    version = "0.5.12";
-    src = attrs.src.override {
-      rev = "0.5.12";
-      hash = "sha256-3LdERBiPXal+OF7tgguJcVXrqycBSmD3psFzn4z5krY=";
-    };
-  });
-
   wrcq = prev.callPackage ./wrcq { };
 
   inherit (prev.callPackages ./utils { })
