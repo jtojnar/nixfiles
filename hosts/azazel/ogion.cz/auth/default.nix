@@ -139,18 +139,19 @@ in
             };
 
             session = {
-              domain = "ogion.cz";
+              cookies = [
+                {
+                  domain = "ogion.cz";
+                  authelia_url = "https://auth.ogion.cz";
+                }
+              ];
             };
 
             storage = {
               postgres = {
-                host = "/run/postgresql";
+                address = "unix:///run/postgresql";
                 database = "authelia-default";
-                # 4.37.5 requires explicitly specified port for sockets.
-                port = "5432";
                 username = "authelia-default";
-                # This is meaningless with socket.
-                password = "foo";
               };
             };
 
