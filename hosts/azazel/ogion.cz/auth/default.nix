@@ -70,6 +70,9 @@ in
           locations = {
             "/" = {
               proxyPass = "http://localhost:${autheliaPort}";
+              extraConfig = ''
+                include ${./proxy.conf};
+              '';
             };
           };
         };
