@@ -27,7 +27,7 @@ php.buildComposerProject (finalAttrs: {
     composerNoDev = true;
     composerNoPlugins = true;
     composerNoScripts = true;
-    vendorHash = "sha256-LtAUSv99bjoECtE6ixlCwH8fcoZkNXTJAb/tl6oTUM8=";
+    vendorHash = "sha256-UVlDXDFkTyzGXqQgNnynXZDmquV7JC6VTwv/Zx5sJng=";
   };
 
   postPatch = ''
