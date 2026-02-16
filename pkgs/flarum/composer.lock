@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7cbd5ae0f9eda366acdff5dd204719d3",
+    "content-hash": "b7f03f2642a044167bc0568381fc61ef",
     "packages": [
         {
             "name": "axy/backtrace",
@@ -3135,6 +3135,88 @@
             "time": "2023-11-12T15:40:52+00:00"
         },
         {
+            "name": "fof/synopsis",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfFlarum/synopsis.git",
+                "reference": "34e718e0da5c59b9e2c21c1f29d4b6add07871f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfFlarum/synopsis/zipball/34e718e0da5c59b9e2c21c1f29d4b6add07871f7",
+                "reference": "34e718e0da5c59b9e2c21c1f29d4b6add07871f7",
+                "shasum": ""
+            },
+            "require": {
+                "flarum/core": "^1.8.0",
+                "flarum/tags": "*"
+            },
+            "replace": {
+                "ianm/synopsis": "*"
+            },
+            "require-dev": {
+                "flarum/core": "*",
+                "flarum/phpstan": "*",
+                "flarum/testing": "^1.0.0",
+                "symfony/var-dumper": "*"
+            },
+            "type": "flarum-extension",
+            "extra": {
+                "flarum-cli": {
+                    "modules": {
+                        "githubActions": true,
+                        "backendTesting": true
+                    }
+                },
+                "flarum-extension": {
+                    "icon": {
+                        "name": "fas fa-comment-dots",
+                        "color": "#fff",
+                        "backgroundColor": "#e74c3c"
+                    },
+                    "title": "FoF Synopsis",
+                    "category": "feature"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FoF\\Synopsis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "IanM",
+                    "email": "ian@flarum.org"
+                }
+            ],
+            "description": "Show summary excerpts on discussion lists.",
+            "keywords": [
+                "discussion",
+                "excerpt",
+                "excerpts",
+                "flarum",
+                "summaries",
+                "summary",
+                "synopsis"
+            ],
+            "support": {
+                "forum": "https://discuss.flarum.org/d/37231",
+                "issues": "https://github.com/friendsofflarum/synopsis/issues",
+                "source": "https://github.com/friendsofflarum/synopsis"
+            },
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/ianm1"
+                }
+            ],
+            "time": "2025-04-30T13:20:49+00:00"
+        },
+        {
             "name": "fof/upload",
             "version": "1.8.8",
             "source": {
@@ -3905,86 +3987,6 @@
                 "source": "https://github.com/imorland/syndication"
             },
             "time": "2023-12-20T21:18:09+00:00"
-        },
-        {
-            "name": "ianm/synopsis",
-            "version": "1.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/imorland/synopsis.git",
-                "reference": "a8ab022311133a83ae5e5865ba03b8b0cecd2656"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/imorland/synopsis/zipball/a8ab022311133a83ae5e5865ba03b8b0cecd2656",
-                "reference": "a8ab022311133a83ae5e5865ba03b8b0cecd2656",
-                "shasum": ""
-            },
-            "require": {
-                "flarum/core": "^1.8.0",
-                "flarum/tags": "*"
-            },
-            "conflict": {
-                "jordanjay29/flarum-ext-summaries": "*"
-            },
-            "require-dev": {
-                "flarum/core": "*",
-                "flarum/phpstan": "*",
-                "flarum/testing": "^1.0.0",
-                "symfony/var-dumper": "*"
-            },
-            "type": "flarum-extension",
-            "extra": {
-                "flagrow": {
-                    "discuss": "https://discuss.flarum.org/d/25772"
-                },
-                "flarum-extension": {
-                    "icon": {
-                        "name": "fas fa-comment-dots",
-                        "color": "#fff",
-                        "backgroundColor": "#0072e3"
-                    },
-                    "title": "Synopsis",
-                    "category": "feature"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "IanM\\Synopsis\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "IanM",
-                    "homepage": "https://discuss.flarum.org/u/ianm"
-                }
-            ],
-            "description": "Show summary excerpts on discussion lists.",
-            "keywords": [
-                "discussion",
-                "excerpt",
-                "excerpts",
-                "flarum",
-                "summaries",
-                "summary",
-                "synopsis"
-            ],
-            "support": {
-                "forum": "https://discuss.flarum.org/d/25772",
-                "issues": "https://github.com/imorland/synopsis/issues",
-                "source": "https://github.com/imorland/synopsis"
-            },
-            "funding": [
-                {
-                    "url": "https://www.buymeacoffee.com/ianm1"
-                }
-            ],
-            "abandoned": "fof/synopsis",
-            "time": "2024-11-27T12:22:41+00:00"
         },
         {
             "name": "illuminate/bus",

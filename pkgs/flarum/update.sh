@@ -43,7 +43,7 @@ composer require fof/upload
 composer require fof/user-directory
 composer require fof/webhooks
 composer require ianm/syndication
-composer require ianm/synopsis
+composer require fof/synopsis
 composer require madnest/flarum-lang-czech
 composer require xelson/flarum-ext-chat
 
