@@ -18,6 +18,11 @@ in
     keys.azazel
     keys.jtojnar
   ];
+  # https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#secret_key
+  "monitor_grafana.ogion.cz-secret.age".publicKeys = builtins.concatLists [
+    keys.azazel
+    keys.jtojnar
+  ];
   "ostrov-tucnaku.cz-telegram-api-key.age".publicKeys = builtins.concatLists [
     keys.azazel
 

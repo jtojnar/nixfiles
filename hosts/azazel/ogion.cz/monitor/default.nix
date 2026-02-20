@@ -19,6 +19,9 @@ in
       server = {
         domain = "monitor.ogion.cz";
       };
+      security = {
+        secret_key = "$__file{${config.age.secrets."monitor_grafana.ogion.cz-secret".path}}";
+      };
     };
 
     # TODO: try to make it run without a database. Or at least make it on tmpfs.
@@ -69,6 +72,13 @@ in
     globalConfig = {
       scrape_interval = "15m";
       evaluation_interval = "15m";
+    };
+  };
+
+  age.secrets = {
+    "monitor_grafana.ogion.cz-secret" = {
+      owner = config.users.users.grafana.name;
+      file = ../../../../secrets/monitor_grafana.ogion.cz-secret.age;
     };
   };
 }
