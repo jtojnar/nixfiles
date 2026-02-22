@@ -48,6 +48,14 @@ in
       owner = config.users.users.${instanceCfg.user}.name;
       file = ../../../../secrets/authelia-default-jwt.age;
     };
+    "authelia-default-oidc-hmac-secret" = {
+      owner = config.users.users.${instanceCfg.user}.name;
+      file = ../../../../secrets/authelia-default-oidc-hmac-secret.age;
+    };
+    "authelia-default-oidc-jwk" = {
+      owner = config.users.users.${instanceCfg.user}.name;
+      file = ../../../../secrets/authelia-default-oidc-jwk.age;
+    };
     "authelia-default-storage-encryption-key" = {
       owner = config.users.users.${instanceCfg.user}.name;
       file = ../../../../secrets/authelia-default-storage-encryption-key.age;
@@ -86,6 +94,10 @@ in
           secrets = {
             jwtSecretFile = config.age.secrets."authelia-default-jwt".path;
             storageEncryptionKeyFile = config.age.secrets."authelia-default-storage-encryption-key".path;
+            oidcHmacSecretFile = config.age.secrets."authelia-default-oidc-hmac-secret".path;
+            # This also enables template interpolation relied on by oidc clients.
+            # https://www.authelia.com/reference/guides/templating/#secret
+            oidcIssuerPrivateKeyFile = config.age.secrets."authelia-default-oidc-jwk".path;
           };
 
           settings = {
@@ -138,6 +150,16 @@ in
               password_reset = {
                 # Passwords are set declaratively.
                 disable = true;
+              };
+            };
+
+            identity_providers = {
+              # https://www.authelia.com/configuration/identity-providers/openid-connect/provider/
+              oidc = {
+                # https://www.authelia.com/configuration/identity-providers/openid-connect/clients/
+                clients = [
+                  # Defined by individual services’ modules.
+                ];
               };
             };
 

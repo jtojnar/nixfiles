@@ -18,6 +18,7 @@ in
     ./mechmice
     ./monitor
     ./mysql
+    ./pad
     ./reader
     ./temp
     ./todo
@@ -33,6 +34,7 @@ in
     "mechmice.ogion.cz"
     "monitor.ogion.cz"
     "mysql.ogion.cz"
+    "pad.ogion.cz"
     "reader.ogion.cz"
     "temp.ogion.cz"
     "tools.ogion.cz"
@@ -79,6 +81,7 @@ in
       nginx = {
         extraGroups = [
           "bag"
+          "pad"
           "reader"
           "adminer"
           "mechmice"
@@ -105,6 +108,11 @@ in
         group = "mechmice";
         isSystemUser = true;
       };
+      pad = {
+        uid = 523;
+        group = "pad";
+        isSystemUser = true;
+      };
       tools = {
         uid = 519;
         group = "tools";
@@ -124,6 +132,9 @@ in
       };
       mechmice = {
         gid = 503;
+      };
+      pad = {
+        gid = 523;
       };
       tools = {
         gid = 519;
