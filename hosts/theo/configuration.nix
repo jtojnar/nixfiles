@@ -206,6 +206,7 @@ in
     telegram-desktop
     textpieces
     tldr
+    transmission_4-gtk
     treesheets
     unrar
     valgrind
