@@ -105,6 +105,7 @@
       }
     },
     "vpsadminos": {
+      "flake": false,
       "locked": {
         "lastModified": 1772012532,
         "narHash": "sha256-D9KqjXwasXKC/XGyI86gUuh7IMoXxALZ8TgG2VjfH1E=",

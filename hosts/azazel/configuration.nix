@@ -20,7 +20,7 @@ in
   imports = [
     "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
     "${inputs.nixpkgs}/nixos/modules/virtualisation/container-config.nix"
-    inputs.vpsadminos.nixosConfigurations.containerUnstable
+    "${inputs.vpsadminos}/os/lib/nixos-container/unstable/vpsadminos.nix"
     ./security/anubis.nix
     ./security/fail2ban.nix
 

@@ -23,7 +23,11 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    vpsadminos.url = github:vpsfreecz/vpsadminos/staging;
+    vpsadminos = {
+      url = "github:vpsfreecz/vpsadminos/staging";
+      # Avoid transitive inputs we do not care about.
+      flake = false;
+    };
   };
 
   outputs =
