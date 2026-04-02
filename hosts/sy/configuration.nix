@@ -304,6 +304,10 @@ in
             gtk-application-prefer-dark-theme = true;
           };
         };
+        gtk4 = {
+          # TODO: drop with stateVersion 26.05
+          theme = null;
+        };
       };
 
       programs.direnv = {
