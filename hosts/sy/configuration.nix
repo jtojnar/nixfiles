@@ -391,6 +391,7 @@ in
     nix-diff
     nix-explore-closure-size
     nix-index
+    npins
     pandoc
     wineWow64Packages.staging
     paprefs
