@@ -26,6 +26,8 @@ in
     telegram-desktop
   ];
 
+  virtualisation.libvirtd.enable = true;
+
   programs = {
     # Console interface
     fish = {
@@ -217,6 +219,8 @@ in
         extraGroups = [
           "networkmanager"
           "wheel"
+          "kvm"
+          "libvirtd"
         ];
         useDefaultShell = true;
       };
@@ -224,6 +228,7 @@ in
   };
 
   # Bootloader.
+  boot.kernelModules = [ "kvm-amd" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
