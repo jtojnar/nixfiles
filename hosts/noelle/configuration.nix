@@ -179,7 +179,6 @@ in
       };
     };
   };
-  security.rtkit.enable = true;
 
   services = {
     openssh = {

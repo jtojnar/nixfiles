@@ -264,8 +264,6 @@ in
 
   services.flatpak.enable = true;
 
-  security.rtkit.enable = true;
-
   networking.firewall = {
     allowedTCPPortRanges = [
       # Warpinator
