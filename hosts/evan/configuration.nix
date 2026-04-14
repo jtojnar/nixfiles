@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 
 let
   keys = import ../../common/data/keys.nix;
@@ -7,6 +12,7 @@ in
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    inputs.self.nixosModules.profiles.fonts
   ];
 
   environment.systemPackages = with pkgs; [
