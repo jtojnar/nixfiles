@@ -165,6 +165,13 @@ in
     useXkbConfig = true;
   };
 
+  swapDevices = [
+    {
+      device = "/var/swap";
+      size = 1024 * 16 * 2; # twice the RAM should leave enough space for hibernation
+    }
+  ];
+
   hardware.bluetooth = {
     enable = true;
     settings = {
