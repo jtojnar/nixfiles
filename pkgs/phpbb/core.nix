@@ -12,7 +12,7 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "phpbb";
-  version = "3.3.15";
+  version = "3.3.16";
 
   outputs = [
     "out"
@@ -21,7 +21,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   src = fetchurl {
     url = "https://download.phpbb.com/pub/release/${lib.versions.majorMinor finalAttrs.version}/${finalAttrs.version}/phpBB-${finalAttrs.version}.zip";
-    sha256 = "OQTMZmjqUjGIZ/7B9/6Lm8C9VDHaHfYXqlxDwJKkQlI=";
+    sha256 = "86uz8o7FC3FwLtq5Nubh8ojT8Wl+Ex9EJxQ7craPHu4=";
   };
 
   nativeBuildInputs = [
