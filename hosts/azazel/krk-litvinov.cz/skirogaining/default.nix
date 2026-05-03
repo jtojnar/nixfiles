@@ -1,76 +1,60 @@
 {
-  config,
-  lib,
   myLib,
   ...
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost;
+  inherit (myLib) enablePHP;
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "skirogaining.krk-litvinov.cz" = mkVirtualHost {
-          path = "krk-litvinov.cz/skirogaining";
-          acme = true;
-          config = ''
-            index index.php;
+        "skirogaining.krk-litvinov.cz" = {
+          useACMEHost = "krk-litvinov.cz";
+          extraConfig = ''
+            root * /var/www/krk-litvinov.cz/skirogaining
 
-            location = /favicon.ico {
-              log_not_found off;
-              access_log off;
+            # Redirect to last event.
+            redir / /2015-prosinec/cs/
+
+            rewrite /sitemap.txt /sitemap.php
+
+            handle {
+              # Try real files first
+              try_files {path} @virtual
             }
 
-            location = /robots.txt {
-              allow all;
-              log_not_found off;
-              access_log off;
-            }
-
-            location = / {
-              # Redirect to last event.
-              return 302 /2015-prosinec/cs/;
-            }
-
-            location / {
-              rewrite ^/sitemap.txt$ /sitemap.php last;
-              try_files $uri @virtual_page;
-            }
-
-            location @virtual_page {
+            handle @virtual {
               # Redirect to default language.
-              rewrite ^/([^/]+)/?$ /$1/cs/ redirect;
+              @lang_redirect path_regexp ^/([^/]+)/?$
+              redir @lang_redirect /{re.lang_redirect.1}/cs/
+
               # Add extra slash to the language route.
-              rewrite ^/([^/]+)/([^/]+)$ /$1/$2/ redirect;
+              @slash path_regexp ^/([^/]+)/([^/]+)$
+              redir @slash /{re.slash.1}/{re.slash.2}/
+
               # Show main page.
-              rewrite ^/([^/]+)/([^/]+)/$ /$1/index.php?page=main&lang=$2 last;
+              @main path_regexp ^/([^/]+)/([^/]+)/$
+              rewrite @main /{re.main.1}/index.php?page=main&lang={re.main.2}
+
               # Show other pages.
-              rewrite ^/([^/]+)/([^/]+)/(.+)$ /$1/index.php?page=$3&lang=$2 last;
+              @page path_regexp ^/([^/]+)/([^/]+)/(.+)$
+              rewrite @page /{re.page.1}/index.php?page={re.page.3}&lang={re.page.2}
             }
 
-            location = /sitemap.php {
-              return 403;
+            @forbidden_files {
+              path /sitemap.php
+              path_regexp \.(pg|md|pgc[1-9])$
             }
 
-            location ~* \.(pg|md|pgc[1-9])$ {
-              return 403;
-            }
+            respond @forbidden_files 403
 
-            location ~ \.php$ {
-              #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
-              fastcgi_intercept_errors on;
-              fastcgi_read_timeout 500;
-              ${enablePHP "skirogaining"}
-            }
+            ${enablePHP "skirogaining"}
 
-            location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
-              expires max;
-              log_not_found off;
-            }
+            file_server
           '';
         };
       };

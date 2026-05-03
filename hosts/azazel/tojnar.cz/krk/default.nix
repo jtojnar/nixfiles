@@ -9,8 +9,9 @@ let
   inherit (myLib) enablePHP mkVirtualHost;
 in
 {
+  # TODO
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       commonHttpConfig = ''

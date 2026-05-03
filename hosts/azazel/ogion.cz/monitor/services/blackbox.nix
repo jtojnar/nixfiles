@@ -123,12 +123,12 @@ in
             lib.mapAttrsToList (
               hostName: vhost:
               let
-                hasSSL = vhost.onlySSL || vhost.addSSL || vhost.forceSSL;
+                hasSSL = !lib.hasPrefix "http://" hostName;
               in
               builtins.map (path: "http${lib.optionalString hasSSL "s"}://${hostName}${path}") (
                 pathsToMonitor.${hostName} or [ "/" ]
               )
-            ) config.services.nginx.virtualHosts
+            ) config.services.caddy.virtualHosts
           );
         in
         mkBlackboxProbe "https_success" checkedUrls

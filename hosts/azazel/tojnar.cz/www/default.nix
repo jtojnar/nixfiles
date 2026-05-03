@@ -8,11 +8,12 @@
 let
   inherit (myLib) enablePHP mkVirtualHost;
 
-  self = config.services.nginx.virtualHosts."www.tojnar.cz";
+  self = config.services.caddy.virtualHosts."www.tojnar.cz";
 in
 {
+  # TODO
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       commonHttpConfig = ''

@@ -1,28 +1,23 @@
 {
-  config,
-  lib,
   myLib,
   ...
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost;
+  inherit (myLib) enablePHP;
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "provider.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          path = "fan-club-penguin.cz/provider";
-          config = ''
-            index index.php;
-
-            location ~ \.php$ {
-              ${enablePHP "fcp"}
-            }
+        "provider.fan-club-penguin.cz" = {
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            root * /var/www/fan-club-penguin.cz/provider
+            file_server
+            ${enablePHP "fcp"}
           '';
         };
       };

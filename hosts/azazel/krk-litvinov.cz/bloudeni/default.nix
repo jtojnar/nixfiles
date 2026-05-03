@@ -17,13 +17,16 @@ in
   ];
 
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "bloudeni.krk-litvinov.cz" = mkVirtualHost {
-          acme = true;
-          inherit path;
+        "bloudeni.krk-litvinov.cz" = {
+          useACMEHost = "krk-litvinov.cz";
+          extraConfig = ''
+            root * /var/www/${path}
+            file_server
+          '';
         };
       };
     };

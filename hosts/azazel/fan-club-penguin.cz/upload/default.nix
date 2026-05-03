@@ -10,20 +10,18 @@ let
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
         "upload.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          path = "fan-club-penguin.cz/upload";
-          config = ''
-            location / {
-              try_files "$uri" "/files/$uri" /index.php;
-            }
-
-            location ~ \.php$ {
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            root * /var/www/fan-club-penguin.cz/upload
+            handle {
+              try_files {path} /files{path} /index.php?{query}
               ${enablePHP "fcp"}
+              file_server
             }
           '';
         };

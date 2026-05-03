@@ -7,7 +7,7 @@
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost;
+  inherit (myLib) enablePHP;
 
   flarum = pkgs.flarum.withConfig {
     unitName = "ostrov-tucnaku";
@@ -34,29 +34,32 @@ let
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "ostrov-tucnaku.cz" = mkVirtualHost {
-          root = "${flarum}/public";
-          acme = true;
-          config = ''
-            location ~* \.php$ {
-              ${enablePHP "ostrov-tucnaku"}
-            }
+        "ostrov-tucnaku.cz" = {
+          useACMEHost = "ostrov-tucnaku.cz";
+          extraConfig = ''
+            root * ${flarum}/public
+            file_server
+            ${enablePHP "ostrov-tucnaku"}
 
-            index index.php;
+            # TODO: port this
+            include ${flarum}/.caddy.conf;
 
-            include ${flarum}/.nginx.conf;
-
-            client_max_body_size 10M;
+            # TODO: is this needed?
+            # request_body {
+            #   max_size 10MB
+            # }
           '';
         };
 
-        "www.ostrov-tucnaku.cz" = mkVirtualHost {
-          acme = "ostrov-tucnaku.cz";
-          redirect = "ostrov-tucnaku.cz";
+        "www.ostrov-tucnaku.cz" = {
+          useACMEHost = "ostrov-tucnaku.cz";
+          extraConfig = ''
+            redir https://ostrov-tucnaku.cz{uri} permanent
+          '';
         };
       };
     };

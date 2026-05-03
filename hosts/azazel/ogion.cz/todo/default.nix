@@ -18,22 +18,14 @@
       frontendHostname = "todo.ogion.cz";
     };
 
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
         "todo.ogion.cz" = {
-          enableACME = true;
-          forceSSL = true;
-          locations = {
-            "/" = {
-              proxyPass = "http://localhost:${toString config.services.vikunja.port}";
-            };
-          };
+          useACMEHost = "ogion.cz";
           extraConfig = ''
-            if ($host !~* ^todo\.ogion\.cz$ ) {
-                return 444;
-            }
+            reverse_proxy localhost:${toString config.services.vikunja.port}
           '';
         };
       };

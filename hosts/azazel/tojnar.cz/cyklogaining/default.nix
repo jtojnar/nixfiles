@@ -1,64 +1,35 @@
 {
-  config,
-  lib,
   myLib,
   ...
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost;
+  inherit (myLib) enablePHP;
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "cyklogaining.tojnar.cz" = mkVirtualHost {
-          path = "tojnar.cz/cyklogaining";
-          acme = "tojnar.cz";
-          config = ''
-            index index.php;
+        "cyklogaining.tojnar.cz" = {
+          useACMEHost = "tojnar.cz";
+          extraConfig = ''
+            root * /var/www/tojnar.cz/cyklogaining
 
-            # Do not log automatically scanned resources
-            location = /favicon.ico {
-              log_not_found off;
-              access_log off;
-            }
+            # Old links: ?page=foo → /foo.html
+            @oldlinks query page=*
+            redir @oldlinks /{query.page}.html permanent
 
-            location = /robots.txt {
-              allow all;
-              log_not_found off;
-              access_log off;
-            }
+            # Old home redirect
+            redir /cyklogaining.html / permanent
 
-            location / {
-              # Old links
-              if ($arg_page) {
-                return 301 /$arg_page.html;
-              }
+            # Prevent direct access to internal PHP pages
+            # /pages/foo.php → /foo.html
+            @pages path_regexp pages ^/pages/([^\s]+)\.php$
+            redir @pages /{re.pages.1}.html permanent
 
-              try_files $uri /index.php;
-            }
-
-            # Home page
-            location = /cyklogaining.html {
-              return 301 /;
-            }
-
-            # Prevent looking at innards.
-            location ~ pages/([^\s]*)\.php$ {
-              return 301 /$1.html;
-            }
-
-            location ~ \.php$ {
-              ${enablePHP "cyklogaining"}
-            }
-
-            location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
-              expires max;
-              log_not_found off;
-            }
+            ${enablePHP "cyklogaining"}
           '';
         };
       };

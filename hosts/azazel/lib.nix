@@ -17,11 +17,9 @@
 
     lib.optionalAttrs (lib.isString acme) {
       useACMEHost = acme;
-      forceSSL = true;
     }
     // lib.optionalAttrs (lib.isBool acme) {
       enableACME = acme;
-      forceSSL = true;
     }
     // lib.optionalAttrs (redirect != null) {
       globalRedirect = redirect;
@@ -51,7 +49,7 @@
       inherit user;
       settings = {
         "listen.acl_users" = lib.concatStringsSep "," [
-          config.services.nginx.user
+          config.services.caddy.user
           config.services.prometheus.exporters.php-fpm.user
         ];
         "pm" = "dynamic";
@@ -73,12 +71,7 @@
       "settings"
     ];
 
-  enablePHP = sockName: ''
-    fastcgi_pass unix:${config.services.phpfpm.pools.${sockName}.socket};
-    include ${config.services.nginx.package}/conf/fastcgi.conf;
-    fastcgi_param PATH_INFO $fastcgi_path_info;
-    fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
-  '';
+  enablePHP = sockName: "php_fastcgi unix/${config.services.phpfpm.pools.${sockName}.socket}";
 
   /*
     Adds extra options to ssh key that will only allow it to be used for rsync.

@@ -14,6 +14,7 @@ in
     ./www
   ];
 
+  # TODO: generate cert
   security.acme.certs."mala-zahradka-pro-radost.cz".extraDomainNames = [
     "www.mala-zahradka-pro-radost.cz"
   ];
@@ -26,7 +27,7 @@ in
         ];
       };
 
-      nginx = {
+      caddy = {
         extraGroups = [
           "mzpr"
         ];

@@ -1,41 +1,23 @@
 {
-  config,
-  lib,
   myLib,
   ...
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost;
+  inherit (myLib) enablePHP;
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "entries.krk-litvinov.cz" = mkVirtualHost {
-          acme = true;
-          # acme = "krk-litvinov.cz";
-          path = "krk-litvinov.cz/entries/current/www";
-          config = ''
-            index index.php;
-
-            location / {
-              try_files $uri $uri/ /index.php;
-            }
-
-            sendfile on;
-            send_timeout 1024s;
-
-            location ~ \.php {
-              fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-              ${enablePHP "entries"}
-              try_files $uri =404;
-            }
-
-            location = /robots.txt { access_log off; log_not_found off; }
-            location = /favicon.ico { access_log off; log_not_found off; }
+        "entries.krk-litvinov.cz" = {
+          useACMEHost = "krk-litvinov.cz";
+          extraConfig = ''
+            root * /var/www/krk-litvinov.cz/entries/current/www
+            file_server
+            ${enablePHP "entries"}
           '';
         };
       };

@@ -1,14 +1,9 @@
 {
-  config,
-  lib,
   pkgs,
-  myLib,
   ...
 }:
 
 let
-
-  inherit (myLib) mkVirtualHost;
 
   pengu = pkgs.pengu;
 
@@ -16,18 +11,15 @@ let
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "pengu.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          locations = {
-            "/" = {
-              proxyPass = "http://localhost:${toString port}";
-              proxyWebsockets = true;
-            };
-          };
+        "pengu.fan-club-penguin.cz" = {
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            reverse_proxy localhost:${toString port}
+          '';
         };
       };
     };

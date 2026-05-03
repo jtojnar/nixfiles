@@ -1,22 +1,19 @@
 {
-  config,
-  lib,
-  myLib,
   ...
 }:
 
-let
-  inherit (myLib) mkVirtualHost;
-in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "jitsucards.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          path = "fan-club-penguin.cz/jitsucards";
+        "jitsucards.fan-club-penguin.cz" = {
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            root * /var/www/fan-club-penguin.cz/jitsucards
+            file_server
+          '';
         };
       };
     };

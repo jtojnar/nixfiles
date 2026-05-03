@@ -10,23 +10,19 @@ let
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
         "lisured.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          path = "fan-club-penguin.cz/lisured";
-          config = ''
-            index index.php;
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            root * /var/www/fan-club-penguin.cz/lisured
+            file_server
+            ${enablePHP "fcp"}
 
-            location ~ \.php$ {
-              ${enablePHP "fcp"}
-            }
-
-            location /app {
-              fancyindex on; # Enable directory listing.
-              fancyindex_exact_size off; # Use human-readable file sizes.
+            handle /app/* {
+              file_server browse
             }
           '';
         };

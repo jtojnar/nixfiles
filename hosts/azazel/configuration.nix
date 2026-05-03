@@ -61,21 +61,12 @@ in
   };
 
   services = {
+    # caddy = {
+    #   enable = true;
+    # };
+
     mysql = {
       package = pkgs.mariadb_1011;
-    };
-
-    nginx = {
-      recommendedGzipSettings = true;
-      recommendedOptimisation = true;
-      recommendedTlsSettings = true;
-
-      # Use mainline nginx instead of stable, and add some modules.
-      package = pkgs.nginxMainline.override (orig: {
-        modules = orig.modules ++ [
-          pkgs.nginxModules.fancyindex
-        ];
-      });
     };
 
     openssh = {

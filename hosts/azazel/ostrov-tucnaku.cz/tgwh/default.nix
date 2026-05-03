@@ -1,13 +1,12 @@
 {
   config,
-  lib,
   pkgs,
   myLib,
   ...
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost;
+  inherit (myLib) enablePHP;
 in
 {
   age.secrets = {
@@ -33,19 +32,16 @@ in
   };
 
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "tgwh.ostrov-tucnaku.cz" = mkVirtualHost {
-          root = "${pkgs.flarum-webhooks-telegram-bridge}/share/php/flarum-webhooks-telegram-bridge";
-          acme = "ostrov-tucnaku.cz";
-          config = ''
-            index index.php;
-
-            location ~* \.php$ {
-              ${enablePHP "ostrov-tucnaku"}
-            }
+        "tgwh.ostrov-tucnaku.cz" = {
+          useACMEHost = "ostrov-tucnaku.cz";
+          extraConfig = ''
+            root * ${pkgs.flarum-webhooks-telegram-bridge}/share/php/flarum-webhooks-telegram-bridge
+            ${enablePHP "ostrov-tucnaku"}
+            file_server
           '';
         };
       };

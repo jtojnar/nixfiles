@@ -6,109 +6,112 @@
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost;
+  inherit (myLib) enablePHP;
 in
 {
+  # TODO: enable acme certificate
+  # TODO: move to index.php
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "fan-club-penguin.cz" = mkVirtualHost {
-          acme = true;
-          path = "fan-club-penguin.cz/www";
-          config = ''
-            index index.php index.html index.htm;
+        "fan-club-penguin.cz" = {
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            root * /var/www/fan-club-penguin.cz/www
 
-            location /index {
-              rewrite ^/index\.php$ / redirect;
+            redir /index.php /
+
+            rewrite /sitemap.xml /sitemap.php
+            rewrite /rss.xml /rss.php
+
+            handle /search {
+              rewrite * /search.php
             }
 
-            location /sitemap {
-              rewrite ^/sitemap\.xml$ /sitemap.php;
+            @page_html path_regexp ^/(.+)\.html$
+            rewrite @page_html /?section=pages&page={re.page_html.1}
+
+            redir /page/show/* /{http.request.uri.path.2}.html
+
+            handle_path /post/* {
+              redir /rss /rss.xml
+
+              @view path_regexp ^/post/([^/]+)$
+              rewrite @view /?section=posts&page=view&id={re.view.1}
+
+              @edit path_regexp ^/post/([^/]+)/edit$
+              rewrite @edit /?section=admin&page=postedit&id={re.edit.1}
+
+              @show path_regexp ^/post/show/(\d+)$
+              redir @show /post/{re.show.1}.html
             }
 
-            location /rss {
-              rewrite ^/rss\.xml$ /rss.php;
+            rewrite /profile /?section=profile&page=list
+
+            handle_path /profile/* {
+              @show path_regexp ^/profile/show/(\d+)$
+              redir @show /profile/{re.show.1}.html
+
+              @view path_regexp ^/profile/(\d*)$
+              rewrite @view /?section=profile&page=view&id={re.view.1}
+
+              @action path_regexp ^/profile/(\d*)/(givestamps|mail)$
+              rewrite @action /?section=profile&page={re.action.2}&id={re.action.1}
+
+              rewrite /profile/me /?section=profile&page=me
             }
 
-            location = /search {
-              rewrite ^(.*)$ /search.php;
+            handle_path /user/* {
+              @user path_regexp ^/user/(logout|login|edit|register)$
+              rewrite @user /?section=user&page={re.user.1}
             }
 
-            location / {
-              if (!-e $request_filename){
-                rewrite ^/(.+)\.html$ /?section=pages&page=$1;
-              }
+            rewrite /meeting /?section=meeting&page=list
+
+            handle_path /meeting/* {
+              @new path /new
+              rewrite @new /?section=meeting&page=new
+
+              @editdel path_regexp ^/meeting/(\d*)/(delete|edit)$
+              rewrite @editdel /?section=meeting&page={re.editdel.2}&id={re.editdel.1}
             }
 
-            location /page/ {
-              rewrite ^/page/show/(.+)$ /$1.html redirect;
+            rewrite /mail /?section=mail&page=list
+
+            handle_path /mail/* {
+                @sent path /sent
+                rewrite @sent /?section=mail&page=sent
+
+                @view path_regexp ^/mail/(\d*)$
+                rewrite @view /?section=mail&page=view&id={re.view.1}
+
+                @reply path_regexp ^/mail/(\d*)/reply$
+                rewrite @reply /?section=mail&page=reply&id={re.reply.1}
+
+                @show path_regexp ^/mail/show/(\d+)$
+                redir @show /mail/{re.show.1}.html
             }
 
-            location /post/ {
-              rewrite ^/post/rss$ /rss.xml redirect;
-              rewrite ^/post/([^/]+)$ /?section=posts&page=view&id=$1;
-              rewrite ^/post/([^/]+)/edit$ /?section=admin&page=postedit&id=$1;
-              rewrite ^/post/show/(\d+)$ /post/$1 redirect;
+            rewrite /admin /?section=admin&page=panel
+
+            handle_path /admin/* {
+                @simple path_regexp ^/admin/(pagenew|pageedit|postnew|posts|pages|twitter|saturdaystamp|highlight|stats)$
+                rewrite @simple /?section=admin&page={re.simple.1}
             }
 
-            location /profile/ {
-              rewrite ^/profile/show/(\d+)$ /profile/$1 redirect;
-              rewrite ^/profile/(\d*)$ /?section=profile&page=view&id=$1;
-              rewrite ^/profile/(\d*)/(givestamps|mail)$ /?section=profile&page=$2&id=$1;
-            }
+            ${enablePHP "fcp"}
 
-            location /user/ {
-              rewrite ^/user/(logout|login|edit|register)$ /?section=user&page=$1;
-            }
-
-            location = /meeting {
-              rewrite ^(.*)$ /?section=meeting&page=list;
-            }
-
-            location /meeting {
-              rewrite ^/meeting/(new)$ /?section=meeting&page=$1;
-              rewrite ^/meeting/(\d*)/(delete|edit)$ /?section=meeting&page=$2&id=$1;
-            }
-
-            location = /profile {
-              rewrite ^(.*)$ /?section=profile&page=list;
-            }
-
-            location = /profile/me {
-              rewrite ^(.*)$ /?section=profile&page=me;
-            }
-
-            location = /mail {
-              rewrite ^(.*)$ /?section=mail&page=list;
-            }
-
-            location /mail/ {
-              rewrite ^/mail/(sent)$ /?section=mail&page=sent;
-              rewrite ^/mail/(\d*)$ /?section=mail&page=view&id=$1;
-              rewrite ^/mail/(\d*)/(reply)$ /?section=mail&page=$2&id=$1;
-              rewrite ^/mail/show/(\d+)$ /mail/$1 redirect;
-            }
-
-            location = /admin {
-              rewrite ^(.*)$ /?section=admin&page=panel;
-            }
-
-            location /admin/ {
-              rewrite ^/admin/(pagenew|pageedit|postnew|posts|pages|twitter|saturdaystamp)$ /?section=admin&page=$1;
-              rewrite ^/admin/(highlight|stats)$ /?section=admin&page=$1;
-            }
-
-            location ~ \.php$ {
-              ${enablePHP "fcp"}
-            }
+            file_server
           '';
         };
 
-        "www.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          redirect = "fan-club-penguin.cz";
+        "www.fan-club-penguin.cz" = {
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            redir https://fan-club-penguin.cz{uri} permanent
+          '';
         };
       };
     };

@@ -26,6 +26,7 @@ in
     ./www
   ];
 
+  # TODO: generate cert
   security.acme.certs."ogion.cz".extraDomainNames = [
     "www.ogion.cz"
     "auth.ogion.cz"
@@ -37,6 +38,7 @@ in
     "pad.ogion.cz"
     "reader.ogion.cz"
     "temp.ogion.cz"
+    "todo.ogion.cz"
     "tools.ogion.cz"
   ];
 
@@ -78,7 +80,7 @@ in
         ];
       };
 
-      nginx = {
+      caddy = {
         extraGroups = [
           "bag"
           "pad"

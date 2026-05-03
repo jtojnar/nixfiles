@@ -7,31 +7,33 @@
 }:
 
 let
-  inherit (myLib) enablePHP mkPhpPool mkVirtualHost;
+  inherit (myLib) enablePHP mkPhpPool;
+
+  password-remover = pkgs.replaceVars ./pdf/password-remover.php {
+    qpdf = "${lib.getBin pkgs.qpdf}/bin/qpdf";
+  };
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "tools.ogion.cz" = mkVirtualHost {
-          acme = "ogion.cz";
-          path = "ogion.cz/tools";
-          locations = {
-            "/pdf/password-remover" =
-              let
-                tool = pkgs.replaceVars ./pdf/password-remover.php {
-                  qpdf = "${lib.getBin pkgs.qpdf}/bin/qpdf";
-                };
-              in
-              {
-                extraConfig = ''
-                  ${enablePHP "tools"}
-                  fastcgi_param SCRIPT_FILENAME ${tool};
-                '';
-              };
-          };
+        "tools.ogion.cz" = {
+          useACMEHost = "ogion.cz";
+          extraConfig = ''
+            root * /var/www/ogion.cz/tools
+
+            handle /pdf/password-remover {
+              reverse_proxy unix/${config.services.phpfpm.pools.tools.socket} {
+                transport fastcgi {
+                  env SCRIPT_FILENAME ${password-remover}
+                }
+              }
+            }
+
+            file_server
+          '';
         };
       };
     };

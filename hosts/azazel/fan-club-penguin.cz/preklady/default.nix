@@ -1,40 +1,36 @@
 {
-  config,
-  lib,
   myLib,
   ...
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost;
+  inherit (myLib) enablePHP;
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "preklady.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          path = "fan-club-penguin.cz/preklady";
-          config = ''
-            index index.php;
+        "preklady.fan-club-penguin.cz" = {
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            root * /var/www/fan-club-penguin.cz/preklady
 
-            location /comic {
-              try_files $uri $uri/ /comic/index.php;
-            }
-
-            location /comic/data/prelozit {
-              fancyindex on; # Enable directory listing.
-              fancyindex_exact_size off; # Use human-readable file sizes.
-            }
-
-            location /library {
-              try_files $uri $uri /library/index.php;
-            }
-
-            location ~ \.php$ {
+            handle /comic/* {
+              try_files {path} {path}/ /comic/index.php?{query}
               ${enablePHP "fcp"}
+              file_server
+            }
+
+            handle /comic/data/prelozit/* {
+              file_server browse
+            }
+
+            handle /library/* {
+              try_files {path} {path}/ /comic/index.php?{query}
+              ${enablePHP "fcp"}
+              file_server
             }
           '';
         };

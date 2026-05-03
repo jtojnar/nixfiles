@@ -1,16 +1,11 @@
 {
   config,
-  lib,
-  myLib,
-  pkgs,
   ...
 }:
 
 let
   domain = "pad.ogion.cz";
   port = 5004;
-
-  inherit (myLib) mkVirtualHost;
 
   autheliaInstanceCfg = config.services.authelia.instances.default;
 in
@@ -38,56 +33,23 @@ in
   };
 
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "pad.ogion.cz" = mkVirtualHost {
-          acme = "ogion.cz";
-          # https://docs.hedgedoc.org/guides/reverse-proxy/#nginx
-          locations =
-            let
-              proxyConfig = ''
-                proxy_pass http://localhost:${builtins.toString config.services.hedgedoc.settings.port};
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $remote_addr;
-                proxy_set_header X-Forwarded-Proto $scheme;
-              '';
+        "pad.ogion.cz" = {
+          useACMEHost = "ogion.cz";
+          extraConfig = ''
+            reverse_proxy localhost:${builtins.toString config.services.hedgedoc.settings.port}
+            file_server
 
-              localOnly = ''
-                allow 2001:db8::/64;
-                allow 192.0.2.0/24;
-                deny all;
-              '';
-            in
-            {
-              "/" = {
-                extraConfig = proxyConfig;
-              };
-
-              "/socket.io/" = {
-                extraConfig = ''
-                  ${proxyConfig}
-                  proxy_set_header Upgrade $http_upgrade;
-                  proxy_set_header Connection $connection_upgrade;
-                '';
-              };
-
-              "/metrics" = {
-                extraConfig = ''
-                  ${proxyConfig}
-                  ${localOnly}
-                '';
-              };
-
-              "/status" = {
-                extraConfig = ''
-                  ${proxyConfig}
-                  ${localOnly}
-                '';
-              };
-            };
+            @denied {
+              path /metrics
+              path /status
+              not remote_ip 2001:db8::/64 192.0.2.0/24
+            }
+            respond @denied 403
+          '';
         };
       };
     };

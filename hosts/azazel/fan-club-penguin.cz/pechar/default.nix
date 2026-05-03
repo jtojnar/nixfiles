@@ -7,31 +7,51 @@
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost mkPhpPool;
+  inherit (myLib) enablePHP mkPhpPool;
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "pechar.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          root = pkgs.pechar;
-          config = ''
-            index index.html;
+        "pechar.fan-club-penguin.cz" = {
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            @composed_cached path_regexp ^/data/composed/(.+)\.png$
+            @fallback path *
+            @composed_gen path /data/composed/get.php
 
-            location / {
-              try_files $uri $uri/ =404;
+            root * /var/www/fan-club-penguin.cz/pechar
+            file_server
+
+            handle @composed_cached {
+                rewrite * /{re.composed_cached.1}.png
+
+                root * /var/cache/pechar
+                try_files {path} @fallback
+
+                file_server
             }
 
-            location ~ /data/composed/get\.php$ {
-              ${enablePHP "pechar"}
+            handle @fallback {
+                rewrite * /data/composed/get.php?path={re.png.1}
+                ${enablePHP "pechar"} {
+                    transport fastcgi {
+                        split .php
+                    }
+                }
             }
 
-            location ~ /data/composed/(.+)\.png {
-              root /var/cache/pechar;
-              try_files /$1.png /data/composed/get.php?path=$1;
+            reverse_proxy @composed_gen unix/${config.services.phpfpm.pools.pechar.socket} {
+                transport fastcgi {
+                    split .php
+                }
+            }
+
+            handle {
+                try_files {path} {path}/ =404
+                file_server
             }
           '';
         };

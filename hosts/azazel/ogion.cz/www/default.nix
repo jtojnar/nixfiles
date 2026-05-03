@@ -44,30 +44,29 @@ let
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
-      commonHttpConfig = ''
-        map $arg_resource $webfinger_resource {
-          ~^(acct:[^/]+)$ $1;
-          default nop;
-        }
-      '';
-
       virtualHosts = {
-        "ogion.cz" = mkVirtualHost {
-          acme = true;
-          path = "ogion.cz/www";
-          config = ''
-            location = /.well-known/webfinger {
-              alias ${webfingerRoot}/$webfinger_resource;
+        "ogion.cz" = {
+          useACMEHost = "ogion.cz";
+          extraConfig = ''
+            root * /var/www/ogion.cz/www
+            file_server
+
+            handle /.well-known/webfinger {
+              root * ${webfingerRoot}
+              rewrite * /{query.resource}
+              file_server
             }
           '';
         };
 
-        "www.ogion.cz" = mkVirtualHost {
-          acme = "ogion.cz";
-          redirect = "ogion.cz";
+        "www.ogion.cz" = {
+          useACMEHost = "ogion.cz";
+          extraConfig = ''
+            redir https://ogion.cz{uri} permanent
+          '';
         };
       };
     };

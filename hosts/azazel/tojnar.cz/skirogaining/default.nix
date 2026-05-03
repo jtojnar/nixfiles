@@ -1,25 +1,22 @@
 {
-  config,
-  lib,
-  myLib,
   ...
 }:
 
-let
-  inherit (myLib) mkVirtualHost;
-in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "skirogaining.tojnar.cz" = mkVirtualHost {
-          acme = "tojnar.cz";
-          config = ''
-            location / {
-              rewrite ^/Skirogaining_2010/(.*)$ https://skirogaining.krk-litvinov.cz/2010/$1 permanent;
-              rewrite ^/(.*)$ https://skirogaining.krk-litvinov.cz/2012/$1 permanent;
+        "skirogaining.tojnar.cz" = {
+          useACMEHost = "tojnar.cz";
+          extraConfig = ''
+            handle_path /Skirogaining_2010/* {
+              redir https://skirogaining.krk-litvinov.cz/2010{uri} permanent
+            }
+
+            handle {
+              redir https://skirogaining.krk-litvinov.cz/2012{uri} permanent
             }
           '';
         };

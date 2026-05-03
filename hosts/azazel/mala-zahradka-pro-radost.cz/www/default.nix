@@ -1,17 +1,14 @@
 {
   config,
-  myLib,
   lib,
   pkgs,
   ...
 }:
 
 let
-  inherit (myLib) mkVirtualHost;
-
-  vhost = config.services.nginx.virtualHosts."mala-zahradka-pro-radost.cz";
   user = config.users.users.mzpr.name;
   group = config.users.groups.mzpr.name;
+  vhostRoot = "/var/www/mala-zahradka-pro-radost.cz/www";
 in
 {
   age.secrets = {
@@ -22,26 +19,29 @@ in
   };
 
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "mala-zahradka-pro-radost.cz" = mkVirtualHost {
-          acme = true;
-          path = "mala-zahradka-pro-radost.cz/www";
-          config = ''
-            location / {
-              root ${vhost.root}/current/public;
+        "mala-zahradka-pro-radost.cz" = {
+          useACMEHost = "mala-zahradka-pro-radost.cz";
+          extraConfig = ''
+            handle {
+              root * ${vhostRoot}/current/public;
+              file_server
             }
-            location /logs {
-              root ${vhost.root};
+            handle /logs {
+              root * ${vhostRoot};
+              file_server
             }
           '';
         };
 
-        "www.mala-zahradka-pro-radost.cz" = mkVirtualHost {
-          redirect = "mala-zahradka-pro-radost.cz";
-          acme = "mala-zahradka-pro-radost.cz";
+        "www.mala-zahradka-pro-radost.cz" = {
+          useACMEHost = "mala-zahradka-pro-radost.cz";
+          extraConfig = ''
+            redir https://mala-zahradka-pro-radost.cz{uri} permanent
+          '';
         };
       };
     };
@@ -71,7 +71,7 @@ in
     serviceConfig = {
       Type = "oneshot";
       User = user;
-      WorkingDirectory = vhost.root;
+      WorkingDirectory = vhostRoot;
     };
   };
 
@@ -111,7 +111,7 @@ in
     in
     [
       "L+ ${config.services.gitea.repositoryRoot}/tojnar.cz/zahradka.git/hooks/post-receive.d/deploy-pages - - - - ${postReceiveHook}"
-      "d ${vhost.root} 0755 ${user} ${group} -"
-      "D ${vhost.root}/logs 0755 ${user} ${group} -"
+      "d ${vhostRoot} 0755 ${user} ${group} -"
+      "D ${vhostRoot}/logs 0755 ${user} ${group} -"
     ];
 }

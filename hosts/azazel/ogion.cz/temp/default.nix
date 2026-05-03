@@ -1,22 +1,19 @@
 {
-  config,
-  lib,
-  myLib,
   ...
 }:
 
-let
-  inherit (myLib) mkVirtualHost;
-in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "temp.ogion.cz" = mkVirtualHost {
-          acme = "ogion.cz";
-          path = "ogion.cz/temp";
+        "temp.ogion.cz" = {
+          useACMEHost = "ogion.cz";
+          extraConfig = ''
+            root * /var/www/ogion.cz/temp
+            file_server
+          '';
         };
       };
     };

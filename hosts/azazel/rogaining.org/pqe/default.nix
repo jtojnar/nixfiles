@@ -12,22 +12,15 @@ let
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
         "pqe.rogaining.org" = {
-          enableACME = true;
-          forceSSL = true;
-          locations = {
-            "/" = {
-              proxyPass = "http://localhost:${toString port}";
-            };
-          };
+          # TODO: generate cert
+          useACMEHost = "pqe.rogaining.cz";
           extraConfig = ''
-            if ($host !~* ^pqe\.rogaining\.org$ ) {
-                return 444;
-            }
+            reverse_proxy localhost:${toString port}
           '';
         };
       };

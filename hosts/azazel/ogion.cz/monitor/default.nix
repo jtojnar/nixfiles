@@ -1,8 +1,5 @@
-{ config, myLib, ... }:
+{ config, ... }:
 
-let
-  inherit (myLib) mkVirtualHost;
-in
 {
   imports = [
     ./services/blackbox.nix
@@ -46,22 +43,16 @@ in
     };
   };
 
-  services.nginx = {
+  services.caddy = {
     enable = true;
 
     virtualHosts = {
-      "${config.services.grafana.settings.server.domain}" = mkVirtualHost {
-        acme = "ogion.cz";
-        locations = {
-          "/" = {
-            proxyPass = "http://127.0.0.1:${builtins.toString config.services.grafana.settings.server.http_port}";
-            proxyWebsockets = true;
-            extraConfig = ''
-              # https://github.com/grafana/grafana/issues/45117
-              proxy_set_header Host $host;
-            '';
-          };
-        };
+      "${config.services.grafana.settings.server.domain}" = {
+        useACMEHost = "ogion.cz";
+        extraConfig = ''
+          reverse_proxy 127.0.0.1:${builtins.toString config.services.grafana.settings.server.http_port}
+          file_server
+        '';
       };
     };
   };

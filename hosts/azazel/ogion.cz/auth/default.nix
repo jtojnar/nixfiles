@@ -1,14 +1,11 @@
 {
   config,
   lib,
-  myLib,
   pkgs,
   ...
 }:
 
 let
-  inherit (myLib) mkVirtualHost;
-
   userData = import ../../../../common/data/users.nix;
 
   instanceCfg = config.services.authelia.instances.default;
@@ -69,20 +66,16 @@ in
   ];
 
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "auth.ogion.cz" = mkVirtualHost {
-          acme = "ogion.cz";
-          locations = {
-            "/" = {
-              proxyPass = "http://localhost:${autheliaPort}";
-              extraConfig = ''
-                include ${./proxy.conf};
-              '';
-            };
-          };
+        "auth.ogion.cz" = {
+          useACMEHost = "ogion.cz";
+          extraConfig = ''
+            root * /var/www/krk-litvinov.cz/hrob-2020
+            reverse_proxy localhost:${autheliaPort}
+          '';
         };
       };
     };

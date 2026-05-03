@@ -22,9 +22,20 @@ in
     ./strom-roku-2023
   ];
 
+  # TODO: migrate www
+  # TODO: enable acme certificate
+
+
   # security.acme.certs."krk-litvinov.cz".extraDomainNames = [
+  #   "agenda.krk-litvinov.cz"
   #   "bloudeni.krk-litvinov.cz"
   #   "entries.krk-litvinov.cz"
+  #   "hrob-2020.krk-litvinov.cz"
+  #   "hrob-2022.krk-litvinov.cz"
+  #   "lob-2019.krk-litvinov.cz"
+  #   "rogaining-2019.krk-litvinov.cz"
+  #   "skirogaining.krk-litvinov.cz"
+  #   "strom-roku-2023.krk-litvinov.cz"
   # ];
 
   services = {
@@ -99,7 +110,7 @@ in
         ];
       };
 
-      nginx = {
+      caddy = {
         extraGroups = [
           "bloudeni"
           "entries"

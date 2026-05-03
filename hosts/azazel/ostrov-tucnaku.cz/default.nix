@@ -16,6 +16,7 @@ in
     ./www
   ];
 
+  # TODO: generate cert
   security.acme.certs."ostrov-tucnaku.cz".extraDomainNames = [
     "obrazky.ostrov-tucnaku.cz"
     "tgwh.ostrov-tucnaku.cz"
@@ -69,7 +70,7 @@ in
         ];
       };
 
-      nginx = {
+      caddy = {
         extraGroups = [
           "ostrov-tucnaku"
         ];

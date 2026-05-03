@@ -29,6 +29,7 @@ in
     ./www
   ];
 
+  # TODO: generate cert
   security.acme.certs."fan-club-penguin.cz".extraDomainNames = [
     "www.fan-club-penguin.cz"
     "archiv.fan-club-penguin.cz"
@@ -98,7 +99,7 @@ in
         ];
       };
 
-      nginx = {
+      caddy = {
         extraGroups = [
           "fcp"
           "cpforum"

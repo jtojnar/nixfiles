@@ -1,26 +1,18 @@
 {
-  config,
-  lib,
-  myLib,
   ...
 }:
 
-let
-  inherit (myLib) mkVirtualHost;
-in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "agenda.krk-litvinov.cz" = mkVirtualHost {
-          # acme = "krk-litvinov.cz";
-          acme = true;
-          path = "krk-litvinov.cz/agenda";
-          config = ''
-            fancyindex on; # Enable directory listing.
-            fancyindex_exact_size off; # Use human-readable file sizes.
+        "agenda.krk-litvinov.cz" = {
+          useACMEHost = "krk-litvinov.cz";
+          extraConfig = ''
+            root * /var/www/krk-litvinov.cz/agenda
+            file_server browse
           '';
         };
       };

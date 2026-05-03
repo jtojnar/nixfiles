@@ -17,6 +17,7 @@ in
     ./www
   ];
 
+  # TODO: generate cert
   security.acme.certs."tojnar.cz".extraDomainNames = [
     "cyklogaining.tojnar.cz"
     "krk.tojnar.cz"
@@ -48,7 +49,7 @@ in
         ];
       };
 
-      nginx = {
+      caddy = {
         extraGroups = [
           "cyklogaining"
           "tojnar-cz"

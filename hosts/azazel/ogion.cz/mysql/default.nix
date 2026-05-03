@@ -1,13 +1,11 @@
 {
-  config,
-  lib,
   pkgs,
   myLib,
   ...
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost;
+  inherit (myLib) enablePHP;
 
   wwwRoot = pkgs.adminer-with-plugins.override {
     theme = "brade";
@@ -31,25 +29,16 @@ let
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "mysql.ogion.cz" = mkVirtualHost {
-          acme = "ogion.cz";
-          root = wwwRoot;
-          config = ''
-            index index.php;
-
-            location / {
-              index index.php;
-              try_files $uri $uri/ /index.php?$args;
-            }
-
-            location ~ \.php$ {
-              ${enablePHP "adminer"}
-              fastcgi_read_timeout 500;
-            }
+        "mysql.ogion.cz" = {
+          useACMEHost = "ogion.cz";
+          extraConfig = ''
+            root * ${wwwRoot}
+            file_server
+            ${enablePHP "adminer"}
           '';
         };
       };

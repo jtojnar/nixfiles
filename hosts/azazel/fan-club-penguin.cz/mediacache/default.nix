@@ -1,26 +1,25 @@
 {
-  config,
-  lib,
-  myLib,
   ...
 }:
 
-let
-  inherit (myLib) mkVirtualHost;
-in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "mediacache.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          path = "fan-club-penguin.cz/mediacache";
+        "mediacache.fan-club-penguin.cz" = {
+          useACMEHost = "fan-club-penguin.cz";
           config = ''
-            location / {
-              add_header Access-Control-Allow-Origin *;
-              try_files /from-icer.ink/$uri /from-fcp/$uri =404;
+            root * /var/www/fan-club-penguin.cz/mediacache
+
+            handle / {
+              header {
+                Access-Control-Allow-Origin *
+              }
+
+              try_files /from-icer.ink{path} /from-fcp{path} =404
+              file_server
             }
           '';
         };

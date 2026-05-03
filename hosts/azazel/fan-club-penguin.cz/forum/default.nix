@@ -21,64 +21,42 @@ let
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "forum.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          root = phpbb;
-          config = ''
-            index index.php index.html index.htm;
+        "forum.fan-club-penguin.cz" = {
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            root * ${phpbb}
 
-            location / {
-              # phpBB uses index.htm
-              index index.php index.html index.htm;
-              try_files $uri $uri/ @rewriteapp;
+            @forbidden {
+                path_regexp forbidden ^/(config\.php|common\.php|cache|files|images/avatars/upload|includes|phpbb|store|vendor|\.git|\.svn)
             }
 
-            location @rewriteapp {
-              rewrite ^(.*)$ /app.php/$1 last;
+            respond @forbidden 403
+
+            handle_path /install/* {
+                root * ${phpbb}
+
+                @install_php path *.php
+                reverse_proxy @install_php unix/${config.services.phpfpm.pools.fcp.socket} {
+                    transport fastcgi {
+                        split .php
+                        read_timeout 500s
+                    }
+                }
+
+                try_files {path} {path}/ /install/app.php?{query}
+
+                file_server
             }
 
-            # Deny access to internal phpbb files.
-            location ~ /(config\.php|common\.php|cache|files|images/avatars/upload|includes|phpbb|store|vendor) {
-              deny all;
-              # deny was ignored before 0.8.40 for connections over IPv6.
-              # Use internal directive to prohibit access on older versions.
-              internal;
+            ${enablePHP "fcp"} {
+                try_files {path} {path}/ /app.php?{query}
             }
 
-            # Pass the php scripts to fastcgi server specified in upstream declaration.
-            location ~ \.php(/|$) {
-              ${enablePHP "cpforum"}
-              fastcgi_split_path_info ^(.+\.php)(/.*)$;
-              try_files $uri $uri/ /app.php$is_args$args;
-            }
-
-            # Correctly pass scripts for installer
-            location /install/ {
-              # phpBB uses index.htm
-              try_files $uri $uri/ @rewrite_installapp;
-
-              # Pass the php scripts to fastcgi server specified in upstream declaration.
-              location ~ \.php(/|$) {
-                ${enablePHP "cpforum"}
-                fastcgi_split_path_info ^(.+\.php)(/.*)$;
-                try_files $uri $uri/ /install/app.php$is_args$args;
-                fastcgi_read_timeout 500;
-              }
-            }
-
-            location @rewrite_installapp {
-              rewrite ^(.*)$ /install/app.php/$1 last;
-            }
-
-            # Deny access to version control system directories.
-            location ~ /\.svn|/\.git {
-              deny all;
-              internal;
-            }
+            file_server
           '';
         };
       };

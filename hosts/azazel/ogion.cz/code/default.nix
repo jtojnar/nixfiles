@@ -77,7 +77,8 @@ in
       };
     };
 
-    nginx = {
+    # TODO
+    caddy = {
       enable = true;
 
       virtualHosts = {

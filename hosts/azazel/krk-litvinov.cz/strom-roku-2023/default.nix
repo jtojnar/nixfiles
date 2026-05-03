@@ -1,17 +1,14 @@
 {
   config,
-  myLib,
   lib,
   pkgs,
   ...
 }:
 
 let
-  inherit (myLib) mkVirtualHost;
-
-  vhost = config.services.nginx.virtualHosts."strom-roku-2023.krk-litvinov.cz";
   user = config.users.users.strom-roku-2023.name;
   group = config.users.groups.strom-roku-2023.name;
+  vhostRoot = "/var/www/krk-litvinov.cz/strom-roku-2023";
 in
 {
   age.secrets = {
@@ -22,19 +19,20 @@ in
   };
 
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "strom-roku-2023.krk-litvinov.cz" = mkVirtualHost {
-          acme = true;
-          path = "krk-litvinov.cz/strom-roku-2023";
-          config = ''
-            location / {
-              root ${vhost.root}/current/public;
+        "strom-roku-2023.krk-litvinov.cz" = {
+          useACMEHost = "krk-litvinov.cz";
+          extraConfig = ''
+            handle {
+              root * ${vhostRoot}/current/public;
+              file_server
             }
-            location /logs {
-              root ${vhost.root};
+            handle /logs {
+              root * ${vhostRoot};
+              file_server
             }
           '';
         };
@@ -66,7 +64,7 @@ in
     serviceConfig = {
       Type = "oneshot";
       User = user;
-      WorkingDirectory = vhost.root;
+      WorkingDirectory = vhostRoot;
     };
   };
 
@@ -106,7 +104,7 @@ in
     in
     [
       "L+ ${config.services.gitea.repositoryRoot}/tojnar.cz/strom-roku-2023.krk-litvinov.cz.git/hooks/post-receive.d/deploy-pages - - - - ${postReceiveHook}"
-      "d ${vhost.root} 0755 ${user} ${group} -"
-      "D ${vhost.root}/logs 0755 ${user} ${group} -"
+      "d ${vhostRoot} 0755 ${user} ${group} -"
+      "D ${vhostRoot}/logs 0755 ${user} ${group} -"
     ];
 }

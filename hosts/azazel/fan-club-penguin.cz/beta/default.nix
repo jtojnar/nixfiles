@@ -1,36 +1,29 @@
 {
-  config,
-  lib,
   myLib,
   ...
 }:
 
 let
-  inherit (myLib) enablePHP mkVirtualHost;
+  inherit (myLib) enablePHP;
 in
 {
   services = {
-    nginx = {
+    caddy = {
       enable = true;
 
       virtualHosts = {
-        "beta.fan-club-penguin.cz" = mkVirtualHost {
-          acme = "fan-club-penguin.cz";
-          path = "fan-club-penguin.cz/@beta/current/www";
-          config = ''
-            index index.php;
-
-            if ($cookie_beta != "1") {
-              return 401;
+        "beta.fan-club-penguin.cz" = {
+          useACMEHost = "fan-club-penguin.cz";
+          extraConfig = ''
+            @not_beta {
+              not header Cookie (^|;\s*)beta=1($|;)
             }
 
-            location / {
-              try_files $uri $uri/ /index.php;
-            }
+            respond @not_beta 401
 
-            location ~ \.php$ {
-              ${enablePHP "fcp"}
-            }
+            root * /var/www/fan-club-penguin.cz/@beta/current/www
+            file_server
+            ${enablePHP "fcp"}
           '';
         };
       };

@@ -6,7 +6,7 @@
 {
   users = {
     users = {
-      nginx = {
+      caddy = {
         extraGroups = [
           config.users.groups.anubis.name
         ];
