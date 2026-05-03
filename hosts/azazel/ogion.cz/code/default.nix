@@ -33,6 +33,14 @@ in
           SCHEME = "https";
           ALLOW_DOMAIN = domain;
         };
+        "cron.repo_health_check" = {
+          TIMEOUT = "500s";
+          NOTICE_ON_SUCCESS = true;
+        };
+        "cron.git_gc_repos" = {
+          TIMEOUT = "500s";
+          NOTICE_ON_SUCCESS = true;
+        };
         log = {
           MODE = "console";
         };
