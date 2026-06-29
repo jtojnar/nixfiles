@@ -89,10 +89,7 @@
           config = {
             allowUnfree = true;
             allowAliases = false;
-            permittedInsecurePackages = [
-              # Will not be available for the whole lifetime of NixOS 23.05.
-              "openssl-1.1.1w"
-            ];
+            problems.handlers.sublimetext4.broken = "ignore";
           };
         };
 
