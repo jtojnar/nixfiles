@@ -3,7 +3,6 @@
 {
   fonts = {
     packages = with pkgs; [
-      cantarell-fonts
       caladea # Cambria replacement
       carlito # Calibri replacement
       comic-relief # Comic Sans replacement
