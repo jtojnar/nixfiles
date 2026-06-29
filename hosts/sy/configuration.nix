@@ -333,7 +333,6 @@ in
   environment.systemPackages = with pkgs; [
     android-tools
     bat
-    bitwarden-desktop
     binutils # readelf, xstrings
     chromium
     common-updater-scripts
