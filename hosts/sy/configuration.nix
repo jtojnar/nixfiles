@@ -192,6 +192,7 @@ in
 
         "org/gnome/desktop/interface" = {
           color-scheme = "prefer-dark";
+          gtk-enable-primary-paste = true;
         };
 
         "org/gnome/desktop/screensaver" = {

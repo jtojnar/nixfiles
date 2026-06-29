@@ -85,6 +85,10 @@ in
     { lib, ... }:
     {
       dconf.settings = {
+        "org/gnome/desktop/interface" = {
+          gtk-enable-primary-paste = true;
+        };
+
         "org/gnome/desktop/screensaver" = {
           lock-delay = lib.hm.gvariant.mkUint32 3600;
           lock-enabled = true;

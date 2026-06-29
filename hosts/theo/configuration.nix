@@ -492,6 +492,10 @@ in
           picture-uri-dark = "file://${pkgs.reflection_by_yuumei}";
         };
 
+        "org/gnome/desktop/interface" = {
+          gtk-enable-primary-paste = true;
+        };
+
         "org/gnome/desktop/screensaver" = {
           lock-delay = lib.hm.gvariant.mkUint32 3600;
           lock-enabled = true;
