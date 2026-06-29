@@ -40,11 +40,6 @@ in
     "resume_offset=111390720" # physical offset of the first ext in `filefrag -v /var/swap`
   ];
 
-  boot.kernelModules = [
-    # For DDC control.
-    "i2c_dev"
-  ];
-
   boot.resumeDevice = "/dev/mapper/luks-190bb404-7db5-48fc-b903-c403a6e073ec";
 
   boot.kernel.sysctl = {
@@ -121,6 +116,9 @@ in
         pkgs.intel-media-driver
       ];
     };
+
+    # For DDC control.
+    i2c.enable = true;
 
     cpu.intel.updateMicrocode = true;
   };
