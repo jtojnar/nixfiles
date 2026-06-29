@@ -15,8 +15,6 @@ final: prev: {
 
   sunflower = prev.callPackage ./sunflower { };
 
-  wrcq = prev.callPackage ./wrcq { };
-
   inherit (prev.callPackages ./utils { })
     deploy
     deploy-pages

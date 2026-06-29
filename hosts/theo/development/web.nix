@@ -22,9 +22,6 @@ in
     enable = true;
     package = postgres;
     enableTCPIP = true;
-    extensions = [
-      postgres.pkgs.plv8
-    ];
     authentication = ''
       local all all trust
       host all all 10.0.0.28/0 trust

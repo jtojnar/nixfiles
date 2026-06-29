@@ -130,14 +130,6 @@ in
             Type = "oneshot";
           };
         };
-
-      postgresql.serviceConfig = {
-        # Required by PLV8.
-        MemoryDenyWriteExecute = false;
-        SystemCallFilter = [
-          "@pkey"
-        ];
-      };
     };
   };
 

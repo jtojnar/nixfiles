@@ -1,68 +1,40 @@
 {
-  config,
-  lib,
-  pkgs,
   ...
 }:
 
-let
-  pqe = pkgs.wrcq;
-
-  port = 5000;
-in
 {
   services = {
     nginx = {
       enable = true;
 
+      commonHttpConfig = ''
+        map $arg_duration $results_file {
+            "" index.html;
+            default index-$arg_duration.html;
+        }
+      '';
+
       virtualHosts = {
         "pqe.rogaining.org" = {
           enableACME = true;
           forceSSL = true;
-          locations = {
-            "/" = {
-              proxyPass = "http://localhost:${toString port}";
-            };
-          };
+          root = "/var/www/rogaining.org/pqe";
           extraConfig = ''
+            location ~ ^/events/(?<slug>[^/\s]+)/results$ {
+                if ($arg_duration = 24) {
+                    return 302 /events/$slug/results;
+                }
+
+                rewrite ^/events/(?<slug>[^/\s]+)/results$ /events/$slug/results/$results_file break;
+
+                try_files $uri =404;
+            }
+
             if ($host !~* ^pqe\.rogaining\.org$ ) {
                 return 444;
             }
           '';
         };
-      };
-    };
-  };
-
-  custom.postgresql.databases = [
-    {
-      database = "pqe";
-      extensions = [
-        "plv8"
-        "unaccent"
-      ];
-      extraUsers = [
-        "tojnar"
-        "jtojnar"
-      ];
-    }
-  ];
-
-  systemd.packages = [
-    pqe
-  ];
-
-  systemd.services = {
-    pqe = {
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        User = "pqe";
-        Group = "pqe";
-      };
-
-      environment = {
-        DATABASE_URL = "socket:/run/postgresql?db=pqe";
-        PORT = toString port;
       };
     };
   };
