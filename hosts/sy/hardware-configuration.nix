@@ -36,6 +36,9 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/4A5F-39C6";
     fsType = "vfat";
+    options = [
+      "umask=0077"
+    ];
   };
 
   swapDevices = [ ];
