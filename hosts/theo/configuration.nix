@@ -41,7 +41,7 @@ in
 
   boot.initrd.luks.devices = {
     root = {
-      device = "/dev/disk/by-uuid/cdfe8ed6-90bf-4b26-a1d3-0f0efa267c58"; # Obtained using `blkid /dev/sda2`
+      device = "/dev/disk/by-uuid/cdfe8ed6-90bf-4b26-a1d3-0f0efa267c58"; # LUKS partitition, obtained using `blkid /dev/sda2`
       preLVM = true;
       allowDiscards = true;
     };
@@ -57,7 +57,7 @@ in
     "intel_pstate=active"
   ];
 
-  boot.resumeDevice = "/dev/mapper/verbatim--20--vg-root";
+  boot.resumeDevice = "/dev/mapper/samsung--870--evo--vg-root";
 
   # Sony Vaio keyboard not working after suspend
   # https://discourse.nixos.org/t/keyboard-touchpad-do-not-wake-after-closing-laptop-lid/7565/6
