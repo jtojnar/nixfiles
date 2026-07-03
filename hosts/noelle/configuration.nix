@@ -24,7 +24,7 @@ in
     htop
     libreoffice-fresh
     sublime-merge
-    sublime4
+    sublime4-dev
     telegram-desktop
     vlc
     warp
