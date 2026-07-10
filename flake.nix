@@ -89,7 +89,7 @@
           config = {
             allowUnfree = true;
             allowAliases = false;
-            problems.handlers.sublimetext4.broken = "ignore";
+            problems.handlers.sublimetext4.removal = "ignore";
           };
         };
 
