@@ -101,6 +101,7 @@ in
         allowAnonymousEdits = true;
         defaultPermission = "limited";
         enableUploads = "none";
+        externalLinkWarning = false;
 
         db = {
           dialect = "postgres";
