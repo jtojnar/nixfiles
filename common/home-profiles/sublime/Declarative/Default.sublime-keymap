@@ -159,7 +159,7 @@
     // Depends on https://packagecontrol.io/packages/FilterPipes
     "command": "filter_pipes_process",
     "args": {
-      "command": ["nixfmt"],
+      "command": ["nixfmt", "-"],
       "shell": false,
     },
     "context": [
