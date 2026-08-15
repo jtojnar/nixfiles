@@ -13,6 +13,7 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.self.nixosModules.profiles.fonts
+    inputs.self.nixosModules.profiles.gnome
   ];
 
   environment.systemPackages = with pkgs; [
@@ -73,13 +74,6 @@ in
     LC_TELEPHONE = "cs_CZ.UTF-8";
     LC_TIME = "cs_CZ.UTF-8";
   };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
 
   home-manager.users.michal =
     { lib, ... }:

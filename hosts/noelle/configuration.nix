@@ -12,6 +12,7 @@ in
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    inputs.self.nixosModules.profiles.gnome
   ];
 
   environment.systemPackages = with pkgs; [
@@ -52,13 +53,6 @@ in
 
   # Select internationalisation properties.
   i18n.defaultLocale = "cs_CZ.UTF-8";
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
 
   home-manager.users.dtojnaro =
     { lib, ... }:

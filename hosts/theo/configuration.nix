@@ -26,6 +26,7 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.self.nixosModules.profiles.environment
+    inputs.self.nixosModules.profiles.gnome
     inputs.self.nixosModules.profiles.jtojnar-firefox
     inputs.self.nixosModules.profiles.virt
     inputs.self.nixosModules.profiles.fonts
@@ -329,22 +330,6 @@ in
 
   programs.gnome-terminal.enable = true;
   programs.gpaste.enable = true;
-
-  # Enable the Desktop Environment.
-  services.xserver.enable = true;
-
-  services = {
-    displayManager = {
-      gdm = {
-        enable = true;
-        debug = true;
-      };
-    };
-
-    desktopManager.gnome = {
-      enable = true;
-    };
-  };
 
   # Set up input methods.
   services.xserver = {

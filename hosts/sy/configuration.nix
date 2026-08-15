@@ -18,6 +18,7 @@ in
 
     inputs.self.nixosModules.profiles.environment
     inputs.self.nixosModules.profiles.fonts
+    inputs.self.nixosModules.profiles.gnome
     inputs.self.nixosModules.profiles.jtojnar-firefox
     inputs.self.nixosModules.profiles.virt
   ];
@@ -77,15 +78,6 @@ in
   };
   i18n = {
     defaultLocale = "en_GB.UTF-8";
-  };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  services = {
-    # Enable the GNOME Desktop Environment.
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
   };
 
   services.xserver = {
