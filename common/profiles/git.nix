@@ -9,7 +9,7 @@ in
 
 {
   environment.systemPackages = [
-    pkgs.diff-so-fancy
+    pkgs.delta
     pkgs.gitFull
     pkgs.git-auto-fixup
     pkgs.git-auto-squash
@@ -32,26 +32,19 @@ in
       [core]
         eol = lf
         autocrlf = false
-        pager = diff-so-fancy | less --tabs=4 -RFX
+        pager = delta
         # allow using markdown headings in commit messages
         commentChar = ";"
 
-      # colour scheme for diff-so-fancy & co.
-      # https://github.com/so-fancy/diff-so-fancy#improved-colors-for-the-highlighted-bits
-      [color]
-        ui = true
-      [color "diff-highlight"]
-        oldNormal = red bold
-        oldHighlight = red bold 52
-        newNormal = green bold
-        newHighlight = green bold 22
-      [color "diff"]
-        meta = 227
-        frag = magenta bold
-        commit = 227 bold
-        old = red bold
-        new = green bold
-        whitespace = red reverse
+      [interactive]
+        diffFilter = delta --color-only
+
+      [delta]
+        navigate = true
+        dark = true
+
+      [merge]
+        conflictStyle = zdiff3
 
       [sendemail]
         smtpEncryption = tls
