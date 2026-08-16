@@ -1,5 +1,6 @@
 [
   ./core.nix
+  ./git.nix
   ./gnome.nix
   ./environment.nix
   ./jtojnar-firefox.nix
