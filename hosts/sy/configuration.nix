@@ -364,7 +364,7 @@ in
       ];
     })
     jq
-    libreoffice-fresh
+    libreoffice
     libxml2 # for xmllint
     meld
     mkpasswd

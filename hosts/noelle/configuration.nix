@@ -23,7 +23,7 @@ in
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     htop
-    libreoffice-fresh
+    libreoffice
     sublime-merge
     sublime4-dev
     telegram-desktop
