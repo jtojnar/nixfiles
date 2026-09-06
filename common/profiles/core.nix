@@ -2,14 +2,20 @@
 {
   nix = {
     settings = {
+      auto-allocate-uids = true;
       allowed-users = [ "@wheel" ];
       trusted-users = [
         "root"
         "@wheel"
       ];
       experimental-features = [
+        "auto-allocate-uids"
+        "cgroups"
         "nix-command"
         "flakes"
+      ];
+      extra-system-features = [
+        "uid-range"
       ];
     };
   };
