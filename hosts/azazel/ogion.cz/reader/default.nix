@@ -97,6 +97,7 @@ in
 
   systemd.services.selfoss-update = {
     serviceConfig = {
+      Type = "oneshot";
       ExecStart = "${php}/bin/php ${pkgs.selfoss}/cliupdate.php";
       User = "reader";
     };
