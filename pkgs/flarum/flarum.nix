@@ -6,13 +6,13 @@
 
 php.buildComposerProject (finalAttrs: {
   pname = "flarum";
-  version = "1.8.1";
+  version = "1.8.19";
 
   src = fetchFromGitHub {
     owner = "flarum";
     repo = "flarum";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-kigUZpiHTM24XSz33VQYdeulG1YI5s/M02V7xue72VM=";
+    hash = "sha256-Zi7JVL4JHwYXsJLT8r2FYRNUUomVduxWinfRnQzYU4M=";
   };
 
   # Cannot just use `vendorHash` since we need to pass `postPatch`
@@ -27,7 +27,7 @@ php.buildComposerProject (finalAttrs: {
     composerNoDev = true;
     composerNoPlugins = true;
     composerNoScripts = true;
-    vendorHash = "sha256-iCKVcYb2PDGM64c8O1lLqX43o8j1nuLSXaJsZ0n/OXs=";
+    vendorHash = "sha256-HFO63RA23XKGu9wLNamBXI/auWM7xY5CGetjnu9Q5vM=";
   };
 
   postPatch = ''

@@ -35,6 +35,7 @@ composer install
 # Install select extensions.
 # Kept in the same package so that Composer manages the dependency hell.
 composer require flarum/akismet
+composer require flarum/pusher
 composer require fof/formatting
 composer require fof/links
 composer require fof/oauth
