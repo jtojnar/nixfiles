@@ -101,6 +101,8 @@ in
           ]
         }'";
       };
+      after = [ "mysql.service" ];
+      requires = [ "mysql.service" ];
     };
   };
 }
