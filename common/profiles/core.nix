@@ -17,6 +17,7 @@
       extra-system-features = [
         "uid-range"
       ];
+      use-xdg-base-directories = true;
     };
   };
 
