@@ -5,9 +5,6 @@
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
-      # HACK: Prevent adding a nix-darwin copy.
-      inputs.darwin.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
 
     # Shim to make flake.nix work with stable Nix.
