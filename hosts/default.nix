@@ -43,7 +43,7 @@ let
             networking.hostName = hostName;
 
             # Nuke NIX_PATH.
-            nix.settings.nix-path = [ ];
+            nix.nixPath = [ ];
 
             # For nixos-version.
             system.configurationRevision =

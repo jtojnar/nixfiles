@@ -60,7 +60,6 @@ in
           DISABLE_DOWNLOAD_SOURCE_ARCHIVES = true;
         };
         server = {
-          DOMAIN = domain;
           LANDING_PAGE = "explore";
           HTTP_PORT = port;
           ROOT_URL = "https://${domain}/";
