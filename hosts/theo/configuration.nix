@@ -230,11 +230,10 @@ in
   programs = {
     fish = {
       enable = true;
-      interactiveShellInit =
-        ''
-          eval (${pkgs.direnv}/bin/direnv hook fish)
-        ''
-        + builtins.readFile ../../common/data/config.fish;
+      interactiveShellInit = ''
+        ${pkgs.direnv}/bin/direnv hook fish | source
+      ''
+      + builtins.readFile ../../common/data/config.fish;
 
       shellAliases = {
         clip = lib.getExe' pkgs.wl-clipboard "wl-copy";

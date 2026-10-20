@@ -34,7 +34,7 @@ in
     fish = {
       enable = true;
       interactiveShellInit = ''
-        eval (${pkgs.direnv}/bin/direnv hook fish)
+        ${pkgs.direnv}/bin/direnv hook fish | source
       '';
     };
 
