@@ -104,5 +104,6 @@ in
     environment = settingsEnv;
     startAt = "hourly";
     wantedBy = [ "multi-user.target" ];
+    restartIfChanged = false;
   };
 }
