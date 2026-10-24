@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   nix = {
     settings = {
@@ -46,4 +46,27 @@
     "emSign Root CA - C1"
     "emSign ECC Root CA - C3"
   ];
+
+  services.xserver.xkb.dir =
+    let
+      xkb_patched = pkgs.xkeyboard-config.overrideAttrs (
+        attrs: finalAttrs: {
+          version = "2.49";
+          src = pkgs.fetchFromGitLab {
+            domain = "gitlab.freedesktop.org";
+            owner = "xkeyboard-config";
+            repo = "xkeyboard-config";
+            tag = "xkeyboard-config-${finalAttrs.version}";
+            hash = "sha256-55CigEgcPNc3YQlwFVKv+fV5W9JYwnsi9ZPgs13Z14w=";
+          };
+        }
+      );
+    in
+    "${xkb_patched}/etc/X11/xkb";
+
+  environment.sessionVariables = {
+    # runtime override supported by multiple libraries e. g. libxkbcommon
+    # https://xkbcommon.org/doc/current/group__include-path.html
+    XKB_CONFIG_ROOT = config.services.xserver.xkb.dir;
+  };
 }
