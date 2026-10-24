@@ -135,9 +135,7 @@ in
               }"
             ])
           ];
-          xkb-options = [
-            config.services.xserver.xkb.options
-          ];
+          xkb-options = lib.splitString "," config.services.xserver.xkb.options;
         };
       };
 
