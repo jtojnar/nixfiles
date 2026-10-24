@@ -335,12 +335,6 @@ in
     };
   };
 
-  i18n.inputMethod.enable = true;
-  i18n.inputMethod.type = "ibus";
-  i18n.inputMethod.ibus.engines = with pkgs.ibus-engines; [
-    mozc
-  ];
-
   # Ugly hack for GPG choosing socket directory based on GNUPGHOME.
   # If any other user wants to use gpg-agent they are out of luck,
   # unless they modify the socket in their profile (e.g. using home-manager).
@@ -502,10 +496,6 @@ in
                 + config.services.xserver.xkb.variant
               }"
             ])
-            (lib.hm.gvariant.mkTuple [
-              "ibus"
-              "mozc-jp"
-            ])
           ];
           xkb-options = [
             config.services.xserver.xkb.options
@@ -529,20 +519,6 @@ in
       home.file.".config/npm/npmrc".text = ''
         prefix=''${XDG_DATA_HOME}/npm
         cache=''${XDG_CACHE_HOME}/npm
-      '';
-
-      home.file.".config/mozc/ibus_config.textproto".text = ''
-        # `ibus write-cache; ibus restart` might be necessary to apply changes.
-        engines {
-          name : "mozc-jp"
-          longname : "Mozc"
-          layout : "default"
-          layout_variant : ""
-          layout_option : ""
-          rank : 80
-        }
-        # Ensure hiragana input mode is default.
-        active_on_launch: True
       '';
 
       programs.direnv = {
