@@ -42,11 +42,11 @@ in
       pools = {
         pechar = mkPhpPool {
           user = "pechar";
-          phpOptions = ''
-            ; Set up $_ENV superglobal.
-            ; http://php.net/request-order
-            variables_order = "EGPCS"
-          '';
+          phpOptions = {
+            # Set up $_ENV superglobal.
+            # http://php.net/request-order
+            variables_order = "EGPCS";
+          };
           phpEnv = {
             MEDIA_SERVER_LOCAL_DIRECTORY = "/var/www/fan-club-penguin.cz/mediacache/from-fcp";
           };

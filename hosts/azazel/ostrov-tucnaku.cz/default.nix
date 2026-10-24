@@ -44,14 +44,14 @@ in
         ostrov-tucnaku = mkPhpPool {
           user = "ostrov-tucnaku";
 
-          phpOptions = ''
-            ; Set up $_ENV superglobal.
-            ; http://php.net/request-order
-            variables_order = "EGPCS"
+          phpOptions = {
+            # Set up $_ENV superglobal.
+            # http://php.net/request-order
+            variables_order = "EGPCS";
 
             # Flarum will crash on start-up.
-            error_reporting = E_ALL & ~E_USER_DEPRECATED & ~E_DEPRECATED
-          '';
+            error_reporting = "E_ALL & ~E_USER_DEPRECATED & ~E_DEPRECATED";
+          };
           settings = {
             # Accept settings from the systemd service.
             clear_env = false;

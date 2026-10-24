@@ -77,11 +77,11 @@ in
           user = "reader";
           debug = true;
           phpPackage = php;
-          phpOptions = ''
-            ; Set up $_ENV superglobal.
-            ; http://php.net/request-order
-            variables_order = "EGPCS"
-          '';
+          phpOptions = {
+            # Set up $_ENV superglobal.
+            # http://php.net/request-order
+            variables_order = "EGPCS";
+          };
           settings = {
             # Accept settings from the systemd service.
             clear_env = false;

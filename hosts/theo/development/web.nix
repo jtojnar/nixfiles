@@ -59,18 +59,18 @@ in
       ])
     );
 
-    phpOptions = ''
-      display_errors = 1
-      display_startup_errors = 1
-      error_reporting = E_ALL;
-      ; Set up $_ENV superglobal.
-      ; http://php.net/request-order
-      variables_order = "EGPCS"
-      post_max_size = "20M"
-      upload_max_filesize = "20M"
-      memory_limit = "512M"
-      max_execution_time = "1800"
-    '';
+    phpOptions = {
+      display_errors = "1";
+      display_startup_errors = "1";
+      error_reporting = "E_ALL";
+      # Set up $_ENV superglobal.
+      # http://php.net/request-order
+      variables_order = "EGPCS";
+      post_max_size = "20M";
+      upload_max_filesize = "20M";
+      memory_limit = "512M";
+      max_execution_time = "1800";
+    };
   };
   systemd.services."phpfpm-dev".serviceConfig = {
     # Allow accessing ~/Projects.

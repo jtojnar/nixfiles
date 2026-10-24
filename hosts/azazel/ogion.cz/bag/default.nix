@@ -182,14 +182,15 @@ in
           user = config.users.users.bag.name;
           debug = true;
           phpPackage = php;
-          phpOptions = ''
-            ; Set up $_ENV superglobal.
-            ; http://php.net/request-order
-            variables_order = "EGPCS"
+          phpOptions = {
+            # Set up $_ENV superglobal.
+            # http://php.net/request-order
+            variables_order = "EGPCS";
+
             # Wallabag will crash on start-up.
             # https://github.com/wallabag/wallabag/issues/6042
-            error_reporting = E_ALL & ~E_USER_DEPRECATED & ~E_DEPRECATED
-          '';
+            error_reporting = "E_ALL & ~E_USER_DEPRECATED & ~E_DEPRECATED";
+          };
           settings = {
             # Accept settings from the systemd service.
             clear_env = false;
