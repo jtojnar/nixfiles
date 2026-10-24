@@ -86,7 +86,7 @@ in
     xkb = {
       layout = "cz";
       variant = "qwerty";
-      options = "compose:caps";
+      options = "compose:caps,numpad:pc";
     };
   };
 
