@@ -40,7 +40,7 @@
   services.xserver.xkb.dir =
     let
       xkb_patched = pkgs.xkeyboard-config.overrideAttrs (
-        attrs: finalAttrs: {
+        finalAttrs: prevAttrs: {
           version = "2.49";
           src = pkgs.fetchFromGitLab {
             domain = "gitlab.freedesktop.org";
