@@ -28,8 +28,6 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.systemd.enable = true;
-
   # Setup keyfile
   boot.initrd.secrets = {
     "/crypto_keyfile.bin" = null;
