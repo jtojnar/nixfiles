@@ -44,7 +44,6 @@ in
   boot.initrd.luks.devices = {
     root = {
       device = "/dev/disk/by-uuid/cdfe8ed6-90bf-4b26-a1d3-0f0efa267c58"; # LUKS partitition, obtained using `blkid /dev/sda2`
-      preLVM = true;
       allowDiscards = true;
     };
   };
