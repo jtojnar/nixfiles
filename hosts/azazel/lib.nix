@@ -74,7 +74,10 @@
     ];
 
   enablePHP = sockName: ''
-    return 500;
+    fastcgi_pass unix:${config.services.phpfpm.pools.${sockName}.socket};
+    include ${config.services.nginx.package}/conf/fastcgi.conf;
+    fastcgi_param PATH_INFO $fastcgi_path_info;
+    fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
   '';
 
   /*
