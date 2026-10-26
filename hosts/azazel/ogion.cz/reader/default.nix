@@ -78,6 +78,7 @@ in
           debug = true;
           phpPackage = php;
           phpOptions = {
+            error_reporting = "E_ALL";
             # Set up $_ENV superglobal.
             # http://php.net/request-order
             variables_order = "EGPCS";
