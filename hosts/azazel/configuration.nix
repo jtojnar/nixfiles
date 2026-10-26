@@ -91,6 +91,8 @@ in
     phpfpm = rec {
       phpOptions = {
         "date.timezone" = "Europe/Prague";
+        "fatal_error_backtraces" = "Off";
+        "session.upload_progress.enabled" = "Off";
       };
     };
 
