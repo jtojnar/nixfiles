@@ -90,13 +90,6 @@ in
 
     phpfpm = rec {
       phpOptions = {
-        display_startup_errors = "On";
-        display_errors = "On";
-        upload_max_filesize = "20M";
-        memory_limit = "256M";
-        default_socket_timeout = "500";
-        max_execution_time = "500";
-        post_max_size = "20M";
         "date.timezone" = "Europe/Prague";
       };
     };
